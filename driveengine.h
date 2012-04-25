@@ -2,6 +2,7 @@
 #define DRIVEENGINE_H
 
 #include <QObject>
+#include "oauth2.h"
 
 class DriveEngine : public QObject
 {
@@ -11,7 +12,11 @@ public:
     
 signals:
     
-public slots:
+public slots:    
+    void startLogin(void);
+
+private:
+    OAuth2 oAuth2;
     
 };
 

@@ -74,9 +74,10 @@ void OAuth2::startLogin(bool bForce)
     qDebug() << "OAuth2::startLogin, token from Settings" << str;
     if(m_strClientID == "YOUR_CLIENT_ID_HERE" || m_strRedirectURI == "YOUR_REDIRECT_URI_HERE")
     {
+        // TODO: change link to wiki page
         QMessageBox::warning(m_pParent, "Warning",
                              "To work with application you need to register your own application in <b>Google</b>.\n"
-                             "Learn more from <a href='http://code.google.com/p/qt-google-tasks/wiki/HowToRegisterYourAppIicationInGoogle'>here</a>");
+                             "Learn more from <a href='http://code.google.com/p/qt-google-drive/'>here</a>");
         return;
     }
 
