@@ -13,11 +13,13 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp\
         oauth2.cpp\
-        logindialog.cpp
+        logindialog.cpp \
+    driveengine.cpp
 
 HEADERS  += mainwindow.h\
             oauth2.h\
-            logindialog.h
+            logindialog.h \
+    driveengine.h
 
 FORMS    += mainwindow.ui\
             logindialog.ui
