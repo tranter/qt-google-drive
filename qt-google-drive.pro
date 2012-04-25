@@ -4,15 +4,20 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui webkit network
 
 TARGET = qt-google-drive
 TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp\
+        oauth2.cpp\
+        logindialog.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h\
+            oauth2.h\
+            logindialog.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui\
+            logindialog.ui
