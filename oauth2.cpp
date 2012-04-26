@@ -8,9 +8,9 @@
 OAuth2::OAuth2(QWidget* parent)
 {
     m_strEndPoint = "https://accounts.google.com/o/oauth2/auth";
-    m_strScope = "https://www.googleapis.com/auth/books";
-    m_strClientID = "YOUR_CLIENT_ID_HERE";
-    m_strRedirectURI = "YOUR_REDIRECT_URI_HERE";
+    m_strScope = "https://www.googleapis.com/auth/drive.file+https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.profile";
+    m_strClientID = "48575285348.apps.googleusercontent.com";
+    m_strRedirectURI = "http://www.ics.com/oauth2callback";
     m_strResponseType = "token";
 
     m_strCompanyName = "Google"; //You company here
@@ -45,8 +45,6 @@ void OAuth2::setAppName(const QString& appName)
 {
     m_strAppName = appName;
 }
-
-
 
 QString OAuth2::loginUrl()
 {
@@ -100,7 +98,6 @@ void OAuth2::accessTokenObtained()
     m_strAccessToken = m_pLoginDialog->accessToken();
     settings.setValue("access_token", m_strAccessToken);
     emit loginDone();
-
 }
 
 

@@ -19,7 +19,7 @@ LoginDialog::~LoginDialog()
 
 void LoginDialog::urlChanged(const QUrl &url)
 {
-    qDebug() << "URL =" << url;
+    qDebug() << "urlChanged URL = " << url;
     QString str = url.toString();
     if(str.indexOf("access_token") != -1)
     {

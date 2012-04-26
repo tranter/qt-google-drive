@@ -15,7 +15,16 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+public:
+    void init(void);
+
+signals:
+    void testClick(void);
     
+private slots:
+    void on_testButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     DriveEngine* driveEngine;
