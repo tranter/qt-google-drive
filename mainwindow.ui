@@ -14,17 +14,30 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QPushButton" name="testButton">
+   <widget class="QPushButton" name="getButton">
     <property name="geometry">
      <rect>
-      <x>460</x>
-      <y>330</y>
+      <x>370</x>
+      <y>320</y>
       <width>75</width>
       <height>23</height>
      </rect>
     </property>
     <property name="text">
-     <string>Test</string>
+     <string>GET</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="postButton">
+    <property name="geometry">
+     <rect>
+      <x>460</x>
+      <y>320</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>POST</string>
     </property>
    </widget>
   </widget>

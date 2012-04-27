@@ -25,7 +25,12 @@ void MainWindow::init(void)
     connect(ui->actionQuit, SIGNAL(triggered()), this,  SLOT(close()));
 }
 
-void MainWindow::on_testButton_clicked()
+void MainWindow::on_getButton_clicked()
 {
-    emit testClick();
+    emit getButtonClick();
+}
+
+void MainWindow::on_postButton_clicked()
+{
+   emit postButtonClick();
 }

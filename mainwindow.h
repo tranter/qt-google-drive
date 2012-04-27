@@ -20,10 +20,13 @@ public:
     void init(void);
 
 signals:
-    void testClick(void);
+    void getButtonClick(void);
+    void postButtonClick(void);
     
 private slots:
-    void on_testButton_clicked();
+    void on_getButton_clicked();
+
+    void on_postButton_clicked();
 
 private:
     Ui::MainWindow *ui;

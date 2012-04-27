@@ -22,10 +22,15 @@ public slots:
 
 private slots:
     void slotReplyFinished(QNetworkReply* reply);
-    void slotGetFile(void);
+    void slotGet(void);
+    void slotPost(void);
     void slotReadyRead();
     void slotError(QNetworkReply::NetworkError error);
     void slotSslErrors( const QList<QSslError>& errors);
+
+private:
+    void settings(void);
+    void setHeader(void);
 
 private:
     OAuth2 oAuth2;
