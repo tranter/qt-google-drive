@@ -38,7 +38,7 @@ void LoginDialog::urlChanged(const QUrl &url)
     }
 }
 
-QString LoginDialog::accessToken()
+QString LoginDialog::accessToken() const
 {
     return m_strAccessToken;
 }

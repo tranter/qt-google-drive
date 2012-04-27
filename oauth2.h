@@ -12,7 +12,7 @@ class OAuth2 : public QObject
 
 public:
     OAuth2(QWidget* parent = 0);
-    QString accessToken();
+    QString accessToken() const;
     bool isAuthorized();
     void startLogin(bool bForce);
 

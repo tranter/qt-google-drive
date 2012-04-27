@@ -19,7 +19,8 @@ SOURCES += main.cpp\
 HEADERS  += mainwindow.h\
             oauth2.h\
             logindialog.h \
-    driveengine.h
+    driveengine.h \
+    AppRegData.h
 
 FORMS    += mainwindow.ui\
             logindialog.ui

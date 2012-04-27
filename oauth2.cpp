@@ -4,17 +4,18 @@
 #include "logindialog.h"
 #include <QSettings>
 #include <QMessageBox>
+#include "AppRegData.h"
 
 OAuth2::OAuth2(QWidget* parent)
-{
-    m_strEndPoint = "https://accounts.google.com/o/oauth2/auth";
-    m_strScope = "https://www.googleapis.com/auth/drive.file+https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.profile";
-    m_strClientID = "48575285348.apps.googleusercontent.com";
-    m_strRedirectURI = "http://www.ics.com/oauth2callback";
-    m_strResponseType = "token";
+{ 
+    m_strScope = SCOPE;
+    m_strClientID = CLIENT_ID;
+    m_strRedirectURI = REDIRECT_URI;
+    m_strCompanyName = COMPANY_NAME;
+    m_strAppName =  APP_NAME;
 
-    m_strCompanyName = "Google"; //You company here
-    m_strAppName = "Test Google API Client"; //Your application name here
+    m_strEndPoint = "https://accounts.google.com/o/oauth2/auth";
+    m_strResponseType = "token";
 
     m_pLoginDialog = new LoginDialog(parent);
     m_pParent = parent;
@@ -54,7 +55,7 @@ QString OAuth2::loginUrl()
     return str;
 }
 
-QString OAuth2::accessToken()
+QString OAuth2::accessToken() const
 {
     return m_strAccessToken;
 }
@@ -94,6 +95,8 @@ void OAuth2::startLogin(bool bForce)
 
 void OAuth2::accessTokenObtained()
 {
+    qDebug() << "accessTokenObtained";
+
     QSettings settings(m_strCompanyName, m_strAppName);
     m_strAccessToken = m_pLoginDialog->accessToken();
     settings.setValue("access_token", m_strAccessToken);

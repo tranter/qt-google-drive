@@ -27,7 +27,5 @@ void MainWindow::init(void)
 
 void MainWindow::on_testButton_clicked()
 {
-  // driveEngine->GetFileRequest();
-     //driveEngine->init();
     emit testClick();
 }

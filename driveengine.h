@@ -34,6 +34,7 @@ private:
     QNetworkReply *reply;
     QNetworkRequest request;
     QString replyStr;
+    QString accessToken;
 };
 
 #endif // DRIVEENGINE_H
