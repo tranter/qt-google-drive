@@ -2,9 +2,9 @@
 #define APPREGDATA_H
 
 #define COMPANY_NAME  "Google"
-#define APP_NAME "Test Google API Client"
+#define APP_NAME "qt-google-drive"
 #define SCOPE "https://www.googleapis.com/auth/drive.file+https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.profile"
-#define CLIENT_ID "48575285348.apps.googleusercontent.com"
-#define REDIRECT_URI "http://www.ics.com/oauth2callback"
+#define CLIENT_ID "YOUR_CLIENT_ID_HERE"
+#define REDIRECT_URI "YOUR_REDIRECT_URI_HERE"
 
 #endif // APPREGDATA_H
