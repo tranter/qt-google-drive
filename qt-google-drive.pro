@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui webkit network
+QT       += core gui webkit network xml
 
 TARGET = qt-google-drive
 TEMPLATE = app
@@ -14,13 +14,15 @@ SOURCES += main.cpp\
         mainwindow.cpp\
         oauth2.cpp\
         logindialog.cpp \
-    driveengine.cpp
+    driveengine.cpp \
+    xmlparser.cpp
 
 HEADERS  += mainwindow.h\
             oauth2.h\
             logindialog.h \
     driveengine.h \
-    AppRegData.h
+    AppRegData.h \
+    xmlparser.h
 
 FORMS    += mainwindow.ui\
             logindialog.ui

@@ -46,9 +46,19 @@ void DriveEngine::slotGet(void)
     //QString getQuery = QString("https://www.googleapis.com/drive/oauth2/v1/files?access_token=%1").arg(accessToken);
     //QString query = QString("https://www.googleapis.com/oauth2/v1/drive?access_token=%1").arg(accessToken);
     //QString query = QString("https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=%1").arg(accessToken);
-    QString query = QString("https://www.googleapis.com/oauth2/v1/userinfo?access_token=%1").arg(accessToken);
+    // QString query = QString("https://www.googleapis.com/oauth2/v1/userinfo?access_token=%1").arg(accessToken);
+
+    //QString query = QString("https://docs.google.com/feeds/default/private/full/-/folder?showroot=true");
+    QString query = QString("https://docs.google.com/feeds/default/private/full/-/folder");
+    //QString query = QString("https://docs.google.com/feeds/default/private/full/folder%3Aroot");
+    //QString query = QString( "https://docs.google.com/feeds/default/private/full/folder%3Acollection_id/contents");
+
+    //QString query = QString("https://docs.google.com/feeds/default/private/full/folder%3A0B_pGaTf6anqmZG9vclJmaC1KXzg/contents?showfolders=false");
 
     request.setUrl(QUrl(query));
+
+    qDebug() << "query = " << query;
+
     reply = networkAccessManager->get(request);
 
     settings();
@@ -112,7 +122,8 @@ void DriveEngine::setHeader(void)
     QSettings settings(COMPANY_NAME, APP_NAME);
     accessToken = settings.value("access_token").toString();
 
-    //request.setRawHeader("User-Agent", "Google Drive client");
-    request.setRawHeader("Content-Type", "application/json");
-    request.setRawHeader("Authorization","Bearer " + accessToken.toAscii());
+    request.setRawHeader("User-Agent", "Google Drive client");
+    //request.setRawHeader("Content-Type", "application/json");
+    request.setRawHeader("GData-Version", "3.0");
+    request.setRawHeader("Authorization",(QString("OAuth %1").arg(accessToken)).toLatin1());
 }

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>559</width>
-    <height>417</height>
+    <width>731</width>
+    <height>607</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,8 +17,8 @@
    <widget class="QPushButton" name="getButton">
     <property name="geometry">
      <rect>
-      <x>370</x>
-      <y>320</y>
+      <x>550</x>
+      <y>510</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -30,8 +30,8 @@
    <widget class="QPushButton" name="postButton">
     <property name="geometry">
      <rect>
-      <x>460</x>
-      <y>320</y>
+      <x>640</x>
+      <y>510</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -40,13 +40,23 @@
      <string>POST</string>
     </property>
    </widget>
+   <widget class="QTreeView" name="treeView">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>231</width>
+      <height>541</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>559</width>
+     <width>731</width>
      <height>21</height>
     </rect>
    </property>

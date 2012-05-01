@@ -48,7 +48,7 @@ void OAuth2::setAppName(const QString& appName)
 }
 
 QString OAuth2::loginUrl()
-{
+{        
     QString str = QString("%1?client_id=%2&redirect_uri=%3&response_type=%4&scope=%5").arg(m_strEndPoint).arg(m_strClientID).
             arg(m_strRedirectURI).arg(m_strResponseType).arg(m_strScope);
     qDebug() << "Login URL" << str;
