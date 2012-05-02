@@ -8,6 +8,8 @@ namespace Ui {
 class MainWindow;
 }
 
+class DriveEngine;
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -18,6 +20,10 @@ public:
 
 public:
     void init(void);
+    Ui::MainWindow* getUi(void);
+
+//public:
+//    static Ui::MainWindow* ui;
 
 signals:
     void getButtonClick(void);
@@ -29,8 +35,21 @@ private slots:
     void on_postButton_clicked();
 
 private:
-    Ui::MainWindow *ui;
+    Ui::MainWindow* ui;
+
     DriveEngine* driveEngine;
+};
+
+class UiInstance
+{
+public:
+    static Ui::MainWindow* Instance();
+
+    static Ui::MainWindow* ui;
+private:
+        UiInstance(){};
+        UiInstance(UiInstance& root){};
+        UiInstance& operator=(UiInstance&){};
 };
 
 #endif // MAINWINDOW_H

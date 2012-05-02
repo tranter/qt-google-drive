@@ -35,6 +35,11 @@ void DriveEngine::slotReplyFinished(QNetworkReply* reply)
 {
     qDebug() << "replyFinished";
     qDebug() << "--------------> replyStr" << replyStr;
+
+    if(parseReply(replyStr))
+        qDebug() << "parse OK";
+    else
+        qDebug() << "parse NOT OK";
 }
 
 void DriveEngine::slotGet(void)
@@ -89,25 +94,22 @@ void DriveEngine::slotPost(void)
 {
     qDebug() << "slotPost";
 
-    setHeader();
+//    setHeader();
 
-    QString postQuery = "https://www.googleapis.com/drive/v1/files";
+//    QString postQuery = "https://www.googleapis.com/drive/v1/files";
 
-    request.setUrl(QUrl(postQuery));
+//    request.setUrl(QUrl(postQuery));
 
-    QByteArray data;
-    //data.append("access_token=" + accessToken);
-    data.append("&title=pets");
-    //data.append("&parentsCollection=[{\"id\":\"0ADK06pfg\"}]");
-    data.append("&mimeType=application/vnd.google-apps.folder");
-    QUrl dataPart;
-    dataPart.setEncodedUrl(data);
+//    QByteArray data;
+//    data.append("&title=pets");
+//    data.append("&mimeType=application/vnd.google-apps.folder");
+//    QUrl dataPart;
+//    dataPart.setEncodedUrl(data);
 
-    reply = networkAccessManager->post(request, data);
-    qDebug() << "URL = " << postQuery + QString(data);
+//    reply = networkAccessManager->post(request, data);
+//    qDebug() << "URL = " << postQuery + QString(data);
 
-    settings();
-
+//    settings();
 }
 
 void DriveEngine::settings(void)
@@ -123,7 +125,14 @@ void DriveEngine::setHeader(void)
     accessToken = settings.value("access_token").toString();
 
     request.setRawHeader("User-Agent", "Google Drive client");
-    //request.setRawHeader("Content-Type", "application/json");
     request.setRawHeader("GData-Version", "3.0");
     request.setRawHeader("Authorization",(QString("OAuth %1").arg(accessToken)).toLatin1());
+}
+
+bool DriveEngine::parseReply(const QString& str)
+{
+    XMLDomParser parser(str);
+    parser.parse();
+
+    return true;
 }

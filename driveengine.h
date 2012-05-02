@@ -6,6 +6,11 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QSslError>
+#include <QXmlSimpleReader>
+//#include "xmlparser.h"
+#include "xmldomparser.h"
+//#include "mainwindow.h"
+//#include "ui_mainwindow.h"
 
 class DriveEngine : public QObject
 {
@@ -31,6 +36,7 @@ private slots:
 private:
     void settings(void);
     void setHeader(void);
+    bool parseReply(const QString& str);
 
 private:
     OAuth2 oAuth2;

@@ -15,14 +15,16 @@ SOURCES += main.cpp\
         oauth2.cpp\
         logindialog.cpp \
     driveengine.cpp \
-    xmlparser.cpp
+    xmlparser.cpp \
+    xmldomparser.cpp
 
 HEADERS  += mainwindow.h\
             oauth2.h\
             logindialog.h \
     driveengine.h \
     AppRegData.h \
-    xmlparser.h
+    xmlparser.h \
+    xmldomparser.h
 
 FORMS    += mainwindow.ui\
             logindialog.ui
