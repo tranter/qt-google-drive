@@ -22,18 +22,10 @@ public:
     void init(void);
     Ui::MainWindow* getUi(void);
 
-//public:
-//    static Ui::MainWindow* ui;
-
 signals:
-    void getButtonClick(void);
-    void postButtonClick(void);
+    void siganalGet(void);
+    void signalPost(void);
     
-private slots:
-    void on_getButton_clicked();
-
-    void on_postButton_clicked();
-
 private:
     Ui::MainWindow* ui;
 

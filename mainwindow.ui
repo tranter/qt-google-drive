@@ -14,38 +14,12 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QPushButton" name="getButton">
-    <property name="geometry">
-     <rect>
-      <x>550</x>
-      <y>510</y>
-      <width>75</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>GET</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="postButton">
-    <property name="geometry">
-     <rect>
-      <x>640</x>
-      <y>510</y>
-      <width>75</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>POST</string>
-    </property>
-   </widget>
-   <widget class="QTreeView" name="treeView">
+   <widget class="QListView" name="listView">
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>231</width>
+      <width>711</width>
       <height>541</height>
      </rect>
     </property>

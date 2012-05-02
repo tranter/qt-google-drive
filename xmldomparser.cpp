@@ -10,28 +10,29 @@ void XMLDomParser::parseNext(const QDomElement &element)
 {
     QDomNode node = element.firstChild();
 
-    qDebug() <<  "---------> tagName: " << element.tagName() << "data: " << element.toText().data() << endl;
+    qDebug() <<  endl << "---------> tagName: " << element.tagName();
 
-    while (!node.isNull())
+    if(element.tagName() == "entry")
     {
-        qDebug() << "node - " << node.toText().data();
-
-        if (node.toElement().hasChildNodes())
+        while (!node.isNull())
         {
-            QDomNode childNode = node.firstChild();
-
-            while (!childNode.isNull())
+            if (node.toElement().hasChildNodes())
             {
-                if (childNode.nodeType() == QDomNode::TextNode)
-                {
-                    qDebug() << "child node tagName: " << childNode.toElement().tagName() << "data: " << childNode.toText().data();
-                }
-                childNode = childNode.nextSibling();
-            }
-        }
+                QDomNode childNode = node.firstChild();
 
-        qDebug() << "--------------------------------------------------------------------------------------------" << endl;
-        node = node.nextSibling();
+                while (!childNode.isNull())
+                {
+                    if (childNode.nodeType() == QDomNode::TextNode)
+                    {
+                        //if(node.toElement().tagName() == "title")
+                           qDebug() << "child tag: " << node.toElement().tagName() << "; child node data: " << childNode.toText().data();
+                    }
+                    childNode = childNode.nextSibling();
+                }
+            }
+
+            node = node.nextSibling();
+        }
     }
 }
 
@@ -45,7 +46,7 @@ void XMLDomParser::parse(void)
 
     if (!doc.setContent(parseStr, true, &errorStr, &errorLine, &errorColumn))
     {
-        qDebug() << "Line %d, column %d: %s", errorLine, errorColumn, errorStr.toAscii();
+        qDebug() << "errorLine-" << errorLine << " errorColumn-" << errorColumn << " errorStr" << errorStr.toAscii();
         return;
     }
 

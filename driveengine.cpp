@@ -13,12 +13,11 @@ DriveEngine::DriveEngine(QObject *parentObj) :
 DriveEngine::~DriveEngine()
 {
     if(networkAccessManager)
-        delete networkAccessManager;
+       delete networkAccessManager;
 }
 
 void DriveEngine::slotStartLogin(void)
 {
-    qDebug() << "startLogin";
     oAuth2.startLogin(true);
 }
 
@@ -27,8 +26,8 @@ void DriveEngine::init(void)
     networkAccessManager = new QNetworkAccessManager(this);
 
     connect(networkAccessManager, SIGNAL(finished(QNetworkReply*)),this, SLOT(slotReplyFinished(QNetworkReply*)));
-    connect(parent, SIGNAL(getButtonClick()), this, SLOT(slotGet()));
-    connect(parent, SIGNAL(postButtonClick()), this, SLOT(slotPost()));
+    connect(parent, SIGNAL(siganalGet()), this, SLOT(slotGet()));
+    connect(parent, SIGNAL(signalPost()), this, SLOT(slotPost()));
 }
 
 void DriveEngine::slotReplyFinished(QNetworkReply* reply)
@@ -48,22 +47,9 @@ void DriveEngine::slotGet(void)
 
     setHeader();
 
-    //QString getQuery = QString("https://www.googleapis.com/drive/oauth2/v1/files?access_token=%1").arg(accessToken);
-    //QString query = QString("https://www.googleapis.com/oauth2/v1/drive?access_token=%1").arg(accessToken);
-    //QString query = QString("https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=%1").arg(accessToken);
-    // QString query = QString("https://www.googleapis.com/oauth2/v1/userinfo?access_token=%1").arg(accessToken);
-
-    //QString query = QString("https://docs.google.com/feeds/default/private/full/-/folder?showroot=true");
     QString query = QString("https://docs.google.com/feeds/default/private/full/-/folder");
-    //QString query = QString("https://docs.google.com/feeds/default/private/full/folder%3Aroot");
-    //QString query = QString( "https://docs.google.com/feeds/default/private/full/folder%3Acollection_id/contents");
-
-    //QString query = QString("https://docs.google.com/feeds/default/private/full/folder%3A0B_pGaTf6anqmZG9vclJmaC1KXzg/contents?showfolders=false");
 
     request.setUrl(QUrl(query));
-
-    qDebug() << "query = " << query;
-
     reply = networkAccessManager->get(request);
 
     settings();
@@ -94,22 +80,22 @@ void DriveEngine::slotPost(void)
 {
     qDebug() << "slotPost";
 
-//    setHeader();
+    //    setHeader();
 
-//    QString postQuery = "https://www.googleapis.com/drive/v1/files";
+    //    QString postQuery = "https://www.googleapis.com/drive/v1/files";
 
-//    request.setUrl(QUrl(postQuery));
+    //    request.setUrl(QUrl(postQuery));
 
-//    QByteArray data;
-//    data.append("&title=pets");
-//    data.append("&mimeType=application/vnd.google-apps.folder");
-//    QUrl dataPart;
-//    dataPart.setEncodedUrl(data);
+    //    QByteArray data;
+    //    data.append("&title=pets");
+    //    data.append("&mimeType=application/vnd.google-apps.folder");
+    //    QUrl dataPart;
+    //    dataPart.setEncodedUrl(data);
 
-//    reply = networkAccessManager->post(request, data);
-//    qDebug() << "URL = " << postQuery + QString(data);
+    //    reply = networkAccessManager->post(request, data);
+    //    qDebug() << "URL = " << postQuery + QString(data);
 
-//    settings();
+    //    settings();
 }
 
 void DriveEngine::settings(void)
