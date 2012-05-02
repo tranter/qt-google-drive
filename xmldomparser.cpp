@@ -10,29 +10,24 @@ void XMLDomParser::parseNext(const QDomElement &element)
 {
     QDomNode node = element.firstChild();
 
-    qDebug() <<  endl << "---------> tagName: " << element.tagName();
+    qDebug() <<  endl << "---------> tagName: " << element.tagName() << "---------> tag data: " << node.toText().data();
 
-    if(element.tagName() == "entry")
+    while (!node.isNull())
     {
-        while (!node.isNull())
+        //if(node.toElement().tagName() == "entry") parseNext(node.toElement());
+
+        if (node.toElement().hasChildNodes())
         {
-            if (node.toElement().hasChildNodes())
+            QDomNode childNode = node.firstChild();
+
+            while (!childNode.isNull())
             {
-                QDomNode childNode = node.firstChild();
-
-                while (!childNode.isNull())
-                {
-                    if (childNode.nodeType() == QDomNode::TextNode)
-                    {
-                        //if(node.toElement().tagName() == "title")
-                           qDebug() << "child tag: " << node.toElement().tagName() << "; child node data: " << childNode.toText().data();
-                    }
-                    childNode = childNode.nextSibling();
-                }
+                qDebug() << "child tag: " << node.toElement().tagName() << "; child node data: " << childNode.toText().data();
+                childNode = childNode.nextSibling();
             }
-
-            node = node.nextSibling();
         }
+
+        node = node.nextSibling();
     }
 }
 
@@ -56,8 +51,8 @@ void XMLDomParser::parse(void)
 
     while (!node.isNull())
     {
-        //if (node.toElement().tagName() == "entry")
-        parseNext(node.toElement());
+        if(node.toElement().tagName() == "entry")
+            parseNext(node.toElement());
 
         node = node.nextSibling();
     }
