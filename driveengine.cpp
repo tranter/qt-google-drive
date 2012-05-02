@@ -13,7 +13,7 @@ DriveEngine::DriveEngine(QObject *parentObj) :
 DriveEngine::~DriveEngine()
 {
     if(networkAccessManager)
-       delete networkAccessManager;
+        delete networkAccessManager;
 }
 
 void DriveEngine::slotStartLogin(void)
@@ -47,7 +47,15 @@ void DriveEngine::slotGet(void)
 
     setHeader();
 
-    QString query = QString("https://docs.google.com/feeds/default/private/full/-/folder");
+    //QString query = QString("https://docs.google.com/feeds/default/private/full/-/folder");
+    //QString query = QString("https://docs.google.com/feeds/default/private/full?showroot=true");
+    QString query = QString("https://docs.google.com/feeds/default/private/full/-/folder?showroot=true");
+   //QString query = QString(" https://docs.google.com/feeds/default/private/full/folder%30B_pGaTf6anqmZG9vclJmaC1KXzg/contents");
+    //QString query = QString("https://docs.google.com/feeds/default/private/full/%3A0B_pGaTf6anqmZG9vclJmaC1KXzg/contents");
+
+
+
+
 
     request.setUrl(QUrl(query));
     reply = networkAccessManager->get(request);
@@ -117,8 +125,19 @@ void DriveEngine::setHeader(void)
 
 bool DriveEngine::parseReply(const QString& str)
 {
-    XMLDomParser parser(str);
-    parser.parse();
+    QXmlSimpleReader reader;
+    QXmlInputSource source;
 
-    return true;
+    source.setData(str.toAscii());
+
+    XMLParser parser(str);
+    reader.setContentHandler(&parser);
+    reader.setErrorHandler(&parser);
+
+    return reader.parse(&source);
+
+//    XMLDomParser parser(str);
+//    parser.parse();
+
+//    return true;
 }

@@ -8,13 +8,28 @@ XMLParser::XMLParser(const QString str):
 
 bool XMLParser::startElement(const QString &namespaceURI, const QString &localName, const QString &qName, const QXmlAttributes &attribs)
 {
-    qDebug() << "startElement qName=" << qName;
+    if(qName == "entry")
+    {
+        qDebug() << "startElement localName = " << localName << " qName=" << qName << " attribs=" << attribs.value("href");
+    }
+
+    if(attribs.value("rel") == "http://schemas.google.com/docs/2007#parent")
+    {
+        qDebug() << "parent=" << attribs.value("href");
+    }
+
+    if(attribs.value("rel") == "self")
+    {
+        qDebug() << "self=" << attribs.value("href");
+    }
+
     return true;
 }
 
 bool XMLParser::endElement(const QString &namespaceURI, const QString &localName, const QString &qName)
 {
-    qDebug() << "endElement qName=" << qName << endl;
+    if(qName == "entry")
+       qDebug() << "endElement qName=" << qName << endl;
     return true;
 }
 

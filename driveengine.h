@@ -7,7 +7,7 @@
 #include <QNetworkReply>
 #include <QSslError>
 #include <QXmlSimpleReader>
-//#include "xmlparser.h"
+#include "xmlparser.h"
 #include "xmldomparser.h"
 //#include "mainwindow.h"
 //#include "ui_mainwindow.h"

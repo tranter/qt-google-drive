@@ -11,20 +11,24 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp\
-        oauth2.cpp\
-        logindialog.cpp \
-    driveengine.cpp \
-    xmlparser.cpp \
-    xmldomparser.cpp
+           mainwindow.cpp\
+           oauth2.cpp\
+           logindialog.cpp \
+           driveengine.cpp \
+           xmlparser.cpp \
+           xmldomparser.cpp\
+           treeitem.cpp \
+           treemodel.cpp \
 
 HEADERS  += mainwindow.h\
             oauth2.h\
             logindialog.h \
-    driveengine.h \
-    AppRegData.h \
-    xmlparser.h \
-    xmldomparser.h
+            driveengine.h \
+            AppRegData.h \
+            xmlparser.h \
+            xmldomparser.h\
+            treeitem.h \
+            treemodel.h
 
 FORMS    += mainwindow.ui\
             logindialog.ui
