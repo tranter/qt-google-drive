@@ -9,8 +9,10 @@
 #include <QXmlSimpleReader>
 #include "xmlparser.h"
 #include "xmldomparser.h"
-//#include "mainwindow.h"
-//#include "ui_mainwindow.h"
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+#include "treemodel.h"
+//#include <QTreeView>
 
 class DriveEngine : public QObject
 {
@@ -46,6 +48,7 @@ private:
     QNetworkRequest request;
     QString replyStr;
     QString accessToken;
+    TreeModel* model;
 };
 
 #endif // DRIVEENGINE_H

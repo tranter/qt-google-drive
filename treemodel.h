@@ -25,7 +25,7 @@ public:
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
 
 private:
-    void setupModelData(const QStringList &lines, TreeItem *parent);
+    void setupModelData(const QString &data, TreeItem *parent);
     TreeItem *rootItem;
 };
 

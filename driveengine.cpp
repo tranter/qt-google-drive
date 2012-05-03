@@ -6,14 +6,15 @@
 DriveEngine::DriveEngine(QObject *parentObj) :
     QObject(parentObj),
     networkAccessManager(NULL),
-    parent(parentObj)
+    parent(parentObj),
+    model(NULL)
 {
 }
 
 DriveEngine::~DriveEngine()
 {
-    if(networkAccessManager)
-        delete networkAccessManager;
+    if(networkAccessManager) delete networkAccessManager;
+    if(model) delete model;
 }
 
 void DriveEngine::slotStartLogin(void)
@@ -39,6 +40,11 @@ void DriveEngine::slotReplyFinished(QNetworkReply* reply)
         qDebug() << "parse OK";
     else
         qDebug() << "parse NOT OK";
+
+    model = new TreeModel("Test");
+
+    UiInstance::ui->discTreeView->setModel(model);
+    UiInstance::ui->discTreeView->show();
 }
 
 void DriveEngine::slotGet(void)
@@ -50,11 +56,8 @@ void DriveEngine::slotGet(void)
     //QString query = QString("https://docs.google.com/feeds/default/private/full/-/folder");
     //QString query = QString("https://docs.google.com/feeds/default/private/full?showroot=true");
     QString query = QString("https://docs.google.com/feeds/default/private/full/-/folder?showroot=true");
-   //QString query = QString(" https://docs.google.com/feeds/default/private/full/folder%30B_pGaTf6anqmZG9vclJmaC1KXzg/contents");
+    //QString query = QString(" https://docs.google.com/feeds/default/private/full/folder%30B_pGaTf6anqmZG9vclJmaC1KXzg/contents");
     //QString query = QString("https://docs.google.com/feeds/default/private/full/%3A0B_pGaTf6anqmZG9vclJmaC1KXzg/contents");
-
-
-
 
 
     request.setUrl(QUrl(query));
@@ -136,8 +139,8 @@ bool DriveEngine::parseReply(const QString& str)
 
     return reader.parse(&source);
 
-//    XMLDomParser parser(str);
-//    parser.parse();
+    //    XMLDomParser parser(str);
+    //    parser.parse();
 
-//    return true;
+    //    return true;
 }
