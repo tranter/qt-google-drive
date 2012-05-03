@@ -2,10 +2,10 @@
 #include "treemodel.h"
 #include <QDebug>
 
-TreeModel::TreeModel(const QString &data, QList<QVariant> rootData, QObject *parent)
+TreeModel::TreeModel(const QString &data, QList<QVariant> rootData, QList<TreeItemInfo::Data> items, QObject *parent)
     : QAbstractItemModel(parent)
 {   
-    init(data, rootData);
+    init(data, rootData, items);
 }
 
 TreeModel::~TreeModel()
@@ -13,10 +13,10 @@ TreeModel::~TreeModel()
     delete rootItem;
 }
 
-int TreeModel::init(const QString &data, QList<QVariant> rootData)
+int TreeModel::init(const QString &data, QList<QVariant> rootData, QList<TreeItemInfo::Data> items)
 {
     rootItem = new TreeItem(rootData);
-    setupModelData(data, rootItem);
+    setupModelData(data, rootItem, items);
 }
 
 int TreeModel::columnCount(const QModelIndex &parent) const
@@ -105,7 +105,7 @@ int TreeModel::rowCount(const QModelIndex &parent) const
     return parentItem->childCount();
 }
 
-void TreeModel::setupModelData(const QString &data, TreeItem *parent)
+void TreeModel::setupModelData(const QString &data, TreeItem *parent, QList<TreeItemInfo::Data> items)
 {
 //    TreeItem *curNode = parent;
 //    QString str = data;

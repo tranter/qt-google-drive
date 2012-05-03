@@ -49,8 +49,7 @@ void DriveEngine::slotReplyFinished(QNetworkReply* reply)
             QList<QVariant> rootData;
             rootData << "My Disc" << "Summary";
 
-            model = new TreeModel("Test", rootData);
-
+            model = new TreeModel("Test", rootData, parser->getTreeItemInfo()->items);
             UiInstance::ui->discTreeView->setModel(model);
             parser->getTreeItemInfo()->showAll();
         }
