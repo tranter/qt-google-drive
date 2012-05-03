@@ -2,10 +2,10 @@
 #include "treemodel.h"
 #include <QDebug>
 
-TreeModel::TreeModel(const QString &data, QList<QVariant> rootData, QList<TreeItemInfo::Data> items, QObject *parent)
+TreeModel::TreeModel(const QString &data, QList<QVariant> rootData, TreeItemInfo* itensInfo, QObject *parent)
     : QAbstractItemModel(parent)
 {   
-    init(data, rootData, items);
+    init(data, rootData, itensInfo);
 }
 
 TreeModel::~TreeModel()
@@ -13,10 +13,10 @@ TreeModel::~TreeModel()
     delete rootItem;
 }
 
-int TreeModel::init(const QString &data, QList<QVariant> rootData, QList<TreeItemInfo::Data> items)
+int TreeModel::init(const QString &data, QList<QVariant> rootData, TreeItemInfo* itensInfo)
 {
     rootItem = new TreeItem(rootData);
-    setupModelData(data, rootItem, items);
+    setupModelData(data, rootItem, itensInfo);
 }
 
 int TreeModel::columnCount(const QModelIndex &parent) const
@@ -105,31 +105,37 @@ int TreeModel::rowCount(const QModelIndex &parent) const
     return parentItem->childCount();
 }
 
-void TreeModel::setupModelData(const QString &data, TreeItem *parent, QList<TreeItemInfo::Data> items)
+void TreeModel::setupModelData(const QString &data, TreeItem *parent, TreeItemInfo* itemsInfo)
 {
 //    TreeItem *curNode = parent;
 //    QString str = data;
 //    QList<QVariant> columnData;
 
-//    columnData.append(str + "1"); columnData.append(str + "2");
+//    columnData.append(str + "1");
 //    curNode->appendChild(new TreeItem(columnData, curNode));
 //    //qDebug() << "------------>" << columnData;
 
 //    curNode = parent->child(0);
-//    columnData[0] = str + "3"; columnData[1] = str + "4";
+//    columnData[0] = str + "3";
 //    curNode->appendChild(new TreeItem(columnData,  curNode));
 //    //qDebug() << "------------>" << columnData;
 
 //    curNode = curNode->child(0);
-//    columnData[0] = str + "5"; columnData[1] = str + "6";
+//    columnData[0] = str + "5";
 //    curNode->appendChild(new TreeItem(columnData,  curNode));
 //    //qDebug() << "------------>" << columnData;
 
-//    columnData[0] = str + "7"; columnData[1] = str + "8";
+//    columnData[0] = str + "7";
 //    parent->appendChild(new TreeItem(columnData, parent));
-//    //qDebug() << "------------>" << columnData;
+    //qDebug() << "------------>" << columnData;
 
-//    //qDebug() << "------------>" << parent->child(0)->data(0);
+    //qDebug() << "------------>" << parent->child(0)->data(0);
 
+     for (int i = 0; i < itemsInfo->items.count(); ++i)
+        qDebug() << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! " << itemsInfo->items[i].name.toString() << endl;
+}
+
+void TreeModel::Fill(QList< QList<QVariant> > columnData, TreeItem *parent)
+{
 
 }

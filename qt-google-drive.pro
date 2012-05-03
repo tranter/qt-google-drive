@@ -30,7 +30,8 @@ HEADERS  += mainwindow.h\
             xmldomparser.h\
             treeitem.h \
             treemodel.h \
-    treeiteminfo.h
+    treeiteminfo.h \
+    Def.h
 
 FORMS    += mainwindow.ui\
             logindialog.ui

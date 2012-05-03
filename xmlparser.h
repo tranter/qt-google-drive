@@ -3,7 +3,7 @@
 
 #include <QXmlDefaultHandler>
 #include "treeiteminfo.h"
-
+#include "Def.h"
 
 class XMLParser : public QXmlDefaultHandler
 {

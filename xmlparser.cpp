@@ -15,20 +15,18 @@ XMLParser::~XMLParser()
 
 bool XMLParser::startElement(const QString &namespaceURI, const QString &localName, const QString &qName, const QXmlAttributes &attribs)
 {
-    if(qName == "title") isTitle = true;
+    if(qName == TITLE_TAG) isTitle = true;
 
-    if(attribs.value("rel") == "http://schemas.google.com/docs/2007#parent")
+    if(HIERARCHY_ATTRIBUTE == PARENT_FOLDER)
     {
         itemData.item = NULL;
-        itemData.parent = attribs.value("href");
-        //qDebug() << "------------->parent=" << attribs.value("href");
+        itemData.parent = HIERARCHY_VALUE;
     }
 
-    if(attribs.value("rel") == "self")
+    if(HIERARCHY_ATTRIBUTE == SELF_TAG)
     {
-         itemData.self = attribs.value("href");
+         itemData.self = HIERARCHY_VALUE;
          treeItemInfo->items.push_back(itemData);
-         //qDebug() << "------------->self=" << attribs.value("href");
     }
 
     return true;
@@ -36,15 +34,12 @@ bool XMLParser::startElement(const QString &namespaceURI, const QString &localNa
 
 bool XMLParser::endElement(const QString &namespaceURI, const QString &localName, const QString &qName)
 {
-    //if(qName == "entry")
-        //qDebug() << "endElement qName=" << qName << endl;
     return true;
 }
 
 bool XMLParser::characters(const QString &str)
 {
     if(isTitle) itemData.name = str;
-    //qDebug() << "characters=" << str;
     isTitle = false;
 
     return true;
