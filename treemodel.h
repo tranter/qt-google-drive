@@ -5,6 +5,7 @@
 #include <QModelIndex>
 #include <QVariant>
 #include "treeiteminfo.h"
+#include "Def.h"
 
 class TreeItem;
 
@@ -13,7 +14,7 @@ class TreeModel : public QAbstractItemModel
     Q_OBJECT
 
 public:
-    TreeModel(const QString &data, QList<QVariant> rootData, TreeItemInfo* itensInfo, QObject *parent = 0);
+    TreeModel(const QString& data, QList<QVariant> rootData, TreeItemInfo* itensInfo, QObject *parent = 0);
     ~TreeModel();
 
 public:
@@ -25,11 +26,11 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
     void setupModelData(const QString &data, TreeItem *parent, TreeItemInfo* itensInfo);
-    int init(const QString &data, QList<QVariant> rootData, TreeItemInfo* itensInfo);
+    int init(const QString& data, QList<QVariant> rootData, TreeItemInfo* itensInfo);
 
 private:
-    void Fill(QList< QList<QVariant> > columnData, TreeItem *parent);
-
+    void fillTree(QList< QList<QVariant> > columnData, TreeItem *parent);
+    void buildTree(const QString& searchStr, TreeItem *parent, TreeItemInfo* itemsInfo);
 
 private:   
     TreeItem *rootItem;

@@ -34,11 +34,13 @@ private slots:
     void slotReadyRead();
     void slotError(QNetworkReply::NetworkError error);
     void slotSslErrors( const QList<QSslError>& errors);
+    void loginDone();
 
 private:
     void settings(void);
     void setHeader(void);
     bool parseReply(const QString& str);
+    void setModel(void);
 
 private:
     OAuth2 oAuth2;

@@ -22,6 +22,12 @@ DriveEngine::~DriveEngine()
 void DriveEngine::slotStartLogin(void)
 {
     oAuth2.startLogin(true);
+    connect(&oAuth2, SIGNAL(loginDone()), this,  SLOT(loginDone()));
+}
+
+void DriveEngine::loginDone()
+{
+  setModel();
 }
 
 void DriveEngine::init(void)
@@ -39,25 +45,30 @@ void DriveEngine::slotReplyFinished(QNetworkReply* reply)
 
     if(parseReply(replyStr))
     {
-        if(model)
-        {
-            delete model;
-            model = NULL;
-        }
-        else
-        {
-            QList<QVariant> rootData;
-            rootData << "My Disc" << "Summary";
-
-            model = new TreeModel("Test", rootData, parser->getTreeItemInfo());
-            UiInstance::ui->discTreeView->setModel(model);
-            parser->getTreeItemInfo()->showAll();
-        }
+        setModel();
         qDebug() << "parse OK";
     }
     else
     {
         qDebug() << "parse NOT OK";
+    }
+}
+
+void DriveEngine::setModel(void)
+{
+    if(model)
+    {
+        delete model;
+        model = NULL;
+    }
+    else
+    {
+        QList<QVariant> rootData;
+
+        rootData << "My Disc" << "Summary";
+
+        model = new TreeModel("Test", rootData, parser->getTreeItemInfo());
+        UiInstance::ui->discTreeView->setModel(model);
     }
 }
 

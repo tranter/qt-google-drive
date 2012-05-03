@@ -4,7 +4,7 @@
 
 TreeModel::TreeModel(const QString &data, QList<QVariant> rootData, TreeItemInfo* itensInfo, QObject *parent)
     : QAbstractItemModel(parent)
-{   
+{
     init(data, rootData, itensInfo);
 }
 
@@ -105,37 +105,45 @@ int TreeModel::rowCount(const QModelIndex &parent) const
     return parentItem->childCount();
 }
 
-void TreeModel::setupModelData(const QString &data, TreeItem *parent, TreeItemInfo* itemsInfo)
+void TreeModel::setupModelData(const QString& data, TreeItem *parent, TreeItemInfo* itemsInfo)
 {
-//    TreeItem *curNode = parent;
-//    QString str = data;
-//    QList<QVariant> columnData;
-
-//    columnData.append(str + "1");
-//    curNode->appendChild(new TreeItem(columnData, curNode));
-//    //qDebug() << "------------>" << columnData;
-
-//    curNode = parent->child(0);
-//    columnData[0] = str + "3";
-//    curNode->appendChild(new TreeItem(columnData,  curNode));
-//    //qDebug() << "------------>" << columnData;
-
-//    curNode = curNode->child(0);
-//    columnData[0] = str + "5";
-//    curNode->appendChild(new TreeItem(columnData,  curNode));
-//    //qDebug() << "------------>" << columnData;
-
-//    columnData[0] = str + "7";
-//    parent->appendChild(new TreeItem(columnData, parent));
-    //qDebug() << "------------>" << columnData;
-
-    //qDebug() << "------------>" << parent->child(0)->data(0);
-
-     for (int i = 0; i < itemsInfo->items.count(); ++i)
-        qDebug() << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! " << itemsInfo->items[i].name.toString() << endl;
+    buildTree(ROOT_FOLDER, parent, itemsInfo);
 }
 
-void TreeModel::Fill(QList< QList<QVariant> > columnData, TreeItem *parent)
+void TreeModel::buildTree(const QString& searchStr, TreeItem *parent, TreeItemInfo* itemsInfo)
 {
+    QList< QList<QVariant> > columnData;
+    QList<QVariant> selfs;
+    int count = 0;
 
+    for (int i = 0; i < itemsInfo->items.count(); ++i)
+    {
+        if(itemsInfo->items[i].parent.toString() == searchStr)
+        {
+            QList<QVariant> column;
+
+            column.push_back(itemsInfo->items[i].name);
+            columnData.push_back(column);
+            selfs.push_back(itemsInfo->items[i].self);
+            ++count;
+        }
+    }
+
+    if(count > 0)
+    {
+        fillTree(columnData, parent);
+
+        for (int i = 0; i < count; ++i)
+        {
+            buildTree(selfs[i].toString(), parent->child(i), itemsInfo);
+        }
+    }
+}
+
+void TreeModel::fillTree(QList< QList<QVariant> > columnData, TreeItem *parent)
+{
+    for (int i = 0; i < columnData.count(); ++i)
+    {
+        parent->appendChild(new TreeItem(columnData[i], parent));
+    }
 }

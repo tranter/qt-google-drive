@@ -27,6 +27,11 @@ int TreeItem::childCount() const
     return childItems.count();
 }
 
+bool TreeItem::hasChilds() const
+{
+    return childItems.count() > 0;
+}
+
 int TreeItem::columnCount() const
 {
     return itemData.count();
