@@ -23,9 +23,9 @@ public:
     QModelIndex parent(const QModelIndex &index) const;
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
-
-private:
     void setupModelData(const QString &data, TreeItem *parent);
+
+private:   
     TreeItem *rootItem;
 };
 

@@ -19,6 +19,7 @@ SOURCES += main.cpp\
            xmldomparser.cpp\
            treeitem.cpp \
            treemodel.cpp \
+    treeiteminfo.cpp
 
 HEADERS  += mainwindow.h\
             oauth2.h\
@@ -28,7 +29,8 @@ HEADERS  += mainwindow.h\
             xmlparser.h \
             xmldomparser.h\
             treeitem.h \
-            treemodel.h
+            treemodel.h \
+    treeiteminfo.h
 
 FORMS    += mainwindow.ui\
             logindialog.ui
