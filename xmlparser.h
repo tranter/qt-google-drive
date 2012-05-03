@@ -2,11 +2,13 @@
 #define XMLPARSER_H
 
 #include <QXmlDefaultHandler>
+#include "treeiteminfo.h"
+
 
 class XMLParser : public QXmlDefaultHandler
 {
 public:
-    XMLParser(const QString str);
+    XMLParser();
 
 public:
     bool startElement(const QString &namespaceURI, const QString &localName, const QString &qName, const QXmlAttributes &attribs);
@@ -14,12 +16,10 @@ public:
     bool characters(const QString &str);
     bool fatalError(const QXmlParseException &exception);
 
-public:
-    void SetCurrentAnalyzingName(const QString& str);
-
-
 private:
-     QString parseStr;
+     TreeItemInfo treeItemInfo;
+     TreeItemInfo::Data itemData;
+
 };
 
 #endif // XMLPARSER_H

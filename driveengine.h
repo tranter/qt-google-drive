@@ -49,6 +49,7 @@ private:
     QString replyStr;
     QString accessToken;
     TreeModel* model;
+    XMLParser *parser;
 };
 
 #endif // DRIVEENGINE_H

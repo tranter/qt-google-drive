@@ -7,7 +7,8 @@ DriveEngine::DriveEngine(QObject *parentObj) :
     QObject(parentObj),
     networkAccessManager(NULL),
     parent(parentObj),
-    model(NULL)
+    model(NULL),
+    parser(NULL)
 {
 }
 
@@ -15,6 +16,7 @@ DriveEngine::~DriveEngine()
 {
     if(networkAccessManager) delete networkAccessManager;
     if(model) delete model;
+    if(parser) delete parser;
 }
 
 void DriveEngine::slotStartLogin(void)
@@ -33,18 +35,18 @@ void DriveEngine::init(void)
 
 void DriveEngine::slotReplyFinished(QNetworkReply* reply)
 {
-    qDebug() << "replyFinished";
     qDebug() << "--------------> replyStr" << replyStr;
 
     if(parseReply(replyStr))
+    {
+        model = new TreeModel("Test");
+        UiInstance::ui->discTreeView->setModel(model);
         qDebug() << "parse OK";
+    }
     else
+    {
         qDebug() << "parse NOT OK";
-
-    model = new TreeModel("Test");
-
-    UiInstance::ui->discTreeView->setModel(model);
-    UiInstance::ui->discTreeView->show();
+    }
 }
 
 void DriveEngine::slotGet(void)
@@ -131,16 +133,11 @@ bool DriveEngine::parseReply(const QString& str)
     QXmlSimpleReader reader;
     QXmlInputSource source;
 
+    if(!parser) parser = new XMLParser;
     source.setData(str.toAscii());
 
-    XMLParser parser(str);
-    reader.setContentHandler(&parser);
-    reader.setErrorHandler(&parser);
+    reader.setContentHandler(parser);
+    reader.setErrorHandler(parser);
 
     return reader.parse(&source);
-
-    //    XMLDomParser parser(str);
-    //    parser.parse();
-
-    //    return true;
 }
