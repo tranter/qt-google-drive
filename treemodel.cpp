@@ -2,18 +2,21 @@
 #include "treemodel.h"
 #include <QDebug>
 
-TreeModel::TreeModel(const QString &data, QObject *parent)
+TreeModel::TreeModel(const QString &data, QList<QVariant> rootData, QObject *parent)
     : QAbstractItemModel(parent)
-{
-    QList<QVariant> rootData;
-    rootData << "My Disc" << "Summary";
-    rootItem = new TreeItem(rootData);
-    setupModelData(data, rootItem);
+{   
+    init(data, rootData);
 }
 
 TreeModel::~TreeModel()
 {
     delete rootItem;
+}
+
+int TreeModel::init(const QString &data, QList<QVariant> rootData)
+{
+    rootItem = new TreeItem(rootData);
+    setupModelData(data, rootItem);
 }
 
 int TreeModel::columnCount(const QModelIndex &parent) const
@@ -55,7 +58,7 @@ QVariant TreeModel::headerData(int section, Qt::Orientation orientation,
 }
 
 QModelIndex TreeModel::index(int row, int column, const QModelIndex &parent)
-            const
+const
 {
     if (!hasIndex(row, column, parent))
         return QModelIndex();
@@ -104,4 +107,29 @@ int TreeModel::rowCount(const QModelIndex &parent) const
 
 void TreeModel::setupModelData(const QString &data, TreeItem *parent)
 {
+//    TreeItem *curNode = parent;
+//    QString str = data;
+//    QList<QVariant> columnData;
+
+//    columnData.append(str + "1"); columnData.append(str + "2");
+//    curNode->appendChild(new TreeItem(columnData, curNode));
+//    //qDebug() << "------------>" << columnData;
+
+//    curNode = parent->child(0);
+//    columnData[0] = str + "3"; columnData[1] = str + "4";
+//    curNode->appendChild(new TreeItem(columnData,  curNode));
+//    //qDebug() << "------------>" << columnData;
+
+//    curNode = curNode->child(0);
+//    columnData[0] = str + "5"; columnData[1] = str + "6";
+//    curNode->appendChild(new TreeItem(columnData,  curNode));
+//    //qDebug() << "------------>" << columnData;
+
+//    columnData[0] = str + "7"; columnData[1] = str + "8";
+//    parent->appendChild(new TreeItem(columnData, parent));
+//    //qDebug() << "------------>" << columnData;
+
+//    //qDebug() << "------------>" << parent->child(0)->data(0);
+
+
 }

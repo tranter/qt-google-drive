@@ -24,6 +24,8 @@ void TreeItemInfo::setItemPointer(int index, TreeItem *item)
 
 void TreeItemInfo::showAll(void)
 {
+    qDebug() << endl;
+
     for(int i = 0;i < items.count();++i)
         qDebug() << "items[" << i << "].name = " << items[i].name << "items[" << i << "].parent = " << items[i].parent << "items[" << i << "].self = " << items[i].self;
 }

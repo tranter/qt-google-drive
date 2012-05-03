@@ -39,8 +39,21 @@ void DriveEngine::slotReplyFinished(QNetworkReply* reply)
 
     if(parseReply(replyStr))
     {
-        model = new TreeModel("Test");
-        UiInstance::ui->discTreeView->setModel(model);
+        if(model)
+        {
+            delete model;
+            model = NULL;
+        }
+        else
+        {
+            QList<QVariant> rootData;
+            rootData << "My Disc" << "Summary";
+
+            model = new TreeModel("Test", rootData);
+
+            UiInstance::ui->discTreeView->setModel(model);
+            parser->getTreeItemInfo()->showAll();
+        }
         qDebug() << "parse OK";
     }
     else
