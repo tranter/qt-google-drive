@@ -32,6 +32,9 @@
       <property name="animated">
        <bool>true</bool>
       </property>
+      <attribute name="headerDefaultSectionSize">
+       <number>250</number>
+      </attribute>
      </widget>
     </item>
    </layout>

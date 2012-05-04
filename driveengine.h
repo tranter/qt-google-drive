@@ -8,7 +8,6 @@
 #include <QSslError>
 #include <QXmlSimpleReader>
 #include "xmlparser.h"
-#include "xmldomparser.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "treemodel.h"
