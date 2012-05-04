@@ -16,7 +16,6 @@ SOURCES += main.cpp\
            logindialog.cpp \
            driveengine.cpp \
            xmlparser.cpp \
-           xmldomparser.cpp\
            treeitem.cpp \
            treemodel.cpp \
     treeiteminfo.cpp
@@ -27,7 +26,6 @@ HEADERS  += mainwindow.h\
             driveengine.h \
             AppRegData.h \
             xmlparser.h \
-            xmldomparser.h\
             treeitem.h \
             treemodel.h \
     treeiteminfo.h \
