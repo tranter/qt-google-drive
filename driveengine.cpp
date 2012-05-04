@@ -8,7 +8,8 @@ DriveEngine::DriveEngine(QObject *parentObj) :
     networkAccessManager(NULL),
     parent(parentObj),
     model(NULL),
-    parser(NULL)
+    parser(NULL),
+    oAuth2(NULL)
 {
 }
 
@@ -17,22 +18,31 @@ DriveEngine::~DriveEngine()
     if(networkAccessManager) delete networkAccessManager;
     if(model) delete model;
     if(parser) delete parser;
+    if(oAuth2) delete oAuth2;
 }
 
 void DriveEngine::slotStartLogin(void)
 {
-    oAuth2.startLogin(true);
-    connect(&oAuth2, SIGNAL(loginDone()), this,  SLOT(loginDone()));
-}
-
-void DriveEngine::loginDone()
-{
-  setModel();
+    oAuth2->startLogin(true);
 }
 
 void DriveEngine::init(void)
 {
+    if(networkAccessManager)
+    {
+        delete networkAccessManager;
+        networkAccessManager = NULL;
+    }
+
     networkAccessManager = new QNetworkAccessManager(this);
+
+    if(oAuth2)
+    {
+        delete oAuth2;
+        oAuth2 = NULL;
+    }
+
+    oAuth2 = new OAuth2;
 
     connect(networkAccessManager, SIGNAL(finished(QNetworkReply*)),this, SLOT(slotReplyFinished(QNetworkReply*)));
     connect(parent, SIGNAL(siganalGet()), this, SLOT(slotGet()));
@@ -61,21 +71,18 @@ void DriveEngine::setModel(void)
         delete model;
         model = NULL;
     }
-    else
-    {
-        QList<QVariant> rootData;
 
-        rootData << "My Disc" << "Summary";
+    QList<QVariant> rootData;
 
-        model = new TreeModel("Test", rootData, parser->getTreeItemInfo());
-        UiInstance::ui->discTreeView->setModel(model);
-    }
+    rootData << "My Disc" << "Summary";
+
+    model = new TreeModel("Test", rootData, parser->getTreeItemInfo());
+    UiInstance::ui->discTreeView->setModel(model);
+
 }
 
 void DriveEngine::slotGet(void)
 {
-    qDebug() << "slotGet";
-
     setHeader();
 
     //QString query = QString("https://docs.google.com/feeds/default/private/full/-/folder");
@@ -84,6 +91,8 @@ void DriveEngine::slotGet(void)
     //QString query = QString(" https://docs.google.com/feeds/default/private/full/folder%30B_pGaTf6anqmZG9vclJmaC1KXzg/contents");
     //QString query = QString("https://docs.google.com/feeds/default/private/full/%3A0B_pGaTf6anqmZG9vclJmaC1KXzg/contents");
 
+
+    qDebug() << "------------------------------------------>query = " << query;
 
     request.setUrl(QUrl(query));
     reply = networkAccessManager->get(request);
@@ -156,11 +165,23 @@ bool DriveEngine::parseReply(const QString& str)
     QXmlSimpleReader reader;
     QXmlInputSource source;
 
-    if(!parser) parser = new XMLParser;
+    if(parser)
+    {
+        delete parser;
+        parser = NULL;
+    }
+
+    parser = new XMLParser;
+
     source.setData(str.toAscii());
 
     reader.setContentHandler(parser);
     reader.setErrorHandler(parser);
 
     return reader.parse(&source);
+}
+
+OAuth2* DriveEngine::getOAuth2(void) const
+{
+    return oAuth2;
 }

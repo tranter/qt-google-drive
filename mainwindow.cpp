@@ -19,11 +19,18 @@ MainWindow::~MainWindow()
 
 void MainWindow::init(void)
 {
-    DriveEngine* driveEngine = new DriveEngine(this);
+    if(driveEngine)
+    {
+        delete driveEngine;
+        driveEngine = NULL;
+    }
+
+    driveEngine = new DriveEngine(this);
     driveEngine->init();
 
     connect(UiInstance::ui->actionLogin, SIGNAL(triggered()), driveEngine,  SLOT(slotStartLogin()));
     connect(UiInstance::ui->actionQuit, SIGNAL(triggered()), this,  SLOT(close()));
+    connect(driveEngine->getOAuth2(), SIGNAL(loginDone()), this,  SLOT(slotloginDone()));
 
     emit siganalGet();
 }
@@ -34,4 +41,9 @@ Ui::MainWindow* UiInstance::Instance()
         UiInstance::ui = new Ui::MainWindow;
 
     return UiInstance::ui;
+}
+
+void MainWindow::slotloginDone(void)
+{
+     init();
 }

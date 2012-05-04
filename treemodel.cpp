@@ -116,7 +116,7 @@ void TreeModel::buildTree(const QString& searchStr, TreeItem *parent, TreeItemIn
     QList<QVariant> selfs;
     int count = 0;
 
-    for (int i = 0; i < itemsInfo->items.count(); ++i)
+    for (int i = itemsInfo->items.count() -1; i >=0 ; --i)
     {
         if(itemsInfo->items[i].parent.toString() == searchStr)
         {
@@ -133,7 +133,7 @@ void TreeModel::buildTree(const QString& searchStr, TreeItem *parent, TreeItemIn
     {
         fillTree(columnData, parent);
 
-        for (int i = 0; i < count; ++i)
+        for (int i = count - 1; i >= 0; --i)
         {
             buildTree(selfs[i].toString(), parent->child(i), itemsInfo);
         }

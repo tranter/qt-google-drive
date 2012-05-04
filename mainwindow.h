@@ -22,13 +22,15 @@ public:
     void init(void);
     Ui::MainWindow* getUi(void);
 
+public slots:
+    void slotloginDone(void);
+
 signals:
     void siganalGet(void);
     void signalPost(void);
     
 private:
     Ui::MainWindow* ui;
-
     DriveEngine* driveEngine;
 };
 
@@ -36,8 +38,8 @@ class UiInstance
 {
 public:
     static Ui::MainWindow* Instance();
-
     static Ui::MainWindow* ui;
+
 private:
         UiInstance(){};
         UiInstance(UiInstance& root){};

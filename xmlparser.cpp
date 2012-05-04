@@ -5,7 +5,7 @@
 XMLParser::XMLParser():
     treeItemInfo(new TreeItemInfo),
     isTitle(false)
-{  
+{
 }
 
 XMLParser::~XMLParser()
@@ -14,7 +14,7 @@ XMLParser::~XMLParser()
 }
 
 bool XMLParser::startElement(const QString &namespaceURI, const QString &localName, const QString &qName, const QXmlAttributes &attribs)
-{
+{    
     if(qName == TITLE_TAG) isTitle = true;
 
     if(HIERARCHY_ATTRIBUTE == PARENT_FOLDER)

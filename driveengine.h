@@ -23,8 +23,9 @@ public:
 
 public:
     void init(void);
+    OAuth2* getOAuth2(void) const;
     
-public slots:    
+public slots:
     void slotStartLogin(void);
 
 private slots:
@@ -34,7 +35,7 @@ private slots:
     void slotReadyRead();
     void slotError(QNetworkReply::NetworkError error);
     void slotSslErrors( const QList<QSslError>& errors);
-    void loginDone();
+    //void slotloginDone();
 
 private:
     void settings(void);
@@ -43,7 +44,7 @@ private:
     void setModel(void);
 
 private:
-    OAuth2 oAuth2;
+    OAuth2* oAuth2;
     QNetworkAccessManager* networkAccessManager;
     QObject* parent;
     QNetworkReply *reply;
