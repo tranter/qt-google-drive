@@ -2,7 +2,8 @@
 #include "treeiteminfo.h"
 #include <QDebug>
 
-XMLParser::XMLParser():
+XMLParser::XMLParser(int type):
+    queryType(type),
     treeItemInfo(new TreeItemInfo),
     isTitle(false)
 {
@@ -10,25 +11,37 @@ XMLParser::XMLParser():
 
 XMLParser::~XMLParser()
 {
- delete treeItemInfo;
+    delete treeItemInfo;
 }
 
 bool XMLParser::startElement(const QString &namespaceURI, const QString &localName, const QString &qName, const QXmlAttributes &attribs)
-{    
-    if(qName == TITLE_TAG) isTitle = true;
-
-    if(HIERARCHY_ATTRIBUTE == PARENT_FOLDER)
+{
+    switch(queryType)
     {
-        itemData.item = NULL;
-        itemData.parent = HIERARCHY_VALUE;
-    }
-
-    if(HIERARCHY_ATTRIBUTE == SELF_TAG)
+    case FOLDERS:
     {
-         itemData.self = HIERARCHY_VALUE;
-         treeItemInfo->items.push_back(itemData);
-    }
+        if(qName == TITLE_TAG) isTitle = true;
 
+        if(HIERARCHY_ATTRIBUTE == PARENT_FOLDER)
+        {
+            itemData.item = NULL;
+            itemData.parent = HIERARCHY_VALUE;
+        }
+
+        if(HIERARCHY_ATTRIBUTE == SELF_TAG)
+        {
+            itemData.self = HIERARCHY_VALUE;
+            treeItemInfo->items.push_back(itemData);
+        }
+    }
+        break;
+
+    case FILES:
+    {
+
+    }
+        break;
+    }
     return true;
 }
 
@@ -53,5 +66,5 @@ bool XMLParser::fatalError(const QXmlParseException &exception)
 
 TreeItemInfo* XMLParser::getTreeItemInfo(void) const
 {
-  return treeItemInfo;
+    return treeItemInfo;
 }

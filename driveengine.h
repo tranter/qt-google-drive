@@ -11,7 +11,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "treemodel.h"
-//#include <QTreeView>
 
 class DriveEngine : public QObject
 {
@@ -34,7 +33,7 @@ private slots:
     void slotReadyRead();
     void slotError(QNetworkReply::NetworkError error);
     void slotSslErrors( const QList<QSslError>& errors);
-    //void slotloginDone();
+    void slotTest(void);
 
 private:
     void settings(void);
@@ -52,6 +51,7 @@ private:
     QString accessToken;
     TreeModel* model;
     XMLParser *parser;
+    QString query;
 };
 
 #endif // DRIVEENGINE_H

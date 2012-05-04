@@ -8,7 +8,7 @@
 class XMLParser : public QXmlDefaultHandler
 {
 public:
-    XMLParser();
+    XMLParser(int type);
     ~XMLParser();
 
 public:
@@ -22,7 +22,7 @@ private:
      TreeItemInfo* treeItemInfo;
      TreeItemInfo::Data itemData;
      bool isTitle;
-
+     int queryType;
 };
 
 #endif // XMLPARSER_H

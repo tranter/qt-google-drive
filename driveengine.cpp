@@ -36,6 +36,8 @@ void DriveEngine::init(void)
 
     networkAccessManager = new QNetworkAccessManager(this);
 
+    query = GET_FOLDERS;
+
     if(oAuth2)
     {
         delete oAuth2;
@@ -76,7 +78,7 @@ void DriveEngine::setModel(void)
 
     rootData << "My Disc" << "Summary";
 
-    model = new TreeModel("Test", rootData, parser->getTreeItemInfo());
+    model = new TreeModel(rootData, parser->getTreeItemInfo());
     UiInstance::ui->discTreeView->setModel(model);
 
 }
@@ -84,15 +86,6 @@ void DriveEngine::setModel(void)
 void DriveEngine::slotGet(void)
 {
     setHeader();
-
-    //QString query = QString("https://docs.google.com/feeds/default/private/full/-/folder");
-    //QString query = QString("https://docs.google.com/feeds/default/private/full?showroot=true");
-    QString query = QString("https://docs.google.com/feeds/default/private/full/-/folder?showroot=true");
-    //QString query = QString(" https://docs.google.com/feeds/default/private/full/folder%30B_pGaTf6anqmZG9vclJmaC1KXzg/contents");
-    //QString query = QString("https://docs.google.com/feeds/default/private/full/%3A0B_pGaTf6anqmZG9vclJmaC1KXzg/contents");
-
-
-    qDebug() << "------------------------------------------>query = " << query;
 
     request.setUrl(QUrl(query));
     reply = networkAccessManager->get(request);
@@ -171,7 +164,7 @@ bool DriveEngine::parseReply(const QString& str)
         parser = NULL;
     }
 
-    parser = new XMLParser;
+    parser = new XMLParser(FOLDERS);
 
     source.setData(str.toAscii());
 
@@ -184,4 +177,8 @@ bool DriveEngine::parseReply(const QString& str)
 OAuth2* DriveEngine::getOAuth2(void) const
 {
     return oAuth2;
+}
+
+void DriveEngine::slotTest(void)
+{
 }

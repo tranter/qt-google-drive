@@ -2,10 +2,10 @@
 #include "treemodel.h"
 #include <QDebug>
 
-TreeModel::TreeModel(const QString &data, QList<QVariant> rootData, TreeItemInfo* itensInfo, QObject *parent)
+TreeModel::TreeModel(QList<QVariant> rootData, TreeItemInfo* itensInfo, QObject *parent)
     : QAbstractItemModel(parent)
 {
-    init(data, rootData, itensInfo);
+    init(rootData, itensInfo);
 }
 
 TreeModel::~TreeModel()
@@ -13,10 +13,10 @@ TreeModel::~TreeModel()
     delete rootItem;
 }
 
-int TreeModel::init(const QString &data, QList<QVariant> rootData, TreeItemInfo* itensInfo)
+int TreeModel::init(QList<QVariant> rootData, TreeItemInfo* itensInfo)
 {
     rootItem = new TreeItem(rootData);
-    setupModelData(data, rootItem, itensInfo);
+    setupModelData(rootItem, itensInfo);
 }
 
 int TreeModel::columnCount(const QModelIndex &parent) const
@@ -105,7 +105,7 @@ int TreeModel::rowCount(const QModelIndex &parent) const
     return parentItem->childCount();
 }
 
-void TreeModel::setupModelData(const QString& data, TreeItem *parent, TreeItemInfo* itemsInfo)
+void TreeModel::setupModelData(TreeItem *parent, TreeItemInfo* itemsInfo)
 {
     buildTree(ROOT_FOLDER, parent, itemsInfo);
 }
@@ -131,7 +131,7 @@ void TreeModel::buildTree(const QString& searchStr, TreeItem *parent, TreeItemIn
 
     if(count > 0)
     {
-        fillTree(columnData, parent);
+        fillTree(columnData, parent, itemsInfo);
 
         for (int i = count - 1; i >= 0; --i)
         {
@@ -140,10 +140,13 @@ void TreeModel::buildTree(const QString& searchStr, TreeItem *parent, TreeItemIn
     }
 }
 
-void TreeModel::fillTree(QList< QList<QVariant> > columnData, TreeItem *parent)
+void TreeModel::fillTree(QList< QList<QVariant> > columnData, TreeItem *parent, TreeItemInfo* itemsInfo)
 {
     for (int i = 0; i < columnData.count(); ++i)
     {
-        parent->appendChild(new TreeItem(columnData[i], parent));
+        TreeItem* item = new TreeItem(columnData[i], parent);
+        parent->appendChild(item);
+        itemsInfo->setItemPointer(i, item);
+        //parent->appendChild(new TreeItem(columnData[i], parent));
     }
 }

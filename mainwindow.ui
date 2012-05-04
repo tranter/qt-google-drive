@@ -54,6 +54,7 @@
     </property>
     <addaction name="actionLogin"/>
     <addaction name="actionQuit"/>
+    <addaction name="actionTest"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
@@ -74,6 +75,11 @@
   <action name="actionLogin">
    <property name="text">
     <string>Login...</string>
+   </property>
+  </action>
+  <action name="actionTest">
+   <property name="text">
+    <string>Test</string>
    </property>
   </action>
  </widget>
