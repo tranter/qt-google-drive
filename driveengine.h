@@ -22,6 +22,7 @@ public:
 public:
     void init(void);
     OAuth2* getOAuth2(void) const;
+    int getCurrentModelItemIndex(void) const;
     
 public slots:
     void slotStartLogin(void);

@@ -57,8 +57,7 @@ QVariant TreeModel::headerData(int section, Qt::Orientation orientation,
     return QVariant();
 }
 
-QModelIndex TreeModel::index(int row, int column, const QModelIndex &parent)
-const
+QModelIndex TreeModel::index(int row, int column, const QModelIndex &parent) const
 {
     if (!hasIndex(row, column, parent))
         return QModelIndex();
@@ -114,6 +113,8 @@ void TreeModel::buildTree(const QString& searchStr, TreeItem *parent, TreeItemIn
 {
     QList< QList<QVariant> > columnData;
     QList<QVariant> selfs;
+    QList<int> indexes;
+
     int count = 0;
 
     for (int i = itemsInfo->items.count() -1; i >=0 ; --i)
@@ -125,13 +126,14 @@ void TreeModel::buildTree(const QString& searchStr, TreeItem *parent, TreeItemIn
             column.push_back(itemsInfo->items[i].name);
             columnData.push_back(column);
             selfs.push_back(itemsInfo->items[i].self);
+            indexes.push_back(i);
             ++count;
         }
     }
 
     if(count > 0)
     {
-        fillTree(columnData, parent, itemsInfo);
+        fillTree(columnData, parent, itemsInfo, indexes);
 
         for (int i = count - 1; i >= 0; --i)
         {
@@ -140,13 +142,14 @@ void TreeModel::buildTree(const QString& searchStr, TreeItem *parent, TreeItemIn
     }
 }
 
-void TreeModel::fillTree(QList< QList<QVariant> > columnData, TreeItem *parent, TreeItemInfo* itemsInfo)
+void TreeModel::fillTree(QList< QList<QVariant> > columnData, TreeItem *parent, TreeItemInfo* itemsInfo, QList<int> indexes)
 {
     for (int i = 0; i < columnData.count(); ++i)
     {
         TreeItem* item = new TreeItem(columnData[i], parent);
         parent->appendChild(item);
-        itemsInfo->setItemPointer(i, item);
+        itemsInfo->setItemPointer(indexes[i], item);
+        //qDebug() << "------------------> item[" << positions[i] << "] = " << item;
         //parent->appendChild(new TreeItem(columnData[i], parent));
     }
 }

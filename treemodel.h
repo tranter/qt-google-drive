@@ -29,7 +29,7 @@ public:
     int init(QList<QVariant> rootData, TreeItemInfo* itensInfo);
 
 private:
-    void fillTree(QList< QList<QVariant> > columnData, TreeItem *parent, TreeItemInfo* itemsInfo);
+    void fillTree(QList< QList<QVariant> > columnData, TreeItem *parent, TreeItemInfo* itemsInfo, QList<int> indexes);
     void buildTree(const QString& searchStr, TreeItem *parent, TreeItemInfo* itemsInfo);
 
 private:   

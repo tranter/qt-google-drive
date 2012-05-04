@@ -181,4 +181,22 @@ OAuth2* DriveEngine::getOAuth2(void) const
 
 void DriveEngine::slotTest(void)
 {
+    qDebug() << "getCurrentModelItemIndex = " << QString::number(getCurrentModelItemIndex());
+}
+
+int DriveEngine::getCurrentModelItemIndex(void) const
+{
+    TreeItem *item = static_cast<TreeItem*>(UiInstance::ui->discTreeView->currentIndex().internalPointer());
+    int currentModelIndex = 0;
+
+    for(int i = 1; i < parser->getTreeItemInfo()->items.count(); ++i)
+    {
+        if(parser->getTreeItemInfo()->items[i].item == item)
+        {
+          currentModelIndex = i;
+          break;
+        }
+    }
+
+    return currentModelIndex;
 }
