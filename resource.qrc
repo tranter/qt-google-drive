@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/ico">
+        <file alias="unknown">res/application-vnd.oasis.opendocument.text.png</file>
+        <file alias="folder">res/folder-blue.png</file>
+    </qresource>
+</RCC>

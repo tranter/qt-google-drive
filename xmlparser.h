@@ -19,7 +19,7 @@ public:
     TreeItemInfo* getTreeItemInfo(void) const;
 
 private:
-     TreeItemInfo* treeItemInfo;
+     TreeItemInfo* itemInfo;
      TreeItemInfo::Data itemData;
      bool isTitle;
      int queryType;

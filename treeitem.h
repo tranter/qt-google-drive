@@ -18,7 +18,7 @@ public:
     QVariant data(int column) const;
     int row() const;
     TreeItem *parent();
-    bool hasChilds() const;
+    //bool hasChilds() const;
 
 private:
     QList<TreeItem*> childItems;

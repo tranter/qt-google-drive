@@ -22,6 +22,13 @@ void TreeItemInfo::setItemPointer(int index, TreeItem *item)
     items[index].item = item;
 }
 
+QString TreeItemInfo::getItemIconPath(const QString& type)
+{
+    QString iconPath(":ico/unknown");
+    if(type == FOLDER_TYPE_STR) iconPath = ":ico/folder";
+    return iconPath;
+}
+
 void TreeItemInfo::showAll(void)
 {
     qDebug() << endl;

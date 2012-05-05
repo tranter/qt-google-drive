@@ -76,11 +76,11 @@ void DriveEngine::setModel(void)
 
     QList<QVariant> rootData;
 
-    rootData << "My Disc" << "Summary";
+    rootData << "My Disc";
 
     model = new TreeModel(rootData, parser->getTreeItemInfo());
     UiInstance::ui->discTreeView->setModel(model);
-
+    //UiInstance::ui->discTreeView->header()->hideSection(0);
 }
 
 void DriveEngine::slotGet(void)
@@ -164,7 +164,7 @@ bool DriveEngine::parseReply(const QString& str)
         parser = NULL;
     }
 
-    parser = new XMLParser(FOLDERS);
+    parser = new XMLParser(FOLDER_TYPE);
 
     source.setData(str.toAscii());
 
@@ -181,7 +181,7 @@ OAuth2* DriveEngine::getOAuth2(void) const
 
 void DriveEngine::slotTest(void)
 {
-    qDebug() << "getCurrentModelItemIndex = " << QString::number(getCurrentModelItemIndex());
+    //qDebug() << "getCurrentModelItemIndex = " << QString::number(getCurrentModelItemIndex());
 }
 
 int DriveEngine::getCurrentModelItemIndex(void) const

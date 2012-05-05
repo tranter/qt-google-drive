@@ -9,7 +9,8 @@
 #define TITLE_TAG "title"
 #define GET_FOLDERS QString("https://docs.google.com/feeds/default/private/full/-/folder?showroot=true")
 #define GET_FILES QString("https://docs.google.com/feeds/default/private/full")
-#define FOLDERS 0
-#define FILES 1
+#define FOLDER_TYPE 0
+#define FILE_TYPE 1
+#define FOLDER_TYPE_STR "folder"
 
 #endif // DEF_H

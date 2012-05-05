@@ -4,21 +4,21 @@
 
 XMLParser::XMLParser(int type):
     queryType(type),
-    treeItemInfo(new TreeItemInfo),
+    itemInfo(new TreeItemInfo),
     isTitle(false)
 {
 }
 
 XMLParser::~XMLParser()
 {
-    delete treeItemInfo;
+    delete itemInfo;
 }
 
 bool XMLParser::startElement(const QString &namespaceURI, const QString &localName, const QString &qName, const QXmlAttributes &attribs)
 {
     switch(queryType)
     {
-    case FOLDERS:
+    case FOLDER_TYPE:
     {
         if(qName == TITLE_TAG) isTitle = true;
 
@@ -31,12 +31,14 @@ bool XMLParser::startElement(const QString &namespaceURI, const QString &localNa
         if(HIERARCHY_ATTRIBUTE == SELF_TAG)
         {
             itemData.self = HIERARCHY_VALUE;
-            treeItemInfo->items.push_back(itemData);
+            itemInfo->items.push_back(itemData);
+            itemData.type = FOLDER_TYPE_STR;
+            itemData.iconPath = itemInfo->getItemIconPath(FOLDER_TYPE_STR);
         }
     }
         break;
 
-    case FILES:
+    case FILE_TYPE:
     {
 
     }
@@ -52,7 +54,11 @@ bool XMLParser::endElement(const QString &namespaceURI, const QString &localName
 
 bool XMLParser::characters(const QString &str)
 {
-    if(isTitle) itemData.name = str;
+    if(isTitle)
+    {
+        itemData.name = str;
+    }
+
     isTitle = false;
 
     return true;
@@ -66,5 +72,5 @@ bool XMLParser::fatalError(const QXmlParseException &exception)
 
 TreeItemInfo* XMLParser::getTreeItemInfo(void) const
 {
-    return treeItemInfo;
+    return itemInfo;
 }

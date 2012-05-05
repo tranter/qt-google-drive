@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QDebug>
+#include <QFile>
 
 Ui::MainWindow* UiInstance::ui = NULL;
 
@@ -47,5 +48,5 @@ Ui::MainWindow* UiInstance::Instance()
 
 void MainWindow::slotloginDone(void)
 {
-     init();
+    init();
 }

@@ -1,11 +1,15 @@
 #include "treeitem.h"
 #include "treemodel.h"
 #include <QDebug>
+#include <QIcon>
 
-TreeModel::TreeModel(QList<QVariant> rootData, TreeItemInfo* itensInfo, QObject *parent)
-    : QAbstractItemModel(parent)
+TreeModel::TreeModel(QList<QVariant> rootData, TreeItemInfo* treeItemsInfo, QObject *parent) :
+    rootData1(rootData),
+    QAbstractItemModel(parent),
+    itemInfo(treeItemsInfo),
+    columnsTotal(rootData.count())
 {
-    init(rootData, itensInfo);
+    init(rootData);
 }
 
 TreeModel::~TreeModel()
@@ -13,10 +17,10 @@ TreeModel::~TreeModel()
     delete rootItem;
 }
 
-int TreeModel::init(QList<QVariant> rootData, TreeItemInfo* itensInfo)
+int TreeModel::init(QList<QVariant> rootData)
 {
     rootItem = new TreeItem(rootData);
-    setupModelData(rootItem, itensInfo);
+    setupModelData(rootItem);
 }
 
 int TreeModel::columnCount(const QModelIndex &parent) const
@@ -31,6 +35,12 @@ QVariant TreeModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid())
         return QVariant();
+
+    if (role == Qt::DecorationRole)
+    {
+        //qDebug() << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! item" << itemInfo->items[getCurrentModelItemIndex(static_cast<TreeItem*>(index.internalPointer()))].name;
+        return QIcon(itemInfo->items[getCurrentModelItemIndex(static_cast<TreeItem*>(index.internalPointer()))].iconPath);
+    }
 
     if (role != Qt::DisplayRole)
         return QVariant();
@@ -72,6 +82,7 @@ QModelIndex TreeModel::index(int row, int column, const QModelIndex &parent) con
     TreeItem *childItem = parentItem->child(row);
     if (childItem)
         return createIndex(row, column, childItem);
+
     else
         return QModelIndex();
 }
@@ -104,12 +115,12 @@ int TreeModel::rowCount(const QModelIndex &parent) const
     return parentItem->childCount();
 }
 
-void TreeModel::setupModelData(TreeItem *parent, TreeItemInfo* itemsInfo)
+void TreeModel::setupModelData(TreeItem *parent)
 {
-    buildTree(ROOT_FOLDER, parent, itemsInfo);
+    buildTree(ROOT_FOLDER, parent);
 }
 
-void TreeModel::buildTree(const QString& searchStr, TreeItem *parent, TreeItemInfo* itemsInfo)
+void TreeModel::buildTree(const QString& searchStr, TreeItem *parent)
 {
     QList< QList<QVariant> > columnData;
     QList<QVariant> selfs;
@@ -117,15 +128,16 @@ void TreeModel::buildTree(const QString& searchStr, TreeItem *parent, TreeItemIn
 
     int count = 0;
 
-    for (int i = itemsInfo->items.count() -1; i >=0 ; --i)
+    for (int i = itemInfo->items.count() -1; i >=0 ; --i)
     {
-        if(itemsInfo->items[i].parent.toString() == searchStr)
+        if(itemInfo->items[i].parent.toString() == searchStr)
         {
             QList<QVariant> column;
 
-            column.push_back(itemsInfo->items[i].name);
+            column.push_back(itemInfo->items[i].name);
+            //column.push_back(itemInfo->items[i].self);
             columnData.push_back(column);
-            selfs.push_back(itemsInfo->items[i].self);
+            selfs.push_back(itemInfo->items[i].self);
             indexes.push_back(i);
             ++count;
         }
@@ -133,23 +145,53 @@ void TreeModel::buildTree(const QString& searchStr, TreeItem *parent, TreeItemIn
 
     if(count > 0)
     {
-        fillTree(columnData, parent, itemsInfo, indexes);
+        fillTree(columnData, parent, indexes);
 
         for (int i = count - 1; i >= 0; --i)
         {
-            buildTree(selfs[i].toString(), parent->child(i), itemsInfo);
+            buildTree(selfs[i].toString(), parent->child(i));
         }
     }
 }
 
-void TreeModel::fillTree(QList< QList<QVariant> > columnData, TreeItem *parent, TreeItemInfo* itemsInfo, QList<int> indexes)
+void TreeModel::fillTree(QList< QList<QVariant> > columnData, TreeItem *parent, QList<int> indexes)
 {
     for (int i = 0; i < columnData.count(); ++i)
     {
         TreeItem* item = new TreeItem(columnData[i], parent);
         parent->appendChild(item);
-        itemsInfo->setItemPointer(indexes[i], item);
-        //qDebug() << "------------------> item[" << positions[i] << "] = " << item;
+        itemInfo->setItemPointer(indexes[i], item);
+        qDebug() << "------------------> item[" << indexes[i] << "] = " << item;
         //parent->appendChild(new TreeItem(columnData[i], parent));
     }
+}
+
+//bool TreeModel::allowDraw(const QModelIndex &index) const
+//{
+//    static void* prevInternalPointer = NULL;
+//    void* currentInternalPointer = index.internalPointer();
+//    bool allow = false;
+
+//    if(currentInternalPointer!= prevInternalPointer) allow = true;
+//    prevInternalPointer = currentInternalPointer;
+
+//    qDebug() << "------------------> allow = " << allow << "currentInternalPointer = " << currentInternalPointer;
+
+//    return allow;
+//}
+
+int TreeModel::getCurrentModelItemIndex(TreeItem *item) const
+{
+    int currentModelIndex = 0;
+
+    for(int i = 1; i < itemInfo->items.count(); ++i)
+    {
+        if(itemInfo->items[i].item == item)
+        {
+            currentModelIndex = i;
+            break;
+        }
+    }
+
+    return currentModelIndex;
 }
