@@ -1,77 +1,35 @@
 #include "xmlparser.h"
-#include "treeiteminfo.h"
-#include <QDebug>
 
 XMLParser::XMLParser(int type):
-    queryType(type),
-    itemInfo(new TreeItemInfo),
-    isTitle(false),
-    infoToken(QString(INFO_TOKEN))
+    xmlHandler(new XMLHandler(type))
 {
 }
 
 XMLParser::~XMLParser()
 {
-    delete itemInfo;
 }
 
 bool XMLParser::startElement(const QString &namespaceURI, const QString &localName, const QString &qName, const QXmlAttributes &attribs)
 {
-    switch(queryType)
-    {
-    case FOLDER_TYPE:
-    {
-        if(qName == TITLE_TAG) isTitle = true;
-
-        if(HIERARCHY_ATTRIBUTE == PARENT_FOLDER)
-        {
-            itemData.item = NULL;
-            itemData.parent = infoToken + HIERARCHY_VALUE;
-        }
-
-        if(HIERARCHY_ATTRIBUTE == SELF_TAG)
-        {
-            itemData.self = infoToken + HIERARCHY_VALUE;
-            itemInfo->items.push_back(itemData);
-            itemData.type = FOLDER_TYPE_STR;
-            itemData.iconPath = resManager.getResPath(FOLDER_TYPE_STR);
-        }
-    }
-        break;
-
-    case FILE_TYPE:
-    {
-
-    }
-        break;
-    }
-    return true;
+    return xmlHandler->startElement(namespaceURI, localName, qName, attribs);
 }
 
 bool XMLParser::endElement(const QString &namespaceURI, const QString &localName, const QString &qName)
 {
-    return true;
+    return xmlHandler->endElement(namespaceURI, localName, qName);
 }
 
 bool XMLParser::characters(const QString &str)
 {
-    if(isTitle)
-    {
-        itemData.name = str;
-    }
-
-    isTitle = false;
-
-    return true;
+    return xmlHandler->characters(str);
 }
 
 bool XMLParser::fatalError(const QXmlParseException &exception)
 {
-    qDebug() << "fatalError=" << exception.message();
-    return true;
+    return xmlHandler->fatalError(exception);
 }
 
-TreeItemInfo* XMLParser::getTreeItemInfo(void) const
+XMLHandler* XMLParser::getXMLHandler(void) const
 {
-    return itemInfo;
+    return xmlHandler;
 }

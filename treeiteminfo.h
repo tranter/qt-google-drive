@@ -21,9 +21,7 @@ public:
     };
 
 public:
-    void add(QVariant name, QVariant self, QVariant parent);
     void setItemPointer(int index, TreeItem *item);
-    void showAll(void);
 
 public:
     QList<Data> items;

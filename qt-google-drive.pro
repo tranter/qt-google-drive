@@ -19,7 +19,8 @@ SOURCES += main.cpp\
            treeitem.cpp \
            treemodel.cpp \
     treeiteminfo.cpp \
-    resmanager.cpp
+    resmanager.cpp \
+    xmlhandler.cpp
 
 HEADERS  += mainwindow.h\
             oauth2.h\
@@ -31,7 +32,8 @@ HEADERS  += mainwindow.h\
             treemodel.h \
     treeiteminfo.h \
     Def.h \
-    resmanager.h
+    resmanager.h \
+    xmlhandler.h
 
 FORMS    += mainwindow.ui\
             logindialog.ui

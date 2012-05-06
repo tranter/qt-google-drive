@@ -76,7 +76,7 @@ void DriveEngine::setModel(void)
 
     rootData << TREE_VIEW_MAIN_TITLE;
 
-    model = new TreeModel(rootData, parser->getTreeItemInfo());
+    model = new TreeModel(rootData, parser->getXMLHandler()->getTreeItemInfo());
     UiInstance::ui->discTreeView->setModel(model);
 }
 
@@ -186,9 +186,9 @@ int DriveEngine::getCurrentModelItemIndex(void) const
     TreeItem *item = static_cast<TreeItem*>(UiInstance::ui->discTreeView->currentIndex().internalPointer());
     int currentModelIndex = 0;
 
-    for(int i = 1; i < parser->getTreeItemInfo()->items.count(); ++i)
+    for(int i = 1; i < parser->getXMLHandler()->getTreeItemInfo()->items.count(); ++i)
     {
-        if(parser->getTreeItemInfo()->items[i].item == item)
+        if(parser->getXMLHandler()->getTreeItemInfo()->items[i].item == item)
         {
           currentModelIndex = i;
           break;
