@@ -7,6 +7,7 @@ XMLParser::XMLParser(int type):
 
 XMLParser::~XMLParser()
 {
+    delete xmlHandler;
 }
 
 bool XMLParser::startElement(const QString &namespaceURI, const QString &localName, const QString &qName, const QXmlAttributes &attribs)
@@ -32,4 +33,9 @@ bool XMLParser::fatalError(const QXmlParseException &exception)
 XMLHandler* XMLParser::getXMLHandler(void) const
 {
     return xmlHandler;
+}
+
+void XMLParser::setType(int type)
+{
+    xmlHandler->setType(type);
 }

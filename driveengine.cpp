@@ -9,6 +9,7 @@ DriveEngine::DriveEngine(QObject *parentObj) :
     parent(parentObj),
     model(NULL),
     parser(NULL),
+    reader(NULL),
     oAuth2(NULL)
 {
 }
@@ -28,23 +29,13 @@ void DriveEngine::slotStartLogin(void)
 
 void DriveEngine::init(void)
 {
-    if(networkAccessManager)
-    {
-        delete networkAccessManager;
-        networkAccessManager = NULL;
-    }
-
+    if(networkAccessManager) delete networkAccessManager;
     networkAccessManager = new QNetworkAccessManager(this);
 
-    query = GET_FOLDERS;
-
-    if(oAuth2)
-    {
-        delete oAuth2;
-        oAuth2 = NULL;
-    }
-
+    if(oAuth2) delete oAuth2;
     oAuth2 = new OAuth2;
+
+    //setHeader();
 
     connect(networkAccessManager, SIGNAL(finished(QNetworkReply*)),this, SLOT(slotReplyFinished(QNetworkReply*)));
     connect(parent, SIGNAL(siganalGet()), this, SLOT(slotGet()));
@@ -53,10 +44,30 @@ void DriveEngine::init(void)
 
 void DriveEngine::slotReplyFinished(QNetworkReply* reply)
 {
-    qDebug() << "--------------> replyStr" << replyStr;
+    for(int i = EFolders;i < ECount;++i)
+        if(replyStr[i] == "") return;
 
-    if(parseReply(replyStr)) setModel();
-    else qDebug() << "parse NOT OK";
+    qDebug() << "--------------> replyStr[EFolders]" << replyStr[EFolders];
+    qDebug() << "--------------> replyStr[EFiles]" << replyStr[EFiles];
+
+    if(parseReply(replyStr[EFolders], FOLDER_TYPE))
+    {
+        qDebug() << "parseReply(replyStr[EFolders]";
+    }
+    else
+    {
+        qDebug() << "parseReply(replyStr[EFolders] NOT OK";
+    }
+
+    if(parseReply(replyStr[EFiles], FILE_TYPE)/* && !replyComplete*/)
+    {
+        qDebug() << "parseReply(replyStr[EFiles]";
+        setModel();
+    }
+    else
+    {
+        qDebug() << "parseReply(replyStr[EFiles] NOT OK";
+    }
 }
 
 void DriveEngine::setModel(void)
@@ -83,28 +94,55 @@ void DriveEngine::setModel(void)
 
 void DriveEngine::slotGet(void)
 {
-    setHeader();
+    QStringList requestStr;
 
-    request.setUrl(QUrl(query));
-    reply = networkAccessManager->get(request);
+    requestStr << GET_FOLDERS;
+    requestStr << GET_FILES;
 
-    settings();
+    for(int i = EFolders;i < ECount;++i)
+    {
+        setHeader(request[i]);
+        request[i].setUrl(QUrl(requestStr[i]));
+        reply[i] = networkAccessManager->get(request[i]);
+        settings(static_cast<EReplies> (i));
+    }
 }
 
-void DriveEngine::slotReadyRead()
+void DriveEngine::slotFoldersReadyRead()
 {
-    qDebug() << "slotReadyRead";
-    replyStr.append(reply->readAll());
+    qDebug() << "slotFoldersReadyRead";
+    replyStr[EFolders].append(reply[EFolders]->readAll());
 }
 
-void DriveEngine::slotError(QNetworkReply::NetworkError error)
+void DriveEngine::slotFoldersError(QNetworkReply::NetworkError error)
 {
-    qDebug() << "slotError error = " << error;
+    qDebug() << "slotFoldersError error = " << error;
 }
 
-void DriveEngine::slotSslErrors(const QList<QSslError>& errors)
+void DriveEngine::slotFoldersSslErrors(const QList<QSslError>& errors)
 {
-    qDebug() << "slotError error";
+    qDebug() << "slotFoldersSslErrors error";
+
+    foreach(const QSslError& e,errors)
+    {
+        qDebug() << "error = " << e.error();
+    }
+}
+
+void DriveEngine::slotFilesReadyRead()
+{
+    qDebug() << "slotFilesReadyRead";
+    replyStr[EFiles].append(reply[EFiles]->readAll());
+}
+
+void DriveEngine::slotFilesError(QNetworkReply::NetworkError error)
+{
+    qDebug() << "slotFilesError error = " << error;
+}
+
+void DriveEngine::slotFilesSslErrors(const QList<QSslError>& errors)
+{
+    qDebug() << "slotFilesSslErrors error";
 
     foreach(const QSslError& e,errors)
     {
@@ -134,14 +172,28 @@ void DriveEngine::slotPost(void)
     //    settings();
 }
 
-void DriveEngine::settings(void)
+void DriveEngine::settings(EReplies eReply)
 {
-    connect(reply, SIGNAL(readyRead()), this, SLOT(slotReadyRead()));
-    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),this, SLOT(slotError(QNetworkReply::NetworkError)));
-    connect(reply, SIGNAL(sslErrors(const QList<QSslError>&)),this, SLOT(slotSslErrors( const QList<QSslError>&)));
+    switch(eReply)
+    {
+    case EFolders:
+    {
+        connect(reply[EFolders], SIGNAL(readyRead()), this, SLOT(slotFoldersReadyRead()));
+        connect(reply[EFolders], SIGNAL(error(QNetworkReply::NetworkError)),this, SLOT(slotFoldersError(QNetworkReply::NetworkError)));
+        connect(reply[EFolders], SIGNAL(sslErrors(const QList<QSslError>&)),this, SLOT(slotFoldersSslErrors(const QList<QSslError>&)));
+    }
+        break;
+    case EFiles:
+    {
+        connect(reply[EFiles], SIGNAL(readyRead()), this, SLOT(slotFilesReadyRead()));
+        connect(reply[EFiles], SIGNAL(error(QNetworkReply::NetworkError)),this, SLOT(slotFilesError(QNetworkReply::NetworkError)));
+        connect(reply[EFiles], SIGNAL(sslErrors(const QList<QSslError>&)),this, SLOT(slotFilesSslErrors(const QList<QSslError>&)));
+    }
+        break;
+    }
 }
 
-void DriveEngine::setHeader(void)
+void DriveEngine::setHeader(QNetworkRequest& request)
 {
     QSettings settings(COMPANY_NAME, APP_NAME);
     accessToken = settings.value("access_token").toString();
@@ -151,25 +203,29 @@ void DriveEngine::setHeader(void)
     request.setRawHeader("Authorization",(QString("OAuth %1").arg(accessToken)).toLatin1());
 }
 
-bool DriveEngine::parseReply(const QString& str)
+bool DriveEngine::parseReply(const QString& str, int type)
 {
-    QXmlSimpleReader reader;
+    //QXmlSimpleReader reader;
     QXmlInputSource source;
 
-    if(parser)
+    if(type == FOLDER_TYPE)
     {
-        delete parser;
-        parser = NULL;
+        if(parser) delete parser;
+        if(reader) delete reader;
+        parser = new XMLParser(type);
+        reader = new QXmlSimpleReader;
     }
-
-    parser = new XMLParser(FOLDER_TYPE);
+    else
+    {
+      parser->setType(type);
+    }
 
     source.setData(str.toAscii());
 
-    reader.setContentHandler(parser);
-    reader.setErrorHandler(parser);
+    reader->setContentHandler(parser);
+    reader->setErrorHandler(parser);
 
-    return reader.parse(&source);
+    return reader->parse(&source);
 }
 
 OAuth2* DriveEngine::getOAuth2(void) const
@@ -179,7 +235,9 @@ OAuth2* DriveEngine::getOAuth2(void) const
 
 void DriveEngine::slotTest(void)
 {
-    //qDebug() << "getCurrentModelItemIndex = " << QString::number(getCurrentModelItemIndex());
+    //query = GET_FOLDERS;
+     slotGet();
+
 }
 
 int DriveEngine::getCurrentModelItemIndex(void) const
@@ -191,8 +249,8 @@ int DriveEngine::getCurrentModelItemIndex(void) const
     {
         if(parser->getXMLHandler()->getTreeItemInfo()->getItems()[i].item == item)
         {
-          currentModelIndex = i;
-          break;
+            currentModelIndex = i;
+            break;
         }
     }
 

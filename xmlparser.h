@@ -16,6 +16,7 @@ public:
     bool characters(const QString &str);
     bool fatalError(const QXmlParseException &exception);
     XMLHandler* getXMLHandler(void) const;
+    void setType(int type);
 
 private:
     XMLHandler* xmlHandler;

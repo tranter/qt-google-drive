@@ -16,6 +16,14 @@ class DriveEngine : public QObject
 {
     Q_OBJECT
 public:
+
+    enum EReplies
+    {
+        EFolders = 0,
+        EFiles,
+        ECount
+    };
+
     explicit DriveEngine(QObject *parentObj = 0);
     ~DriveEngine();
 
@@ -31,28 +39,34 @@ private slots:
     void slotReplyFinished(QNetworkReply* reply);
     void slotGet(void);
     void slotPost(void);
-    void slotReadyRead();
-    void slotError(QNetworkReply::NetworkError error);
-    void slotSslErrors( const QList<QSslError>& errors);
+
+    void slotFoldersReadyRead();
+    void slotFoldersError(QNetworkReply::NetworkError error);
+    void slotFoldersSslErrors( const QList<QSslError>& errors);
+
+    void slotFilesReadyRead();
+    void slotFilesError(QNetworkReply::NetworkError error);
+    void slotFilesSslErrors( const QList<QSslError>& errors);
+
     void slotTest(void);
 
 private:
-    void settings(void);
-    void setHeader(void);
-    bool parseReply(const QString& str);
+    void settings(EReplies eReply);
+    void setHeader(QNetworkRequest& request);
+    bool parseReply(const QString& str, int type);
     void setModel(void);
 
 private:
     OAuth2* oAuth2;
     QNetworkAccessManager* networkAccessManager;
     QObject* parent;
-    QNetworkReply *reply;
-    QNetworkRequest request;
-    QString replyStr;
+    QNetworkReply* reply[ECount];
+    QNetworkRequest request[ECount];
+    QString replyStr[ECount];
     QString accessToken;
     TreeModel* model;
     XMLParser *parser;
-    QString query;
+    QXmlSimpleReader* reader;
 };
 
 #endif // DRIVEENGINE_H

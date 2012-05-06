@@ -21,7 +21,7 @@ bool XMLHandler::startElement(const QString &namespaceURI, const QString &localN
     case FOLDER_TYPE: handleFolders(qName, attribs);
         break;
 
-    case FILE_TYPE:
+    case FILE_TYPE: handleFiles(qName, attribs);
         break;
     }
 
@@ -74,3 +74,14 @@ void XMLHandler::handleFolders(const QString &qName, const QXmlAttributes &attri
         itemInfo->push_back(itemData);
     }
 }
+
+void XMLHandler::handleFiles(const QString &qName, const QXmlAttributes &attribs)
+{
+    qDebug() << "handleFiles";
+}
+
+void XMLHandler::setType(int type)
+{
+    queryType = type;
+}
+
