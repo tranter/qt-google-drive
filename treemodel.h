@@ -31,7 +31,6 @@ public:
 private:
     void fillTree(QList< QList<QVariant> > columnData, TreeItem *parent, QList<int> indexes);
     void buildTree(const QString& searchStr, TreeItem *parent);
-    //bool allowDraw(const QModelIndex &index) const;
     int getCurrentModelItemIndex(TreeItem *item) const;
 
 private:   

@@ -25,6 +25,7 @@ private:
      bool isTitle;
      int queryType;
      ResManager resManager;
+     QString infoToken;
 };
 
 #endif // XMLPARSER_H

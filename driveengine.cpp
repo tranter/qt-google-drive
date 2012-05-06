@@ -55,15 +55,8 @@ void DriveEngine::slotReplyFinished(QNetworkReply* reply)
 {
     qDebug() << "--------------> replyStr" << replyStr;
 
-    if(parseReply(replyStr))
-    {
-        setModel();
-        qDebug() << "parse OK";
-    }
-    else
-    {
-        qDebug() << "parse NOT OK";
-    }
+    if(parseReply(replyStr)) setModel();
+    else qDebug() << "parse NOT OK";
 }
 
 void DriveEngine::setModel(void)
@@ -76,11 +69,15 @@ void DriveEngine::setModel(void)
 
     QList<QVariant> rootData;
 
+    /*
+      add other columns into rootData here, if necessary (i.e. columns with titles which contain additional info about items)
+      (example: rootData << TREE_VIEW_MAIN_TITLE << OTHER_COLIMN_TITLE1 <<  OTHER_COLIMN_TITLE2;)
+    */
+
     rootData << TREE_VIEW_MAIN_TITLE;
 
     model = new TreeModel(rootData, parser->getTreeItemInfo());
     UiInstance::ui->discTreeView->setModel(model);
-    //UiInstance::ui->discTreeView->header()->hideSection(0);
 }
 
 void DriveEngine::slotGet(void)

@@ -14,5 +14,6 @@
 #define UNKNOWN_TYPE_STR "unknown"
 #define FOLDER_TYPE_STR "folder"
 #define TREE_VIEW_MAIN_TITLE "My Disc"
+#define INFO_TOKEN '|'
 
 #endif // DEF_H

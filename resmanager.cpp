@@ -1,7 +1,6 @@
 #include "resmanager.h"
 #include <QDebug>
 
-
 ResManager::ResManager()
 {
     setResources();

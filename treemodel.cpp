@@ -32,21 +32,27 @@ int TreeModel::columnCount(const QModelIndex &parent) const
 
 QVariant TreeModel::data(const QModelIndex &index, int role) const
 {
-    if (!index.isValid())
-        return QVariant();
+    if (!index.isValid()) return QVariant();
+
+    TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
+    QVariant columnData = item->data(index.column());
 
     if (role == Qt::DecorationRole)
     {
-        //qDebug() << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! item" << itemInfo->items[getCurrentModelItemIndex(static_cast<TreeItem*>(index.internalPointer()))].name;
+        if(columnData.toString()[0] == INFO_TOKEN) return  "";
         return QIcon(itemInfo->items[getCurrentModelItemIndex(static_cast<TreeItem*>(index.internalPointer()))].iconPath);
     }
 
-    if (role != Qt::DisplayRole)
-        return QVariant();
+    if (role != Qt::DisplayRole) return QVariant();
 
-    TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
+    if(columnData.toString()[0] == INFO_TOKEN)
+    {
+        QString infoStr(columnData.toString());
+        infoStr.remove(0,1);
+        return  infoStr.toAscii();
+    }
 
-    return item->data(index.column());
+    return columnData;
 }
 
 Qt::ItemFlags TreeModel::flags(const QModelIndex &index) const
@@ -116,7 +122,7 @@ int TreeModel::rowCount(const QModelIndex &parent) const
 
 void TreeModel::setupModelData(TreeItem *parent)
 {
-    buildTree(ROOT_FOLDER, parent);
+    buildTree(QString(INFO_TOKEN) + ROOT_FOLDER, parent);
 }
 
 void TreeModel::buildTree(const QString& searchStr, TreeItem *parent)
@@ -134,7 +140,16 @@ void TreeModel::buildTree(const QString& searchStr, TreeItem *parent)
             QList<QVariant> column;
 
             column.push_back(itemInfo->items[i].name);
-            //column.push_back(itemInfo->items[i].self);
+
+            /*
+             add other columns here if necessary
+             (info columns - i.e. columns which contain additional info about item) (example: column.push_back(OTHER_INFO_COLUMN))
+
+             NOTE:
+                  also you must add columns into model before using this feature (method: void DriveEngine::setModel(void))
+                  see comment in driveengine.cpp (method: void DriveEngine::setModel(void))
+            */
+
             columnData.push_back(column);
             selfs.push_back(itemInfo->items[i].self);
             indexes.push_back(i);
@@ -160,24 +175,8 @@ void TreeModel::fillTree(QList< QList<QVariant> > columnData, TreeItem *parent, 
         TreeItem* item = new TreeItem(columnData[i], parent);
         parent->appendChild(item);
         itemInfo->setItemPointer(indexes[i], item);
-        qDebug() << "------------------> item[" << indexes[i] << "] = " << item;
-        //parent->appendChild(new TreeItem(columnData[i], parent));
     }
 }
-
-//bool TreeModel::allowDraw(const QModelIndex &index) const
-//{
-//    static void* prevInternalPointer = NULL;
-//    void* currentInternalPointer = index.internalPointer();
-//    bool allow = false;
-
-//    if(currentInternalPointer!= prevInternalPointer) allow = true;
-//    prevInternalPointer = currentInternalPointer;
-
-//    qDebug() << "------------------> allow = " << allow << "currentInternalPointer = " << currentInternalPointer;
-
-//    return allow;
-//}
 
 int TreeModel::getCurrentModelItemIndex(TreeItem *item) const
 {

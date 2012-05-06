@@ -5,7 +5,8 @@
 XMLParser::XMLParser(int type):
     queryType(type),
     itemInfo(new TreeItemInfo),
-    isTitle(false)
+    isTitle(false),
+    infoToken(QString(INFO_TOKEN))
 {
 }
 
@@ -25,12 +26,12 @@ bool XMLParser::startElement(const QString &namespaceURI, const QString &localNa
         if(HIERARCHY_ATTRIBUTE == PARENT_FOLDER)
         {
             itemData.item = NULL;
-            itemData.parent = HIERARCHY_VALUE;
+            itemData.parent = infoToken + HIERARCHY_VALUE;
         }
 
         if(HIERARCHY_ATTRIBUTE == SELF_TAG)
         {
-            itemData.self = HIERARCHY_VALUE;
+            itemData.self = infoToken + HIERARCHY_VALUE;
             itemInfo->items.push_back(itemData);
             itemData.type = FOLDER_TYPE_STR;
             itemData.iconPath = resManager.getResPath(FOLDER_TYPE_STR);
