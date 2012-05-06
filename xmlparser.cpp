@@ -33,7 +33,7 @@ bool XMLParser::startElement(const QString &namespaceURI, const QString &localNa
             itemData.self = HIERARCHY_VALUE;
             itemInfo->items.push_back(itemData);
             itemData.type = FOLDER_TYPE_STR;
-            itemData.iconPath = itemInfo->getItemIconPath(FOLDER_TYPE_STR);
+            itemData.iconPath = resManager.getResPath(FOLDER_TYPE_STR);
         }
     }
         break;

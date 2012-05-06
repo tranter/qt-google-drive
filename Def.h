@@ -11,6 +11,8 @@
 #define GET_FILES QString("https://docs.google.com/feeds/default/private/full")
 #define FOLDER_TYPE 0
 #define FILE_TYPE 1
+#define UNKNOWN_TYPE_STR "unknown"
 #define FOLDER_TYPE_STR "folder"
+#define TREE_VIEW_MAIN_TITLE "My Disc"
 
 #endif // DEF_H

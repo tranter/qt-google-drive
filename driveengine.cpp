@@ -76,7 +76,7 @@ void DriveEngine::setModel(void)
 
     QList<QVariant> rootData;
 
-    rootData << "My Disc";
+    rootData << TREE_VIEW_MAIN_TITLE;
 
     model = new TreeModel(rootData, parser->getTreeItemInfo());
     UiInstance::ui->discTreeView->setModel(model);

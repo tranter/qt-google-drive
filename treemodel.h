@@ -38,7 +38,6 @@ private:
     TreeItem *rootItem;
     TreeItemInfo* itemInfo;
     int columnsTotal;
-    QList<QVariant> rootData1;
 };
 
 

@@ -4,6 +4,7 @@
 #include <QXmlDefaultHandler>
 #include "treeiteminfo.h"
 #include "Def.h"
+#include "resmanager.h"
 
 class XMLParser : public QXmlDefaultHandler
 {
@@ -23,6 +24,7 @@ private:
      TreeItemInfo::Data itemData;
      bool isTitle;
      int queryType;
+     ResManager resManager;
 };
 
 #endif // XMLPARSER_H

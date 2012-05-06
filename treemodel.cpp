@@ -4,7 +4,6 @@
 #include <QIcon>
 
 TreeModel::TreeModel(QList<QVariant> rootData, TreeItemInfo* treeItemsInfo, QObject *parent) :
-    rootData1(rootData),
     QAbstractItemModel(parent),
     itemInfo(treeItemsInfo),
     columnsTotal(rootData.count())
