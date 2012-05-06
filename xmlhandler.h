@@ -21,6 +21,9 @@ public:
     TreeItemInfo* getTreeItemInfo(void) const;
 
 private:
+    void handleFolders(const QString &qName, const QXmlAttributes &attribs);
+
+private:
     int queryType;
     TreeItemInfo* itemInfo;
     TreeItemInfo::Data itemData;

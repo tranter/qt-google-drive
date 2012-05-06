@@ -21,7 +21,8 @@ public:
     };
 
 public:
-    void setItemPointer(int index, TreeItem *item);
+    void setPointer(int index, TreeItem *item);
+    void push_back(TreeItemInfo::Data& data);
     const QList<TreeItemInfo::Data>& getItems(void) const;
 
 private:

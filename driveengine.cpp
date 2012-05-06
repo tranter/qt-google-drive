@@ -75,6 +75,7 @@ void DriveEngine::setModel(void)
     */
 
     rootData << TREE_VIEW_MAIN_TITLE;
+    //rootData << TREE_VIEW_MAIN_TITLE << "test1" << "test2";
 
     model = new TreeModel(rootData, parser->getXMLHandler()->getTreeItemInfo());
     UiInstance::ui->discTreeView->setModel(model);

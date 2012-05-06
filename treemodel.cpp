@@ -140,6 +140,8 @@ void TreeModel::buildTree(const QString& searchStr, TreeItem *parent)
             QList<QVariant> column;
 
             column.push_back(itemInfo->getItems()[i].name);
+//            column.push_back(itemInfo->getItems()[i].parent);
+//            column.push_back(itemInfo->getItems()[i].self);
 
             /*
              add other columns here if necessary
@@ -174,7 +176,7 @@ void TreeModel::fillTree(QList< QList<QVariant> > columnData, TreeItem *parent, 
     {
         TreeItem* item = new TreeItem(columnData[i], parent);
         parent->appendChild(item);
-        itemInfo->setItemPointer(indexes[i], item);
+        itemInfo->setPointer(indexes[i], item);
     }
 }
 

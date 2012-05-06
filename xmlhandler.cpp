@@ -18,32 +18,13 @@ bool XMLHandler::startElement(const QString &namespaceURI, const QString &localN
 {
     switch(queryType)
     {
-    case FOLDER_TYPE:
-    {
-        if(qName == TITLE_TAG) isTitle = true;
-
-        if(HIERARCHY_ATTRIBUTE == PARENT_FOLDER)
-        {
-            itemData.item = NULL;
-            itemData.parent = infoToken + HIERARCHY_VALUE;
-        }
-
-        if(HIERARCHY_ATTRIBUTE == SELF_TAG)
-        {
-            itemData.self = infoToken + HIERARCHY_VALUE;
-            itemInfo->items.push_back(itemData);
-            itemData.type = FOLDER_TYPE_STR;
-            itemData.iconPath = resManager.getResPath(FOLDER_TYPE_STR);
-        }
-    }
+    case FOLDER_TYPE: handleFolders(qName, attribs);
         break;
 
     case FILE_TYPE:
-    {
-
-    }
         break;
     }
+
     return true;
 }
 
@@ -71,6 +52,25 @@ TreeItemInfo* XMLHandler::getTreeItemInfo(void) const
 
 bool XMLHandler::fatalError(const QXmlParseException &exception)
 {
-    qDebug() << "fatalError=" << exception.message();
+    qDebug() << "fatalError =" << exception.message();
     return true;
+}
+
+void XMLHandler::handleFolders(const QString &qName, const QXmlAttributes &attribs)
+{
+    if(qName == TITLE_TAG) isTitle = true;
+
+    if(HIERARCHY_ATTRIBUTE == PARENT_FOLDER)
+    {
+        itemData.item = NULL;
+        itemData.parent = infoToken + HIERARCHY_VALUE;
+    }
+
+    if(HIERARCHY_ATTRIBUTE == SELF_TAG)
+    {
+        itemData.self = infoToken + HIERARCHY_VALUE;
+        itemData.type = FOLDER_TYPE_STR;
+        itemData.iconPath = resManager.getResPath(FOLDER_TYPE_STR);
+        itemInfo->push_back(itemData);
+    }
 }
