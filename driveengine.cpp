@@ -186,9 +186,9 @@ int DriveEngine::getCurrentModelItemIndex(void) const
     TreeItem *item = static_cast<TreeItem*>(UiInstance::ui->discTreeView->currentIndex().internalPointer());
     int currentModelIndex = 0;
 
-    for(int i = 1; i < parser->getXMLHandler()->getTreeItemInfo()->items.count(); ++i)
+    for(int i = 1; i < parser->getXMLHandler()->getTreeItemInfo()->getItems().count(); ++i)
     {
-        if(parser->getXMLHandler()->getTreeItemInfo()->items[i].item == item)
+        if(parser->getXMLHandler()->getTreeItemInfo()->getItems()[i].item == item)
         {
           currentModelIndex = i;
           break;

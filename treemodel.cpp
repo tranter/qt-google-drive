@@ -40,7 +40,7 @@ QVariant TreeModel::data(const QModelIndex &index, int role) const
     if (role == Qt::DecorationRole)
     {
         if(columnData.toString()[0] == INFO_TOKEN) return  "";
-        return QIcon(itemInfo->items[getCurrentModelItemIndex(static_cast<TreeItem*>(index.internalPointer()))].iconPath);
+        return QIcon(itemInfo->getItems()[getCurrentModelItemIndex(static_cast<TreeItem*>(index.internalPointer()))].iconPath);
     }
 
     if (role != Qt::DisplayRole) return QVariant();
@@ -133,13 +133,13 @@ void TreeModel::buildTree(const QString& searchStr, TreeItem *parent)
 
     int count = 0;
 
-    for (int i = itemInfo->items.count() -1; i >=0 ; --i)
+    for (int i = itemInfo->getItems().count() -1; i >=0 ; --i)
     {
-        if(itemInfo->items[i].parent.toString() == searchStr)
+        if(itemInfo->getItems()[i].parent.toString() == searchStr)
         {
             QList<QVariant> column;
 
-            column.push_back(itemInfo->items[i].name);
+            column.push_back(itemInfo->getItems()[i].name);
 
             /*
              add other columns here if necessary
@@ -151,7 +151,7 @@ void TreeModel::buildTree(const QString& searchStr, TreeItem *parent)
             */
 
             columnData.push_back(column);
-            selfs.push_back(itemInfo->items[i].self);
+            selfs.push_back(itemInfo->getItems()[i].self);
             indexes.push_back(i);
             ++count;
         }
@@ -182,9 +182,9 @@ int TreeModel::getCurrentModelItemIndex(TreeItem *item) const
 {
     int currentModelIndex = 0;
 
-    for(int i = 1; i < itemInfo->items.count(); ++i)
+    for(int i = 1; i < itemInfo->getItems().count(); ++i)
     {
-        if(itemInfo->items[i].item == item)
+        if(itemInfo->getItems()[i].item == item)
         {
             currentModelIndex = i;
             break;

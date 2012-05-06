@@ -22,11 +22,10 @@ public:
 
 public:
     void setItemPointer(int index, TreeItem *item);
+    const QList<TreeItemInfo::Data>& getItems(void) const;
 
-public:
+private:
     QList<Data> items;
-
-
 
 };
 
