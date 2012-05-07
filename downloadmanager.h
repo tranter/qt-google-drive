@@ -22,12 +22,13 @@ public slots:
     void downloadProgress(qint64 bytesReceived, qint64 bytesTotal);
     void downloadFinished();
     void downloadReadyRead();
+    void replyFinished(QNetworkReply* reply);
 
 private:
     void setHeader(QNetworkRequest& request);
 
 private:
-    QNetworkAccessManager networkManager;
+    QNetworkAccessManager* networkManager;
     QNetworkReply *reply;
     QNetworkRequest request;
     QString replyString;
