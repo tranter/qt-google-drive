@@ -22,8 +22,7 @@ public:
     void setType(int type);
 
 private:
-    void handleFolders(const QString &qName, const QXmlAttributes &attribs);
-    void handleFiles(const QString &qName, const QXmlAttributes &attribs);
+    bool handleReply(const QString &qName, const QXmlAttributes &attribs, int queryType);
 
 private:
     int queryType;

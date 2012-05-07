@@ -35,8 +35,6 @@ void DriveEngine::init(void)
     if(oAuth2) delete oAuth2;
     oAuth2 = new OAuth2;
 
-    //setHeader();
-
     connect(networkAccessManager, SIGNAL(finished(QNetworkReply*)),this, SLOT(slotReplyFinished(QNetworkReply*)));
     connect(parent, SIGNAL(siganalGet()), this, SLOT(slotGet()));
     connect(parent, SIGNAL(signalPost()), this, SLOT(slotPost()));

@@ -16,16 +16,7 @@ XMLHandler::~XMLHandler()
 
 bool XMLHandler::startElement(const QString &namespaceURI, const QString &localName, const QString &qName, const QXmlAttributes &attribs)
 {
-    switch(queryType)
-    {
-    case FOLDER_TYPE: handleFolders(qName, attribs);
-        break;
-
-    case FILE_TYPE: handleFiles(qName, attribs);
-        break;
-    }
-
-    return true;
+    return handleReply(qName, attribs, queryType);;
 }
 
 bool XMLHandler::endElement(const QString &namespaceURI, const QString &localName, const QString &qName)
@@ -52,8 +43,28 @@ bool XMLHandler::fatalError(const QXmlParseException &exception)
     return true;
 }
 
-void XMLHandler::handleFolders(const QString &qName, const QXmlAttributes &attribs)
+bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs, int queryType)
 {
+    QString resPath;
+    TreeItemInfo::ETypes type;
+
+    switch(queryType)
+    {
+    case FOLDER_TYPE:
+    {
+        resPath = FOLDER_TYPE_STR;
+        type = TreeItemInfo::Efolder;
+    }
+        break;
+
+    case FILE_TYPE:
+    {
+        resPath = FILE_TYPE_STR;
+        type = TreeItemInfo::EFile;
+    }
+        break;
+    }
+
     if(qName == TITLE_TAG) isTitle = true;
 
     if(HIERARCHY_ATTRIBUTE == PARENT_FOLDER)
@@ -65,29 +76,12 @@ void XMLHandler::handleFolders(const QString &qName, const QXmlAttributes &attri
     if(HIERARCHY_ATTRIBUTE == SELF_TAG)
     {
         itemData.self = infoToken + HIERARCHY_VALUE;
-        itemData.type = FOLDER_TYPE_STR;
-        itemData.iconPath = resManager.getResPath(FOLDER_TYPE_STR);
-        itemInfo->push_back(itemData, TreeItemInfo::Efolder);
-    }
-}
-
-void XMLHandler::handleFiles(const QString &qName, const QXmlAttributes &attribs)
-{
-    if(qName == TITLE_TAG) isTitle = true;
-
-    if(HIERARCHY_ATTRIBUTE == PARENT_FOLDER)
-    {
-        itemData.item = NULL;
-        itemData.parent = infoToken + HIERARCHY_VALUE;
+        itemData.type = resPath;
+        itemData.iconPath = resManager.getResPath(resPath);
+        itemInfo->push_back(itemData, type);
     }
 
-    if(HIERARCHY_ATTRIBUTE == SELF_TAG)
-    {
-        itemData.self = infoToken + HIERARCHY_VALUE;
-        itemData.type = FILE_TYPE_STR;
-        itemData.iconPath = resManager.getResPath(FILE_TYPE_STR);
-        itemInfo->push_back(itemData, TreeItemInfo::EFile);
-    }
+    return true;
 }
 
 void XMLHandler::setType(int type)
