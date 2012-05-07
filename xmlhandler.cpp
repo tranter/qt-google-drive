@@ -35,12 +35,7 @@ bool XMLHandler::endElement(const QString &namespaceURI, const QString &localNam
 
 bool XMLHandler::characters(const QString &str)
 {
-    if(isTitle)
-    {
-        itemData.name = str;
-        qDebug() << "----------------> str" << str;
-    }
-
+    if(isTitle) itemData.name = str;
     isTitle = false;
 
     return true;
@@ -76,20 +71,6 @@ void XMLHandler::handleFolders(const QString &qName, const QXmlAttributes &attri
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-//------------------------------------------------------------------------------
-
 void XMLHandler::handleFiles(const QString &qName, const QXmlAttributes &attribs)
 {
     if(qName == TITLE_TAG) isTitle = true;
@@ -98,8 +79,6 @@ void XMLHandler::handleFiles(const QString &qName, const QXmlAttributes &attribs
     {
         itemData.item = NULL;
         itemData.parent = infoToken + HIERARCHY_VALUE;
-
-        qDebug() << "----------------> itemData.parent" << itemData.parent;
     }
 
     if(HIERARCHY_ATTRIBUTE == SELF_TAG)
@@ -107,25 +86,9 @@ void XMLHandler::handleFiles(const QString &qName, const QXmlAttributes &attribs
         itemData.self = infoToken + HIERARCHY_VALUE;
         itemData.type = FILE_TYPE_STR;
         itemData.iconPath = resManager.getResPath(FILE_TYPE_STR);
-
-        qDebug() << "----------------> itemData.self" << itemData.self;
-
         itemInfo->push_back(itemData, TreeItemInfo::EFile);
     }
 }
-
-//------------------------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
 
 void XMLHandler::setType(int type)
 {
