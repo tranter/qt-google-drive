@@ -24,6 +24,7 @@ public:
         QVariant self;
         QVariant parent;
         QString iconPath;
+        QString downloadLink;
     };
 
 public:

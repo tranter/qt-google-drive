@@ -11,6 +11,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "treemodel.h"
+#include "downloadmanager.h"
 
 class DriveEngine : public QObject
 {
@@ -67,6 +68,7 @@ private:
     TreeModel* model;
     XMLParser *parser;
     QXmlSimpleReader* reader;
+    DownloadFileManager* downloadManager;
 };
 
 #endif // DRIVEENGINE_H

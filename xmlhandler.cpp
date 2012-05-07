@@ -64,6 +64,11 @@ bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs
     }
         break;
     }
+    if(qName == CONTENT && resPath == FILE_TYPE_STR)
+    {
+        itemData.downloadLink = attribs.value(SRC);
+        qDebug() << "Content link = " << attribs.value(SRC);
+    }
 
     if(qName == TITLE_TAG) isTitle = true;
 

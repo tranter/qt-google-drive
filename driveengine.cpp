@@ -10,7 +10,8 @@ DriveEngine::DriveEngine(QObject *parentObj) :
     model(NULL),
     parser(NULL),
     reader(NULL),
-    oAuth2(NULL)
+    oAuth2(NULL),
+    downloadManager(NULL)
 {
 }
 
@@ -45,8 +46,8 @@ void DriveEngine::slotReplyFinished(QNetworkReply* reply)
 //    for(int i = EFolders;i < ECount;++i)
 //        if(replyStr[i] == "") return;
 
-//    qDebug() << "--------------> replyStr[EFolders]" << replyStr[EFolders];
-//    qDebug() << "--------------> replyStr[EFiles]" << replyStr[EFiles];
+    qDebug() << "--------------> replyStr[EFolders]" << replyStr[EFolders];
+    qDebug() << "--------------> replyStr[EFiles]" << replyStr[EFiles];
 
     if(replyStr[EFolders] != "" &&replyStr[EFiles] != "" )
     {
@@ -226,6 +227,18 @@ OAuth2* DriveEngine::getOAuth2(void) const
 
 void DriveEngine::slotTest(void)
 {
+  QString link( parser->getXMLHandler()->getTreeItemInfo()->getItems()[getCurrentModelItemIndex()].downloadLink);
+
+//  qDebug() << "-------------------------------> link = " << link;
+//  qDebug() << "-------------------------------> link = " << normalizeLink;
+
+  if(link != "")
+  {
+    QString normalizeLink = link.left(link.indexOf("?"));
+    if(downloadManager) delete downloadManager;
+    downloadManager = new DownloadFileManager;
+    downloadManager->startDownload(QUrl(normalizeLink));
+ }
 }
 
 int DriveEngine::getCurrentModelItemIndex(void) const
