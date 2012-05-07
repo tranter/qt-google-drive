@@ -1,4 +1,5 @@
 #include "xmlparser.h"
+//#include <QDebug>
 
 XMLParser::XMLParser(int type):
     xmlHandler(new XMLHandler(type))
@@ -38,4 +39,9 @@ XMLHandler* XMLParser::getXMLHandler(void) const
 void XMLParser::setType(int type)
 {
     xmlHandler->setType(type);
+
+//    for(int i = 0; i < xmlHandler->getTreeItemInfo()->getItems().count(); ++i)
+//    {
+//         qDebug() << "name =" << xmlHandler->getTreeItemInfo()->getItems()[i].name;
+//    }
 }

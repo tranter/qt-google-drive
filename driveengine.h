@@ -42,11 +42,11 @@ private slots:
 
     void slotFoldersReadyRead();
     void slotFoldersError(QNetworkReply::NetworkError error);
-    void slotFoldersSslErrors( const QList<QSslError>& errors);
+    void slotFoldersSslErrors(const QList<QSslError>& errors);
 
     void slotFilesReadyRead();
     void slotFilesError(QNetworkReply::NetworkError error);
-    void slotFilesSslErrors( const QList<QSslError>& errors);
+    void slotFilesSslErrors(const QList<QSslError>& errors);
 
     void slotTest(void);
 

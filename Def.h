@@ -12,6 +12,7 @@
 #define FOLDER_TYPE 0
 #define FILE_TYPE 1
 #define UNKNOWN_TYPE_STR "unknown"
+#define FILE_TYPE_STR "file"
 #define FOLDER_TYPE_STR "folder"
 #define TREE_VIEW_MAIN_TITLE "My Disc"
 #define INFO_TOKEN '|'

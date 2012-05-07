@@ -38,6 +38,7 @@ bool XMLHandler::characters(const QString &str)
     if(isTitle)
     {
         itemData.name = str;
+        qDebug() << "----------------> str" << str;
     }
 
     isTitle = false;
@@ -52,7 +53,7 @@ TreeItemInfo* XMLHandler::getTreeItemInfo(void) const
 
 bool XMLHandler::fatalError(const QXmlParseException &exception)
 {
-    qDebug() << "fatalError =" << exception.message();
+    qDebug() << "XMLHandler::fatalError =" << exception.message();
     return true;
 }
 
@@ -71,14 +72,60 @@ void XMLHandler::handleFolders(const QString &qName, const QXmlAttributes &attri
         itemData.self = infoToken + HIERARCHY_VALUE;
         itemData.type = FOLDER_TYPE_STR;
         itemData.iconPath = resManager.getResPath(FOLDER_TYPE_STR);
-        itemInfo->push_back(itemData);
+        itemInfo->push_back(itemData, TreeItemInfo::Efolder);
     }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+//------------------------------------------------------------------------------
+
 void XMLHandler::handleFiles(const QString &qName, const QXmlAttributes &attribs)
 {
-    qDebug() << "handleFiles";
+    if(qName == TITLE_TAG) isTitle = true;
+
+    if(HIERARCHY_ATTRIBUTE == PARENT_FOLDER)
+    {
+        itemData.item = NULL;
+        itemData.parent = infoToken + HIERARCHY_VALUE;
+
+        qDebug() << "----------------> itemData.parent" << itemData.parent;
+    }
+
+    if(HIERARCHY_ATTRIBUTE == SELF_TAG)
+    {
+        itemData.self = infoToken + HIERARCHY_VALUE;
+        itemData.type = FILE_TYPE_STR;
+        itemData.iconPath = resManager.getResPath(FILE_TYPE_STR);
+
+        qDebug() << "----------------> itemData.self" << itemData.self;
+
+        itemInfo->push_back(itemData, TreeItemInfo::EFile);
+    }
 }
+
+//------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
 
 void XMLHandler::setType(int type)
 {

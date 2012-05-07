@@ -10,6 +10,12 @@ class TreeItemInfo
 public:
     TreeItemInfo();
 
+    enum ETypes
+    {
+      Efolder = 0,
+      EFile
+    };
+
     struct Data
     {
         TreeItem *item;
@@ -22,11 +28,13 @@ public:
 
 public:
     void setPointer(int index, TreeItem *item);
-    void push_back(TreeItemInfo::Data& data);
+    void push_back(TreeItemInfo::Data& data, ETypes type);
     const QList<TreeItemInfo::Data>& getItems(void) const;
+    void normalize(void);
 
 private:
     QList<Data> items;
+    QList<Data> fileItems;
 
 };
 

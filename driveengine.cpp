@@ -44,29 +44,18 @@ void DriveEngine::init(void)
 
 void DriveEngine::slotReplyFinished(QNetworkReply* reply)
 {
-    for(int i = EFolders;i < ECount;++i)
-        if(replyStr[i] == "") return;
+//    for(int i = EFolders;i < ECount;++i)
+//        if(replyStr[i] == "") return;
 
-    qDebug() << "--------------> replyStr[EFolders]" << replyStr[EFolders];
-    qDebug() << "--------------> replyStr[EFiles]" << replyStr[EFiles];
+//    qDebug() << "--------------> replyStr[EFolders]" << replyStr[EFolders];
+//    qDebug() << "--------------> replyStr[EFiles]" << replyStr[EFiles];
 
-    if(parseReply(replyStr[EFolders], FOLDER_TYPE))
+    if(replyStr[EFolders] != "" &&replyStr[EFiles] != "" )
     {
-        qDebug() << "parseReply(replyStr[EFolders]";
-    }
-    else
-    {
-        qDebug() << "parseReply(replyStr[EFolders] NOT OK";
-    }
+        if(!parseReply(replyStr[EFolders], FOLDER_TYPE)) qDebug() << "parseReply(replyStr[EFolders] NOT OK";
 
-    if(parseReply(replyStr[EFiles], FILE_TYPE)/* && !replyComplete*/)
-    {
-        qDebug() << "parseReply(replyStr[EFiles]";
-        setModel();
-    }
-    else
-    {
-        qDebug() << "parseReply(replyStr[EFiles] NOT OK";
+        if(parseReply(replyStr[EFiles], FILE_TYPE)) setModel();
+        else qDebug() << "parseReply(replyStr[EFiles] NOT OK";
     }
 }
 
@@ -88,7 +77,11 @@ void DriveEngine::setModel(void)
     rootData << TREE_VIEW_MAIN_TITLE;
     //rootData << TREE_VIEW_MAIN_TITLE << "test1" << "test2";
 
-    model = new TreeModel(rootData, parser->getXMLHandler()->getTreeItemInfo());
+    TreeItemInfo* itemInfo = parser->getXMLHandler()->getTreeItemInfo();
+
+    itemInfo->normalize();
+
+    model = new TreeModel(rootData, itemInfo);
     UiInstance::ui->discTreeView->setModel(model);
 }
 
@@ -235,9 +228,6 @@ OAuth2* DriveEngine::getOAuth2(void) const
 
 void DriveEngine::slotTest(void)
 {
-    //query = GET_FOLDERS;
-     slotGet();
-
 }
 
 int DriveEngine::getCurrentModelItemIndex(void) const
