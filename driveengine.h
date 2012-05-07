@@ -49,7 +49,7 @@ private slots:
     void slotFilesError(QNetworkReply::NetworkError error);
     void slotFilesSslErrors(const QList<QSslError>& errors);
 
-    void slotTest(void);
+    void slotDownload(void);
 
 private:
     void settings(EReplies eReply);

@@ -225,19 +225,15 @@ OAuth2* DriveEngine::getOAuth2(void) const
     return oAuth2;
 }
 
-void DriveEngine::slotTest(void)
+void DriveEngine::slotDownload(void)
 {
   QString link( parser->getXMLHandler()->getTreeItemInfo()->getItems()[getCurrentModelItemIndex()].downloadLink);
 
-//  qDebug() << "-------------------------------> link = " << link;
-//  qDebug() << "-------------------------------> link = " << normalizeLink;
-
   if(link != "")
   {
-    QString normalizeLink = link.left(link.indexOf("?"));
     if(downloadManager) delete downloadManager;
     downloadManager = new DownloadFileManager;
-    downloadManager->startDownload(QUrl(normalizeLink));
+    downloadManager->startDownload(QUrl(link));
  }
 }
 

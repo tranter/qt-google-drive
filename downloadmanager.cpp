@@ -18,6 +18,8 @@ DownloadFileManager::~DownloadFileManager()
 void DownloadFileManager::downloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 {
     qDebug() << "bytesReceived =" << bytesReceived << "bytesTotal =" << bytesTotal;
+    progressDialog.setMaximum(bytesTotal);
+    progressDialog.setValue(bytesReceived);
 }
 
 void DownloadFileManager::downloadFinished()
@@ -33,6 +35,8 @@ void DownloadFileManager::downloadReadyRead()
 
 void DownloadFileManager::startDownload(QUrl url)
 {
+    progressDialog.show();
+
     setHeader(request);
 
     request.setUrl(url);
@@ -43,17 +47,14 @@ void DownloadFileManager::startDownload(QUrl url)
 
     reply = networkManager->get(request);
 
-
     connect(reply, SIGNAL(finished()), this, SLOT(downloadFinished()));
     connect(reply, SIGNAL(readyRead()), this, SLOT(downloadReadyRead()));
     connect(reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(downloadProgress(qint64,qint64)));
-
-    QDesktopServices::openUrl(url);
 }
 
 void DownloadFileManager::replyFinished(QNetworkReply* reply)
 {
-
+ progressDialog.hide();
 }
 
 void DownloadFileManager::setHeader(QNetworkRequest& request)

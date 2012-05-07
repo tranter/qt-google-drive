@@ -7,6 +7,7 @@
 #include <QSettings>
 #include "AppRegData.h"
 #include <QDesktopServices>
+#include <QProgressDialog>
 
 class DownloadFileManager : public QObject
 {
@@ -33,6 +34,7 @@ private:
     QNetworkRequest request;
     QString replyString;
     QString accessToken;
+    QProgressDialog progressDialog;
 
 };
 

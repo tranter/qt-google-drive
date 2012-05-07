@@ -32,8 +32,7 @@ void MainWindow::init(void)
     connect(UiInstance::ui->actionLogin, SIGNAL(triggered()), driveEngine,  SLOT(slotStartLogin()));
     connect(UiInstance::ui->actionQuit, SIGNAL(triggered()), this,  SLOT(close()));
     connect(driveEngine->getOAuth2(), SIGNAL(loginDone()), this,  SLOT(slotloginDone()));
-
-    connect(UiInstance::ui->actionTest, SIGNAL(triggered()), driveEngine,  SLOT(slotTest()));
+    connect(UiInstance::ui->downloadButton, SIGNAL(clicked()), driveEngine,  SLOT(slotDownload()));
 
     emit siganalGet();
 }
