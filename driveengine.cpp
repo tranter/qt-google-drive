@@ -216,6 +216,15 @@ OAuth2* DriveEngine::getOAuth2(void) const
 
 void DriveEngine::slotDownload(void)
 {
+    if(downloadManager)
+    {
+        if(downloadManager->getState() == DownloadFileManager::EBusy)
+        {
+           CommonTools::msg("No multithreading support for files downloading in this version");
+           return;
+        }
+    }
+
     QSettings settings(COMPANY_NAME, APP_NAME);
     QString link(parser->getXMLHandler()->getTreeItemInfo()->getItems()[getCurrentModelItemIndex()].downloadLink);
 
@@ -230,12 +239,7 @@ void DriveEngine::slotDownload(void)
 
             downloadManager->startDownload(QUrl(link), filePath);
         }
-        else
-        {
-            QMessageBox msgBox;
-            msgBox.setText("Please set working directory for downloading files");
-            msgBox.exec();
-        }
+        else CommonTools::msg("Please note: you must set working directory for downloading files");
     }
 }
 

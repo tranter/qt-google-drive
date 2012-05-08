@@ -9,3 +9,10 @@ void CommonTools::setHeader(QNetworkRequest& request)
     request.setRawHeader("GData-Version", "3.0");
     request.setRawHeader("Authorization",(QString("OAuth %1").arg(accessToken)).toLatin1());
 }
+
+void CommonTools::msg(const QString& str)
+{
+    QMessageBox msgBox;
+    msgBox.setText(str);
+    msgBox.exec();
+}

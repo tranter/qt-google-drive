@@ -1,10 +1,13 @@
 #include "downloadmanager.h"
 #include <QDebug>
 
-DownloadFileManager::DownloadFileManager(QObject *parent) :
+DownloadFileManager::DownloadFileManager(QObject *parent) :   
+    QObject(parent),
     networkManager(new QNetworkAccessManager),
-    QObject(parent)
+    state(EReady)
 {
+    progressDialog.setParent(static_cast<QWidget*>(parent));
+    progressDialog.setCancelButton(0);
 }
 
 DownloadFileManager::~DownloadFileManager()
@@ -22,16 +25,18 @@ void DownloadFileManager::downloadProgress(qint64 bytesReceived, qint64 bytesTot
 void DownloadFileManager::downloadFinished()
 {
  progressDialog.hide();
- file.write(bytes);
+ state = EReady;
 }
 
 void DownloadFileManager::downloadReadyRead()
 {
-    bytes += reply->readAll();
+    file.write(reply->readAll());
 }
 
 void DownloadFileManager::startDownload(QUrl url, const QString& fileName)
 {
+    state = EBusy;
+
     file.setFileName(fileName);
     file.open(QIODevice::WriteOnly);
 
@@ -48,5 +53,15 @@ void DownloadFileManager::startDownload(QUrl url, const QString& fileName)
     connect(reply, SIGNAL(finished()), this, SLOT(downloadFinished()));
     connect(reply, SIGNAL(readyRead()), this, SLOT(downloadReadyRead()));
     connect(reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(downloadProgress(qint64,qint64)));
+}
+
+DownloadFileManager::EStates DownloadFileManager::getState(void) const
+{
+  return state;
+}
+
+void DownloadFileManager::setState(DownloadFileManager::EStates currentState)
+{
+ state = currentState;
 }
 

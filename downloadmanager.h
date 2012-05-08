@@ -15,11 +15,20 @@ class DownloadFileManager : public QObject
 {
     Q_OBJECT
 public:
+
+    enum EStates
+    {
+        EReady = 0,
+        EBusy
+    };
+
     explicit DownloadFileManager(QObject *parent = 0);
     ~DownloadFileManager();
 
 public:
     void startDownload(QUrl url, const QString& fileName);
+    EStates getState(void) const;
+    void setState(EStates currentState);
 
 public slots:
     void downloadProgress(qint64 bytesReceived, qint64 bytesTotal);
@@ -33,7 +42,7 @@ private:
     QString accessToken;
     QProgressDialog progressDialog;
     QFile file;
-    QByteArray bytes;
+    EStates state;
 
 };
 
