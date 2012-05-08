@@ -92,7 +92,7 @@ void DriveEngine::slotGet(void)
 
     for(int i = EFolders;i < ECount;++i)
     {
-        setHeader(request[i]);
+        CommonTools::setHeader(request[i]);
         request[i].setUrl(QUrl(requestStr[i]));
         reply[i] = networkAccessManager->get(request[i]);
         settings(static_cast<EReplies> (i));
@@ -182,16 +182,6 @@ void DriveEngine::settings(EReplies eReply)
     }
         break;
     }
-}
-
-void DriveEngine::setHeader(QNetworkRequest& request)
-{
-    QSettings settings(COMPANY_NAME, APP_NAME);
-    accessToken = settings.value("access_token").toString();
-
-    request.setRawHeader("User-Agent", "Google Drive client");
-    request.setRawHeader("GData-Version", "3.0");
-    request.setRawHeader("Authorization",(QString("OAuth %1").arg(accessToken)).toLatin1());
 }
 
 bool DriveEngine::parseReply(const QString& str, int type)

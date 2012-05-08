@@ -9,7 +9,7 @@
 #include <QDesktopServices>
 #include <QProgressDialog>
 #include <QFile>
-
+#include "commontools.h"
 
 class DownloadFileManager : public QObject
 {
@@ -25,9 +25,6 @@ public slots:
     void downloadProgress(qint64 bytesReceived, qint64 bytesTotal);
     void downloadFinished();
     void downloadReadyRead();
-
-private:
-    void setHeader(QNetworkRequest& request);
 
 private:
     QNetworkAccessManager* networkManager;

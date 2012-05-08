@@ -13,6 +13,7 @@
 #include "treemodel.h"
 #include "downloadmanager.h"
 #include "settingsdialog.h"
+#include "commontools.h"
 
 class DriveEngine : public QObject
 {
@@ -55,7 +56,6 @@ private slots:
 
 private:
     void settings(EReplies eReply);
-    void setHeader(QNetworkRequest& request);
     bool parseReply(const QString& str, int type);
     void setModel(void);
 

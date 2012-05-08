@@ -38,7 +38,7 @@ void DownloadFileManager::startDownload(QUrl url, const QString& fileName)
     qDebug() << "fileName = " << fileName;
 
     progressDialog.show();
-    setHeader(request);
+    CommonTools::setHeader(request);
     request.setUrl(url);
 
     qDebug() << "url = " << request.url();
@@ -48,15 +48,5 @@ void DownloadFileManager::startDownload(QUrl url, const QString& fileName)
     connect(reply, SIGNAL(finished()), this, SLOT(downloadFinished()));
     connect(reply, SIGNAL(readyRead()), this, SLOT(downloadReadyRead()));
     connect(reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(downloadProgress(qint64,qint64)));
-}
-
-void DownloadFileManager::setHeader(QNetworkRequest& request)
-{
-    QSettings settings(COMPANY_NAME, APP_NAME);
-    accessToken = settings.value("access_token").toString();
-
-    request.setRawHeader("User-Agent", "Google Drive client");
-    request.setRawHeader("GData-Version", "3.0");
-    request.setRawHeader("Authorization",(QString("OAuth %1").arg(accessToken)).toLatin1());
 }
 

@@ -22,7 +22,8 @@ SOURCES += main.cpp\
     resmanager.cpp \
     xmlhandler.cpp \
     downloadmanager.cpp\
-    settingsdialog.cpp
+    settingsdialog.cpp \
+    commontools.cpp
 
 HEADERS  += mainwindow.h\
             oauth2.h\
@@ -37,7 +38,8 @@ HEADERS  += mainwindow.h\
     resmanager.h \
     xmlhandler.h \
     downloadmanager.h\
-    settingsdialog.h
+    settingsdialog.h \
+    commontools.h
 
 FORMS    += mainwindow.ui\
             logindialog.ui\
