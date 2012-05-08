@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "driveengine.h"
+#include "settingsdialog.h"
 
 namespace Ui {
 class MainWindow;
@@ -22,8 +23,9 @@ public:
     void init(void);
     Ui::MainWindow* getUi(void);
 
-public slots:
-    void slotloginDone(void);
+private slots:
+    void slotloginDone();
+    void slotCheckWorkDir(bool showDlg = true);
 
 signals:
     void siganalGet(void);
@@ -41,9 +43,9 @@ public:
     static Ui::MainWindow* ui;
 
 private:
-        UiInstance(){};
-        UiInstance(UiInstance& root){};
-        UiInstance& operator=(UiInstance&){};
+    UiInstance(){};
+    UiInstance(UiInstance& root){};
+    UiInstance& operator=(UiInstance&){};
 };
 
 #endif // MAINWINDOW_H

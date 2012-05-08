@@ -18,5 +18,6 @@
 #define INFO_TOKEN '|'
 #define SRC "src"
 #define CONTENT "content"
+#define WORK_DIR QString("WorkDir")
 
 #endif // DEF_H

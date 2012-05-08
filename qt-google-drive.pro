@@ -21,7 +21,8 @@ SOURCES += main.cpp\
     treeiteminfo.cpp \
     resmanager.cpp \
     xmlhandler.cpp \
-    downloadmanager.cpp
+    downloadmanager.cpp\
+    settingsdialog.cpp
 
 HEADERS  += mainwindow.h\
             oauth2.h\
@@ -35,10 +36,12 @@ HEADERS  += mainwindow.h\
     Def.h \
     resmanager.h \
     xmlhandler.h \
-    downloadmanager.h
+    downloadmanager.h\
+    settingsdialog.h
 
 FORMS    += mainwindow.ui\
-            logindialog.ui
+            logindialog.ui\
+             settingsdialog.ui
 
 RESOURCES += \
     resource.qrc

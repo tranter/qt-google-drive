@@ -33,6 +33,9 @@ void MainWindow::init(void)
     connect(UiInstance::ui->actionQuit, SIGNAL(triggered()), this,  SLOT(close()));
     connect(driveEngine->getOAuth2(), SIGNAL(loginDone()), this,  SLOT(slotloginDone()));
     connect(UiInstance::ui->downloadButton, SIGNAL(clicked()), driveEngine,  SLOT(slotDownload()));
+    connect(UiInstance::ui->actionSettings, SIGNAL(triggered()), this,  SLOT(slotCheckWorkDir()));
+
+    slotCheckWorkDir(false);
 
     emit siganalGet();
 }
@@ -48,4 +51,30 @@ Ui::MainWindow* UiInstance::Instance()
 void MainWindow::slotloginDone(void)
 {
     init();
+}
+
+void MainWindow::slotCheckWorkDir(bool showDlg)
+{
+    QSettings settings(COMPANY_NAME, APP_NAME);
+    SettingsDialog dlg(this);
+
+    if(settings.contains(WORK_DIR) && showDlg)
+    {
+        dlg.setDirectoryPath(settings.value(WORK_DIR).toString());
+    }
+    else if(settings.contains(WORK_DIR) && !showDlg)
+    {
+       return;
+    }
+
+    switch(dlg.exec())
+    {
+    case QDialog::Accepted:
+    {
+        qDebug() << "QDialog::Accepted";
+        if(dlg.directoryPath() != "" )
+           settings.setValue(WORK_DIR,dlg.directoryPath());
+    }
+        break;
+    }
 }
