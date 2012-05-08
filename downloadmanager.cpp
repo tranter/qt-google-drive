@@ -3,15 +3,12 @@
 
 DownloadFileManager::DownloadFileManager(QObject *parent) :
     networkManager(new QNetworkAccessManager),
-    QObject(parent),
-    replyString("")
+    QObject(parent)
 {
-    qDebug() << "DownloadFileManager";
 }
 
 DownloadFileManager::~DownloadFileManager()
 {
-    qDebug() << "~DownloadFileManager";
     if(networkManager) delete networkManager;
 }
 
@@ -24,24 +21,25 @@ void DownloadFileManager::downloadProgress(qint64 bytesReceived, qint64 bytesTot
 
 void DownloadFileManager::downloadFinished()
 {
-    qDebug() << "downloadFinished replyString = " << replyString;
+ progressDialog.hide();
+ file.write(bytes);
 }
 
 void DownloadFileManager::downloadReadyRead()
 {
-    replyString + reply->readAll();
-    qDebug() << "downloadReadyRead";
+    bytes += reply->readAll();
 }
 
-void DownloadFileManager::startDownload(QUrl url)
+void DownloadFileManager::startDownload(QUrl url, const QString& fileName)
 {
+    file.setFileName(fileName);
+    file.open(QIODevice::WriteOnly);
+
+    qDebug() << "fileName = " << fileName;
+
     progressDialog.show();
-
     setHeader(request);
-
     request.setUrl(url);
-
-    connect(networkManager, SIGNAL(finished(QNetworkReply*)),this, SLOT(replyFinished(QNetworkReply*)));
 
     qDebug() << "url = " << request.url();
 
@@ -50,11 +48,6 @@ void DownloadFileManager::startDownload(QUrl url)
     connect(reply, SIGNAL(finished()), this, SLOT(downloadFinished()));
     connect(reply, SIGNAL(readyRead()), this, SLOT(downloadReadyRead()));
     connect(reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(downloadProgress(qint64,qint64)));
-}
-
-void DownloadFileManager::replyFinished(QNetworkReply* reply)
-{
- progressDialog.hide();
 }
 
 void DownloadFileManager::setHeader(QNetworkRequest& request)

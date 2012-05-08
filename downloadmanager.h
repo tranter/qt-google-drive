@@ -8,6 +8,8 @@
 #include "AppRegData.h"
 #include <QDesktopServices>
 #include <QProgressDialog>
+#include <QFile>
+
 
 class DownloadFileManager : public QObject
 {
@@ -17,13 +19,12 @@ public:
     ~DownloadFileManager();
 
 public:
-    void startDownload(QUrl url);
+    void startDownload(QUrl url, const QString& fileName);
 
 public slots:
     void downloadProgress(qint64 bytesReceived, qint64 bytesTotal);
     void downloadFinished();
     void downloadReadyRead();
-    void replyFinished(QNetworkReply* reply);
 
 private:
     void setHeader(QNetworkRequest& request);
@@ -32,9 +33,10 @@ private:
     QNetworkAccessManager* networkManager;
     QNetworkReply *reply;
     QNetworkRequest request;
-    QString replyString;
     QString accessToken;
     QProgressDialog progressDialog;
+    QFile file;
+    QByteArray bytes;
 
 };
 

@@ -2,11 +2,12 @@
 #include <QDebug>
 #include <QSettings>
 #include "AppRegData.h"
+#include <QMessageBox>
 
 DriveEngine::DriveEngine(QObject *parentObj) :
     QObject(parentObj),
     networkAccessManager(NULL),
-    parent(parentObj),
+    parent(static_cast<QWidget*>(parentObj)),
     model(NULL),
     parser(NULL),
     reader(NULL),
@@ -18,6 +19,7 @@ DriveEngine::DriveEngine(QObject *parentObj) :
 DriveEngine::~DriveEngine()
 {
     if(networkAccessManager) delete networkAccessManager;
+    if(downloadManager) delete downloadManager;
     if(model) delete model;
     if(parser) delete parser;
     if(oAuth2) delete oAuth2;
@@ -43,11 +45,8 @@ void DriveEngine::init(void)
 
 void DriveEngine::slotReplyFinished(QNetworkReply* reply)
 {
-//    for(int i = EFolders;i < ECount;++i)
-//        if(replyStr[i] == "") return;
-
-    qDebug() << "--------------> replyStr[EFolders]" << replyStr[EFolders];
-    qDebug() << "--------------> replyStr[EFiles]" << replyStr[EFiles];
+//    qDebug() << "--------------> replyStr[EFolders]" << replyStr[EFolders];
+//    qDebug() << "--------------> replyStr[EFiles]" << replyStr[EFiles];
 
     if(replyStr[EFolders] != "" &&replyStr[EFiles] != "" )
     {
@@ -209,7 +208,7 @@ bool DriveEngine::parseReply(const QString& str, int type)
     }
     else
     {
-      parser->setType(type);
+        parser->setType(type);
     }
 
     source.setData(str.toAscii());
@@ -227,14 +226,27 @@ OAuth2* DriveEngine::getOAuth2(void) const
 
 void DriveEngine::slotDownload(void)
 {
-  QString link(parser->getXMLHandler()->getTreeItemInfo()->getItems()[getCurrentModelItemIndex()].downloadLink);
+    QSettings settings(COMPANY_NAME, APP_NAME);
+    QString link(parser->getXMLHandler()->getTreeItemInfo()->getItems()[getCurrentModelItemIndex()].downloadLink);
 
-  if(link != "")
-  {
-    if(downloadManager) delete downloadManager;
-    downloadManager = new DownloadFileManager;
-    downloadManager->startDownload(QUrl(link));
- }
+    if(link != "")
+    {
+        if(slotCheckWorkDir(false))
+        {
+            QString filePath = settings.value(WORK_DIR).toString() + "\/" +parser->getXMLHandler()->getTreeItemInfo()->getItems()[getCurrentModelItemIndex()].name.toString();
+
+            if(downloadManager) delete downloadManager;
+            downloadManager = new DownloadFileManager;
+
+            downloadManager->startDownload(QUrl(link), filePath);
+        }
+        else
+        {
+            QMessageBox msgBox;
+            msgBox.setText("Please set working directory for downloading files");
+            msgBox.exec();
+        }
+    }
 }
 
 int DriveEngine::getCurrentModelItemIndex(void) const
@@ -253,3 +265,37 @@ int DriveEngine::getCurrentModelItemIndex(void) const
 
     return currentModelIndex;
 }
+
+bool DriveEngine::slotCheckWorkDir(bool showDlg)
+{
+    QSettings settings(COMPANY_NAME, APP_NAME);
+    SettingsDialog dlg(parent);
+    bool dirTextNotEmpty = false;
+
+    if(settings.contains(WORK_DIR) && showDlg)
+    {
+        dlg.setDirectoryPath(settings.value(WORK_DIR).toString());
+    }
+    else if(settings.contains(WORK_DIR) && !showDlg)
+    {
+        return true;
+    }
+
+    switch(dlg.exec())
+    {
+    case QDialog::Accepted:
+    {
+        qDebug() << "QDialog::Accepted";
+        if(dlg.directoryPath() != "" )
+        {
+            settings.setValue(WORK_DIR,dlg.directoryPath());
+            dirTextNotEmpty = true;
+        }
+
+    }
+        break;
+    }
+
+    return dirTextNotEmpty;
+}
+

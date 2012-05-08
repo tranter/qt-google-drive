@@ -12,6 +12,7 @@
 #include "ui_mainwindow.h"
 #include "treemodel.h"
 #include "downloadmanager.h"
+#include "settingsdialog.h"
 
 class DriveEngine : public QObject
 {
@@ -35,6 +36,7 @@ public:
     
 public slots:
     void slotStartLogin(void);
+    bool slotCheckWorkDir(bool showDlg = true);
 
 private slots:
     void slotReplyFinished(QNetworkReply* reply);
@@ -60,7 +62,7 @@ private:
 private:
     OAuth2* oAuth2;
     QNetworkAccessManager* networkAccessManager;
-    QObject* parent;
+    QWidget* parent;
     QNetworkReply* reply[ECount];
     QNetworkRequest request[ECount];
     QString replyStr[ECount];
