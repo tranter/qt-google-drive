@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Google Drive</string>
   </property>
   <property name="locale">
    <locale language="English" country="UnitedStates"/>
@@ -54,14 +54,27 @@
    <widget class="QPushButton" name="downloadButton">
     <property name="geometry">
      <rect>
-      <x>750</x>
-      <y>440</y>
+      <x>670</x>
+      <y>450</y>
       <width>75</width>
       <height>23</height>
      </rect>
     </property>
     <property name="text">
      <string>Download</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="uploadButton">
+    <property name="geometry">
+     <rect>
+      <x>760</x>
+      <y>450</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Upload</string>
     </property>
    </widget>
   </widget>

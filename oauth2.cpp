@@ -62,7 +62,7 @@ QString OAuth2::accessToken() const
 
 bool OAuth2::isAuthorized()
 {
-    return m_strAccessToken != "";
+    return m_strAccessToken.isEmpty();
 }
 
 void OAuth2::startLogin(bool bForce)

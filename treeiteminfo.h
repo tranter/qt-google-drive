@@ -20,6 +20,7 @@ public:
     {
         TreeItem *item;
         QString type;
+        QString fileType;
         QVariant name;
         QVariant self;
         QVariant parent;

@@ -6,10 +6,10 @@
 #include <QNetworkReply>
 #include <QSettings>
 #include "AppRegData.h"
-#include <QDesktopServices>
 #include <QProgressDialog>
 #include <QFile>
 #include "commontools.h"
+#include <QFileInfo>
 
 class DownloadFileManager : public QObject
 {
@@ -26,7 +26,7 @@ public:
     ~DownloadFileManager();
 
 public:
-    void startDownload(QUrl url, const QString& fileName);
+    void startDownload(QUrl url, QString& fileName, const QString& fileType = "text/html");
     EStates getState(void) const;
     void setState(EStates currentState);
 
@@ -34,6 +34,9 @@ public slots:
     void downloadProgress(qint64 bytesReceived, qint64 bytesTotal);
     void downloadFinished();
     void downloadReadyRead();
+
+private:
+    QString getExt(const QString& fileType) const;
 
 private:
     QNetworkAccessManager* networkManager;

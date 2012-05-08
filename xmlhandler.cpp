@@ -26,7 +26,11 @@ bool XMLHandler::endElement(const QString &namespaceURI, const QString &localNam
 
 bool XMLHandler::characters(const QString &str)
 {
-    if(isTitle) itemData.name = str;
+    if(isTitle)
+    {
+        itemData.name = str;
+        qDebug() << "itemData.name = " << itemData.name;
+    }
     isTitle = false;
 
     return true;
@@ -66,8 +70,9 @@ bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs
     }
     if(qName == CONTENT && resPath == FILE_TYPE_STR)
     {
+        itemData.fileType = attribs.value(TYPE);
         itemData.downloadLink = attribs.value(SRC);
-        qDebug() << "Content link = " << attribs.value(SRC);
+        qDebug() << "itemData.fileType = " << attribs.value(TYPE);
     }
 
     if(qName == TITLE_TAG) isTitle = true;

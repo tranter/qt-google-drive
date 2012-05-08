@@ -16,6 +16,7 @@
 #define FOLDER_TYPE_STR "folder"
 #define TREE_VIEW_MAIN_TITLE "My Disc"
 #define INFO_TOKEN '|'
+#define TYPE "type"
 #define SRC "src"
 #define CONTENT "content"
 #define WORK_DIR QString("WorkDir")

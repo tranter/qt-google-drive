@@ -35,9 +35,14 @@ void DownloadFileManager::downloadReadyRead()
     file.write(reply->readAll());
 }
 
-void DownloadFileManager::startDownload(QUrl url, const QString& fileName)
+void DownloadFileManager::startDownload(QUrl url, QString& fileName, const QString& fileType)
 {
     state = EBusy;
+
+    QFileInfo fi(fileName);
+    QString ext = fi.suffix();
+
+    if(ext.isEmpty()) fileName += getExt(fileType);
 
     file.setFileName(fileName);
     file.open(QIODevice::WriteOnly);
@@ -65,5 +70,16 @@ DownloadFileManager::EStates DownloadFileManager::getState(void) const
 void DownloadFileManager::setState(DownloadFileManager::EStates currentState)
 {
     state = currentState;
+}
+
+QString DownloadFileManager::getExt(const QString& fileType) const
+{
+    QString ext(".html");
+
+    if(fileType == "text/html") ext = ".html";
+    if(fileType == "image/png") ext = ".png";
+    if(fileType == "application/pdf") ext = ".pdf";
+
+    return ext;
 }
 

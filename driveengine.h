@@ -14,6 +14,8 @@
 #include "downloadmanager.h"
 #include "settingsdialog.h"
 #include "commontools.h"
+#include <QFileDialog>
+#include "uploadmanager.h"
 
 class DriveEngine : public QObject
 {
@@ -53,6 +55,7 @@ private slots:
     void slotFilesSslErrors(const QList<QSslError>& errors);
 
     void slotDownload(void);
+    void slotUpload(void);
 
 private:
     void settings(EReplies eReply);
@@ -71,6 +74,7 @@ private:
     XMLParser *parser;
     QXmlSimpleReader* reader;
     DownloadFileManager* downloadManager;
+    UploadFileManager* uploadFileManager;
 };
 
 #endif // DRIVEENGINE_H

@@ -12,7 +12,8 @@ DriveEngine::DriveEngine(QObject *parentObj) :
     parser(NULL),
     reader(NULL),
     oAuth2(NULL),
-    downloadManager(NULL)
+    downloadManager(NULL),
+    uploadFileManager(NULL)
 {
 }
 
@@ -20,6 +21,7 @@ DriveEngine::~DriveEngine()
 {
     if(networkAccessManager) delete networkAccessManager;
     if(downloadManager) delete downloadManager;
+    if(uploadFileManager) delete uploadFileManager;
     if(model) delete model;
     if(parser) delete parser;
     if(oAuth2) delete oAuth2;
@@ -45,10 +47,10 @@ void DriveEngine::init(void)
 
 void DriveEngine::slotReplyFinished(QNetworkReply* reply)
 {
-//    qDebug() << "--------------> replyStr[EFolders]" << replyStr[EFolders];
-//    qDebug() << "--------------> replyStr[EFiles]" << replyStr[EFiles];
+    qDebug() << "--------------> replyStr[EFolders]" << replyStr[EFolders];
+    qDebug() << "--------------> replyStr[EFiles]" << replyStr[EFiles];
 
-    if(replyStr[EFolders] != "" &&replyStr[EFiles] != "" )
+    if(!replyStr[EFolders].isEmpty() && !replyStr[EFiles].isEmpty())
     {
         if(!parseReply(replyStr[EFolders], FOLDER_TYPE)) qDebug() << "parseReply(replyStr[EFolders] NOT OK";
 
@@ -186,7 +188,6 @@ void DriveEngine::settings(EReplies eReply)
 
 bool DriveEngine::parseReply(const QString& str, int type)
 {
-    //QXmlSimpleReader reader;
     QXmlInputSource source;
 
     if(type == FOLDER_TYPE)
@@ -228,19 +229,35 @@ void DriveEngine::slotDownload(void)
     QSettings settings(COMPANY_NAME, APP_NAME);
     QString link(parser->getXMLHandler()->getTreeItemInfo()->getItems()[getCurrentModelItemIndex()].downloadLink);
 
-    if(link != "")
+    if(!link.isEmpty())
     {
         if(slotCheckWorkDir(false))
         {
-            QString filePath = settings.value(WORK_DIR).toString() + "\/" +parser->getXMLHandler()->getTreeItemInfo()->getItems()[getCurrentModelItemIndex()].name.toString();
+            QString fileName = settings.value(WORK_DIR).toString() + "\/" + parser->getXMLHandler()->getTreeItemInfo()->getItems()[getCurrentModelItemIndex()].name.toString();
+            QString fileType =  parser->getXMLHandler()->getTreeItemInfo()->getItems()[getCurrentModelItemIndex()].fileType;
 
             if(downloadManager) delete downloadManager;
             downloadManager = new DownloadFileManager;
 
-            downloadManager->startDownload(QUrl(link), filePath);
+            downloadManager->startDownload(QUrl(link), fileName, fileType);
         }
         else CommonTools::msg("Please note: you must set working directory for downloading files");
     }
+}
+
+void DriveEngine::slotUpload(void)
+{
+ qDebug() << "slotUpload";
+
+ QString fileName = QFileDialog::getOpenFileName(parent, trUtf8("Uploading file"), QDir::homePath(), trUtf8("All files(*)"));
+
+ if(!fileName.isEmpty())
+{
+     if(uploadFileManager) delete uploadFileManager;
+     uploadFileManager = new UploadFileManager;
+
+     uploadFileManager->startUpload(fileName);
+ }
 }
 
 int DriveEngine::getCurrentModelItemIndex(void) const
@@ -280,7 +297,7 @@ bool DriveEngine::slotCheckWorkDir(bool showDlg)
     case QDialog::Accepted:
     {
         qDebug() << "QDialog::Accepted";
-        if(dlg.directoryPath() != "" )
+        if(!dlg.directoryPath().isEmpty() )
         {
             settings.setValue(WORK_DIR,dlg.directoryPath());
             dirTextNotEmpty = true;
