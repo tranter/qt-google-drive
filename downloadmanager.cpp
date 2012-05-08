@@ -24,8 +24,10 @@ void DownloadFileManager::downloadProgress(qint64 bytesReceived, qint64 bytesTot
 
 void DownloadFileManager::downloadFinished()
 {
- progressDialog.hide();
- state = EReady;
+    progressDialog.hide();
+    state = EReady;
+    file.flush();
+    file.close();
 }
 
 void DownloadFileManager::downloadReadyRead()
@@ -57,11 +59,11 @@ void DownloadFileManager::startDownload(QUrl url, const QString& fileName)
 
 DownloadFileManager::EStates DownloadFileManager::getState(void) const
 {
-  return state;
+    return state;
 }
 
 void DownloadFileManager::setState(DownloadFileManager::EStates currentState)
 {
- state = currentState;
+    state = currentState;
 }
 
