@@ -55,6 +55,7 @@ private:
     QFile file;
     EStates state;
     QString access_token;
+    bool allowPut;
     
 };
 

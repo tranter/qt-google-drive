@@ -4,9 +4,10 @@
 UploadFileManager::UploadFileManager(QObject *parent) :
     QObject(parent),
     networkManager(new QNetworkAccessManager),
-    state(EReady)
+    state(EReady),
+    allowPut(true)
 {
-    progressDialog.setParent(static_cast<QWidget*>(parent));
+    //progressDialog.setParent(static_cast<QWidget*>(parent));
     progressDialog.setCancelButton(0);
 
 }
@@ -72,8 +73,6 @@ void UploadFileManager::startUpload(const QString& fileName, QUrl uploadUrl, con
 void UploadFileManager::postFinished(QNetworkReply* reply)
 {
     qDebug() << "======================================================================= postFinished";
-
-    static bool allowPut = true;
 
     if (reply->error())
     {
