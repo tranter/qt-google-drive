@@ -59,6 +59,7 @@ private slots:
 
 signals:
     void signalUploadFinished();
+    void signalAccessTokenExpired();
 
 private:
     void settings(EReplies eReply);

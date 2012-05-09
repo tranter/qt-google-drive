@@ -41,6 +41,7 @@ void MainWindow::init(void)
     connect(UiInstance::ui->actionSettings, SIGNAL(triggered()), driveEngine, SLOT(slotCheckWorkDir()));
     connect(driveEngine->getOAuth2(), SIGNAL(loginDone()), this, SLOT(slotloginDone()));
     connect(driveEngine, SIGNAL(signalUploadFinished()), this, SLOT(slotUpdateModel()));
+    connect(driveEngine, SIGNAL(signalAccessTokenExpired()), driveEngine, SLOT(slotStartLogin()));
 
     driveEngine->slotCheckWorkDir(false);
 

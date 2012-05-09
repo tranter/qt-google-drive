@@ -130,7 +130,8 @@ void DriveEngine::slotFilesReadyRead()
 
 void DriveEngine::slotFilesError(QNetworkReply::NetworkError error)
 {
-    qDebug() << "slotFilesError error = " << error;
+    qDebug() << "slotFilesError error = " << error;  
+    if(error == QNetworkReply::AuthenticationRequiredError) emit signalAccessTokenExpired();
 }
 
 void DriveEngine::slotFilesSslErrors(const QList<QSslError>& errors)
