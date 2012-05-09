@@ -2,5 +2,10 @@
     <qresource prefix="/ico">
         <file alias="unknown">res/application-vnd.oasis.opendocument.text.png</file>
         <file alias="folder">res/folder-blue.png</file>
+        <file alias="download">res/go-down.png</file>
+        <file alias="upload">res/go-up.png</file>
+        <file alias="login">res/user-identity.png</file>
+        <file alias="settings">res/configure.png</file>
+        <file alias="quit">res/application-exit.png</file>
     </qresource>
 </RCC>

@@ -29,12 +29,17 @@ void MainWindow::init(void)
     driveEngine = new DriveEngine(this);
     driveEngine->init();
 
+    connect(UiInstance::ui->actionMenuLogin, SIGNAL(triggered()), driveEngine, SLOT(slotStartLogin()));
     connect(UiInstance::ui->actionLogin, SIGNAL(triggered()), driveEngine, SLOT(slotStartLogin()));
-    connect(UiInstance::ui->actionQuit, SIGNAL(triggered()), this, SLOT(close()));
-    connect(driveEngine->getOAuth2(), SIGNAL(loginDone()), this, SLOT(slotloginDone()));
-    connect(UiInstance::ui->downloadButton, SIGNAL(clicked()), driveEngine, SLOT(slotDownload()));
-    connect(UiInstance::ui->uploadButton, SIGNAL(clicked()), driveEngine, SLOT(slotUpload()));
+    connect(UiInstance::ui->actionMenuQuit, SIGNAL(triggered()), this, SLOT(close()));
+    connect(UiInstance::ui->actionQuit, SIGNAL(triggered()), this, SLOT(close()));  
+    connect(UiInstance::ui->actionMenuDownload, SIGNAL(triggered()), driveEngine, SLOT(slotDownload()));
+    connect(UiInstance::ui->actionDownload, SIGNAL(triggered()), driveEngine, SLOT(slotDownload()));
+    connect(UiInstance::ui->actionMenuUpload, SIGNAL(triggered()), driveEngine, SLOT(slotUpload()));
+    connect(UiInstance::ui->actionUpload, SIGNAL(triggered()), driveEngine, SLOT(slotUpload()));
+    connect(UiInstance::ui->actionMenuSettings, SIGNAL(triggered()), driveEngine, SLOT(slotCheckWorkDir()));
     connect(UiInstance::ui->actionSettings, SIGNAL(triggered()), driveEngine, SLOT(slotCheckWorkDir()));
+    connect(driveEngine->getOAuth2(), SIGNAL(loginDone()), this, SLOT(slotloginDone()));
     connect(driveEngine, SIGNAL(signalUploadFinished()), this, SLOT(slotUpdateModel()));
 
     driveEngine->slotCheckWorkDir(false);
