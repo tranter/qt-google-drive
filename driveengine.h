@@ -40,11 +40,11 @@ public:
 public slots:
     void slotStartLogin(void);
     bool slotCheckWorkDir(bool showDlg = true);
+    void slotUploadFinished();
 
 private slots:
     void slotReplyFinished(QNetworkReply* reply);
     void slotGet(void);
-    void slotPost(void);
 
     void slotFoldersReadyRead();
     void slotFoldersError(QNetworkReply::NetworkError error);
@@ -56,6 +56,9 @@ private slots:
 
     void slotDownload(void);
     void slotUpload(void);
+
+signals:
+    void signalUploadFinished();
 
 private:
     void settings(EReplies eReply);

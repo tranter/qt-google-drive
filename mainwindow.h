@@ -23,6 +23,7 @@ public:
 
 private slots:
     void slotloginDone();
+    void slotUpdateModel();
 
 signals:
     void siganalGet(void);

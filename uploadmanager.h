@@ -43,6 +43,9 @@ public slots:
     void slotSslErrors(const QList<QSslError>& errors);
     void postFinished(QNetworkReply* reply);
 
+signals:
+    void signalUpdateModel();
+
 private:
     QNetworkAccessManager* networkManager;
     QNetworkReply *reply;

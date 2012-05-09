@@ -28,6 +28,7 @@ void UploadFileManager::uploadFinished()
     qDebug() << "-------------> uploadFinished";
     progressDialog.hide();
     state = EReady;
+    emit signalUpdateModel();
 }
 
 void UploadFileManager::startUpload(const QString& fileName, QUrl uploadUrl, const QString& accessToken)

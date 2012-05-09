@@ -143,28 +143,6 @@ void DriveEngine::slotFilesSslErrors(const QList<QSslError>& errors)
     }
 }
 
-void DriveEngine::slotPost(void)
-{
-    qDebug() << "slotPost";
-
-    //    setHeader();
-
-    //    QString postQuery = "https://www.googleapis.com/drive/v1/files";
-
-    //    request.setUrl(QUrl(postQuery));
-
-    //    QByteArray data;
-    //    data.append("&title=pets");
-    //    data.append("&mimeType=application/vnd.google-apps.folder");
-    //    QUrl dataPart;
-    //    dataPart.setEncodedUrl(data);
-
-    //    reply = networkAccessManager->post(request, data);
-    //    qDebug() << "URL = " << postQuery + QString(data);
-
-    //    settings();
-}
-
 void DriveEngine::settings(EReplies eReply)
 {
     switch(eReply)
@@ -258,16 +236,22 @@ void DriveEngine::slotUpload(void)
     {
         QString uploadLink(parser->getXMLHandler()->getTreeItemInfo()->getItems()[getCurrentModelItemIndex()].uploadLink);
 
-        qDebug() << "--------------------> uploadLink" << uploadLink;
-
         if(!uploadLink.isEmpty())
         {
             if(uploadFileManager) delete uploadFileManager;
             uploadFileManager = new UploadFileManager;
 
-            uploadFileManager->startUpload(fileName, uploadLink, accessToken);
+            connect(uploadFileManager, SIGNAL(signalUpdateModel()), this, SLOT(slotUploadFinished()));
+
+           uploadFileManager->startUpload(fileName, uploadLink, accessToken);
         }
     }
+}
+
+void DriveEngine::slotUploadFinished()
+{
+  qDebug() << "DriveEngine::slotUploadFinished";
+  emit signalUploadFinished();
 }
 
 int DriveEngine::getCurrentModelItemIndex(void) const
