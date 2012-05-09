@@ -65,5 +65,8 @@ void MainWindow::slotUpdateModel()
 {
   //qDebug() << "slotUpdateModel()";
   init();
+
+  UiInstance::ui->actionMenuUpload->setEnabled(true);
+  UiInstance::ui->actionUpload->setEnabled(true);
 }
 

@@ -30,6 +30,9 @@ DriveEngine::~DriveEngine()
 void DriveEngine::slotStartLogin(void)
 {
     oAuth2->startLogin(true);
+
+    UiInstance::ui->actionMenuDownload->setEnabled(true);
+    UiInstance::ui->actionDownload->setEnabled(true);
 }
 
 void DriveEngine::init(void)
@@ -205,6 +208,9 @@ void DriveEngine::slotDownload(void)
         }
     }
 
+    UiInstance::ui->actionMenuDownload->setDisabled(true);
+    UiInstance::ui->actionDownload->setDisabled(true);
+
     QSettings settings(COMPANY_NAME, APP_NAME);
     QString downloadLink(parser->getXMLHandler()->getTreeItemInfo()->getItems()[getCurrentModelItemIndex()].downloadLink);
 
@@ -235,6 +241,9 @@ void DriveEngine::slotUpload(void)
 
     if(!fileName.isEmpty())
     {
+        UiInstance::ui->actionMenuUpload->setDisabled(true);
+        UiInstance::ui->actionUpload->setDisabled(true);
+
         QString uploadLink(parser->getXMLHandler()->getTreeItemInfo()->getItems()[getCurrentModelItemIndex()].uploadLink);
 
         if(!uploadLink.isEmpty())

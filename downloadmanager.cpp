@@ -1,5 +1,7 @@
 #include "downloadmanager.h"
 #include <QDebug>
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
 
 DownloadFileManager::DownloadFileManager(QObject *parent) :   
     QObject(parent),
@@ -18,6 +20,7 @@ DownloadFileManager::~DownloadFileManager()
 void DownloadFileManager::downloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 {
     qDebug() << "bytesReceived =" << bytesReceived << "bytesTotal =" << bytesTotal;
+
     progressDialog.setMaximum(bytesTotal);
     progressDialog.setValue(bytesReceived);
 }
@@ -28,6 +31,9 @@ void DownloadFileManager::downloadFinished()
     state = EReady;
     file.flush();
     file.close();
+
+    UiInstance::ui->actionMenuDownload->setEnabled(true);
+    UiInstance::ui->actionDownload->setEnabled(true);
 }
 
 void DownloadFileManager::downloadReadyRead()
