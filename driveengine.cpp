@@ -221,15 +221,15 @@ void DriveEngine::slotDownload(void)
     {
         if(downloadManager->getState() == DownloadFileManager::EBusy)
         {
-           CommonTools::msg("No multithreading support for files downloading in this version");
-           return;
+            CommonTools::msg("No multithreading support for files downloading in this version");
+            return;
         }
     }
 
     QSettings settings(COMPANY_NAME, APP_NAME);
-    QString link(parser->getXMLHandler()->getTreeItemInfo()->getItems()[getCurrentModelItemIndex()].downloadLink);
+    QString downloadLink(parser->getXMLHandler()->getTreeItemInfo()->getItems()[getCurrentModelItemIndex()].downloadLink);
 
-    if(!link.isEmpty())
+    if(!downloadLink.isEmpty())
     {
         if(slotCheckWorkDir(false))
         {
@@ -239,7 +239,7 @@ void DriveEngine::slotDownload(void)
             if(downloadManager) delete downloadManager;
             downloadManager = new DownloadFileManager;
 
-            downloadManager->startDownload(QUrl(link), fileName, fileType);
+            downloadManager->startDownload(QUrl(downloadLink), fileName, fileType);
         }
         else CommonTools::msg("Please note: you must set working directory for downloading files");
     }
@@ -247,17 +247,27 @@ void DriveEngine::slotDownload(void)
 
 void DriveEngine::slotUpload(void)
 {
- qDebug() << "slotUpload";
+    qDebug() << "slotUpload";
 
- QString fileName = QFileDialog::getOpenFileName(parent, trUtf8("Uploading file"), QDir::homePath(), trUtf8("All files(*)"));
+    QSettings settings(COMPANY_NAME, APP_NAME);
+    accessToken = settings.value("access_token").toString();
 
- if(!fileName.isEmpty())
-{
-     if(uploadFileManager) delete uploadFileManager;
-     uploadFileManager = new UploadFileManager;
+    QString fileName = QFileDialog::getOpenFileName(parent, trUtf8("Uploading file"), QDir::homePath(), trUtf8("All files(*)"));
 
-     uploadFileManager->startUpload(fileName);
- }
+    if(!fileName.isEmpty())
+    {
+        QString uploadLink(parser->getXMLHandler()->getTreeItemInfo()->getItems()[getCurrentModelItemIndex()].uploadLink);
+
+        qDebug() << "--------------------> uploadLink" << uploadLink;
+
+        if(!uploadLink.isEmpty())
+        {
+            if(uploadFileManager) delete uploadFileManager;
+            uploadFileManager = new UploadFileManager;
+
+            uploadFileManager->startUpload(fileName, uploadLink, accessToken);
+        }
+    }
 }
 
 int DriveEngine::getCurrentModelItemIndex(void) const

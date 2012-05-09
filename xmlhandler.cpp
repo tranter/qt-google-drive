@@ -70,9 +70,9 @@ bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs
     }
     if(qName == CONTENT && resPath == FILE_TYPE_STR)
     {
-        itemData.fileType = attribs.value(TYPE);
-        itemData.downloadLink = attribs.value(SRC);
-        qDebug() << "itemData.fileType = " << attribs.value(TYPE);
+         itemData.fileType = FYLE_TYPE_ATTRIBUTE;
+         itemData.downloadLink = FYLE_TYPE_SRC_ATTRIBUTE;
+         //qDebug() << "itemData.fileType = " << FYLE_TYPE_ATTRIBUTE;
     }
 
     if(qName == TITLE_TAG) isTitle = true;
@@ -81,6 +81,12 @@ bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs
     {
         itemData.item = NULL;
         itemData.parent = infoToken + HIERARCHY_VALUE;
+    }
+
+    if(HIERARCHY_ATTRIBUTE == UPLOAD)
+    {
+        itemData.uploadLink = HIERARCHY_VALUE;
+        //qDebug() << "UPLOAD = " << HIERARCHY_VALUE;
     }
 
     if(HIERARCHY_ATTRIBUTE == SELF_TAG)

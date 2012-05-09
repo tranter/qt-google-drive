@@ -10,6 +10,8 @@
 #include <QProgressDialog>
 #include <QFile>
 #include "commontools.h"
+#include <QFileInfo>
+#include <QSslError>
 
 class UploadFileManager : public QObject
 {
@@ -26,14 +28,20 @@ public:
     ~UploadFileManager();
 
 public:
-    void startUpload(const QString& fileName);
+    void startUpload(const QString& fileName, QUrl uploadUrl, const QString& accessToken);
     EStates getState(void) const;
     void setState(EStates currentState);
+
+private:
+    QString getContentTypeByExtension(const QString& ext);
+    void doPutRequest(const QString & url,const QByteArray& data);
 
 public slots:
     void uploadProgress (qint64 bytesSent, qint64 bytesTotal);
     void uploadFinished();
-    void uploadReadyRead();
+    void slotError(QNetworkReply::NetworkError error);
+    void slotSslErrors(const QList<QSslError>& errors);
+    void postFinished(QNetworkReply* reply);
 
 private:
     QNetworkAccessManager* networkManager;
@@ -43,6 +51,7 @@ private:
     QProgressDialog progressDialog;
     QFile file;
     EStates state;
+    QString access_token;
     
 };
 

@@ -25,39 +25,116 @@ void UploadFileManager::uploadProgress( qint64 bytesSent, qint64 bytesTotal )
 
 void UploadFileManager::uploadFinished()
 {
+    qDebug() << "-------------> uploadFinished";
     progressDialog.hide();
     state = EReady;
-//    file.flush();
-//    file.close();
 }
 
-void UploadFileManager::uploadReadyRead()
-{
-    //file.write(reply->readAll());
-}
-
-void UploadFileManager::startUpload(const QString& fileName)
+void UploadFileManager::startUpload(const QString& fileName, QUrl uploadUrl, const QString& accessToken)
 {
     state = EBusy;
+    progressDialog.show();
+    access_token = accessToken;
+    file.setFileName(fileName);
 
-    qDebug() << "UploadFileManager::startUpload fileName" << fileName;
+    QFileInfo fi(fileName);
+    QString ext = fi.suffix();
+    QString title = fi.fileName();
+    QString contentType = getContentTypeByExtension(ext);
 
-//    file.setFileName(fileName);
-//    file.open(QIODevice::WriteOnly);
+    QString metadata = QString(
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+                "<entry xmlns=\"http://www.w3.org/2005/Atom\" xmlns:docs=\"http://schemas.google.com/docs/2007\">"
+                "<title>%1</title>"
+                "</entry>"
+                ).arg(title);
 
-//    qDebug() << "fileName = " << fileName;
+    QByteArray content = metadata.toLatin1();
 
-//    progressDialog.show();
-//    CommonTools::setHeader(request);
-//    request.setUrl(url);
+    request.setRawHeader("GData-Version", "3.0");
+    request.setRawHeader("Authorization", (QString("OAuth %1").arg(accessToken)).toLatin1());
+    request.setRawHeader("Content-Type", "application/atom+xml");
+    request.setRawHeader("Content-Length", QString::number(content.size()).toLatin1());
 
-//    qDebug() << "url = " << request.url();
+    request.setRawHeader("X-Upload-Content-Length", (QString("%1").arg(fi.size())).toLatin1());
+    request.setRawHeader("X-Upload-Content-Type", contentType.toLatin1());
 
-//    reply = networkManager->get(request);
+    QString url(uploadUrl.toString());
+    url += "/?convert=false";
 
-//    connect(reply, SIGNAL(finished()), this, SLOT(uploadFinished()));
-//    connect(reply, SIGNAL(readyRead()), this, SLOT(uploadReadyRead()));
-//    connect(reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(downloadProgress(qint64,qint64)));
+    request.setUrl(QUrl(url));
+    reply = networkManager->post(request, content);
+
+    connect(networkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(postFinished(QNetworkReply*)));
+}
+
+void UploadFileManager::postFinished(QNetworkReply* reply)
+{
+    qDebug() << "======================================================================= postFinished";
+
+    static bool allowPut = true;
+
+    if (reply->error())
+    {
+        qDebug() << "Reply with the error!!!!!";
+        return;
+    }
+
+    QString url = reply->url().toString();
+    QString location = reply->rawHeader("Location");
+    QString filePath = file.fileName();
+
+    if (!location.isEmpty())
+    {
+        if(allowPut)
+        {
+            allowPut = false;
+            QFileInfo fi(filePath);
+            QString ext = fi.suffix().toLower();
+            QString contentType = getContentTypeByExtension(ext);
+
+            file.open(QIODevice::ReadOnly);
+            QByteArray arr = file.readAll();
+            file.close();
+
+            qlonglong f_size = arr.count();
+
+            request.setRawHeader("GData-Version", "3.0");
+            request.setRawHeader("Authorization", (QString("OAuth %1").arg(access_token)).toLatin1());
+            request.setRawHeader("Content-Type", contentType.toLatin1());
+            request.setRawHeader("Content-Length", (QString("%1").arg(f_size)).toLatin1());
+            request.setRawHeader("Content-Range", (QString("bytes 0-%1/%2").arg(f_size-1).arg(f_size)).toLatin1());
+
+            doPutRequest(location,arr);
+        }
+    }
+}
+
+void UploadFileManager::doPutRequest(const QString & url,const QByteArray& data)
+{
+    request.setUrl(QUrl(url));
+    reply = networkManager->put(request,data);
+
+    connect(reply, SIGNAL(finished()), this, SLOT(uploadFinished()));
+    connect(reply, SIGNAL(uploadProgress(qint64,qint64)), this, SLOT(uploadProgress(qint64,qint64)));
+    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),this, SLOT(slotError(QNetworkReply::NetworkError)));
+    connect(reply, SIGNAL(sslErrors(const QList<QSslError>&)),this, SLOT(slotSslErrors(const QList<QSslError>&)));
+}
+
+
+void UploadFileManager::slotError(QNetworkReply::NetworkError error)
+{
+    qDebug() << "slotError error = " << error;
+}
+
+void UploadFileManager::slotSslErrors(const QList<QSslError>& errors)
+{
+    qDebug() << "slotSslErrors error";
+
+    foreach(const QSslError& e,errors)
+    {
+        qDebug() << "error = " << e.error();
+    }
 }
 
 UploadFileManager::EStates UploadFileManager::getState(void) const
@@ -70,106 +147,17 @@ void UploadFileManager::setState(UploadFileManager::EStates currentState)
     state = currentState;
 }
 
-
-
-
-
-
-/*
-
-void Form::
-uploadExternFile()
+QString UploadFileManager::getContentTypeByExtension(const QString& ext)
 {
-    if( ! checkActiveAccounts() ) return;
+    QString contentType;
 
-    if( m_lastSelectedAccount < 0 ) return;
-    Pair & p = m_docsDataManagers[m_lastSelectedAccount];
-    qDebug() << Q_FUNC_INFO << m_lastSelectedAccount;
+    if(ext == "doc" || ext == "docx") contentType = "application/msword";
+    if(ext == "xls") contentType = "application/vnd.ms-excel";
+    if(ext == "ppt" || ext == "pptx") contentType = "application/vnd.ms-powerpoint";
+    if(ext == "pdf") contentType = "application/pdf";
+    if(ext == "exe") contentType = "application/x-msdos-program";
+    if(ext == "rar") contentType = "application/rar";
+    if(ext == "png") contentType = "image/png";
 
-    QSettings settings("ICS", "Google API Docs Client");
-    QString lastDir = settings.value("google_last_dir", "").toString();
-
-    QString filePath = QFileDialog::getOpenFileName(
-        this, trUtf8("Uploading file"),
-        lastDir.isEmpty() ? QDir::homePath() : lastDir,
-        trUtf8("Documents(*.%1);;Presentations(*.%2);;Spreadsheets(*.%3);;Portable Document Format(*.%4);;All files(*)")
-            .arg(FileTools::defaultDocumentFormat,      FileTools::defaultPresentationFormat,
-                 FileTools::defaultSpreadsheetFormat,   FileTools::defaultPortableFormat)
-    );
-
-    if( filePath.isEmpty() )
-        return;
-
-    QFileInfo finfo(filePath);
-
-    QString ext = finfo.suffix().toLower();
-    if( ! FileTools::supportedExtension( ext ) )
-    {
-        QMessageBox::warning(this, trUtf8("Error"), trUtf8("Unsupported file format: %1").arg(ext));
-        return;
-    }
-
-    settings.setValue("google_last_dir", finfo.absolutePath());
-
-    p.docsDataManager->uploadNewFile(filePath, p.oauth2->accessToken());
+    return contentType;
 }
-
-
-
-
-void DocsDataManager::uploadNewFile(const QString & filePath, const QString& access_token)
-{
-    qDebug() << Q_FUNC_INFO << m_strResumableCreateMedia;
-
-    QFileInfo fi(filePath);
-    QString ext = fi.suffix();
-    QString title = fi.completeBaseName();
-
-    if( ! FileTools::supportedExtension( ext ) )
-    {
-        QMessageBox::warning(0, tr("Warning"), tr("Unsupported file format: %1").arg(ext));
-        return;
-    }
-
-    QString contentType = FileTools::getContentTypeByExtension(ext);
-
-    QString metadata = QString(
-                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-                "<entry xmlns=\"http://www.w3.org/2005/Atom\" xmlns:docs=\"http://schemas.google.com/docs/2007\">"
-                "<title>%1</title>"
-                "</entry>"
-                ).arg(title);//, docType);
-    QByteArray content = metadata.toLatin1();
-
-    m_filesAwaitingToAddInfo.insert(filePath);
-
-    QNetworkRequest request;
-    request.setUrl(QUrl(m_strResumableCreateMedia));
-    request.setRawHeader("GData-Version", "3.0");
-    request.setRawHeader("Authorization", (QString("OAuth %1").arg(access_token)).toLatin1());
-    request.setRawHeader("Content-Type", "application/atom+xml");
-    request.setRawHeader("Content-Length", QString::number(content.size()).toLatin1());
-
-    request.setRawHeader("X-Upload-Content-Length", (QString("%1").arg(fi.size())).toLatin1());
-    request.setRawHeader("X-Upload-Content-Type", contentType.toLatin1());
-
-    m_filesToUpload.insert(m_strResumableCreateMedia, filePath);
-
-    PtrRI p(new RequestInfo());
-    p->set_branchPos(0);
-    p->set_action(A_UPLOAD_FILE);
-    m_idRequests.append(p);
-
-    WrapperRI* pRI = new WrapperRI();   //pointer need to be deleted in reply handler because no parent QObject* present
-    pRI->m_pRI = p;
-    request.setOriginatingObject(pRI);
-
-
-    QApplication::setOverrideCursor(Qt::WaitCursor);
-    m_pNetworkAccessManager->post(request, content);
-}
-
-
-
-  */
-

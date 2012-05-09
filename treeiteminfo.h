@@ -26,6 +26,7 @@ public:
         QVariant parent;
         QString iconPath;
         QString downloadLink;
+        QString uploadLink;
     };
 
 public:
