@@ -21,6 +21,10 @@ public:
         TreeItem *item;
         QString type;
         QString fileType;
+        QString fileSize;
+        QString filePublished;
+        QString fileUpdated;
+        QString fileEdited;
         QVariant name;
         QVariant self;
         QVariant parent;

@@ -42,13 +42,12 @@ void DriveEngine::init(void)
 
     connect(networkAccessManager, SIGNAL(finished(QNetworkReply*)),this, SLOT(slotReplyFinished(QNetworkReply*)));
     connect(parent, SIGNAL(siganalGet()), this, SLOT(slotGet()));
-    connect(parent, SIGNAL(signalPost()), this, SLOT(slotPost()));
 }
 
 void DriveEngine::slotReplyFinished(QNetworkReply* reply)
 {
-    qDebug() << "--------------> replyStr[EFolders]" << replyStr[EFolders];
-    qDebug() << "--------------> replyStr[EFiles]" << replyStr[EFiles];
+//    qDebug() << "--------------> replyStr[EFolders]" << replyStr[EFolders];
+//    qDebug() << "--------------> replyStr[EFiles]" << replyStr[EFiles];
 
     if(!replyStr[EFolders].isEmpty() && !replyStr[EFiles].isEmpty())
     {
@@ -75,7 +74,8 @@ void DriveEngine::setModel(void)
     */
 
     rootData << TREE_VIEW_MAIN_TITLE;
-    //rootData << TREE_VIEW_MAIN_TITLE << "test1" << "test2";
+
+    //rootData << TREE_VIEW_MAIN_TITLE << TREE_VIEW_SIZE_TITLE;
 
     TreeItemInfo* itemInfo = parser->getXMLHandler()->getTreeItemInfo();
 

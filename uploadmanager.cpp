@@ -159,6 +159,20 @@ QString UploadFileManager::getContentTypeByExtension(const QString& ext)
     if(ext == "exe") contentType = "application/x-msdos-program";
     if(ext == "rar") contentType = "application/rar";
     if(ext == "png") contentType = "image/png";
+    if(ext == "png") contentType = "application/rtf";
+    if(ext == "tar") contentType = "application/x-tar";
+    if(ext == "zip") contentType = "application/zip";
+    if(ext == "") contentType = "";
+    if(ext == "jpeg" || ext == "jpg" || ext == "jpe") contentType = "image/jpeg";
+    if(ext == "gif") contentType = "image/gif";
+    if(ext == "wav") contentType = "application/x-wav";
+    if(ext == "tiff" || ext == "tif") contentType = "image/tiff";
+    if(ext == "txt" || ext == "cpp" || ext == "h" || ext == "c") contentType = "text/plain";
+    if(ext == "mpeg" || ext == "mpg" || ext == "mpe" ) contentType = "video/mpeg";
+    if(ext == "qt" || ext == "mov") contentType = "video/quicktime";
+    if(ext == "qvi") contentType = "video/x-msvideo";
+    if(ext == "video/x-sgi-movie") contentType = "movie";
+    if(ext == "exe") contentType = "application/x-msdos-program";
 
     return contentType;
 }

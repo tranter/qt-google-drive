@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "driveengine.h"
+#include <QDateTime>
 
 namespace Ui {
 class MainWindow;

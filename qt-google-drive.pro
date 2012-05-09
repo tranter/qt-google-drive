@@ -24,7 +24,8 @@ SOURCES += main.cpp\
     downloadmanager.cpp\
     settingsdialog.cpp \
     commontools.cpp \
-    uploadmanager.cpp
+    uploadmanager.cpp\
+    RFC3339.cpp
 
 HEADERS  += mainwindow.h\
             oauth2.h\
@@ -41,7 +42,8 @@ HEADERS  += mainwindow.h\
     downloadmanager.h\
     settingsdialog.h \
     commontools.h \
-    uploadmanager.h
+    uploadmanager.h\
+    RFC3339.h
 
 FORMS    += mainwindow.ui\
             logindialog.ui\

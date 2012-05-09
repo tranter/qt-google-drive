@@ -47,13 +47,9 @@ void DownloadFileManager::startDownload(QUrl url, QString& fileName, const QStri
     file.setFileName(fileName);
     file.open(QIODevice::WriteOnly);
 
-    qDebug() << "fileName = " << fileName;
-
     progressDialog.show();
     CommonTools::setHeader(request);
     request.setUrl(url);
-
-    qDebug() << "url = " << request.url();
 
     reply = networkManager->get(request);
 

@@ -140,8 +140,7 @@ void TreeModel::buildTree(const QString& searchStr, TreeItem *parent)
             QList<QVariant> column;
 
             column.push_back(itemInfo->getItems()[i].name);
-//            column.push_back(itemInfo->getItems()[i].downloadLink);
-//            column.push_back(itemInfo->getItems()[i].self);
+//            column.push_back(itemInfo->getItems()[i].fileSize);
 
             /*
              add other columns here if necessary

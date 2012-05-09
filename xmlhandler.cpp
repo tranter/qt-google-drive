@@ -4,9 +4,11 @@
 XMLHandler::XMLHandler(int type):
     queryType(type),
     itemInfo(new TreeItemInfo),
-    isTitle(false),
+//    isTitle(false),
+//    isSize(false),
     infoToken(QString(INFO_TOKEN))
 {
+    for(int i = ETitle; i < ETagsCount; ++i) tags[i] = false;
 }
 
 XMLHandler::~XMLHandler()
@@ -16,6 +18,8 @@ XMLHandler::~XMLHandler()
 
 bool XMLHandler::startElement(const QString &namespaceURI, const QString &localName, const QString &qName, const QXmlAttributes &attribs)
 {
+    //if(qName == "docs:size")
+    //qDebug() << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ qName="  << qName << "localName=" <<  attribs.value("entry");
     return handleReply(qName, attribs, queryType);;
 }
 
@@ -26,13 +30,22 @@ bool XMLHandler::endElement(const QString &namespaceURI, const QString &localNam
 
 bool XMLHandler::characters(const QString &str)
 {
-    if(isTitle)
-    {
-        itemData.name = str;
-        qDebug() << "itemData.name = " << itemData.name;
-    }
-    isTitle = false;
+    if(tags[ETitle]) itemData.name = str;
 
+    if(tags[ESize])
+    {
+        qlonglong size = str.toLongLong();
+        QString sizeStr = locale.toString(size);
+        itemData.fileSize = infoToken + sizeStr;
+    }
+
+    if(tags[EPublished]) itemData.filePublished =  RFC3339::toString(RFC3339::fromString(str));
+    if(tags[EUpdated]) itemData.fileUpdated =  RFC3339::toString(RFC3339::fromString(str));
+    if(tags[EEdited]) itemData.fileEdited =  RFC3339::toString(RFC3339::fromString(str));
+
+    for(int i = ETitle; i < ETagsCount; ++i) tags[i] = false;
+
+    //qDebug() << "======================================= " << str;
     return true;
 }
 
@@ -58,6 +71,7 @@ bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs
     {
         resPath = FOLDER_TYPE_STR;
         type = TreeItemInfo::Efolder;
+        itemData.fileSize = infoToken;
     }
         break;
 
@@ -70,12 +84,15 @@ bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs
     }
     if(qName == CONTENT && resPath == FILE_TYPE_STR)
     {
-         itemData.fileType = FYLE_TYPE_ATTRIBUTE;
-         itemData.downloadLink = FYLE_TYPE_SRC_ATTRIBUTE;
-         //qDebug() << "itemData.fileType = " << FYLE_TYPE_ATTRIBUTE;
+        itemData.fileType = FYLE_TYPE_ATTRIBUTE;
+        itemData.downloadLink = FYLE_TYPE_SRC_ATTRIBUTE;
     }
 
-    if(qName == TITLE_TAG) isTitle = true;
+    if(qName == TITLE_TAG) tags[ETitle]= true;
+    if(qName == FILE_SIZE_TAG) tags[ESize] = true;
+    if(qName == PUBLISHED_FILE_TAG) tags[EPublished] = true;
+    if(qName == UPDATED_FILE_TAG) tags[EUpdated] = true;
+    if(qName == EDITED_FILE_TAG) tags[EEdited] = true;
 
     if(HIERARCHY_ATTRIBUTE == PARENT_FOLDER)
     {
@@ -86,7 +103,6 @@ bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs
     if(HIERARCHY_ATTRIBUTE == UPLOAD)
     {
         itemData.uploadLink = HIERARCHY_VALUE;
-        //qDebug() << "UPLOAD = " << HIERARCHY_VALUE;
     }
 
     if(HIERARCHY_ATTRIBUTE == SELF_TAG)

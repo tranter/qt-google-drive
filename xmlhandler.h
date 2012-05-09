@@ -5,10 +5,21 @@
 #include "treeiteminfo.h"
 #include "Def.h"
 #include "resmanager.h"
+#include "RFC3339.h"
 
 class XMLHandler
 {
 public:
+
+    enum ETags{
+        ETitle = 0,
+        ESize,
+        EPublished,
+        EUpdated,
+        EEdited,
+        ETagsCount
+    };
+
     XMLHandler(int type);
     ~XMLHandler();
 
@@ -28,10 +39,11 @@ private:
     int queryType;
     TreeItemInfo* itemInfo;
     TreeItemInfo::Data itemData;
-    bool isTitle;
+    bool tags[ETagsCount];
+    //bool isTitle, isSize;
     ResManager resManager;
     QString infoToken;
-
+    QLocale locale;
 };
 
 #endif // XMLHANDLER_H
