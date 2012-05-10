@@ -93,7 +93,7 @@ void DriveEngine::setModel(void)
 
     model = new TreeModel(rootData, itemInfo);
     UiInstance::ui->discTreeView->setModel(model);
-    slotAdditionalInfoCheckBox(UiInstance::ui->additionalInfoCheckBox->isChecked());
+    slotAdditionalInfoCheckBox(UiInstance::ui->actionAdditionalInfo->isChecked());
     loadOpenedItems();
 }
 
@@ -347,17 +347,13 @@ void DriveEngine::slotTreeViewCollapsed(const QModelIndex& index)
     CommonTools::removeTreeViewOpenedItem(index.row());
 }
 
-void DriveEngine::slotAdditionalInfoCheckBox(int state)
+void DriveEngine::slotAdditionalInfoCheckBox(bool state)
 {
    qDebug() << "additionalInfoCheckBox " << state;
 
-   bool hiddenState;
-
-   state == 0 ? hiddenState = true : hiddenState = false;
-
    for(int i = 1; i < model->getColumnCount(); ++i)
    {
-       UiInstance::ui->discTreeView->setColumnHidden(i,hiddenState);
+       UiInstance::ui->discTreeView->setColumnHidden(i,!state);
        UiInstance::ui->discTreeView->header()->resizeSection(i, 180);
    }
 

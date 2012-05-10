@@ -49,7 +49,9 @@ void MainWindow::setConnections(void)
     connect(driveEngine->getOAuth2(), SIGNAL(loginDone()), this, SLOT(slotloginDone()));
     connect(driveEngine, SIGNAL(signalUploadFinished()), this, SLOT(slotUpdateModel()));
     connect(driveEngine, SIGNAL(signalAccessTokenExpired()), driveEngine, SLOT(slotStartLogin()));
-    connect(UiInstance::ui->additionalInfoCheckBox, SIGNAL(stateChanged (int)), driveEngine, SLOT(slotAdditionalInfoCheckBox(int)));
+    //connect(UiInstance::ui->additionalInfoCheckBox, SIGNAL(stateChanged(int)), driveEngine, SLOT(slotAdditionalInfoCheckBox(int)));
+    connect(UiInstance::ui->actionMenuAdditionalInfo, SIGNAL(triggered (bool)), driveEngine, SLOT(slotAdditionalInfoCheckBox(bool)));
+    connect(UiInstance::ui->actionAdditionalInfo, SIGNAL(triggered (bool)), driveEngine, SLOT(slotAdditionalInfoCheckBox(bool)));
 }
 
 Ui::MainWindow* UiInstance::Instance()

@@ -43,23 +43,6 @@
       </attribute>
      </widget>
     </item>
-    <item>
-     <widget class="QCheckBox" name="additionalInfoCheckBox">
-      <property name="text">
-       <string>Additional Info</string>
-      </property>
-      <property name="icon">
-       <iconset resource="resource.qrc">
-        <normaloff>:/ico/unknown</normaloff>:/ico/unknown</iconset>
-      </property>
-      <property name="checked">
-       <bool>true</bool>
-      </property>
-      <property name="tristate">
-       <bool>false</bool>
-      </property>
-     </widget>
-    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -82,6 +65,7 @@
     <property name="title">
      <string>Options</string>
     </property>
+    <addaction name="actionMenuAdditionalInfo"/>
     <addaction name="actionMenuSettings"/>
    </widget>
    <widget class="QMenu" name="menuActions">
@@ -109,6 +93,8 @@
    <addaction name="separator"/>
    <addaction name="actionDownload"/>
    <addaction name="actionUpload"/>
+   <addaction name="separator"/>
+   <addaction name="actionAdditionalInfo"/>
    <addaction name="separator"/>
    <addaction name="actionSettings"/>
    <addaction name="separator"/>
@@ -203,6 +189,36 @@
    </property>
    <property name="text">
     <string>Quit</string>
+   </property>
+  </action>
+  <action name="actionAdditionalInfo">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/ico/unknown</normaloff>:/ico/unknown</iconset>
+   </property>
+   <property name="text">
+    <string>Additional Info</string>
+   </property>
+  </action>
+  <action name="actionMenuAdditionalInfo">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/ico/unknown</normaloff>:/ico/unknown</iconset>
+   </property>
+   <property name="text">
+    <string>Additional Info</string>
    </property>
   </action>
  </widget>
