@@ -5,8 +5,8 @@
 
 TreeModel::TreeModel(QList<QVariant> rootData, TreeItemInfo* treeItemsInfo, QObject *parent) :
     QAbstractItemModel(parent),
-    itemInfo(treeItemsInfo),
-    columnsTotal(rootData.count())
+    itemInfo(treeItemsInfo)/*,
+    columnsTotal(rootData.count())*/
 {
     init(rootData);
 }
@@ -85,6 +85,7 @@ QModelIndex TreeModel::index(int row, int column, const QModelIndex &parent) con
         parentItem = static_cast<TreeItem*>(parent.internalPointer());
 
     TreeItem *childItem = parentItem->child(row);
+
     if (childItem)
         return createIndex(row, column, childItem);
 

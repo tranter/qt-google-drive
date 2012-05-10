@@ -43,14 +43,21 @@ void DriveEngine::init(void)
     if(oAuth2) delete oAuth2;
     oAuth2 = new OAuth2;
 
+    setConnections();
+}
+
+void DriveEngine::setConnections(void)
+{
     connect(networkAccessManager, SIGNAL(finished(QNetworkReply*)),this, SLOT(slotReplyFinished(QNetworkReply*)));
     connect(parent, SIGNAL(siganalGet()), this, SLOT(slotGet()));
+    connect(UiInstance::ui->discTreeView, SIGNAL(expanded(const QModelIndex&)), this, SLOT(slotTreeViewExpanded(const QModelIndex&)));
+    connect(UiInstance::ui->discTreeView, SIGNAL(collapsed(const QModelIndex&)), this, SLOT(slotTreeViewCollapsed(const QModelIndex&)));
 }
 
 void DriveEngine::slotReplyFinished(QNetworkReply* reply)
 {
-//    qDebug() << "--------------> replyStr[EFolders]" << replyStr[EFolders];
-//    qDebug() << "--------------> replyStr[EFiles]" << replyStr[EFiles];
+    //    qDebug() << "--------------> replyStr[EFolders]" << replyStr[EFolders];
+    //    qDebug() << "--------------> replyStr[EFiles]" << replyStr[EFiles];
 
     if(!replyStr[EFolders].isEmpty() && !replyStr[EFiles].isEmpty())
     {
@@ -77,7 +84,6 @@ void DriveEngine::setModel(void)
     */
 
     rootData << TREE_VIEW_MAIN_TITLE;
-
     //rootData << TREE_VIEW_MAIN_TITLE << TREE_VIEW_SIZE_TITLE;
 
     TreeItemInfo* itemInfo = parser->getXMLHandler()->getTreeItemInfo();
@@ -86,6 +92,7 @@ void DriveEngine::setModel(void)
 
     model = new TreeModel(rootData, itemInfo);
     UiInstance::ui->discTreeView->setModel(model);
+    loadOpenedItems();
 }
 
 void DriveEngine::slotGet(void)
@@ -95,7 +102,7 @@ void DriveEngine::slotGet(void)
     requestStr << GET_FOLDERS;
     requestStr << GET_FILES;
 
-    for(int i = EFolders;i < ECount;++i)
+    for(int i = EFolders;i < ERepliesCount;++i)
     {
         CommonTools::setHeader(request[i]);
         request[i].setUrl(QUrl(requestStr[i]));
@@ -133,7 +140,7 @@ void DriveEngine::slotFilesReadyRead()
 
 void DriveEngine::slotFilesError(QNetworkReply::NetworkError error)
 {
-    qDebug() << "slotFilesError error = " << error;  
+    qDebug() << "slotFilesError error = " << error;
     if(error == QNetworkReply::AuthenticationRequiredError) emit signalAccessTokenExpired();
 }
 
@@ -199,14 +206,14 @@ OAuth2* DriveEngine::getOAuth2(void) const
 
 void DriveEngine::slotDownload(void)
 {
-    if(downloadManager)
-    {
-        if(downloadManager->getState() == DownloadFileManager::EBusy)
-        {
-            CommonTools::msg("No multithreading support for files downloading in this version");
-            return;
-        }
-    }
+    //    if(downloadManager)
+    //    {
+    //        if(downloadManager->getState() == DownloadFileManager::EBusy)
+    //        {
+    //            CommonTools::msg("No multithreading support for files downloading in this version");
+    //            return;
+    //        }
+    //    }
 
     UiInstance::ui->actionMenuDownload->setDisabled(true);
     UiInstance::ui->actionDownload->setDisabled(true);
@@ -232,7 +239,7 @@ void DriveEngine::slotDownload(void)
 
 void DriveEngine::slotUpload(void)
 {
-    qDebug() << "slotUpload";
+    qDebug() << "slotUpload ";
 
     QSettings settings(COMPANY_NAME, APP_NAME);
     accessToken = settings.value("access_token").toString();
@@ -253,23 +260,24 @@ void DriveEngine::slotUpload(void)
 
             connect(uploadFileManager, SIGNAL(signalUpdateModel()), this, SLOT(slotUploadFinished()));
 
-           uploadFileManager->startUpload(fileName, uploadLink, accessToken);
+            uploadFileManager->startUpload(fileName, uploadLink, accessToken);
         }
     }
 }
 
 void DriveEngine::slotUploadFinished()
 {
-  qDebug() << "DriveEngine::slotUploadFinished";
-  emit signalUploadFinished();
+    qDebug() << "DriveEngine::slotUploadFinished";
+    emit signalUploadFinished();
 }
 
 int DriveEngine::getCurrentModelItemIndex(void) const
 {
     TreeItem *item = static_cast<TreeItem*>(UiInstance::ui->discTreeView->currentIndex().internalPointer());
+    int count = parser->getXMLHandler()->getTreeItemInfo()->getItems().count();
     int currentModelIndex = 0;
 
-    for(int i = 1; i < parser->getXMLHandler()->getTreeItemInfo()->getItems().count(); ++i)
+    for(int i = 1; i < count; ++i)
     {
         if(parser->getXMLHandler()->getTreeItemInfo()->getItems()[i].item == item)
         {
@@ -300,7 +308,6 @@ bool DriveEngine::slotCheckWorkDir(bool showDlg)
     {
     case QDialog::Accepted:
     {
-        qDebug() << "QDialog::Accepted";
         if(!dlg.directoryPath().isEmpty() )
         {
             settings.setValue(WORK_DIR,dlg.directoryPath());
@@ -312,5 +319,29 @@ bool DriveEngine::slotCheckWorkDir(bool showDlg)
     }
 
     return dirTextNotEmpty;
+}
+
+void DriveEngine::loadOpenedItems(void)
+{
+    QList<int> indexes = CommonTools::getTreeViewOpenedItem();
+    CommonTools::treeViewOpenedItemClear();
+
+   //qDebug() << "indexes.count() --------------------------->" << QString::number(indexes.count());
+
+    for(int i = 0; i < indexes.count(); ++i)
+    {
+        //qDebug() << "indexes.count() ---------------------------> indexes[" << i << "]=" << QString::number(indexes[i]);
+        UiInstance::ui->discTreeView->expand(model->index(indexes[i], 0, QModelIndex()));
+    }
+}
+
+void DriveEngine::slotTreeViewExpanded(const QModelIndex& index)
+{
+    CommonTools::addTreeViewOpenedItem(index.row());
+}
+
+void DriveEngine::slotTreeViewCollapsed(const QModelIndex& index)
+{
+    CommonTools::removeTreeViewOpenedItem(index.row());
 }
 

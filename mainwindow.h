@@ -14,13 +14,15 @@ class DriveEngine;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-    
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
 public:
     void init(void);
+
+private:
+    void setConnections(void);
 
 private slots:
     void slotloginDone();

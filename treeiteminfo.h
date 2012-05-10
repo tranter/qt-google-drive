@@ -35,7 +35,7 @@ public:
 
 public:
     void setPointer(int index, TreeItem *item);
-    void push_back(TreeItemInfo::Data& data, ETypes type);
+    void push_back(Data& data, ETypes type);
     const QList<TreeItemInfo::Data>& getItems(void) const;
     void normalize(void);
 

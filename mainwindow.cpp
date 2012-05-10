@@ -20,19 +20,23 @@ MainWindow::~MainWindow()
 
 void MainWindow::init(void)
 {
-    if(driveEngine)
-    {
-        delete driveEngine;
-        driveEngine = NULL;
-    }
+    if(driveEngine) delete driveEngine;
 
     driveEngine = new DriveEngine(this);
     driveEngine->init();
+    driveEngine->slotCheckWorkDir(false);
 
+    setConnections();
+
+    emit siganalGet();
+}
+
+void MainWindow::setConnections(void)
+{
     connect(UiInstance::ui->actionMenuLogin, SIGNAL(triggered()), driveEngine, SLOT(slotStartLogin()));
     connect(UiInstance::ui->actionLogin, SIGNAL(triggered()), driveEngine, SLOT(slotStartLogin()));
     connect(UiInstance::ui->actionMenuQuit, SIGNAL(triggered()), this, SLOT(close()));
-    connect(UiInstance::ui->actionQuit, SIGNAL(triggered()), this, SLOT(close()));  
+    connect(UiInstance::ui->actionQuit, SIGNAL(triggered()), this, SLOT(close()));
     connect(UiInstance::ui->actionMenuDownload, SIGNAL(triggered()), driveEngine, SLOT(slotDownload()));
     connect(UiInstance::ui->actionDownload, SIGNAL(triggered()), driveEngine, SLOT(slotDownload()));
     connect(UiInstance::ui->actionMenuUpload, SIGNAL(triggered()), driveEngine, SLOT(slotUpload()));
@@ -42,10 +46,6 @@ void MainWindow::init(void)
     connect(driveEngine->getOAuth2(), SIGNAL(loginDone()), this, SLOT(slotloginDone()));
     connect(driveEngine, SIGNAL(signalUploadFinished()), this, SLOT(slotUpdateModel()));
     connect(driveEngine, SIGNAL(signalAccessTokenExpired()), driveEngine, SLOT(slotStartLogin()));
-
-    driveEngine->slotCheckWorkDir(false);
-
-    emit siganalGet();
 }
 
 Ui::MainWindow* UiInstance::Instance()
@@ -64,9 +64,9 @@ void MainWindow::slotloginDone(void)
 void MainWindow::slotUpdateModel()
 {
   //qDebug() << "slotUpdateModel()";
-  init();
-
   UiInstance::ui->actionMenuUpload->setEnabled(true);
   UiInstance::ui->actionUpload->setEnabled(true);
+
+  init(); 
 }
 

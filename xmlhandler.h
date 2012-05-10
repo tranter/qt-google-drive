@@ -40,7 +40,6 @@ private:
     TreeItemInfo* itemInfo;
     TreeItemInfo::Data itemData;
     bool tags[ETagsCount];
-    //bool isTitle, isSize;
     ResManager resManager;
     QString infoToken;
     QLocale locale;

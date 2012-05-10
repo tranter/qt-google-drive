@@ -36,7 +36,7 @@ private:
 private:   
     TreeItem *rootItem;
     TreeItemInfo* itemInfo;
-    int columnsTotal;
+    //int columnsTotal;
 };
 
 

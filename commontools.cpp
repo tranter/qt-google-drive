@@ -1,4 +1,7 @@
 #include "commontools.h"
+#include <QDebug>
+
+QList<int> CommonTools::indexes;
 
 void CommonTools::setHeader(QNetworkRequest& request)
 {
@@ -16,3 +19,26 @@ void CommonTools::msg(const QString& str)
     msgBox.setText(str);
     msgBox.exec();
 }
+
+const QList<int> CommonTools::getTreeViewOpenedItem(void)
+{
+ return CommonTools::indexes;
+}
+
+void CommonTools::treeViewOpenedItemClear(void)
+{
+ CommonTools::indexes.clear();
+}
+
+void CommonTools::addTreeViewOpenedItem(int index)
+{
+ CommonTools::indexes.push_back(index);
+ qDebug() << "addTreeViewOpenedItem ->" << QString::number(CommonTools::indexes.count());
+}
+
+void CommonTools::removeTreeViewOpenedItem(int index)
+{
+ CommonTools::indexes.removeAt(CommonTools::indexes.indexOf(index));
+ qDebug() << "removeTreeViewOpenedItem ->" << QString::number(CommonTools::indexes.count());
+}
+

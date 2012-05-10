@@ -27,7 +27,7 @@ public:
     {
         EFolders = 0,
         EFiles,
-        ECount
+        ERepliesCount
     };
 
     explicit DriveEngine(QObject *parentObj = 0);
@@ -58,22 +58,27 @@ private slots:
     void slotDownload(void);
     void slotUpload(void);
 
+    void slotTreeViewExpanded(const QModelIndex& index);
+    void slotTreeViewCollapsed(const QModelIndex& index);
+
 signals:
     void signalUploadFinished();
     void signalAccessTokenExpired();
 
 private:
+    void setConnections(void);
     void settings(EReplies eReply);
     bool parseReply(const QString& str, int type);
     void setModel(void);
+    void loadOpenedItems(void);
 
 private:
     OAuth2* oAuth2;
     QNetworkAccessManager* networkAccessManager;
     QWidget* parent;
-    QNetworkReply* reply[ECount];
-    QNetworkRequest request[ECount];
-    QString replyStr[ECount];
+    QNetworkReply* reply[ERepliesCount];
+    QNetworkRequest request[ERepliesCount];
+    QString replyStr[ERepliesCount];
     QString accessToken;
     TreeModel* model;
     XMLParser *parser;
