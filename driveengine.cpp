@@ -93,7 +93,12 @@ void DriveEngine::setModel(void)
 
     model = new TreeModel(rootData, itemInfo);
     UiInstance::ui->discTreeView->setModel(model);
-    slotAdditionalInfoCheckBox(UiInstance::ui->actionAdditionalInfo->isChecked());
+
+    QSettings settings(COMPANY_NAME, APP_NAME);
+
+    bool state = settings.value(ADDITIONAL_INFO_KEY, true).toBool();
+
+    slotAdditionalInfoCheckBox(state);
     loadOpenedItems();
 }
 
@@ -328,7 +333,7 @@ void DriveEngine::loadOpenedItems(void)
     QList<int> indexes = CommonTools::getTreeViewOpenedItem();
     CommonTools::treeViewOpenedItemClear();
 
-   //qDebug() << "indexes.count() --------------------------->" << QString::number(indexes.count());
+    //qDebug() << "indexes.count() --------------------------->" << QString::number(indexes.count());
 
     for(int i = 0; i < indexes.count(); ++i)
     {
@@ -349,15 +354,20 @@ void DriveEngine::slotTreeViewCollapsed(const QModelIndex& index)
 
 void DriveEngine::slotAdditionalInfoCheckBox(bool state)
 {
-   qDebug() << "additionalInfoCheckBox " << state;
+    UiInstance::ui->actionMenuAdditionalInfo->setChecked(state);
+    UiInstance::ui->actionAdditionalInfo ->setChecked(state);
 
-   for(int i = 1; i < model->getColumnCount(); ++i)
-   {
-       UiInstance::ui->discTreeView->setColumnHidden(i,!state);
-       UiInstance::ui->discTreeView->header()->resizeSection(i, 180);
-   }
+    qDebug() << "--------------> state" << state;
 
-   //UiInstance::ui->discTreeView->header()->resizeSections(QHeaderView::ResizeToContents);
-   UiInstance::ui->discTreeView->header()->resizeSection(0, 250);
+    for(int i = 1; i < model->getColumnCount(); ++i)
+    {
+        UiInstance::ui->discTreeView->setColumnHidden(i,!state);
+        UiInstance::ui->discTreeView->header()->resizeSection(i, 180);
+    }
+
+    UiInstance::ui->discTreeView->header()->resizeSection(0, 250);
+
+    QSettings settings(COMPANY_NAME, APP_NAME);
+    settings.setValue(ADDITIONAL_INFO_KEY, state);
 }
 

@@ -33,6 +33,8 @@
 #define TREE_VIEW_UPDATED_TITLE "Updated"
 #define TREE_VIEW_EDITED_TITLE "Edited"
 
+#define ADDITIONAL_INFO_KEY "additional info state"
+
 // to add this token in the beginning of string means that images will not be drawing
 #define INFO_TOKEN '|'
 
