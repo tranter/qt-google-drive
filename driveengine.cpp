@@ -83,8 +83,9 @@ void DriveEngine::setModel(void)
       (example: rootData << TREE_VIEW_MAIN_TITLE << OTHER_COLIMN_TITLE1 <<  OTHER_COLIMN_TITLE2;)
     */
 
-    rootData << TREE_VIEW_MAIN_TITLE;
-    //rootData << TREE_VIEW_MAIN_TITLE << TREE_VIEW_SIZE_TITLE;
+    //rootData << TREE_VIEW_MAIN_TITLE;
+
+    rootData << TREE_VIEW_MAIN_TITLE << TREE_VIEW_PUBLISHED_TITLE << TREE_VIEW_UPDATED_TITLE << TREE_VIEW_EDITED_TITLE << TREE_VIEW_SIZE_TITLE;
 
     TreeItemInfo* itemInfo = parser->getXMLHandler()->getTreeItemInfo();
 
@@ -92,6 +93,7 @@ void DriveEngine::setModel(void)
 
     model = new TreeModel(rootData, itemInfo);
     UiInstance::ui->discTreeView->setModel(model);
+    slotAdditionalInfoCheckBox(UiInstance::ui->additionalInfoCheckBox->isChecked());
     loadOpenedItems();
 }
 
@@ -343,5 +345,23 @@ void DriveEngine::slotTreeViewExpanded(const QModelIndex& index)
 void DriveEngine::slotTreeViewCollapsed(const QModelIndex& index)
 {
     CommonTools::removeTreeViewOpenedItem(index.row());
+}
+
+void DriveEngine::slotAdditionalInfoCheckBox(int state)
+{
+   qDebug() << "additionalInfoCheckBox " << state;
+
+   bool hiddenState;
+
+   state == 0 ? hiddenState = true : hiddenState = false;
+
+   for(int i = 1; i < model->getColumnCount(); ++i)
+   {
+       UiInstance::ui->discTreeView->setColumnHidden(i,hiddenState);
+       UiInstance::ui->discTreeView->header()->resizeSection(i, 180);
+   }
+
+   //UiInstance::ui->discTreeView->header()->resizeSections(QHeaderView::ResizeToContents);
+   UiInstance::ui->discTreeView->header()->resizeSection(0, 250);
 }
 

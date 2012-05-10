@@ -22,23 +22,29 @@ void CommonTools::msg(const QString& str)
 
 const QList<int> CommonTools::getTreeViewOpenedItem(void)
 {
- return CommonTools::indexes;
+    return CommonTools::indexes;
 }
 
 void CommonTools::treeViewOpenedItemClear(void)
 {
- CommonTools::indexes.clear();
+    CommonTools::indexes.clear();
 }
 
 void CommonTools::addTreeViewOpenedItem(int index)
 {
- CommonTools::indexes.push_back(index);
- qDebug() << "addTreeViewOpenedItem ->" << QString::number(CommonTools::indexes.count());
+    CommonTools::indexes.push_back(index);
+    qDebug() << "addTreeViewOpenedItem ->" << QString::number(CommonTools::indexes.count());
 }
 
 void CommonTools::removeTreeViewOpenedItem(int index)
 {
- CommonTools::indexes.removeAt(CommonTools::indexes.indexOf(index));
- qDebug() << "removeTreeViewOpenedItem ->" << QString::number(CommonTools::indexes.count());
+    CommonTools::indexes.removeAt(CommonTools::indexes.indexOf(index));
+    qDebug() << "removeTreeViewOpenedItem ->" << QString::number(CommonTools::indexes.count());
 }
 
+QString CommonTools::convertDate(const QString& dt)
+{
+    QDateTime fileDateTime = QDateTime::fromString(dt, "yyyy-MM-ddThh:mm:ss.zzzZ");
+
+    return fileDateTime.toString();
+}

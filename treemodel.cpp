@@ -5,8 +5,8 @@
 
 TreeModel::TreeModel(QList<QVariant> rootData, TreeItemInfo* treeItemsInfo, QObject *parent) :
     QAbstractItemModel(parent),
-    itemInfo(treeItemsInfo)/*,
-    columnsTotal(rootData.count())*/
+    itemInfo(treeItemsInfo),
+    columnsTotal(rootData.count())
 {
     init(rootData);
 }
@@ -28,6 +28,11 @@ int TreeModel::columnCount(const QModelIndex &parent) const
         return static_cast<TreeItem*>(parent.internalPointer())->columnCount();
     else
         return rootItem->columnCount();
+}
+
+int TreeModel::getColumnCount()
+{
+  return  columnsTotal;
 }
 
 QVariant TreeModel::data(const QModelIndex &index, int role) const
@@ -141,7 +146,10 @@ void TreeModel::buildTree(const QString& searchStr, TreeItem *parent)
             QList<QVariant> column;
 
             column.push_back(itemInfo->getItems()[i].name);
-//            column.push_back(itemInfo->getItems()[i].fileSize);
+            column.push_back(itemInfo->getItems()[i].filePublished);
+            column.push_back(itemInfo->getItems()[i].fileUpdated);
+            column.push_back(itemInfo->getItems()[i].fileEdited);
+            column.push_back(itemInfo->getItems()[i].fileSize);
 
             /*
              add other columns here if necessary

@@ -27,6 +27,7 @@ public:
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
     void setupModelData(TreeItem *parent);
     int init(QList<QVariant> rootData);
+    int getColumnCount();
 
 private:
     void fillTree(QList< QList<QVariant> > columnData, TreeItem *parent, QList<int> indexes);
@@ -36,7 +37,7 @@ private:
 private:   
     TreeItem *rootItem;
     TreeItemInfo* itemInfo;
-    //int columnsTotal;
+    int columnsTotal;
 };
 
 

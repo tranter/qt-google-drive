@@ -36,16 +36,17 @@ bool XMLHandler::characters(const QString &str)
     {
         qlonglong size = str.toLongLong();
         QString sizeStr = locale.toString(size);
-        itemData.fileSize = infoToken + sizeStr;
+        itemData.fileSize = infoToken + sizeStr + " bytes";
     }
 
-    if(tags[EPublished]) itemData.filePublished =  RFC3339::toString(RFC3339::fromString(str));
-    if(tags[EUpdated]) itemData.fileUpdated =  RFC3339::toString(RFC3339::fromString(str));
-    if(tags[EEdited]) itemData.fileEdited =  RFC3339::toString(RFC3339::fromString(str));
+    if(tags[EPublished])itemData.filePublished =  infoToken + CommonTools::convertDate(str);
+    if(tags[EUpdated]) itemData.fileUpdated =  infoToken + CommonTools::convertDate(str);
+    if(tags[EEdited]) itemData.fileEdited =  infoToken + CommonTools::convertDate(str);
 
     for(int i = ETitle; i < ETagsCount; ++i) tags[i] = false;
 
-    //qDebug() << "======================================= " << str;
+    //qDebug() << "------------------------------> " << itemData.filePublished;
+
     return true;
 }
 

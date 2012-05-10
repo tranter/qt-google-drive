@@ -28,6 +28,9 @@ void MainWindow::init(void)
 
     setConnections();
 
+    QTextCodec::setCodecForCStrings(QTextCodec::codecForLocale());
+    QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
+
     emit siganalGet();
 }
 
@@ -46,6 +49,7 @@ void MainWindow::setConnections(void)
     connect(driveEngine->getOAuth2(), SIGNAL(loginDone()), this, SLOT(slotloginDone()));
     connect(driveEngine, SIGNAL(signalUploadFinished()), this, SLOT(slotUpdateModel()));
     connect(driveEngine, SIGNAL(signalAccessTokenExpired()), driveEngine, SLOT(slotStartLogin()));
+    connect(UiInstance::ui->additionalInfoCheckBox, SIGNAL(stateChanged (int)), driveEngine, SLOT(slotAdditionalInfoCheckBox(int)));
 }
 
 Ui::MainWindow* UiInstance::Instance()
@@ -67,6 +71,6 @@ void MainWindow::slotUpdateModel()
   UiInstance::ui->actionMenuUpload->setEnabled(true);
   UiInstance::ui->actionUpload->setEnabled(true);
 
-  init(); 
+  init();
 }
 

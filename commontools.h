@@ -5,7 +5,7 @@
 #include <QSettings>
 #include <QMessageBox>
 #include "AppRegData.h"
-//#include <QModelIndex>
+#include <QDateTime>
 #include <QList>
 
 class CommonTools
@@ -17,6 +17,7 @@ public:
     static void addTreeViewOpenedItem(int index);
     static void removeTreeViewOpenedItem(int index);
     static void treeViewOpenedItemClear(void);
+    static QString convertDate(const QString& dt);
 
 private:
     static QList<int> indexes;

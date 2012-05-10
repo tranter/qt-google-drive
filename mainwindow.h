@@ -4,9 +4,11 @@
 #include <QMainWindow>
 #include "driveengine.h"
 #include <QDateTime>
+#include <QTextCodec>
 
-namespace Ui {
-class MainWindow;
+namespace Ui
+{
+ class MainWindow;
 }
 
 class DriveEngine;

@@ -20,12 +20,9 @@
    <bool>false</bool>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QHBoxLayout" name="horizontalLayout">
+   <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QTreeView" name="discTreeView">
-      <property name="locale">
-       <locale language="English" country="UnitedStates"/>
-      </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
       </property>
@@ -39,11 +36,28 @@
        <bool>true</bool>
       </property>
       <attribute name="headerDefaultSectionSize">
-       <number>250</number>
+       <number>180</number>
       </attribute>
       <attribute name="headerHighlightSections">
        <bool>true</bool>
       </attribute>
+     </widget>
+    </item>
+    <item>
+     <widget class="QCheckBox" name="additionalInfoCheckBox">
+      <property name="text">
+       <string>Additional Info</string>
+      </property>
+      <property name="icon">
+       <iconset resource="resource.qrc">
+        <normaloff>:/ico/unknown</normaloff>:/ico/unknown</iconset>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+      <property name="tristate">
+       <bool>false</bool>
+      </property>
      </widget>
     </item>
    </layout>
