@@ -32,7 +32,8 @@ bool XMLHandler::characters(const QString &str)
     {
         qlonglong size = str.toLongLong();
         QString sizeStr = locale.toString(size);
-        itemData.fileSize = infoToken + sizeStr + " bytes";
+        itemData.fileSize = infoToken + sizeStr + " bytes"/* +  itemData.name.toString()*/;
+
     }
 
     if(tags[EPublished])itemData.filePublished =  infoToken + CommonTools::convertDate(str);
@@ -40,6 +41,8 @@ bool XMLHandler::characters(const QString &str)
     if(tags[EEdited]) itemData.fileEdited =  infoToken + CommonTools::convertDate(str);
 
     for(int i = ETitle; i < ETagsCount; ++i) tags[i] = false;
+
+    qDebug() << "!itemData.fileSize =" << itemData.fileSize << "itemData.name = " << itemData.name;
 
     return true;
 }
@@ -106,6 +109,7 @@ bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs
         itemData.type = resPath;
         itemData.iconPath = resManager.getResPath(resPath);
         itemInfo->push_back(itemData, type);
+        qDebug() << "............itemData.fileSize =" << itemData.fileSize << "itemData.name = " << itemData.name;
     }
 
     return true;

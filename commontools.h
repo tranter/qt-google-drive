@@ -17,7 +17,8 @@ public:
     static void addTreeViewOpenedItem(int index);
     static void removeTreeViewOpenedItem(int index);
     static void treeViewOpenedItemClear(void);
-    static QString convertDate(const QString& dt);
+    static QString convertDate(const QString& dtStr);
+    static QString getFormattedDate(QDateTime& dt);
 
 private:
     static QList<int> indexes;

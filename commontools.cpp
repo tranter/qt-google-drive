@@ -42,9 +42,24 @@ void CommonTools::removeTreeViewOpenedItem(int index)
     qDebug() << "removeTreeViewOpenedItem ->" << QString::number(CommonTools::indexes.count());
 }
 
-QString CommonTools::convertDate(const QString& dt)
+QString CommonTools::convertDate(const QString& dtStr)
 {
-    QDateTime fileDateTime = QDateTime::fromString(dt, "yyyy-MM-ddThh:mm:ss.zzzZ");
+    QDateTime fileDateTime = QDateTime::fromString(dtStr, "yyyy-MM-ddThh:mm:ss.zzzZ");
 
-    return fileDateTime.toString(/*"ddd, MMM dd, yyyy    hh:mm::ss"*/);
+    return CommonTools::getFormattedDate(fileDateTime);
 }
+
+QString CommonTools::getFormattedDate(QDateTime& dt)
+{
+    QString formattedDateStr;
+
+    dt.setTimeSpec(Qt::UTC);
+
+    if(dt.date() == QDate::currentDate())
+       formattedDateStr = dt.toLocalTime().toString("h:mm ap");
+    else if (dt.date().year() == QDate::currentDate().year())
+       formattedDateStr = dt.toLocalTime().toString("MMM d");
+
+    return formattedDateStr;
+}
+

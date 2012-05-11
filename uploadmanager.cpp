@@ -53,8 +53,11 @@ void UploadFileManager::startUpload(const QString& fileName, QUrl uploadUrl, con
 
     QByteArray content = metadata.toLatin1();
 
-    request.setRawHeader("GData-Version", "3.0");
-    request.setRawHeader("Authorization", (QString("OAuth %1").arg(accessToken)).toLatin1());
+//    request.setRawHeader("GData-Version", "3.0");
+//    request.setRawHeader("Authorization", (QString("OAuth %1").arg(accessToken)).toLatin1());
+
+    CommonTools::setHeader(request);
+
     request.setRawHeader("Content-Type", "application/atom+xml");
     request.setRawHeader("Content-Length", QString::number(content.size()).toLatin1());
 
