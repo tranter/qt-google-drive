@@ -59,6 +59,8 @@ QString CommonTools::getFormattedDate(QDateTime& dt)
        formattedDateStr = dt.toLocalTime().toString("h:mm ap");
     else if (dt.date().year() == QDate::currentDate().year())
        formattedDateStr = dt.toLocalTime().toString("MMM d");
+    else if (dt.date().year() < QDate::currentDate().year())
+       formattedDateStr = dt.toLocalTime().toString("M/d/yy");
 
     return formattedDateStr;
 }
