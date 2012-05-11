@@ -70,11 +70,7 @@ void DriveEngine::slotReplyFinished(QNetworkReply* reply)
 
 void DriveEngine::setModel(void)
 {
-    if(model)
-    {
-        delete model;
-        model = NULL;
-    }
+    if(model) delete model;
 
     QList<QVariant> rootData;
 
@@ -98,6 +94,9 @@ void DriveEngine::setModel(void)
 
     slotAdditionalInfoCheckBox(state);
     loadOpenedItems();
+
+    UiInstance::ui->actionMenuUpload->setEnabled(true);
+    UiInstance::ui->actionUpload->setEnabled(true);
 }
 
 void DriveEngine::slotGet(void)
@@ -255,6 +254,7 @@ void DriveEngine::slotUpload(void)
             uploadFileManager = new UploadFileManager;
 
             connect(uploadFileManager, SIGNAL(signalUpdateModel()), this, SLOT(slotUploadFinished()));
+            connect(uploadFileManager, SIGNAL(signalUpdateModel()), parent, SLOT(slotUpdateModel()));
 
             uploadFileManager->startUpload(fileName, uploadLink, accessToken);
         }
@@ -264,7 +264,7 @@ void DriveEngine::slotUpload(void)
 void DriveEngine::slotUploadFinished()
 {
     qDebug() << "DriveEngine::slotUploadFinished";
-    emit signalUploadFinished();
+    //emit signalUploadFinished();
 }
 
 int DriveEngine::getCurrentModelItemIndex(void) const

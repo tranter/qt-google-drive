@@ -63,7 +63,7 @@ private slots:
     void slotTreeViewCollapsed(const QModelIndex& index);
 
 signals:
-    void signalUploadFinished();
+    //void signalUploadFinished();
     void signalAccessTokenExpired();
 
 private:
