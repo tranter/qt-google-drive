@@ -264,7 +264,6 @@ void DriveEngine::slotUpload(void)
 void DriveEngine::slotUploadFinished()
 {
     qDebug() << "DriveEngine::slotUploadFinished";
-    //emit signalUploadFinished();
 }
 
 int DriveEngine::getCurrentModelItemIndex(void) const

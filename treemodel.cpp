@@ -145,12 +145,6 @@ void TreeModel::buildTree(const QString& searchStr, TreeItem *parent)
         {
             QList<QVariant> column;
 
-            column.push_back(itemInfo->getItems()[i].name);
-            column.push_back(itemInfo->getItems()[i].filePublished);
-            column.push_back(itemInfo->getItems()[i].fileUpdated);
-            column.push_back(itemInfo->getItems()[i].fileEdited);
-            column.push_back(itemInfo->getItems()[i].fileSize);
-
             /*
              add other columns here if necessary
              (info columns - i.e. columns which contain additional info about item) (example: column.push_back(OTHER_INFO_COLUMN))
@@ -159,6 +153,12 @@ void TreeModel::buildTree(const QString& searchStr, TreeItem *parent)
                   also you must add columns into model before using this feature (method: void DriveEngine::setModel(void))
                   see comment in driveengine.cpp (method: void DriveEngine::setModel(void))
             */
+
+            column.push_back(itemInfo->getItems()[i].name);
+            column.push_back(itemInfo->getItems()[i].filePublished);
+            column.push_back(itemInfo->getItems()[i].fileUpdated);
+            column.push_back(itemInfo->getItems()[i].fileEdited);
+            column.push_back(itemInfo->getItems()[i].fileSize);
 
             columnData.push_back(column);
             selfs.push_back(itemInfo->getItems()[i].self);

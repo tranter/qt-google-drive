@@ -72,7 +72,7 @@ void UploadFileManager::startUpload(const QString& fileName, QUrl uploadUrl, con
 
 void UploadFileManager::postFinished(QNetworkReply* reply)
 {
-    qDebug() << "======================================================================= postFinished";
+    qDebug() << "postFinished";
 
     if (reply->error())
     {
@@ -97,13 +97,11 @@ void UploadFileManager::postFinished(QNetworkReply* reply)
             QByteArray arr = file.readAll();
             file.close();
 
-            qlonglong f_size = arr.count();
+            qlonglong fileSize = arr.count();
 
-            request.setRawHeader("GData-Version", "3.0");
-            request.setRawHeader("Authorization", (QString("OAuth %1").arg(access_token)).toLatin1());
             request.setRawHeader("Content-Type", contentType.toLatin1());
-            request.setRawHeader("Content-Length", (QString("%1").arg(f_size)).toLatin1());
-            request.setRawHeader("Content-Range", (QString("bytes 0-%1/%2").arg(f_size-1).arg(f_size)).toLatin1());
+            request.setRawHeader("Content-Length", (QString("%1").arg(fileSize)).toLatin1());
+            request.setRawHeader("Content-Range", (QString("bytes 0-%1/%2").arg(fileSize-1).arg(fileSize)).toLatin1());
 
             doPutRequest(location,arr);
         }
