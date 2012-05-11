@@ -348,10 +348,10 @@ void DriveEngine::slotAdditionalInfoCheckBox(bool state)
     for(int i = 1; i < model->getColumnCount(); ++i)
     {
         UiInstance::ui->discTreeView->setColumnHidden(i,!state);
-        UiInstance::ui->discTreeView->header()->resizeSection(i, 180);
+        UiInstance::ui->discTreeView->header()->resizeSection(i, 120);
     }
 
-    UiInstance::ui->discTreeView->header()->resizeSection(0, 250);
+    UiInstance::ui->discTreeView->header()->resizeSection(0, 480);
 
     QSettings settings(COMPANY_NAME, APP_NAME);
     settings.setValue(ADDITIONAL_INFO_KEY, state);
