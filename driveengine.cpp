@@ -83,8 +83,6 @@ void DriveEngine::setModel(void)
       (example: rootData << TREE_VIEW_MAIN_TITLE << OTHER_COLIMN_TITLE1 <<  OTHER_COLIMN_TITLE2;)
     */
 
-    //rootData << TREE_VIEW_MAIN_TITLE;
-
     rootData << TREE_VIEW_MAIN_TITLE << TREE_VIEW_PUBLISHED_TITLE << TREE_VIEW_UPDATED_TITLE << TREE_VIEW_EDITED_TITLE << TREE_VIEW_SIZE_TITLE;
 
     TreeItemInfo* itemInfo = parser->getXMLHandler()->getTreeItemInfo();
@@ -96,7 +94,7 @@ void DriveEngine::setModel(void)
 
     QSettings settings(COMPANY_NAME, APP_NAME);
 
-    bool state = settings.value(ADDITIONAL_INFO_KEY, true).toBool();
+    bool state = settings.value(ADDITIONAL_INFO_KEY, false).toBool();
 
     slotAdditionalInfoCheckBox(state);
     loadOpenedItems();
@@ -213,18 +211,6 @@ OAuth2* DriveEngine::getOAuth2(void) const
 
 void DriveEngine::slotDownload(void)
 {
-    //    if(downloadManager)
-    //    {
-    //        if(downloadManager->getState() == DownloadFileManager::EBusy)
-    //        {
-    //            CommonTools::msg("No multithreading support for files downloading in this version");
-    //            return;
-    //        }
-    //    }
-
-    UiInstance::ui->actionMenuDownload->setDisabled(true);
-    UiInstance::ui->actionDownload->setDisabled(true);
-
     QSettings settings(COMPANY_NAME, APP_NAME);
     QString downloadLink(parser->getXMLHandler()->getTreeItemInfo()->getItems()[getCurrentModelItemIndex()].downloadLink);
 
@@ -232,6 +218,9 @@ void DriveEngine::slotDownload(void)
     {
         if(slotCheckWorkDir(false))
         {
+            UiInstance::ui->actionMenuDownload->setDisabled(true);
+            UiInstance::ui->actionDownload->setDisabled(true);
+
             QString fileName = settings.value(WORK_DIR).toString() + "\/" + parser->getXMLHandler()->getTreeItemInfo()->getItems()[getCurrentModelItemIndex()].name.toString();
             QString fileType =  parser->getXMLHandler()->getTreeItemInfo()->getItems()[getCurrentModelItemIndex()].fileType;
 
@@ -240,7 +229,7 @@ void DriveEngine::slotDownload(void)
 
             downloadManager->startDownload(QUrl(downloadLink), fileName, fileType);
         }
-        else CommonTools::msg("Please note: you must set working directory for downloading files");
+        else CommonTools::msg(SET_DIR_REMINDER_MSG);
     }
 }
 
@@ -251,17 +240,17 @@ void DriveEngine::slotUpload(void)
     QSettings settings(COMPANY_NAME, APP_NAME);
     accessToken = settings.value("access_token").toString();
 
-    QString fileName = QFileDialog::getOpenFileName(parent, trUtf8("Uploading file"), QDir::homePath(), trUtf8("All files(*)"));
+    QString fileName = QFileDialog::getOpenFileName(parent, "Uploading file", QDir::homePath(), "All files(*)");
 
     if(!fileName.isEmpty())
     {
-        UiInstance::ui->actionMenuUpload->setDisabled(true);
-        UiInstance::ui->actionUpload->setDisabled(true);
-
         QString uploadLink(parser->getXMLHandler()->getTreeItemInfo()->getItems()[getCurrentModelItemIndex()].uploadLink);
 
         if(!uploadLink.isEmpty())
         {
+            UiInstance::ui->actionMenuUpload->setDisabled(true);
+            UiInstance::ui->actionUpload->setDisabled(true);
+
             if(uploadFileManager) delete uploadFileManager;
             uploadFileManager = new UploadFileManager;
 
@@ -356,8 +345,6 @@ void DriveEngine::slotAdditionalInfoCheckBox(bool state)
 {
     UiInstance::ui->actionMenuAdditionalInfo->setChecked(state);
     UiInstance::ui->actionAdditionalInfo ->setChecked(state);
-
-    qDebug() << "--------------> state" << state;
 
     for(int i = 1; i < model->getColumnCount(); ++i)
     {

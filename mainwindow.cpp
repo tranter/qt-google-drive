@@ -32,7 +32,13 @@ void MainWindow::init(void)
     QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
 
     emit siganalGet();
+
+    //QWidget::setStyleSheet("QTreeView::item {border: 1px solid lightgrey; border-top-color: transparent; border-bottom-color: transparent;}");
+    //QWidget::setStyleSheet("QTreeView::item:hover {background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #e7effd, stop: 1 #cbdaf1);border: 1px solid #bfcde4;}");
+    //QWidget::setStyleSheet("QTreeView::item:selected {border: 1px solid #567dbc;}");
 }
+
+
 
 void MainWindow::setConnections(void)
 {
@@ -49,7 +55,6 @@ void MainWindow::setConnections(void)
     connect(driveEngine->getOAuth2(), SIGNAL(loginDone()), this, SLOT(slotloginDone()));
     connect(driveEngine, SIGNAL(signalUploadFinished()), this, SLOT(slotUpdateModel()));
     connect(driveEngine, SIGNAL(signalAccessTokenExpired()), driveEngine, SLOT(slotStartLogin()));
-    //connect(UiInstance::ui->additionalInfoCheckBox, SIGNAL(stateChanged(int)), driveEngine, SLOT(slotAdditionalInfoCheckBox(int)));
     connect(UiInstance::ui->actionMenuAdditionalInfo, SIGNAL(triggered (bool)), driveEngine, SLOT(slotAdditionalInfoCheckBox(bool)));
     connect(UiInstance::ui->actionAdditionalInfo, SIGNAL(triggered (bool)), driveEngine, SLOT(slotAdditionalInfoCheckBox(bool)));
 }

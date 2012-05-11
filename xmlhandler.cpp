@@ -4,8 +4,6 @@
 XMLHandler::XMLHandler(int type):
     queryType(type),
     itemInfo(new TreeItemInfo),
-//    isTitle(false),
-//    isSize(false),
     infoToken(QString(INFO_TOKEN))
 {
     for(int i = ETitle; i < ETagsCount; ++i) tags[i] = false;
@@ -18,8 +16,6 @@ XMLHandler::~XMLHandler()
 
 bool XMLHandler::startElement(const QString &namespaceURI, const QString &localName, const QString &qName, const QXmlAttributes &attribs)
 {
-    //if(qName == "docs:size")
-    //qDebug() << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ qName="  << qName << "localName=" <<  attribs.value("entry");
     return handleReply(qName, attribs, queryType);;
 }
 
@@ -44,8 +40,6 @@ bool XMLHandler::characters(const QString &str)
     if(tags[EEdited]) itemData.fileEdited =  infoToken + CommonTools::convertDate(str);
 
     for(int i = ETitle; i < ETagsCount; ++i) tags[i] = false;
-
-    //qDebug() << "------------------------------> " << itemData.filePublished;
 
     return true;
 }

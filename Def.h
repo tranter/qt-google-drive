@@ -42,4 +42,6 @@
 
 #define WORK_DIR QString("WorkDir")
 
+#define SET_DIR_REMINDER_MSG QString("Please note: you must set working directory for downloading files")
+
 #endif // DEF_H

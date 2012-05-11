@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>987</width>
-    <height>657</height>
+    <width>1034</width>
+    <height>677</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,14 +20,20 @@
    <bool>false</bool>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QVBoxLayout" name="verticalLayout">
+   <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
      <widget class="QTreeView" name="discTreeView">
       <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
+       <enum>QFrame::Box</enum>
+      </property>
+      <property name="lineWidth">
+       <number>1</number>
       </property>
       <property name="rootIsDecorated">
        <bool>true</bool>
+      </property>
+      <property name="uniformRowHeights">
+       <bool>false</bool>
       </property>
       <property name="sortingEnabled">
        <bool>false</bool>
@@ -35,6 +41,12 @@
       <property name="animated">
        <bool>true</bool>
       </property>
+      <property name="allColumnsShowFocus">
+       <bool>false</bool>
+      </property>
+      <attribute name="headerCascadingSectionResizes">
+       <bool>false</bool>
+      </attribute>
       <attribute name="headerDefaultSectionSize">
        <number>180</number>
       </attribute>
@@ -50,7 +62,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>987</width>
+     <width>1034</width>
      <height>21</height>
     </rect>
    </property>

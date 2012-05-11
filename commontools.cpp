@@ -46,5 +46,5 @@ QString CommonTools::convertDate(const QString& dt)
 {
     QDateTime fileDateTime = QDateTime::fromString(dt, "yyyy-MM-ddThh:mm:ss.zzzZ");
 
-    return fileDateTime.toString();
+    return fileDateTime.toString(/*"ddd, MMM dd, yyyy    hh:mm::ss"*/);
 }
