@@ -162,7 +162,7 @@ void TreeModel::buildTree(const QString& searchStr, TreeItem *parent)
 
             selfs.push_back(itemInfo->getItems()[i].self);
 
-            qDebug() << "? itemData.fileSize =" << itemInfo->getItems()[i].fileSize << "itemData.name = " << itemInfo->getItems()[i].name;
+            qDebug() << "???????? itemData.fileSize =" << itemInfo->getItems()[i].fileSize << "itemData.name = " << itemInfo->getItems()[i].name;
 
             columnData.push_back(column);
 

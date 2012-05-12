@@ -56,8 +56,8 @@ void DriveEngine::setConnections(void)
 
 void DriveEngine::slotReplyFinished(QNetworkReply* reply)
 {
-    //    qDebug() << "--------------> replyStr[EFolders]" << replyStr[EFolders];
-    //    qDebug() << "--------------> replyStr[EFiles]" << replyStr[EFiles];
+    qDebug() << "--------------> replyStr[EFolders]" << replyStr[EFolders];
+    qDebug() << "--------------> replyStr[EFiles]" << replyStr[EFiles];
 
     if(!replyStr[EFolders].isEmpty() && !replyStr[EFiles].isEmpty())
     {

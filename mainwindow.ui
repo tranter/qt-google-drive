@@ -101,7 +101,6 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionLogin"/>
    <addaction name="separator"/>
    <addaction name="actionDownload"/>
    <addaction name="actionUpload"/>
@@ -110,18 +109,8 @@
    <addaction name="separator"/>
    <addaction name="actionSettings"/>
    <addaction name="separator"/>
-   <addaction name="actionQuit"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
-  <action name="actionQuit">
-   <property name="icon">
-    <iconset resource="resource.qrc">
-     <normaloff>:/ico/quit</normaloff>:/ico/quit</iconset>
-   </property>
-   <property name="text">
-    <string>Quit</string>
-   </property>
-  </action>
   <action name="actionSettings">
    <property name="icon">
     <iconset resource="resource.qrc">
@@ -129,15 +118,6 @@
    </property>
    <property name="text">
     <string>Settings</string>
-   </property>
-  </action>
-  <action name="actionLogin">
-   <property name="icon">
-    <iconset resource="resource.qrc">
-     <normaloff>:/ico/login</normaloff>:/ico/login</iconset>
-   </property>
-   <property name="text">
-    <string>Login</string>
    </property>
   </action>
   <action name="actionDownload">

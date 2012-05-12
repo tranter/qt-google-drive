@@ -38,14 +38,10 @@ void MainWindow::init(void)
     //QWidget::setStyleSheet("QTreeView::item:selected {border: 1px solid #567dbc;}");
 }
 
-
-
 void MainWindow::setConnections(void)
 {
     connect(UiInstance::ui->actionMenuLogin, SIGNAL(triggered()), driveEngine, SLOT(slotStartLogin()));
-    connect(UiInstance::ui->actionLogin, SIGNAL(triggered()), driveEngine, SLOT(slotStartLogin()));
     connect(UiInstance::ui->actionMenuQuit, SIGNAL(triggered()), this, SLOT(close()));
-    connect(UiInstance::ui->actionQuit, SIGNAL(triggered()), this, SLOT(close()));
     connect(UiInstance::ui->actionMenuDownload, SIGNAL(triggered()), driveEngine, SLOT(slotDownload()));
     connect(UiInstance::ui->actionDownload, SIGNAL(triggered()), driveEngine, SLOT(slotDownload()));
     connect(UiInstance::ui->actionMenuUpload, SIGNAL(triggered()), driveEngine, SLOT(slotUpload()));

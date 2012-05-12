@@ -26,23 +26,41 @@ bool XMLHandler::endElement(const QString &namespaceURI, const QString &localNam
 
 bool XMLHandler::characters(const QString &str)
 {
-    if(tags[ETitle]) itemData.name = str;
+    if(tags[ETitle])
+    {
+        itemData.name = str;
+        tags[ETitle] = false;
+        qDebug() << "!!!!!!!!itemData.name = " << itemData.name;
+    }
 
     if(tags[ESize])
     {
         qlonglong size = str.toLongLong();
         QString sizeStr = locale.toString(size);
         itemData.fileSize = infoToken + sizeStr + " bytes"/* +  itemData.name.toString()*/;
-
+        tags[ESize] = false;
+        qDebug() << "!!!!!!!!itemData.fileSize =" << itemData.fileSize;
     }
 
-    if(tags[EPublished])itemData.filePublished =  infoToken + CommonTools::convertDate(str);
-    if(tags[EUpdated]) itemData.fileUpdated =  infoToken + CommonTools::convertDate(str);
-    if(tags[EEdited]) itemData.fileEdited =  infoToken + CommonTools::convertDate(str);
+    if(tags[EPublished])
+    {
+        itemData.filePublished =  infoToken + CommonTools::convertDate(str);
+        tags[EPublished] = false;
+    }
 
-    for(int i = ETitle; i < ETagsCount; ++i) tags[i] = false;
+    if(tags[EUpdated])
+    {
+        itemData.fileUpdated =  infoToken + CommonTools::convertDate(str);
+        tags[EUpdated] = false;
+    }
 
-    qDebug() << "!itemData.fileSize =" << itemData.fileSize << "itemData.name = " << itemData.name;
+    if(tags[EEdited])
+    {
+        itemData.fileEdited =  infoToken + CommonTools::convertDate(str);
+        tags[EEdited] = false;
+    }
+
+    //qDebug() << "!!!!!!!!!!itemData.fileSize =" << itemData.fileSize << "itemData.name = " << itemData.name;
 
     return true;
 }
@@ -70,6 +88,7 @@ bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs
         resPath = FOLDER_TYPE_STR;
         type = TreeItemInfo::Efolder;
         itemData.fileSize = infoToken;
+        //qDebug() << "FOLDER ";
     }
         break;
 
@@ -77,6 +96,7 @@ bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs
     {
         resPath = FILE_TYPE_STR;
         type = TreeItemInfo::EFile;
+        //qDebug() << "FILE ";
     }
         break;
     }
