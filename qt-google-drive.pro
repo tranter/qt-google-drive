@@ -6,7 +6,7 @@
 
 QT       += core gui webkit network xml
 
-TARGET = qt-google-drive
+TARGET = qtdrive
 TEMPLATE = app
 
 
