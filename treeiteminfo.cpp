@@ -10,9 +10,19 @@ void TreeItemInfo::setPointer(int index, TreeItem *item)
     items[index].item = item;
 }
 
+void TreeItemInfo::setFileSize(const QString& size, int index)
+{
+    fileItems[index].fileSize = size;
+}
+
 const QList<TreeItemInfo::Data>& TreeItemInfo::getItems(void) const
 {
     return items;
+}
+
+const QList<TreeItemInfo::Data>& TreeItemInfo::getFileItems(void) const
+{
+    return fileItems;
 }
 
 void TreeItemInfo::push_back(TreeItemInfo::Data& data, ETypes type)

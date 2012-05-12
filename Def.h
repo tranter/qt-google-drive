@@ -10,7 +10,8 @@
 #define FYLE_TYPE_ATTRIBUTE attribs.value("type")
 #define FYLE_TYPE_SRC_ATTRIBUTE attribs.value("src");
 
-#define TITLE_TAG "title"
+#define FOLDER_TITLE_TAG "title"
+#define FILE_TITLE_TAG "docs:filename"
 #define FILE_SIZE_TAG "docs:size"
 #define PUBLISHED_FILE_TAG "published"
 #define UPDATED_FILE_TAG "updated"

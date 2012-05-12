@@ -16,7 +16,7 @@ XMLHandler::~XMLHandler()
 
 bool XMLHandler::startElement(const QString &namespaceURI, const QString &localName, const QString &qName, const QXmlAttributes &attribs)
 {
-    return handleReply(qName, attribs, queryType);;
+    return handleReply(qName, attribs, queryType);
 }
 
 bool XMLHandler::endElement(const QString &namespaceURI, const QString &localName, const QString &qName)
@@ -30,16 +30,15 @@ bool XMLHandler::characters(const QString &str)
     {
         itemData.name = str;
         tags[ETitle] = false;
-        qDebug() << "!!!!!!!!itemData.name = " << itemData.name;
     }
 
     if(tags[ESize])
     {
         qlonglong size = str.toLongLong();
         QString sizeStr = locale.toString(size);
-        itemData.fileSize = infoToken + sizeStr + " bytes"/* +  itemData.name.toString()*/;
+        //itemData.fileSize = infoToken + sizeStr + " bytes "/* +  itemData.name.toString()*/;
         tags[ESize] = false;
-        qDebug() << "!!!!!!!!itemData.fileSize =" << itemData.fileSize;
+        itemInfo->setFileSize(infoToken + sizeStr + " bytes ", itemInfo->getFileItems().count() - 1);
     }
 
     if(tags[EPublished])
@@ -60,8 +59,6 @@ bool XMLHandler::characters(const QString &str)
         tags[EEdited] = false;
     }
 
-    //qDebug() << "!!!!!!!!!!itemData.fileSize =" << itemData.fileSize << "itemData.name = " << itemData.name;
-
     return true;
 }
 
@@ -78,8 +75,8 @@ bool XMLHandler::fatalError(const QXmlParseException &exception)
 
 bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs, int queryType)
 {
-    QString resPath;
     TreeItemInfo::ETypes type;
+    QString resPath;
 
     switch(queryType)
     {
@@ -88,7 +85,6 @@ bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs
         resPath = FOLDER_TYPE_STR;
         type = TreeItemInfo::Efolder;
         itemData.fileSize = infoToken;
-        //qDebug() << "FOLDER ";
     }
         break;
 
@@ -96,7 +92,6 @@ bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs
     {
         resPath = FILE_TYPE_STR;
         type = TreeItemInfo::EFile;
-        //qDebug() << "FILE ";
     }
         break;
     }
@@ -106,7 +101,7 @@ bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs
         itemData.downloadLink = FYLE_TYPE_SRC_ATTRIBUTE;
     }
 
-    if(qName == TITLE_TAG) tags[ETitle]= true;
+    if(qName == FOLDER_TITLE_TAG) tags[ETitle]= true;
     if(qName == FILE_SIZE_TAG) tags[ESize] = true;
     if(qName == PUBLISHED_FILE_TAG) tags[EPublished] = true;
     if(qName == UPDATED_FILE_TAG) tags[EUpdated] = true;
@@ -129,7 +124,6 @@ bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs
         itemData.type = resPath;
         itemData.iconPath = resManager.getResPath(resPath);
         itemInfo->push_back(itemData, type);
-        qDebug() << "............itemData.fileSize =" << itemData.fileSize << "itemData.name = " << itemData.name;
     }
 
     return true;
