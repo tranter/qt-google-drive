@@ -30,22 +30,26 @@ int TreeModel::columnCount(const QModelIndex &parent) const
         return rootItem->columnCount();
 }
 
-int TreeModel::getColumnCount()
+int TreeModel::columnCount()
 {
   return  columnsTotal;
 }
 
-QVariant TreeModel::data(const QModelIndex &index, int role) const
+QVariant TreeModel::data(const QModelIndex &modelIndex, int role) const
 {
-    if (!index.isValid()) return QVariant();
+    if (!modelIndex.isValid()) return QVariant();
 
-    TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
-    QVariant columnData = item->data(index.column());
+    TreeItem *item = static_cast<TreeItem*>(modelIndex.internalPointer());
+    QVariant columnData = item->data(modelIndex.column());
 
     if (role == Qt::DecorationRole)
     {
         if(columnData.toString()[0] == INFO_TOKEN) return  "";
-        return QIcon(itemInfo->getItems()[getCurrentModelItemIndex(static_cast<TreeItem*>(index.internalPointer()))].iconPath);
+
+        TreeItemInfo treeItems = *itemInfo;
+        int index = getCurrentModelItemIndex(static_cast<TreeItem*>(modelIndex.internalPointer()));
+
+        return QIcon(treeItems[index].iconPath);
     }
 
     if (role != Qt::DisplayRole) return QVariant();
@@ -60,9 +64,9 @@ QVariant TreeModel::data(const QModelIndex &index, int role) const
     return columnData;
 }
 
-Qt::ItemFlags TreeModel::flags(const QModelIndex &index) const
+Qt::ItemFlags TreeModel::flags(const QModelIndex &modelIndex) const
 {
-    if (!index.isValid())
+    if (!modelIndex.isValid())
         return 0;
 
     return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
@@ -98,12 +102,12 @@ QModelIndex TreeModel::index(int row, int column, const QModelIndex &parent) con
         return QModelIndex();
 }
 
-QModelIndex TreeModel::parent(const QModelIndex &index) const
+QModelIndex TreeModel::parent(const QModelIndex &modelIndex) const
 {
-    if (!index.isValid())
+    if (!modelIndex.isValid())
         return QModelIndex();
 
-    TreeItem *childItem = static_cast<TreeItem*>(index.internalPointer());
+    TreeItem *childItem = static_cast<TreeItem*>(modelIndex.internalPointer());
     TreeItem *parentItem = childItem->parent();
 
     if (parentItem == rootItem)
@@ -136,10 +140,11 @@ void TreeModel::buildTree(const QString& searchStr, TreeItem *parent)
     QList< QList<QVariant> > columnData;
     QList<QVariant> selfs;
     QList<int> indexes;
+    TreeItemInfo treeItems = *itemInfo;
 
     int count = 0;
 
-    for (int i = itemInfo->getItems().count() -1; i >=0 ; --i)
+    for (int i = itemInfo->getItems().count() - 1; i >= 0 ; --i)
     {
         if(itemInfo->getItems()[i].parent.toString() == searchStr)
         {
@@ -154,15 +159,12 @@ void TreeModel::buildTree(const QString& searchStr, TreeItem *parent)
                   see comment in driveengine.cpp (method: void DriveEngine::setModel(void))
             */
 
-            column.push_back(itemInfo->getItems()[i].name);
-            column.push_back(itemInfo->getItems()[i].filePublished);
-            column.push_back(itemInfo->getItems()[i].fileUpdated);
-            column.push_back(itemInfo->getItems()[i].fileEdited);
-            column.push_back(itemInfo->getItems()[i].fileSize);
+
+            column.push_back(treeItems[i].name);
+            column.push_back(treeItems[i].fileUpdated);
+            column.push_back(treeItems[i].fileSize);
 
             selfs.push_back(itemInfo->getItems()[i].self);
-
-            qDebug() << "???????? itemData.fileSize =" << itemInfo->getItems()[i].fileSize << "itemData.name = " << itemInfo->getItems()[i].name;
 
             columnData.push_back(column);
 

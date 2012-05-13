@@ -56,8 +56,8 @@ void DriveEngine::setConnections(void)
 
 void DriveEngine::slotReplyFinished(QNetworkReply* reply)
 {
-    qDebug() << "--------------> replyStr[EFolders]" << replyStr[EFolders];
-    qDebug() << "--------------> replyStr[EFiles]" << replyStr[EFiles];
+//    qDebug() << "--------------> replyStr[EFolders]" << replyStr[EFolders];
+//    qDebug() << "--------------> replyStr[EFiles]" << replyStr[EFiles];
 
     if(!replyStr[EFolders].isEmpty() && !replyStr[EFiles].isEmpty())
     {
@@ -79,7 +79,7 @@ void DriveEngine::setModel(void)
       (example: rootData << TREE_VIEW_MAIN_TITLE << OTHER_COLIMN_TITLE1 <<  OTHER_COLIMN_TITLE2;)
     */
 
-    rootData << TREE_VIEW_MAIN_TITLE << TREE_VIEW_PUBLISHED_TITLE << TREE_VIEW_UPDATED_TITLE << TREE_VIEW_EDITED_TITLE << TREE_VIEW_SIZE_TITLE;
+    rootData << TREE_VIEW_MAIN_TITLE << TREE_VIEW_UPDATED_TITLE << TREE_VIEW_SIZE_TITLE;
 
     TreeItemInfo* itemInfo = parser->getXMLHandler()->getTreeItemInfo();
 
@@ -88,15 +88,16 @@ void DriveEngine::setModel(void)
     model = new TreeModel(rootData, itemInfo);
     UiInstance::ui->discTreeView->setModel(model);
 
-    QSettings settings(COMPANY_NAME, APP_NAME);
-
-    bool state = settings.value(ADDITIONAL_INFO_KEY, false).toBool();
-
-    slotAdditionalInfoCheckBox(state);
     loadOpenedItems();
 
     UiInstance::ui->actionMenuUpload->setEnabled(true);
     UiInstance::ui->actionUpload->setEnabled(true);
+
+    for(int i = 1; i < model->columnCount(); ++i)
+        UiInstance::ui->discTreeView->header()->resizeSection(i, 120);
+
+    UiInstance::ui->discTreeView->header()->resizeSection(0, 750);
+
 }
 
 void DriveEngine::slotGet(void)
@@ -211,7 +212,9 @@ OAuth2* DriveEngine::getOAuth2(void) const
 void DriveEngine::slotDownload(void)
 {
     QSettings settings(COMPANY_NAME, APP_NAME);
-    QString downloadLink(parser->getXMLHandler()->getTreeItemInfo()->getItems()[getCurrentModelItemIndex()].downloadLink);
+    TreeItemInfo treeItems = *parser->getXMLHandler()->getTreeItemInfo();
+    int index = getCurrentModelItemIndex();
+    QString downloadLink(treeItems[index].downloadLink);
 
     if(!downloadLink.isEmpty())
     {
@@ -220,8 +223,11 @@ void DriveEngine::slotDownload(void)
             UiInstance::ui->actionMenuDownload->setDisabled(true);
             UiInstance::ui->actionDownload->setDisabled(true);
 
-            QString fileName = settings.value(WORK_DIR).toString() + "\/" + parser->getXMLHandler()->getTreeItemInfo()->getItems()[getCurrentModelItemIndex()].name.toString();
-            QString fileType =  parser->getXMLHandler()->getTreeItemInfo()->getItems()[getCurrentModelItemIndex()].fileType;
+            TreeItemInfo treeItems = *parser->getXMLHandler()->getTreeItemInfo();
+            int index = getCurrentModelItemIndex();
+
+            QString fileName = settings.value(WORK_DIR).toString() + "\/" + treeItems[index].name.toString();
+            QString fileType =  treeItems[index].fileType;
 
             if(downloadManager) delete downloadManager;
             downloadManager = new DownloadFileManager;
@@ -243,7 +249,10 @@ void DriveEngine::slotUpload(void)
 
     if(!fileName.isEmpty())
     {
-        QString uploadLink(parser->getXMLHandler()->getTreeItemInfo()->getItems()[getCurrentModelItemIndex()].uploadLink);
+        TreeItemInfo treeItems = *parser->getXMLHandler()->getTreeItemInfo();
+        int index = getCurrentModelItemIndex();
+
+        QString uploadLink(treeItems[index].uploadLink);
 
         if(!uploadLink.isEmpty())
         {
@@ -269,12 +278,14 @@ void DriveEngine::slotUploadFinished()
 int DriveEngine::getCurrentModelItemIndex(void) const
 {
     TreeItem *item = static_cast<TreeItem*>(UiInstance::ui->discTreeView->currentIndex().internalPointer());
+    TreeItemInfo treeItems = *parser->getXMLHandler()->getTreeItemInfo();
     int count = parser->getXMLHandler()->getTreeItemInfo()->getItems().count();
+
     int currentModelIndex = 0;
 
     for(int i = 1; i < count; ++i)
     {
-        if(parser->getXMLHandler()->getTreeItemInfo()->getItems()[i].item == item)
+        if(treeItems[i].item == item)
         {
             currentModelIndex = i;
             break;
@@ -321,11 +332,8 @@ void DriveEngine::loadOpenedItems(void)
     QList<int> indexes = CommonTools::getTreeViewOpenedItem();
     CommonTools::treeViewOpenedItemClear();
 
-    //qDebug() << "indexes.count() --------------------------->" << QString::number(indexes.count());
-
     for(int i = 0; i < indexes.count(); ++i)
     {
-        //qDebug() << "indexes.count() ---------------------------> indexes[" << i << "]=" << QString::number(indexes[i]);
         UiInstance::ui->discTreeView->expand(model->index(indexes[i], 0, QModelIndex()));
     }
 }
@@ -339,21 +347,3 @@ void DriveEngine::slotTreeViewCollapsed(const QModelIndex& index)
 {
     CommonTools::removeTreeViewOpenedItem(index.row());
 }
-
-void DriveEngine::slotAdditionalInfoCheckBox(bool state)
-{
-    UiInstance::ui->actionMenuAdditionalInfo->setChecked(state);
-    UiInstance::ui->actionAdditionalInfo ->setChecked(state);
-
-    for(int i = 1; i < model->getColumnCount(); ++i)
-    {
-        UiInstance::ui->discTreeView->setColumnHidden(i,!state);
-        UiInstance::ui->discTreeView->header()->resizeSection(i, 120);
-    }
-
-    UiInstance::ui->discTreeView->header()->resizeSection(0, 480);
-
-    QSettings settings(COMPANY_NAME, APP_NAME);
-    settings.setValue(ADDITIONAL_INFO_KEY, state);
-}
-

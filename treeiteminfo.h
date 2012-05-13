@@ -22,9 +22,7 @@ public:
         QString type;
         QString fileType;
         QString fileSize;
-        QString filePublished;
         QString fileUpdated;
-        QString fileEdited;
         QVariant name;
         QVariant self;
         QVariant parent;
@@ -32,6 +30,9 @@ public:
         QString downloadLink;
         QString uploadLink;
     };
+
+public:
+    Data& operator [] (int index);
 
 public:
     void setPointer(int index, TreeItem *item);
@@ -44,7 +45,6 @@ public:
 private:
     QList<Data> items;
     QList<Data> fileItems;
-
 };
 
 #endif // TREEITEMINFO_H

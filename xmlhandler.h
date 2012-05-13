@@ -14,9 +14,7 @@ public:
     enum ETags{
         ETitle = 0,
         ESize,
-        EPublished,
         EUpdated,
-        EEdited,
         ETagsCount
     };
 

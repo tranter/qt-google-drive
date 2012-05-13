@@ -36,27 +36,14 @@ bool XMLHandler::characters(const QString &str)
     {
         qlonglong size = str.toLongLong();
         QString sizeStr = locale.toString(size);
-        //itemData.fileSize = infoToken + sizeStr + " bytes "/* +  itemData.name.toString()*/;
         tags[ESize] = false;
         itemInfo->setFileSize(infoToken + sizeStr + " bytes ", itemInfo->getFileItems().count() - 1);
-    }
-
-    if(tags[EPublished])
-    {
-        itemData.filePublished =  infoToken + CommonTools::convertDate(str);
-        tags[EPublished] = false;
     }
 
     if(tags[EUpdated])
     {
         itemData.fileUpdated =  infoToken + CommonTools::convertDate(str);
         tags[EUpdated] = false;
-    }
-
-    if(tags[EEdited])
-    {
-        itemData.fileEdited =  infoToken + CommonTools::convertDate(str);
-        tags[EEdited] = false;
     }
 
     return true;
@@ -103,9 +90,7 @@ bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs
 
     if(qName == FOLDER_TITLE_TAG) tags[ETitle]= true;
     if(qName == FILE_SIZE_TAG) tags[ESize] = true;
-    if(qName == PUBLISHED_FILE_TAG) tags[EPublished] = true;
     if(qName == UPDATED_FILE_TAG) tags[EUpdated] = true;
-    if(qName == EDITED_FILE_TAG) tags[EEdited] = true;
 
     if(HIERARCHY_ATTRIBUTE == PARENT_FOLDER)
     {

@@ -41,3 +41,8 @@ void TreeItemInfo::normalize(void)
     for(int i = fileItems.count() - 1; i > 0; --i)
         items.push_front(fileItems[i]);
 }
+
+TreeItemInfo::Data& TreeItemInfo::operator [] (int index)
+{
+    return items[index];
+}

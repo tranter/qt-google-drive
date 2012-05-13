@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1034</width>
-    <height>677</height>
+    <width>1024</width>
+    <height>680</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -62,7 +62,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1034</width>
+     <width>1024</width>
      <height>21</height>
     </rect>
    </property>
@@ -77,7 +77,6 @@
     <property name="title">
      <string>Options</string>
     </property>
-    <addaction name="actionMenuAdditionalInfo"/>
     <addaction name="actionMenuSettings"/>
    </widget>
    <widget class="QMenu" name="menuActions">
@@ -105,7 +104,6 @@
    <addaction name="actionDownload"/>
    <addaction name="actionUpload"/>
    <addaction name="separator"/>
-   <addaction name="actionAdditionalInfo"/>
    <addaction name="separator"/>
    <addaction name="actionSettings"/>
    <addaction name="separator"/>
@@ -181,36 +179,6 @@
    </property>
    <property name="text">
     <string>Quit</string>
-   </property>
-  </action>
-  <action name="actionAdditionalInfo">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>false</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="resource.qrc">
-     <normaloff>:/ico/unknown</normaloff>:/ico/unknown</iconset>
-   </property>
-   <property name="text">
-    <string>Additional Info</string>
-   </property>
-  </action>
-  <action name="actionMenuAdditionalInfo">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>false</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="resource.qrc">
-     <normaloff>:/ico/unknown</normaloff>:/ico/unknown</iconset>
-   </property>
-   <property name="text">
-    <string>Additional Info</string>
    </property>
   </action>
  </widget>

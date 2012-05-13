@@ -18,16 +18,16 @@ public:
     ~TreeModel();
 
 public:
-    QVariant data(const QModelIndex &index, int role) const;
-    Qt::ItemFlags flags(const QModelIndex &index) const;
+    QVariant data(const QModelIndex &modelIndex, int role) const;
+    Qt::ItemFlags flags(const QModelIndex &modelIndex) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
     QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
-    QModelIndex parent(const QModelIndex &index) const;
+    QModelIndex parent(const QModelIndex &modelIndex) const;
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
     void setupModelData(TreeItem *parent);
     int init(QList<QVariant> rootData);
-    int getColumnCount();
+    int columnCount();
 
 private:
     void fillTree(QList< QList<QVariant> > columnData, TreeItem *parent, QList<int> indexes);
