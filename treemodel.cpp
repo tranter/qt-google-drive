@@ -146,7 +146,7 @@ void TreeModel::buildTree(const QString& searchStr, TreeItem *parent)
 
     for (int i = itemInfo->getItems().count() - 1; i >= 0 ; --i)
     {
-        if(itemInfo->getItems()[i].parent.toString() == searchStr)
+        if(itemInfo->getItems()[i].parent == searchStr)
         {
             QList<QVariant> column;
 

@@ -23,9 +23,9 @@ public:
         QString fileType;
         QString fileSize;
         QString fileUpdated;
-        QVariant name;
-        QVariant self;
-        QVariant parent;
+        QString name;
+        QString self;
+        QString parent;
         QString iconPath;
         QString downloadLink;
         QString uploadLink;

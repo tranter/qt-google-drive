@@ -226,7 +226,7 @@ void DriveEngine::slotDownload(void)
             TreeItemInfo treeItems = *parser->getXMLHandler()->getTreeItemInfo();
             int index = getCurrentModelItemIndex();
 
-            QString fileName = settings.value(WORK_DIR).toString() + "\/" + treeItems[index].name.toString();
+            QString fileName = settings.value(WORK_DIR).toString() + "\/" + treeItems[index].name;
             QString fileType =  treeItems[index].fileType;
 
             if(downloadManager) delete downloadManager;
