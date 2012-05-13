@@ -3,84 +3,36 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-DownloadFileManager::DownloadFileManager(QObject *parent) :   
-    QObject(parent),
-    networkManager(new QNetworkAccessManager),
-    state(EReady)
+DownloadFileManager::DownloadFileManager(QObject *parent) :
+    NetworkManager(parent)
 {
-    progressDialog.setParent(static_cast<QWidget*>(parent));
-    progressDialog.setCancelButton(0);
 }
 
-DownloadFileManager::~DownloadFileManager()
+void DownloadFileManager::setDownloadSettings(void)
 {
-    if(networkManager) delete networkManager;
-}
+    QFileInfo fi(file.fileName());
+    QString ext = fi.suffix();
 
-void DownloadFileManager::downloadProgress(qint64 bytesReceived, qint64 bytesTotal)
-{
-    qDebug() << "bytesReceived =" << bytesReceived << "bytesTotal =" << bytesTotal;
+    if(ext.isEmpty()) file.setFileName(file.fileName() + getExt());
 
-    progressDialog.setMaximum(bytesTotal);
-    progressDialog.setValue(bytesReceived);
+    CommonTools::setHeader(request);
 }
 
 void DownloadFileManager::downloadFinished()
 {
-    progressDialog.hide();
-    state = EReady;
-    file.flush();
-    file.close();
+    NetworkManager:: downloadFinished();
 
     UiInstance::ui->actionMenuDownload->setEnabled(true);
     UiInstance::ui->actionDownload->setEnabled(true);
 }
 
-void DownloadFileManager::downloadReadyRead()
-{
-    file.write(reply->readAll());
-}
-
-void DownloadFileManager::startDownload(QUrl url, QString& fileName, const QString& fileType)
-{
-    state = EBusy;
-
-    QFileInfo fi(fileName);
-    QString ext = fi.suffix();
-
-    if(ext.isEmpty()) fileName += getExt(fileType);
-
-    file.setFileName(fileName);
-    file.open(QIODevice::WriteOnly);
-
-    progressDialog.show();
-    CommonTools::setHeader(request);
-    request.setUrl(url);
-
-    reply = networkManager->get(request);
-
-    connect(reply, SIGNAL(finished()), this, SLOT(downloadFinished()));
-    connect(reply, SIGNAL(readyRead()), this, SLOT(downloadReadyRead()));
-    connect(reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(downloadProgress(qint64,qint64)));
-}
-
-DownloadFileManager::EStates DownloadFileManager::getState(void) const
-{
-    return state;
-}
-
-void DownloadFileManager::setState(DownloadFileManager::EStates currentState)
-{
-    state = currentState;
-}
-
-QString DownloadFileManager::getExt(const QString& fileType) const
+QString DownloadFileManager::getExt(void) const
 {
     QString ext(".html");
 
-    if(fileType == "text/html") ext = ".html";
-    if(fileType == "image/png") ext = ".png";
-    if(fileType == "application/pdf") ext = ".pdf";
+    if(type == "text/html") ext = ".html";
+    if(type == "image/png") ext = ".png";
+    if(type == "application/pdf") ext = ".pdf";
 
     return ext;
 }

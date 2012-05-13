@@ -252,7 +252,7 @@ void DriveEngine::slotUpload(void)
         TreeItemInfo treeItems = *parser->getXMLHandler()->getTreeItemInfo();
         int index = getCurrentModelItemIndex();
 
-        QString uploadLink(treeItems[index].uploadLink);
+        QString uploadLink(treeItems[index].uploadLink + "/?convert=false");
 
         if(!uploadLink.isEmpty())
         {
@@ -265,7 +265,7 @@ void DriveEngine::slotUpload(void)
             connect(uploadFileManager, SIGNAL(signalUpdateModel()), this, SLOT(slotUploadFinished()));
             connect(uploadFileManager, SIGNAL(signalUpdateModel()), parent, SLOT(slotUpdateModel()));
 
-            uploadFileManager->startUpload(fileName, uploadLink, accessToken);
+            uploadFileManager->startUpload(uploadLink, fileName);
         }
     }
 }

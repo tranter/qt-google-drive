@@ -38,8 +38,8 @@ public:
     void setPointer(int index, TreeItem *item);
     void setFileSize(const QString& size, int index);
     void push_back(Data& data, ETypes type);
-    const QList<TreeItemInfo::Data>& getItems(void) const;
-    const QList<TreeItemInfo::Data>& getFileItems(void) const;
+    const QList<Data>& getItems(void) const;
+    const QList<Data>& getFileItems(void) const;
     void normalize(void);
 
 private:
