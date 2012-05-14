@@ -56,11 +56,14 @@ void DriveEngine::setConnections(void)
 
 void DriveEngine::slotReplyFinished(QNetworkReply* reply)
 {
-    //    qDebug() << "--------------> replyStr[EFolders]" << replyStr[EFolders];
-    //    qDebug() << "--------------> replyStr[EFiles]" << replyStr[EFiles];
+    CommonTools::logToFile("Folders.txt", replyStr[EFolders].toAscii());
+    CommonTools::logToFile("Files.txt", replyStr[EFiles].toAscii());
 
     if(!replyStr[EFolders].isEmpty() && !replyStr[EFiles].isEmpty())
     {
+//        CommonTools::logToFile("Folders.txt", replyStr[EFolders].toAscii());
+//        CommonTools::logToFile("Files.txt", replyStr[EFiles].toAscii());
+
         if(!parseReply(replyStr[EFolders], FOLDER_TYPE)) qDebug() << "parseReply(replyStr[EFolders] NOT OK";
 
         if(parseReply(replyStr[EFiles], FILE_TYPE)) setModel();
@@ -139,8 +142,12 @@ void DriveEngine::slotFoldersSslErrors(const QList<QSslError>& errors)
 
 void DriveEngine::slotFilesReadyRead()
 {
-    qDebug() << "slotFilesReadyRead";
-    replyStr[EFiles].append(reply[EFiles]->readAll());
+    qDebug() << "=========================================================================== slotFilesReadyRead";
+//    QString str = reply[EFiles]->readAll();
+//    replyStr[EFiles].append(str);
+//    qDebug() << str;
+
+     replyStr[EFiles].append(reply[EFiles]->readAll());
 }
 
 void DriveEngine::slotFilesError(QNetworkReply::NetworkError error)

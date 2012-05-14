@@ -7,6 +7,7 @@
 #include "AppRegData.h"
 #include <QDateTime>
 #include <QList>
+#include <QFile>
 
 class CommonTools
 {
@@ -19,7 +20,8 @@ public:
     static void treeViewOpenedItemClear(void);
     static QString convertDate(const QString& dtStr);
     static QString getFormattedDate(QDateTime& dt);
-    static QString getFormattedFileSize(const QString &sizeStr);
+    static QString getFormattedFileSize(const QString& sizeStr);
+    static void logToFile(const QString& fileName, QByteArray bytes);
 
 private:
     static QList<int> indexes;
