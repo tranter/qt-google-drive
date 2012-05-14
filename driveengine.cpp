@@ -242,7 +242,7 @@ void DriveEngine::slotDownload(void)
             QString fileType =  treeItems[index].fileType;
 
             if(downloadManager) delete downloadManager;
-            downloadManager = new DownloadFileManager;
+            downloadManager = new DownloadFileManager(parent);
 
             downloadManager->startDownload(QUrl(downloadLink), fileName, fileType);
         }
@@ -275,7 +275,7 @@ void DriveEngine::slotUpload(void)
             //            UiInstance::ui->actionUpload->setDisabled(true);
 
             if(uploadFileManager) delete uploadFileManager;
-            uploadFileManager = new UploadFileManager;
+            uploadFileManager = new UploadFileManager(parent);
 
             connect(uploadFileManager, SIGNAL(signalUpdateModel()), parent, SLOT(slotUpdateModel()));
 

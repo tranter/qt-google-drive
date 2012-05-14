@@ -6,6 +6,7 @@ NetworkManager::NetworkManager(QObject *parent) :
     networkManager(new QNetworkAccessManager),
     state(EReady)
 {
+  progressBarDialog.setParent(static_cast<QWidget*>(parent), Qt::Dialog);
 }
 
 NetworkManager::~NetworkManager()
