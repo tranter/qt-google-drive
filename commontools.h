@@ -19,6 +19,7 @@ public:
     static void treeViewOpenedItemClear(void);
     static QString convertDate(const QString& dtStr);
     static QString getFormattedDate(QDateTime& dt);
+    static QString getFormattedFileSize(const QString &sizeStr);
 
 private:
     static QList<int> indexes;

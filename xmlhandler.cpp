@@ -34,10 +34,12 @@ bool XMLHandler::characters(const QString &str)
 
     if(tags[ESize])
     {
-        qlonglong size = str.toLongLong();
-        QString sizeStr = locale.toString(size);
-        tags[ESize] = false;
-        itemInfo->setFileSize(infoToken + sizeStr + " bytes ", itemInfo->getFileItems().count() - 1);
+//        qlonglong size = str.toLongLong();
+//        QString sizeStr = locale.toString(size);
+          tags[ESize] = false;
+//        itemInfo->setFileSize(infoToken + sizeStr + " bytes ", itemInfo->getFileItems().count() - 1);
+
+        itemInfo->setFileSize(infoToken + CommonTools::getFormattedFileSize(str), itemInfo->getFileItems().count() - 1);
     }
 
     if(tags[EUpdated])

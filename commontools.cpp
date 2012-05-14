@@ -56,12 +56,37 @@ QString CommonTools::getFormattedDate(QDateTime& dt)
     dt.setTimeSpec(Qt::UTC);
 
     if(dt.date() == QDate::currentDate())
-       formattedDateStr = dt.toLocalTime().toString("h:mm ap");
+        formattedDateStr = dt.toLocalTime().toString("h:mm ap");
     else if (dt.date().year() == QDate::currentDate().year())
-       formattedDateStr = dt.toLocalTime().toString("MMM d");
+        formattedDateStr = dt.toLocalTime().toString("MMM d");
     else if (dt.date().year() < QDate::currentDate().year())
-       formattedDateStr = dt.toLocalTime().toString("M/d/yy");
+        formattedDateStr = dt.toLocalTime().toString("M/d/yy");
 
     return formattedDateStr;
+}
+
+QString CommonTools::getFormattedFileSize(const QString &sizeStr)
+{
+    QLocale locale;
+    float size = sizeStr.toFloat();
+    QString bytesStr(" bytes");
+    QStringList bytesStrList;
+    bytesStrList  << " KB" << " MB" << " GB";
+    float sizes[3] = {1024.0, 1048576.0, 1073741824.0};
+    int precision = 0;
+
+    for(int i = bytesStrList.count() - 1 ; i >= 0 ; --i)
+    {
+        if (size > sizes[i])
+        {
+            size /= sizes[i];
+            bytesStr = bytesStrList[i];
+            break;
+        }
+    }
+
+    if((size - static_cast<int> (size)) != 0) precision = 2;
+
+    return locale.toString(size,'f', precision) + bytesStr;
 }
 
