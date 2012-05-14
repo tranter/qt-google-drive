@@ -67,7 +67,7 @@ void MainWindow::slotloginDone(void)
 
 void MainWindow::slotUpdateModel()
 {
-  qDebug() << "slotUpdateModel()";
+  //qDebug() << "slotUpdateModel()";
   init();
 }
 

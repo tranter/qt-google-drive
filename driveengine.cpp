@@ -41,7 +41,7 @@ void DriveEngine::init(void)
     networkAccessManager = new QNetworkAccessManager(this);
 
     if(oAuth2) delete oAuth2;
-    oAuth2 = new OAuth2;
+    oAuth2 = new OAuth2(parent);
 
     setConnections();
 }
