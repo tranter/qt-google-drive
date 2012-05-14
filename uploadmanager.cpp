@@ -10,7 +10,7 @@ UploadFileManager::UploadFileManager(QObject *parent) :
 void UploadFileManager::uploadFinished()
 {
    NetworkManager::uploadFinished();
-   emit signalUpdateModel();
+   if (!operationCanceled) emit signalUpdateModel();
 }
 
 void UploadFileManager::setUploadSettings(void)

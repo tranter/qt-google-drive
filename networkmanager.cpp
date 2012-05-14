@@ -6,8 +6,6 @@ NetworkManager::NetworkManager(QObject *parent) :
     networkManager(new QNetworkAccessManager),
     state(EReady)
 {
-    //progressDialog.setParent(static_cast<QWidget*>(parent));
-    progressDialog.setCancelButton(0);
 }
 
 NetworkManager::~NetworkManager()
@@ -19,13 +17,13 @@ void NetworkManager::downloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 {
     qDebug() << "bytesReceived =" << bytesReceived << "bytesTotal =" << bytesTotal;
 
-    progressDialog.setMaximum(bytesTotal);
-    progressDialog.setValue(bytesReceived);
+    progressBarDialog.setMaximum(bytesTotal);
+    progressBarDialog.setValue(bytesReceived);
 }
 
 void NetworkManager::downloadFinished()
 {
-    progressDialog.hide();
+    progressBarDialog.hide();
     state = EReady;
     file.flush();
     file.close();
@@ -39,14 +37,15 @@ void NetworkManager::downloadReadyRead()
 void NetworkManager::uploadProgress( qint64 bytesSent, qint64 bytesTotal )
 {
     qDebug() << "bytesSent =" << bytesSent << "bytesTotal =" << bytesTotal;
-    progressDialog.setMaximum(bytesTotal);
-    progressDialog.setValue(bytesSent);
+
+    progressBarDialog.setMaximum(bytesTotal);
+    progressBarDialog.setValue(bytesSent);
 }
 
 void NetworkManager::uploadFinished()
 {
     qDebug() << "uploadFinished";
-    progressDialog.hide();
+    progressBarDialog.hide();
     state = EReady;
 }
 
@@ -68,9 +67,8 @@ void NetworkManager::slotSslErrors(const QList<QSslError>& errors)
 void NetworkManager::startDownload(QUrl url, QString& fileName, const QString& fileType)
 {
     type = fileType;
-    file.setFileName(fileName);
 
-    setStartSettings(url);
+    setStartSettings(url, fileName, "Downloading file: ");
     setDownloadSettings();
 
     file.open(QIODevice::WriteOnly);
@@ -83,10 +81,8 @@ void NetworkManager::startDownload(QUrl url, QString& fileName, const QString& f
 }
 
 void NetworkManager::startUpload(QUrl url, const QString& fileName)
-{
-    file.setFileName(fileName);
-
-    setStartSettings(url);
+{    
+    setStartSettings(url, fileName, "Uploading file: ");
     setUploadSettings();
 
     reply = networkManager->post(request, uploadContent);
@@ -103,11 +99,27 @@ void NetworkManager::setState(NetworkManager::EStates currentState)
     state = currentState;
 }
 
-void NetworkManager::setStartSettings(QUrl url)
+void NetworkManager::setStartSettings(QUrl url, const QString& fileName, const QString& progressBarDialogInfoText)
 {
     state = EBusy;
-    progressDialog.show();
+    operationCanceled = false;
+    file.setFileName(fileName);
+
+    QFileInfo fi(file.fileName());
+
+    progressBarDialog.setText(progressBarDialogInfoText + fi.fileName());
+    progressBarDialog.show();
+
+    connect(&progressBarDialog, SIGNAL(signalProgressCanceled()), this, SLOT(slotProgressCanceled()));
+
     request.setUrl(url);
+}
+
+void NetworkManager::slotProgressCanceled()
+{
+  qDebug() << "slotProgressCanceled";
+  operationCanceled = true;
+  reply->abort();
 }
 
 void NetworkManager::postFinished(QNetworkReply* reply)

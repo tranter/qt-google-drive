@@ -30,7 +30,7 @@ void LoginDialog::urlChanged(const QUrl &url)
             QStringList pair = lst[i].split("=");
             if (pair[0] == "access_token")
             {
-                m_strAccessToken = pair[1];
+                accessToken = pair[1];
                 emit accessTokenObtained();
                 QDialog::accept();
             }
@@ -38,11 +38,10 @@ void LoginDialog::urlChanged(const QUrl &url)
     }
 }
 
-QString LoginDialog::accessToken() const
+QString LoginDialog::getAccessToken() const
 {
-    return m_strAccessToken;
+    return accessToken;
 }
-
 
 void LoginDialog::setLoginUrl(const QString& url)
 {

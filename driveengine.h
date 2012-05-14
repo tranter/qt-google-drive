@@ -41,7 +41,6 @@ public:
 public slots:
     void slotStartLogin(void);
     bool slotCheckWorkDir(bool showDlg = true);
-    void slotUploadFinished();
 
 private slots:
     void slotReplyFinished(QNetworkReply* reply);

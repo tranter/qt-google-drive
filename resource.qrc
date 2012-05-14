@@ -7,5 +7,6 @@
         <file alias="login">res/user-identity.png</file>
         <file alias="settings">res/configure.png</file>
         <file alias="quit">res/application-exit.png</file>
+        <file alias="logo">res/drive-text-logo-flat.png</file>
     </qresource>
 </RCC>

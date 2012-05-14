@@ -25,7 +25,8 @@ SOURCES += main.cpp\
     settingsdialog.cpp \
     commontools.cpp \
     uploadmanager.cpp \
-    networkmanager.cpp
+    networkmanager.cpp \
+    progressbardialog.cpp
 
 HEADERS  += mainwindow.h\
             oauth2.h\
@@ -43,11 +44,13 @@ HEADERS  += mainwindow.h\
     settingsdialog.h \
     commontools.h \
     uploadmanager.h \
-    networkmanager.h
+    networkmanager.h \
+    progressbardialog.h
 
 FORMS    += mainwindow.ui\
             logindialog.ui\
-             settingsdialog.ui
+             settingsdialog.ui \
+    progressbardialog.ui
 
 RESOURCES += \
     resource.qrc

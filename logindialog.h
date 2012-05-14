@@ -17,7 +17,7 @@ public:
     explicit LoginDialog(QWidget *parent = 0);
     ~LoginDialog();
     void setLoginUrl(const QString& url);
-    QString accessToken() const;
+    QString getAccessToken() const;
 
 signals:
     void accessTokenObtained();
@@ -28,7 +28,7 @@ private slots:
 
 private:
     Ui::LoginDialog *ui;
-    QString m_strAccessToken;
+    QString accessToken;
 };
 
 #endif // LOGINDIALOG_H

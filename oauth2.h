@@ -12,16 +12,16 @@ class OAuth2 : public QObject
 
 public:
     OAuth2(QWidget* parent = 0);
-    QString accessToken() const;
+    QString getAccessToken() const;
     bool isAuthorized();
     void startLogin(bool bForce);
 
     //Functions to set application's details.
-    void setScope(const QString& scope);
-    void setClientID(const QString& clientID);
-    void setRedirectURI(const QString& redirectURI);
-    void setCompanyName(const QString& companyName);
-    void setAppName(const QString& appName);
+    void setScope(const QString& scopeStr);
+    void setClientID(const QString& clientIDStr);
+    void setRedirectURI(const QString& redirectURIStr);
+    void setCompanyName(const QString& companyNameStr);
+    void setAppName(const QString& appNameStr);
 
     QString loginUrl();
 
@@ -33,19 +33,19 @@ private slots:
     void accessTokenObtained();
 
 private:
-    QString m_strAccessToken;
+    QString accessToken;
 
-    QString m_strEndPoint;
-    QString m_strScope;
-    QString m_strClientID;
-    QString m_strRedirectURI;
-    QString m_strResponseType;
+    QString endPoint;
+    QString scope;
+    QString clientID;
+    QString redirectURI;
+    QString responseType;
 
-    QString m_strCompanyName;
-    QString m_strAppName;
+    QString companyName;
+    QString appName;
 
-    LoginDialog* m_pLoginDialog;
-    QWidget* m_pParent;
+    LoginDialog* loginDialog;
+    QWidget* parent;
 };
 
 #endif // OAUTH2_H

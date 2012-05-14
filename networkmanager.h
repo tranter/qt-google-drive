@@ -4,9 +4,10 @@
 #include <QObject>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
-#include <QProgressDialog>
 #include <QFile>
 #include <QSslError>
+#include "progressbardialog.h"
+#include <QFileInfo>
 
 class NetworkManager : public QObject
 {
@@ -32,7 +33,7 @@ public:
     void doPutRequest(const QString & url,const QByteArray& data);
 
 public:
-    virtual void setStartSettings(QUrl url);
+    virtual void setStartSettings(QUrl url, const QString& fileName, const QString& progressBarDialogInfoText);
 
 public:
     EStates getState(void) const;
@@ -47,16 +48,18 @@ public slots:
     virtual void slotError(QNetworkReply::NetworkError error);
     virtual void slotSslErrors(const QList<QSslError>& errors);
     virtual void postFinished(QNetworkReply* reply);
+    virtual void slotProgressCanceled();
 
 protected:
     QNetworkAccessManager* networkManager;
     QNetworkReply *reply;
     QNetworkRequest request;
     QByteArray uploadContent;
-    QProgressDialog progressDialog;
     EStates state;
     QFile file;
     QString type;
+    ProgressBarDialog progressBarDialog;
+    bool operationCanceled;
 };
 
 #endif // NETWORKMANAGER_H

@@ -31,8 +31,8 @@ void DriveEngine::slotStartLogin(void)
 {
     oAuth2->startLogin(true);
 
-    UiInstance::ui->actionMenuDownload->setEnabled(true);
-    UiInstance::ui->actionDownload->setEnabled(true);
+    //    UiInstance::ui->actionMenuDownload->setEnabled(true);
+    //    UiInstance::ui->actionDownload->setEnabled(true);
 }
 
 void DriveEngine::init(void)
@@ -56,8 +56,8 @@ void DriveEngine::setConnections(void)
 
 void DriveEngine::slotReplyFinished(QNetworkReply* reply)
 {
-//    qDebug() << "--------------> replyStr[EFolders]" << replyStr[EFolders];
-//    qDebug() << "--------------> replyStr[EFiles]" << replyStr[EFiles];
+    //    qDebug() << "--------------> replyStr[EFolders]" << replyStr[EFolders];
+    //    qDebug() << "--------------> replyStr[EFiles]" << replyStr[EFiles];
 
     if(!replyStr[EFolders].isEmpty() && !replyStr[EFiles].isEmpty())
     {
@@ -90,8 +90,8 @@ void DriveEngine::setModel(void)
 
     loadOpenedItems();
 
-    UiInstance::ui->actionMenuUpload->setEnabled(true);
-    UiInstance::ui->actionUpload->setEnabled(true);
+    //    UiInstance::ui->actionMenuUpload->setEnabled(true);
+    //    UiInstance::ui->actionUpload->setEnabled(true);
 
     for(int i = 1; i < model->columnCount(); ++i)
         UiInstance::ui->discTreeView->header()->resizeSection(i, 120);
@@ -211,6 +211,11 @@ OAuth2* DriveEngine::getOAuth2(void) const
 
 void DriveEngine::slotDownload(void)
 {
+    if(downloadManager)
+    {
+        if(downloadManager->getState() == NetworkManager::EBusy) return;
+    }
+
     QSettings settings(COMPANY_NAME, APP_NAME);
     TreeItemInfo treeItems = *parser->getXMLHandler()->getTreeItemInfo();
     int index = getCurrentModelItemIndex();
@@ -220,8 +225,8 @@ void DriveEngine::slotDownload(void)
     {
         if(slotCheckWorkDir(false))
         {
-            UiInstance::ui->actionMenuDownload->setDisabled(true);
-            UiInstance::ui->actionDownload->setDisabled(true);
+            //            UiInstance::ui->actionMenuDownload->setDisabled(true);
+            //            UiInstance::ui->actionDownload->setDisabled(true);
 
             TreeItemInfo treeItems = *parser->getXMLHandler()->getTreeItemInfo();
             int index = getCurrentModelItemIndex();
@@ -240,7 +245,10 @@ void DriveEngine::slotDownload(void)
 
 void DriveEngine::slotUpload(void)
 {
-    qDebug() << "slotUpload ";
+    if(uploadFileManager)
+    {
+        if(uploadFileManager->getState() == NetworkManager::EBusy) return;
+    }
 
     QSettings settings(COMPANY_NAME, APP_NAME);
     accessToken = settings.value("access_token").toString();
@@ -256,23 +264,17 @@ void DriveEngine::slotUpload(void)
 
         if(!uploadLink.isEmpty())
         {
-            UiInstance::ui->actionMenuUpload->setDisabled(true);
-            UiInstance::ui->actionUpload->setDisabled(true);
+            //            UiInstance::ui->actionMenuUpload->setDisabled(true);
+            //            UiInstance::ui->actionUpload->setDisabled(true);
 
             if(uploadFileManager) delete uploadFileManager;
             uploadFileManager = new UploadFileManager;
 
-            connect(uploadFileManager, SIGNAL(signalUpdateModel()), this, SLOT(slotUploadFinished()));
             connect(uploadFileManager, SIGNAL(signalUpdateModel()), parent, SLOT(slotUpdateModel()));
 
             uploadFileManager->startUpload(uploadLink, fileName);
         }
     }
-}
-
-void DriveEngine::slotUploadFinished()
-{
-    qDebug() << "DriveEngine::slotUploadFinished";
 }
 
 int DriveEngine::getCurrentModelItemIndex(void) const

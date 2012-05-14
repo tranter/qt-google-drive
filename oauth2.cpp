@@ -8,73 +8,73 @@
 
 OAuth2::OAuth2(QWidget* parent)
 { 
-    m_strScope = SCOPE;
-    m_strClientID = CLIENT_ID;
-    m_strRedirectURI = REDIRECT_URI;
-    m_strCompanyName = COMPANY_NAME;
-    m_strAppName =  APP_NAME;
+    scope = SCOPE;
+    clientID = CLIENT_ID;
+    redirectURI = REDIRECT_URI;
+    companyName = COMPANY_NAME;
+    appName =  APP_NAME;
 
-    m_strEndPoint = "https://accounts.google.com/o/oauth2/auth";
-    m_strResponseType = "token";
+    endPoint = END_POINT;
+    responseType = RESPONSE_TYPE;
 
-    m_pLoginDialog = new LoginDialog(parent);
-    m_pParent = parent;
-    connect(m_pLoginDialog, SIGNAL(accessTokenObtained()), this, SLOT(accessTokenObtained()));
+    loginDialog = new LoginDialog(parent);
+    parent = parent;
+    connect(loginDialog, SIGNAL(accessTokenObtained()), this, SLOT(accessTokenObtained()));
 }
 
-void OAuth2::setScope(const QString& scope)
+void OAuth2::setScope(const QString& scopeStr)
 {
-    m_strScope = scope;
+    scope = scopeStr;
 }
 
-void OAuth2::setClientID(const QString& clientID)
+void OAuth2::setClientID(const QString& clientIDStr)
 {
-    m_strClientID = clientID;
+    clientID = clientIDStr;
 }
 
-void OAuth2::setRedirectURI(const QString& redirectURI)
+void OAuth2::setRedirectURI(const QString& redirectURIStr)
 {
-    m_strRedirectURI = redirectURI;
+    redirectURI = redirectURIStr;
 }
 
-void OAuth2::setCompanyName(const QString& companyName)
+void OAuth2::setCompanyName(const QString& companyNameStr)
 {
-    m_strCompanyName = companyName;
+    companyName = companyNameStr;
 }
 
-void OAuth2::setAppName(const QString& appName)
+void OAuth2::setAppName(const QString& appNameStr)
 {
-    m_strAppName = appName;
+    appName = appNameStr;
 }
 
 QString OAuth2::loginUrl()
 {        
-    QString str = QString("%1?client_id=%2&redirect_uri=%3&response_type=%4&scope=%5").arg(m_strEndPoint).arg(m_strClientID).
-            arg(m_strRedirectURI).arg(m_strResponseType).arg(m_strScope);
+    QString str = QString("%1?client_id=%2&redirect_uri=%3&response_type=%4&scope=%5").arg(endPoint).arg(clientID).
+            arg(redirectURI).arg(responseType).arg(scope);
     qDebug() << "Login URL" << str;
     return str;
 }
 
-QString OAuth2::accessToken() const
+QString OAuth2::getAccessToken() const
 {
-    return m_strAccessToken;
+    return accessToken;
 }
 
 bool OAuth2::isAuthorized()
 {
-    return m_strAccessToken.isEmpty();
+    return accessToken.isEmpty();
 }
 
 void OAuth2::startLogin(bool bForce)
 {
-    QSettings settings(m_strCompanyName, m_strAppName);
+    QSettings settings(companyName, appName);
     QString str = settings.value("access_token", "").toString();
 
     qDebug() << "OAuth2::startLogin, token from Settings" << str;
-    if(m_strClientID == "YOUR_CLIENT_ID_HERE" || m_strRedirectURI == "YOUR_REDIRECT_URI_HERE")
+    if(clientID == "YOUR_CLIENT_ID_HERE" || redirectURI == "YOUR_REDIRECT_URI_HERE")
     {
         // TODO: change link to wiki page
-        QMessageBox::warning(m_pParent, "Warning",
+        QMessageBox::warning(parent, "Warning",
                              "To work with application you need to register your own application in <b>Google</b>.\n"
                              "Learn more from <a href='http://code.google.com/p/qt-google-drive/'>here</a>");
         return;
@@ -83,12 +83,12 @@ void OAuth2::startLogin(bool bForce)
 
     if(str.isEmpty() || bForce)
     {
-        m_pLoginDialog->setLoginUrl(loginUrl());
-        m_pLoginDialog->show();
+        loginDialog->setLoginUrl(loginUrl());
+        loginDialog->show();
     }
     else
     {
-        m_strAccessToken = str;
+        accessToken = str;
         emit loginDone();
     }
 }
@@ -97,9 +97,9 @@ void OAuth2::accessTokenObtained()
 {
     qDebug() << "accessTokenObtained";
 
-    QSettings settings(m_strCompanyName, m_strAppName);
-    m_strAccessToken = m_pLoginDialog->accessToken();
-    settings.setValue("access_token", m_strAccessToken);
+    QSettings settings(companyName, appName);
+    accessToken = loginDialog->getAccessToken();
+    settings.setValue("access_token", accessToken);
     emit loginDone();
 }
 
