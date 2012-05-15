@@ -84,6 +84,7 @@ bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs
     }
         break;
     }
+
     if(qName == CONTENT && resPath == FILE_TYPE_STR)
     {
         itemData.fileType = FYLE_TYPE_ATTRIBUTE;
@@ -94,7 +95,8 @@ bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs
     if(qName == FILE_SIZE_TAG) tags[ESize] = true;
     if(qName == UPDATED_FILE_TAG) tags[EUpdated] = true;
 
-    if(HIERARCHY_ATTRIBUTE == PARENT_FOLDER)
+
+    if(HIERARCHY_ATTRIBUTE == PARENT)
     {
         itemData.item = NULL;
         itemData.parent = infoToken + HIERARCHY_VALUE;
@@ -105,12 +107,13 @@ bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs
         itemData.uploadLink = HIERARCHY_VALUE;
     }
 
-    if(HIERARCHY_ATTRIBUTE == SELF_TAG)
+    if(HIERARCHY_ATTRIBUTE == SELF)
     {
         itemData.self = infoToken + HIERARCHY_VALUE;
         itemData.type = resPath;
         itemData.iconPath = resManager.getResPath(resPath);
         itemInfo->push_back(itemData, type);
+        setDefaults();
     }
 
     return true;
@@ -119,5 +122,13 @@ bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs
 void XMLHandler::setType(int type)
 {
     queryType = type;
+}
+
+void XMLHandler::setDefaults(void)
+{
+    itemData.item = NULL;
+    itemData.fileSize = "";
+    itemData.fileUpdated = "";
+    itemData.parent = infoToken + ROOT;
 }
 

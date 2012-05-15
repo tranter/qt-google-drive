@@ -30,9 +30,6 @@ DriveEngine::~DriveEngine()
 void DriveEngine::slotStartLogin(void)
 {
     oAuth2->startLogin(true);
-
-    //    UiInstance::ui->actionMenuDownload->setEnabled(true);
-    //    UiInstance::ui->actionDownload->setEnabled(true);
 }
 
 void DriveEngine::init(void)
@@ -56,9 +53,6 @@ void DriveEngine::setConnections(void)
 
 void DriveEngine::slotReplyFinished(QNetworkReply* reply)
 {
-//    CommonTools::logToFile("Folders.txt", replyStr[EFolders].toAscii());
-//    CommonTools::logToFile("Files.txt", replyStr[EFiles].toAscii());
-
     if(!replyStr[EFolders].isEmpty() && !replyStr[EFiles].isEmpty())
     {
         CommonTools::logToFile("Folders.txt", replyStr[EFolders].toAscii());
@@ -68,6 +62,9 @@ void DriveEngine::slotReplyFinished(QNetworkReply* reply)
 
         if(parseReply(replyStr[EFiles], FILE_TYPE)) setModel();
         else qDebug() << "parseReply(replyStr[EFiles] NOT OK";
+
+//        parseReply(CommonTools::loadFromFile("folder.tre"), FOLDER_TYPE);
+//        if(parseReply(CommonTools::loadFromFile("files.tre"), FILE_TYPE)) setModel();
     }
 }
 
@@ -83,6 +80,7 @@ void DriveEngine::setModel(void)
     */
 
     rootData << TREE_VIEW_MAIN_TITLE << TREE_VIEW_UPDATED_TITLE << TREE_VIEW_SIZE_TITLE;
+    //rootData << TREE_VIEW_MAIN_TITLE << "parent" << "self" << TREE_VIEW_UPDATED_TITLE << TREE_VIEW_SIZE_TITLE;
 
     TreeItemInfo* itemInfo = parser->getXMLHandler()->getTreeItemInfo();
 
@@ -92,9 +90,6 @@ void DriveEngine::setModel(void)
     UiInstance::ui->discTreeView->setModel(model);
 
     loadOpenedItems();
-
-    //    UiInstance::ui->actionMenuUpload->setEnabled(true);
-    //    UiInstance::ui->actionUpload->setEnabled(true);
 
     for(int i = 1; i < model->columnCount(); ++i)
         UiInstance::ui->discTreeView->header()->resizeSection(i, 120);
@@ -142,10 +137,7 @@ void DriveEngine::slotFoldersSslErrors(const QList<QSslError>& errors)
 
 void DriveEngine::slotFilesReadyRead()
 {
-    qDebug() << "=========================================================================== slotFilesReadyRead";
-//    QString str = reply[EFiles]->readAll();
-//    replyStr[EFiles].append(str);
-//    qDebug() << str;
+    qDebug() << "slotFilesReadyRead";
 
      replyStr[EFiles].append(reply[EFiles]->readAll());
 }

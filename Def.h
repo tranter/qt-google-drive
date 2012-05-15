@@ -1,17 +1,17 @@
 #ifndef DEF_H
 #define DEF_H
 
-#define ROOT_FOLDER "https://docs.google.com/feeds/default/private/full/folder%3Aroot"
-#define PARENT_FOLDER "http://schemas.google.com/docs/2007#parent"
+#define ROOT "https://docs.google.com/feeds/default/private/full/folder%3Aroot"
+#define PARENT "http://schemas.google.com/docs/2007#parent"
 #define GET_FOLDERS QString("https://docs.google.com/feeds/default/private/full/-/folder?showroot=true")
-#define GET_FILES QString("https://docs.google.com/feeds/default/private/full?max-results=500")
+#define GET_FILES QString("https://docs.google.com/feeds/default/private/full?max-results=10000")
 #define UPLOAD QString("http://schemas.google.com/g/2005#resumable-create-media")
 #define HIERARCHY_ATTRIBUTE attribs.value("rel")
 #define FYLE_TYPE_ATTRIBUTE attribs.value("type")
 #define FYLE_TYPE_SRC_ATTRIBUTE attribs.value("src");
 #define HIERARCHY_VALUE attribs.value("href")
 
-#define SELF_TAG "self"
+#define SELF "self"
 #define FOLDER_TITLE_TAG "title"
 #define FILE_TITLE_TAG "docs:filename"
 #define FILE_SIZE_TAG "docs:size"

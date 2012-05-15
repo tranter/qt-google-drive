@@ -32,6 +32,7 @@ public:
 
 private:
     bool handleReply(const QString &qName, const QXmlAttributes &attribs, int queryType);
+    void setDefaults();
 
 private:
     int queryType;

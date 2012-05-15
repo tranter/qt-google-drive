@@ -22,6 +22,7 @@ public:
     static QString getFormattedDate(QDateTime& dt);
     static QString getFormattedFileSize(const QString& sizeStr);
     static void logToFile(const QString& fileName, QByteArray bytes);
+    static QByteArray loadFromFile(const QString& fileName);
 
 private:
     static QList<int> indexes;
