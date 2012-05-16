@@ -13,9 +13,6 @@ public:
 public:
     virtual void setDownloadSettings(void);
 
-public slots:
-    virtual void downloadFinished();
-
 private:
     QString getExt(void) const;
 };

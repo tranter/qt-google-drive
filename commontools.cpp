@@ -115,3 +115,20 @@ QByteArray CommonTools::loadFromFile(const QString& fileName)
 
     return arr;
 }
+
+bool CommonTools::resFileFromURLExists(const QString& url)
+{
+    QFileInfo fi(url);
+    QString fileNameToSave("res/" + fi.fileName());
+    QFile file(fileNameToSave);
+
+    return file.exists();
+}
+
+QString CommonTools::getResPath(const QString& url)
+{
+  QFileInfo fi(url);
+  QString fileNameToSave("res/" + fi.fileName());
+
+  return fileNameToSave;
+}

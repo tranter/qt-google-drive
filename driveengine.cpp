@@ -63,8 +63,8 @@ void DriveEngine::slotReplyFinished(QNetworkReply* reply)
         if(parseReply(replyStr[EFiles], FILE_TYPE)) setModel();
         else qDebug() << "parseReply(replyStr[EFiles] NOT OK";
 
-//        parseReply(CommonTools::loadFromFile("folder.tre"), FOLDER_TYPE);
-//        if(parseReply(CommonTools::loadFromFile("files.tre"), FILE_TYPE)) setModel();
+        //        parseReply(CommonTools::loadFromFile("folder.tre"), FOLDER_TYPE);
+        //        if(parseReply(CommonTools::loadFromFile("files.tre"), FILE_TYPE)) setModel();
     }
 }
 
@@ -96,6 +96,7 @@ void DriveEngine::setModel(void)
 
     UiInstance::ui->discTreeView->header()->resizeSection(0, 750);
 
+    //qDebug() << " UiInstance::ui->discTreeView->collapseAll();";
 }
 
 void DriveEngine::slotGet(void)
@@ -138,8 +139,7 @@ void DriveEngine::slotFoldersSslErrors(const QList<QSslError>& errors)
 void DriveEngine::slotFilesReadyRead()
 {
     qDebug() << "slotFilesReadyRead";
-
-     replyStr[EFiles].append(reply[EFiles]->readAll());
+    replyStr[EFiles].append(reply[EFiles]->readAll());
 }
 
 void DriveEngine::slotFilesError(QNetworkReply::NetworkError error)
@@ -224,9 +224,6 @@ void DriveEngine::slotDownload(void)
     {
         if(slotCheckWorkDir(false))
         {
-            //            UiInstance::ui->actionMenuDownload->setDisabled(true);
-            //            UiInstance::ui->actionDownload->setDisabled(true);
-
             TreeItemInfo treeItems = *parser->getXMLHandler()->getTreeItemInfo();
             int index = getCurrentModelItemIndex();
 

@@ -1,17 +1,18 @@
 #ifndef DEF_H
 #define DEF_H
 
-#define ROOT "https://docs.google.com/feeds/default/private/full/folder%3Aroot"
-#define PARENT "http://schemas.google.com/docs/2007#parent"
 #define GET_FOLDERS QString("https://docs.google.com/feeds/default/private/full/-/folder?showroot=true")
 #define GET_FILES QString("https://docs.google.com/feeds/default/private/full?max-results=10000")
-#define UPLOAD QString("http://schemas.google.com/g/2005#resumable-create-media")
-#define HIERARCHY_ATTRIBUTE attribs.value("rel")
-#define FYLE_TYPE_ATTRIBUTE attribs.value("type")
-#define FYLE_TYPE_SRC_ATTRIBUTE attribs.value("src");
-#define HIERARCHY_VALUE attribs.value("href")
 
-#define SELF "self"
+#define ROOT_TAG "https://docs.google.com/feeds/default/private/full/folder%3Aroot"
+#define PARENT_TAG "http://schemas.google.com/docs/2007#parent"
+#define UPLOAD_TAG QString("http://schemas.google.com/g/2005#resumable-create-media")
+#define ICON_TAG "http://schemas.google.com/docs/2007#icon"
+#define HIERARCHY_ATTRIBUTE_TAG attribs.value("rel")
+#define FYLE_TYPE_ATTRIBUTE_TAG attribs.value("type")
+#define FYLE_TYPE_SRC_ATTRIBUTE_TAG attribs.value("src");
+#define HIERARCHY_VALUE_TAG attribs.value("href")
+#define SELF_TAG "self"
 #define FOLDER_TITLE_TAG "title"
 #define FILE_TITLE_TAG "docs:filename"
 #define FILE_SIZE_TAG "docs:size"

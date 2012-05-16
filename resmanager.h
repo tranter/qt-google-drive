@@ -1,22 +1,32 @@
 #ifndef RESMANAGER_H
 #define RESMANAGER_H
 
-#include <QMap>
 #include "Def.h"
+#include "networkmanager.h"
+#include "commontools.h"
 
-class ResManager
+class ResManager: public NetworkManager
 {
+     Q_OBJECT
 public:
-    ResManager();
+    explicit ResManager(QObject *parent = 0);
 
 public:
-    QString getResPath(const QString& type);
+    virtual void setStartSettings(QUrl url, const QString& fileName, const QString& progressBarDialogInfoText);
+    virtual void setDownloadSettings(void);
+
+public:
+    void cashRes(const QString& url);
+    bool remove(void);
+
+public slots:
+    virtual void downloadFinished();
+
+signals:
+    void signalResDownloaded();
 
 private:
     void setResources();
-
-private:
-    QMap<QString, QString> resources;
 
 };
 

@@ -1,24 +1,44 @@
 #include "resmanager.h"
 #include <QDebug>
 
-ResManager::ResManager()
+ResManager::ResManager(QObject *parent):
+            NetworkManager(parent)
 {
-    setResources();
 }
 
-QString ResManager::getResPath(const QString& type)
+void ResManager::cashRes(const QString& url)
 {
-  QString resPath(resources.find(UNKNOWN_TYPE_STR).value());
-
-  if(resources.contains(type))
-      resPath = resources.find(type).value();
-
-  return resPath;
+  QFileInfo fi(url);
+  QString fileNameToSave("res/" + fi.fileName());
+  NetworkManager::startDownload(url, fileNameToSave, "image/png");
 }
 
-void ResManager::setResources()
+void ResManager::setDownloadSettings(void)
 {
-    // You can add your type here to associate resourse name with resourse path
-    resources[UNKNOWN_TYPE_STR] = ":ico/unknown";
-    resources[FOLDER_TYPE_STR] = ":ico/folder";
+    CommonTools::setHeader(request);
 }
+
+void ResManager::setStartSettings(QUrl url, const QString& fileName, const QString& progressBarDialogInfoText)
+{
+    state = EBusy;
+    file.setFileName(fileName);
+    request.setUrl(url);
+}
+
+bool ResManager::remove(void)
+{
+    qDebug() << "========================================================== " << getState();
+
+    //while(getState() == NetworkManager::EBusy){qDebug() << "NetworkManager::EBusy";}
+
+    return true;
+}
+
+void ResManager::downloadFinished()
+{
+    NetworkManager::downloadFinished();
+    emit signalResDownloaded();
+}
+
+
+

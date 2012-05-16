@@ -18,14 +18,6 @@ void DownloadFileManager::setDownloadSettings(void)
     CommonTools::setHeader(request);
 }
 
-void DownloadFileManager::downloadFinished()
-{
-    NetworkManager:: downloadFinished();
-
-    UiInstance::ui->actionMenuDownload->setEnabled(true);
-    UiInstance::ui->actionDownload->setEnabled(true);
-}
-
 QString DownloadFileManager::getExt(void) const
 {
     QString ext(".html");

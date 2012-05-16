@@ -8,6 +8,7 @@
 #include <QDateTime>
 #include <QList>
 #include <QFile>
+#include <QFileInfo>
 
 class CommonTools
 {
@@ -23,6 +24,8 @@ public:
     static QString getFormattedFileSize(const QString& sizeStr);
     static void logToFile(const QString& fileName, QByteArray bytes);
     static QByteArray loadFromFile(const QString& fileName);
+    static bool resFileFromURLExists(const QString& url);
+    static QString getResPath(const QString& url);
 
 private:
     static QList<int> indexes;

@@ -1,10 +1,12 @@
 #include "xmlhandler.h"
+#include "mainwindow.h"
 #include <QDebug>
 
 XMLHandler::XMLHandler(int type):
     queryType(type),
     itemInfo(new TreeItemInfo),
-    infoToken(QString(INFO_TOKEN))
+    infoToken(QString(INFO_TOKEN)),
+    resDownloadedCount(0)
 {
     for(int i = ETitle; i < ETagsCount; ++i) tags[i] = false;
 }
@@ -34,11 +36,7 @@ bool XMLHandler::characters(const QString &str)
 
     if(tags[ESize])
     {
-//        qlonglong size = str.toLongLong();
-//        QString sizeStr = locale.toString(size);
-          tags[ESize] = false;
-//        itemInfo->setFileSize(infoToken + sizeStr + " bytes ", itemInfo->getFileItems().count() - 1);
-
+        tags[ESize] = false;
         itemInfo->setFileSize(infoToken + CommonTools::getFormattedFileSize(str), itemInfo->getFileItems().count() - 1);
     }
 
@@ -87,8 +85,8 @@ bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs
 
     if(qName == CONTENT && resPath == FILE_TYPE_STR)
     {
-        itemData.fileType = FYLE_TYPE_ATTRIBUTE;
-        itemData.downloadLink = FYLE_TYPE_SRC_ATTRIBUTE;
+        itemData.fileType = FYLE_TYPE_ATTRIBUTE_TAG;
+        itemData.downloadLink = FYLE_TYPE_SRC_ATTRIBUTE_TAG;
     }
 
     if(qName == FOLDER_TITLE_TAG) tags[ETitle]= true;
@@ -96,27 +94,49 @@ bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs
     if(qName == UPDATED_FILE_TAG) tags[EUpdated] = true;
 
 
-    if(HIERARCHY_ATTRIBUTE == PARENT)
+    if(HIERARCHY_ATTRIBUTE_TAG == PARENT_TAG)
     {
         itemData.item = NULL;
-        itemData.parent = infoToken + HIERARCHY_VALUE;
+        itemData.parent = infoToken + HIERARCHY_VALUE_TAG;
     }
 
-    if(HIERARCHY_ATTRIBUTE == UPLOAD)
+    if(HIERARCHY_ATTRIBUTE_TAG == UPLOAD_TAG)
     {
-        itemData.uploadLink = HIERARCHY_VALUE;
+        itemData.uploadLink = HIERARCHY_VALUE_TAG;
     }
 
-    if(HIERARCHY_ATTRIBUTE == SELF)
+    if(HIERARCHY_ATTRIBUTE_TAG == ICON_TAG)
     {
-        itemData.self = infoToken + HIERARCHY_VALUE;
+        if(!CommonTools::resFileFromURLExists(HIERARCHY_VALUE_TAG))
+        {
+            resManagers.push_back(new ResManager);
+            resManagers.last()->cashRes(HIERARCHY_VALUE_TAG);
+            connect(resManagers.last(), SIGNAL(signalResDownloaded()), this, SLOT(slotResDownloaded()));
+        }
+
+        itemData.iconPath = CommonTools::getResPath(HIERARCHY_VALUE_TAG);
+    }
+
+    if(HIERARCHY_ATTRIBUTE_TAG == SELF_TAG)
+    {
+        itemData.self = infoToken + HIERARCHY_VALUE_TAG;
         itemData.type = resPath;
-        itemData.iconPath = resManager.getResPath(resPath);
         itemInfo->push_back(itemData, type);
         setDefaults();
     }
 
     return true;
+}
+
+void XMLHandler::slotResDownloaded()
+{
+    if(++resDownloadedCount == resManagers.count())
+    {
+        for(int i = 0; i < resManagers.count();++i) delete resManagers[i];
+        resManagers.clear();
+        resDownloadedCount = 0;
+        UiInstance::ui->discTreeView->collapseAll();
+    }
 }
 
 void XMLHandler::setType(int type)
@@ -129,6 +149,6 @@ void XMLHandler::setDefaults(void)
     itemData.item = NULL;
     itemData.fileSize = infoToken + "---";
     itemData.fileUpdated = "";
-    itemData.parent = infoToken + ROOT;
+    itemData.parent = infoToken + ROOT_TAG;
 }
 

@@ -1,14 +1,16 @@
 #ifndef XMLHANDLER_H
 #define XMLHANDLER_H
 
+#include <QObject>
 #include <QXmlAttributes>
 #include "treeiteminfo.h"
 #include "Def.h"
 #include "resmanager.h"
 #include "commontools.h"
 
-class XMLHandler
+class XMLHandler : public QObject
 {
+    Q_OBJECT
 public:
 
     enum ETags{
@@ -30,6 +32,9 @@ public:
     TreeItemInfo* getTreeItemInfo(void) const;
     void setType(int type);
 
+public slots:
+    void slotResDownloaded();
+
 private:
     bool handleReply(const QString &qName, const QXmlAttributes &attribs, int queryType);
     void setDefaults();
@@ -39,7 +44,9 @@ private:
     TreeItemInfo* itemInfo;
     TreeItemInfo::Data itemData;
     bool tags[ETagsCount];
-    ResManager resManager;
+    //ResManager* resManager;
+    QList<ResManager*> resManagers;
+    int resDownloadedCount;
     QString infoToken;
     QLocale locale;
 };

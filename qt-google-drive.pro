@@ -39,13 +39,14 @@ HEADERS  += mainwindow.h\
     treeiteminfo.h \
     Def.h \
     resmanager.h \
-    xmlhandler.h \
     downloadmanager.h\
     settingsdialog.h \
     commontools.h \
     uploadmanager.h \
-    networkmanager.h \
     progressbardialog.h
+
+HEADERS  +=  networkmanager.h
+HEADERS  +=  xmlhandler.h \
 
 FORMS    += mainwindow.ui\
             logindialog.ui\
