@@ -18,7 +18,7 @@ OAuth2::OAuth2(QWidget* parent)
     responseType = RESPONSE_TYPE;
 
     loginDialog = new LoginDialog(parent);
-    parent = parent;
+    m_pParent = parent;
     connect(loginDialog, SIGNAL(accessTokenObtained()), this, SLOT(accessTokenObtained()));
 }
 
@@ -74,7 +74,8 @@ void OAuth2::startLogin(bool bForce)
     if(clientID == "YOUR_CLIENT_ID_HERE" || redirectURI == "YOUR_REDIRECT_URI_HERE")
     {
         // TODO: change link to wiki page
-        QMessageBox::warning(parent, "Warning",
+        qDebug() << "OAuth2::startLogin, before the QMessageBox" << m_pParent;
+        QMessageBox::warning(m_pParent, "Warning",
                              "To work with application you need to register your own application in <b>Google</b>.\n"
                              "Learn more from <a href='http://code.google.com/p/qt-google-drive/'>here</a>");
         return;

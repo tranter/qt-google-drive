@@ -45,7 +45,7 @@ private:
     QString appName;
 
     LoginDialog* loginDialog;
-    QWidget* parent;
+    QWidget* m_pParent;
 };
 
 #endif // OAUTH2_H
