@@ -127,7 +127,7 @@ void XMLHandler::setType(int type)
 void XMLHandler::setDefaults(void)
 {
     itemData.item = NULL;
-    itemData.fileSize = "";
+    itemData.fileSize = infoToken + "---";
     itemData.fileUpdated = "";
     itemData.parent = infoToken + ROOT;
 }

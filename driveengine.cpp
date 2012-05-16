@@ -58,13 +58,13 @@ void DriveEngine::slotReplyFinished(QNetworkReply* reply)
         CommonTools::logToFile("Folders.txt", replyStr[EFolders].toAscii());
         CommonTools::logToFile("Files.txt", replyStr[EFiles].toAscii());
 
-        if(!parseReply(replyStr[EFolders], FOLDER_TYPE)) qDebug() << "parseReply(replyStr[EFolders] NOT OK";
+//        if(!parseReply(replyStr[EFolders], FOLDER_TYPE)) qDebug() << "parseReply(replyStr[EFolders] NOT OK";
 
-        if(parseReply(replyStr[EFiles], FILE_TYPE)) setModel();
-        else qDebug() << "parseReply(replyStr[EFiles] NOT OK";
+//        if(parseReply(replyStr[EFiles], FILE_TYPE)) setModel();
+//        else qDebug() << "parseReply(replyStr[EFiles] NOT OK";
 
-//        parseReply(CommonTools::loadFromFile("folder.tre"), FOLDER_TYPE);
-//        if(parseReply(CommonTools::loadFromFile("files.tre"), FILE_TYPE)) setModel();
+        parseReply(CommonTools::loadFromFile("folder.tre"), FOLDER_TYPE);
+        if(parseReply(CommonTools::loadFromFile("files.tre"), FILE_TYPE)) setModel();
     }
 }
 
