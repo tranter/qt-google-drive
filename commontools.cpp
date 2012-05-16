@@ -67,13 +67,19 @@ QString CommonTools::getFormattedDate(QDateTime& dt)
 
 QString CommonTools::getFormattedFileSize(const QString& sizeStr)
 {
-    float size = sizeStr.toFloat();
+    qlonglong size = sizeStr.toLongLong();
     QLocale locale;
-    QString bytesStr(" bytes");
+    QString bytesStr;
     QStringList bytesStrList;
     bytesStrList  << " KB" << " MB" << " GB";
-    float sizes[3] = {1024.0, 1048576.0, 1073741824.0};
-    int precision = 0;
+    qlonglong sizes[3] = {1024, 1048576, 1073741824};
+
+    if(size <= sizes[0])
+    {
+        size = 1;
+        bytesStr = bytesStrList[0];
+        return locale.toString(size) + bytesStr;
+    }
 
     for(int i = bytesStrList.count() - 1 ; i >= 0 ; --i)
     {
@@ -85,9 +91,7 @@ QString CommonTools::getFormattedFileSize(const QString& sizeStr)
         }
     }
 
-    if((size - static_cast<int> (size)) != 0) precision = 2;
-
-    return locale.toString(size,'f', precision) + bytesStr;
+    return locale.toString(size) + bytesStr;
 }
 
 void CommonTools::logToFile(const QString& fileName, QByteArray bytes)
