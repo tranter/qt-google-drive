@@ -33,10 +33,6 @@ void MainWindow::init(void)
     QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
 
     emit siganalGet();
-
-    //QWidget::setStyleSheet("QTreeView::item {border: 1px solid lightgrey; border-top-color: transparent; border-bottom-color: transparent;}");
-    //QWidget::setStyleSheet("QTreeView::item:hover {background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #e7effd, stop: 1 #cbdaf1);border: 1px solid #bfcde4;}");
-    //QWidget::setStyleSheet("QTreeView::item:selected {border: 1px solid #567dbc;}");
 }
 
 void MainWindow::setConnections(void)
@@ -68,7 +64,7 @@ void MainWindow::slotloginDone(void)
 
 void MainWindow::slotUpdateModel()
 {
-  //qDebug() << "slotUpdateModel()";
+  qDebug() << "slotUpdateModel()";
   Sleep(1000);
   init();
 }

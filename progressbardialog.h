@@ -9,8 +9,7 @@ class progressBarDialog;
 
 class ProgressBarDialog : public QDialog
 {
-    Q_OBJECT
-    
+    Q_OBJECT   
 public:
     explicit ProgressBarDialog(QWidget *parent = 0);
     ~ProgressBarDialog();

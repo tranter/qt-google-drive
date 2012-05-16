@@ -9,7 +9,7 @@ ResManager::ResManager(QObject *parent):
 void ResManager::cashRes(const QString& url)
 {
   QFileInfo fi(url);
-  QString fileNameToSave("res/" + fi.fileName());
+  QString fileNameToSave(fi.fileName());
   NetworkManager::startDownload(url, fileNameToSave, "image/png");
 }
 
@@ -25,14 +25,6 @@ void ResManager::setStartSettings(QUrl url, const QString& fileName, const QStri
     request.setUrl(url);
 }
 
-bool ResManager::remove(void)
-{
-    qDebug() << "========================================================== " << getState();
-
-    //while(getState() == NetworkManager::EBusy){qDebug() << "NetworkManager::EBusy";}
-
-    return true;
-}
 
 void ResManager::downloadFinished()
 {

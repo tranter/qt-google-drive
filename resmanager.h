@@ -17,7 +17,6 @@ public:
 
 public:
     void cashRes(const QString& url);
-    bool remove(void);
 
 public slots:
     virtual void downloadFinished();
