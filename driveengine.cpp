@@ -63,8 +63,8 @@ void DriveEngine::slotReplyFinished(QNetworkReply* reply)
         if(parseReply(replyStr[EFiles], FILE_TYPE)) setModel();
         else qDebug() << "parseReply(replyStr[EFiles] NOT OK";
 
-        //        parseReply(CommonTools::loadFromFile("folder.tre"), FOLDER_TYPE);
-        //        if(parseReply(CommonTools::loadFromFile("files.tre"), FILE_TYPE)) setModel();
+        //parseReply(CommonTools::loadFromFile("folder.tre"), FOLDER_TYPE);
+        //if(parseReply(CommonTools::loadFromFile("files.tre"), FILE_TYPE)) setModel();
     }
 }
 
@@ -260,9 +260,6 @@ void DriveEngine::slotUpload(void)
 
         if(!uploadLink.isEmpty())
         {
-            //            UiInstance::ui->actionMenuUpload->setDisabled(true);
-            //            UiInstance::ui->actionUpload->setDisabled(true);
-
             if(uploadFileManager) delete uploadFileManager;
             uploadFileManager = new UploadFileManager(parent);
 

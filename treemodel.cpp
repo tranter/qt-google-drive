@@ -144,7 +144,8 @@ void TreeModel::buildTree(const QString& searchStr, TreeItem *parent)
 
     int count = 0;
 
-    for (int i = itemInfo->getItems().count() - 1; i >= 0 ; --i)
+    //for (int i = itemInfo->getItems().count() - 1; i >= 0 ; --i)
+    for (int i = 1; i < itemInfo->getItems().count(); ++i)
     {
         if(itemInfo->getItems()[i].parent == searchStr)
         {
