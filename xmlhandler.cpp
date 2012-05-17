@@ -1,12 +1,14 @@
 #include "xmlhandler.h"
 #include "mainwindow.h"
 #include <QDebug>
+//#include "qt_windows.h"
 
 XMLHandler::XMLHandler(int type):
     queryType(type),
     itemInfo(new TreeItemInfo),
-    infoToken(QString(INFO_TOKEN)),
-    resDownloadedCount(0)
+    //infoToken(QString(INFO_TOKEN)),
+    resDownloadedCount(0),
+    isResDownloding(false)
 {
     for(int i = ETitle; i < ETagsCount; ++i) tags[i] = false;
 }
@@ -37,12 +39,12 @@ bool XMLHandler::characters(const QString &str)
     if(tags[ESize])
     {
         tags[ESize] = false;
-        itemInfo->setFileSize(infoToken + CommonTools::getFormattedFileSize(str), itemInfo->getFileItems().count() - 1);
+        itemInfo->setFileSize(/*infoToken + */CommonTools::getFormattedFileSize(str), itemInfo->getFileItems().count() - 1);
     }
 
     if(tags[EUpdated])
     {
-        itemData.fileUpdated =  infoToken + CommonTools::convertDate(str);
+        itemData.fileUpdated =  /*infoToken + */CommonTools::convertDate(str);
         tags[EUpdated] = false;
     }
 
@@ -63,27 +65,27 @@ bool XMLHandler::fatalError(const QXmlParseException &exception)
 bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs, int queryType)
 {
     TreeItemInfo::ETypes type;
-    QString resPath;
+    QString itemType;
 
     switch(queryType)
     {
     case FOLDER_TYPE:
     {
-        //resPath = FOLDER_TYPE_STR;
+        itemType = FOLDER_TYPE_STR;
         type = TreeItemInfo::Efolder;
-        itemData.fileSize = infoToken;
+        //itemData.fileSize = /*infoToken*/;
     }
         break;
 
     case FILE_TYPE:
     {
-        //resPath = FILE_TYPE_STR;
+        itemType = FILE_TYPE_STR;
         type = TreeItemInfo::EFile;
     }
         break;
     }
 
-    if(qName == CONTENT && /*resPath == FILE_TYPE_STR*/ type == TreeItemInfo::EFile)
+    if(qName == CONTENT && itemType == FILE_TYPE_STR /* type == TreeItemInfo::EFile*/)
     {
         itemData.fileType = FYLE_TYPE_ATTRIBUTE_TAG;
         itemData.downloadLink = FYLE_TYPE_SRC_ATTRIBUTE_TAG;
@@ -96,7 +98,7 @@ bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs
     if(HIERARCHY_ATTRIBUTE_TAG == PARENT_TAG)
     {
         itemData.item = NULL;
-        itemData.parent = infoToken + HIERARCHY_VALUE_TAG;
+        itemData.parent = /*infoToken + */HIERARCHY_VALUE_TAG;
     }
 
     if(HIERARCHY_ATTRIBUTE_TAG == UPLOAD_TAG)
@@ -108,6 +110,7 @@ bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs
     {
         if(!CommonTools::resFileFromURLExists(HIERARCHY_VALUE_TAG))
         {
+            isResDownloding = true;
             resManagers.push_back(new ResManager);
             resManagers.last()->cashRes(HIERARCHY_VALUE_TAG);
             connect(resManagers.last(), SIGNAL(signalResDownloaded()), this, SLOT(slotResDownloaded()));
@@ -118,8 +121,8 @@ bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs
 
     if(HIERARCHY_ATTRIBUTE_TAG == SELF_TAG)
     {
-        itemData.self = infoToken + HIERARCHY_VALUE_TAG;
-        itemData.type = resPath;
+        itemData.self = /*infoToken + */HIERARCHY_VALUE_TAG;
+        itemData.type = itemType;
         itemInfo->push_back(itemData, type);
         setDefaults();
     }
@@ -134,7 +137,7 @@ void XMLHandler::slotResDownloaded()
         for(int i = 0; i < resManagers.count();++i) delete resManagers[i];
         resManagers.clear();
         resDownloadedCount = 0;
-        UiInstance::ui->discTreeView->collapseAll();
+        emit signalAllResDownloaded(queryType);
     }
 }
 
@@ -146,8 +149,14 @@ void XMLHandler::setType(int type)
 void XMLHandler::setDefaults(void)
 {
     itemData.item = NULL;
-    itemData.fileSize = infoToken + "---";
+    itemData.fileSize = /*infoToken + */"---";
     itemData.fileUpdated = "";
-    itemData.parent = infoToken + ROOT_TAG;
+    itemData.parent = /*infoToken + */ROOT_TAG;
 }
+
+bool XMLHandler::resDownloadingNow(void) const
+{
+    return isResDownloding;
+}
+
 

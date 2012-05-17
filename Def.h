@@ -28,13 +28,14 @@
 #define FOLDER_TYPE_STR "folder"
 
 #define TREE_VIEW_MAIN_TITLE "My Disc"
+#define TREE_VIEW_FILE_TITLE "Title"
 #define TREE_VIEW_SIZE_TITLE "Size"
 #define TREE_VIEW_UPDATED_TITLE "Last Modified"
 
 #define ADDITIONAL_INFO_KEY "additional info state"
 
 // to add this token in the beginning of string means that images will not be drawing in the tree view
-#define INFO_TOKEN '|'
+//#define INFO_TOKEN '|'
 
 #define CONTENT "content"
 

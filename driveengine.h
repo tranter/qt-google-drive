@@ -16,7 +16,10 @@
 #include "commontools.h"
 #include <QFileDialog>
 #include "uploadmanager.h"
+#include <QTreeWidgetItem>
+#include "filesmanager.h"
 
+class FilesManager;
 
 class DriveEngine : public QObject
 {
@@ -59,6 +62,9 @@ private slots:
 
     void slotTreeViewExpanded(const QModelIndex& index);
     void slotTreeViewCollapsed(const QModelIndex& index);
+    void slotTreeViewClicked(const QModelIndex& index);
+
+    void slotResDownloaded(int queryType);
 
 signals:
     void signalAccessTokenExpired();
@@ -83,6 +89,7 @@ private:
     QXmlSimpleReader* reader;
     DownloadFileManager* downloadManager;
     UploadFileManager* uploadFileManager;
+    FilesManager* filesManager;
 };
 
 #endif // DRIVEENGINE_H

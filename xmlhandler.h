@@ -31,9 +31,13 @@ public:
 
     TreeItemInfo* getTreeItemInfo(void) const;
     void setType(int type);
+    bool resDownloadingNow(void) const;
 
 public slots:
     void slotResDownloaded();
+
+signals:
+    void signalAllResDownloaded(int);
 
 private:
     bool handleReply(const QString &qName, const QXmlAttributes &attribs, int queryType);
@@ -44,11 +48,11 @@ private:
     TreeItemInfo* itemInfo;
     TreeItemInfo::Data itemData;
     bool tags[ETagsCount];
-    //ResManager* resManager;
     QList<ResManager*> resManagers;
     int resDownloadedCount;
-    QString infoToken;
+    //QString infoToken;
     QLocale locale;
+    bool isResDownloding;
 };
 
 #endif // XMLHANDLER_H

@@ -44,7 +44,7 @@ QVariant TreeModel::data(const QModelIndex &modelIndex, int role) const
 
     if (role == Qt::DecorationRole)
     {
-        if(columnData.toString()[0] == INFO_TOKEN) return  "";
+        //if(columnData.toString()[0] == INFO_TOKEN) return  "";
 
         TreeItemInfo treeItems = *itemInfo;
         int index = getCurrentModelItemIndex(static_cast<TreeItem*>(modelIndex.internalPointer()));
@@ -54,12 +54,12 @@ QVariant TreeModel::data(const QModelIndex &modelIndex, int role) const
 
     if (role != Qt::DisplayRole) return QVariant();
 
-    if(columnData.toString()[0] == INFO_TOKEN)
-    {
-        QString infoStr(columnData.toString());
-        infoStr.remove(0,1);
-        return  infoStr.toAscii();
-    }
+//    if(columnData.toString()[0] == INFO_TOKEN)
+//    {
+//        QString infoStr(columnData.toString());
+//        infoStr.remove(0,1);
+//        return  infoStr.toAscii();
+//    }
 
     return columnData;
 }
@@ -132,7 +132,7 @@ int TreeModel::rowCount(const QModelIndex &parent) const
 
 void TreeModel::setupModelData(TreeItem *parent)
 {
-    buildTree(QString(INFO_TOKEN) + ROOT_TAG, parent);
+    buildTree(/*QString(INFO_TOKEN) + */ROOT_TAG, parent);
 }
 
 void TreeModel::buildTree(const QString& searchStr, TreeItem *parent)
@@ -144,7 +144,6 @@ void TreeModel::buildTree(const QString& searchStr, TreeItem *parent)
 
     int count = 0;
 
-    //for (int i = itemInfo->getItems().count() - 1; i >= 0 ; --i)
     for (int i = 1; i < itemInfo->getItems().count(); ++i)
     {
         if(itemInfo->getItems()[i].parent == searchStr)
@@ -162,10 +161,6 @@ void TreeModel::buildTree(const QString& searchStr, TreeItem *parent)
 
 
             column.push_back(treeItems[i].name);
-            //column.push_back(treeItems[i].parent);
-            //column.push_back(treeItems[i].self);
-            column.push_back(treeItems[i].fileUpdated);
-            column.push_back(treeItems[i].fileSize);
 
             selfs.push_back(itemInfo->getItems()[i].self);
 

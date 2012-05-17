@@ -13,7 +13,8 @@ DriveEngine::DriveEngine(QObject *parentObj) :
     reader(NULL),
     oAuth2(NULL),
     downloadManager(NULL),
-    uploadFileManager(NULL)
+    uploadFileManager(NULL),
+    filesManager(NULL)
 {
 }
 
@@ -49,25 +50,27 @@ void DriveEngine::setConnections(void)
     connect(parent, SIGNAL(siganalGet()), this, SLOT(slotGet()));
     connect(UiInstance::ui->discTreeView, SIGNAL(expanded(const QModelIndex&)), this, SLOT(slotTreeViewExpanded(const QModelIndex&)));
     connect(UiInstance::ui->discTreeView, SIGNAL(collapsed(const QModelIndex&)), this, SLOT(slotTreeViewCollapsed(const QModelIndex&)));
+    connect(UiInstance::ui->discTreeView, SIGNAL(clicked (const QModelIndex&)), this, SLOT(slotTreeViewClicked(const QModelIndex&)));
+
 }
 
 void DriveEngine::slotReplyFinished(QNetworkReply* reply)
 {
-    //qDebug() << "=============================================================================== slotReplyFinished" << replyStr[EFolders].toAscii();
+    if(parseReply(replyStr[EFolders], FOLDER_TYPE)) setModel();
 
-    if(!replyStr[EFolders].isEmpty() && !replyStr[EFiles].isEmpty())
-    {
-//        CommonTools::logToFile("Folders.txt", replyStr[EFolders].toAscii());
-//        CommonTools::logToFile("Files.txt", replyStr[EFiles].toAscii());
+//    if(!replyStr[EFolders].isEmpty() && !replyStr[EFiles].isEmpty())
+//    {
+////        CommonTools::logToFile("Folders.txt", replyStr[EFolders].toAscii());
+////        CommonTools::logToFile("Files.txt", replyStr[EFiles].toAscii());
 
-        if(!parseReply(replyStr[EFolders], FOLDER_TYPE)) qDebug() << "parseReply(replyStr[EFolders] NOT OK";
+//        if(!parseReply(replyStr[EFolders], FOLDER_TYPE)) qDebug() << "parseReply(replyStr[EFolders] NOT OK";
 
-        if(parseReply(replyStr[EFiles], FILE_TYPE)) setModel();
-        else qDebug() << "parseReply(replyStr[EFiles] NOT OK";
+//        if(parseReply(replyStr[EFiles], FILE_TYPE)) setModel();
+//        else qDebug() << "parseReply(replyStr[EFiles] NOT OK";
 
-//        parseReply(CommonTools::loadFromFile("folder.tre"), FOLDER_TYPE);
-//        if(parseReply(CommonTools::loadFromFile("files.tre"), FILE_TYPE)) setModel();
-    }
+////        parseReply(CommonTools::loadFromFile("folder.tre"), FOLDER_TYPE);
+////        if(parseReply(CommonTools::loadFromFile("files.tre"), FILE_TYPE)) setModel();
+//    }
 }
 
 void DriveEngine::setModel(void)
@@ -81,22 +84,26 @@ void DriveEngine::setModel(void)
       (example: rootData << TREE_VIEW_MAIN_TITLE << OTHER_COLIMN_TITLE1 <<  OTHER_COLIMN_TITLE2;)
     */
 
-    rootData << TREE_VIEW_MAIN_TITLE << TREE_VIEW_UPDATED_TITLE << TREE_VIEW_SIZE_TITLE;
+    //rootData << TREE_VIEW_MAIN_TITLE /*<< TREE_VIEW_FILE_TITLE <<*/ TREE_VIEW_UPDATED_TITLE << TREE_VIEW_SIZE_TITLE;
     //rootData << TREE_VIEW_MAIN_TITLE << "parent" << "self" << TREE_VIEW_UPDATED_TITLE << TREE_VIEW_SIZE_TITLE;
+     rootData << TREE_VIEW_MAIN_TITLE;
 
     TreeItemInfo* itemInfo = parser->getXMLHandler()->getTreeItemInfo();
 
-    itemInfo->normalize();
+    //itemInfo->normalize();
 
     model = new TreeModel(rootData, itemInfo);
     UiInstance::ui->discTreeView->setModel(model);
 
-    loadOpenedItems();
+    //loadOpenedItems();
 
-    for(int i = 1; i < model->columnCount(); ++i)
-        UiInstance::ui->discTreeView->header()->resizeSection(i, 120);
+//    for(int i = 2; i < model->columnCount(); ++i)
+//        UiInstance::ui->discTreeView->header()->resizeSection(i, 120);
 
-    UiInstance::ui->discTreeView->header()->resizeSection(0, 750);
+//    UiInstance::ui->discTreeView->header()->resizeSection(0, 200);
+//    UiInstance::ui->discTreeView->header()->resizeSection(1, 550);
+
+      UiInstance::ui->treeViewWidget->header()->resizeSection(0, 400);
 }
 
 void DriveEngine::slotGet(void)
@@ -104,32 +111,42 @@ void DriveEngine::slotGet(void)
     QStringList requestStr;
 
     requestStr << GET_FOLDERS;
-    requestStr << GET_FILES;
+    //requestStr << GET_FILES;
 
-    for(int i = EFolders;i < ERepliesCount;++i)
-    {
-        CommonTools::setHeader(request[i]);
-        request[i].setUrl(QUrl(requestStr[i]));
-        reply[i] = networkAccessManager->get(request[i]);
-        settings(static_cast<EReplies> (i));
-    }
+    CommonTools::setHeader(request[EFolders]);
+    request[EFolders].setUrl(QUrl(requestStr[EFolders]));
+    reply[EFolders] = networkAccessManager->get(request[EFolders]);
+    settings(EFolders);
+
+//    for(int i = EFolders;i < ERepliesCount;++i)
+//    {
+//        CommonTools::setHeader(request[i]);
+//        request[i].setUrl(QUrl(requestStr[i]));
+//        reply[i] = networkAccessManager->get(request[i]);
+//        settings(static_cast<EReplies> (i));
+//    }
 }
 
 void DriveEngine::slotFoldersReadyRead()
 {
-    qDebug() << "slotFoldersReadyRead";
+    //qDebug() << "slotFoldersReadyRead";
     replyStr[EFolders].append(reply[EFolders]->readAll());
 }
 
 void DriveEngine::slotFilesReadyRead()
 {
-    qDebug() << "slotFilesReadyRead";
+    //qDebug() << "slotFilesReadyRead";
     replyStr[EFiles].append(reply[EFiles]->readAll());
 }
 
 void DriveEngine::slotFoldersError(QNetworkReply::NetworkError error)
 {
     qDebug() << "slotFoldersError error = " << error;
+
+    if(error == QNetworkReply::QNetworkReply::UnknownNetworkError)
+       qDebug() << "\n*******************\nIf this error occur, please make sure that you have openssl installed (also you can try just copy libeay32.dll and ssleay32.dll files from Qt SDK QtCreator/bin folder into your folder where your program .exe file located (tested on non-static compilation only))\n*******************\n";
+
+    if(error == QNetworkReply::AuthenticationRequiredError) emit signalAccessTokenExpired();
 }
 
 void DriveEngine::slotFoldersSslErrors(const QList<QSslError>& errors)
@@ -144,16 +161,14 @@ void DriveEngine::slotFilesError(QNetworkReply::NetworkError error)
 {
     qDebug() << "slotFilesError error = " << error;
 
-    if(error == QNetworkReply::QNetworkReply::UnknownNetworkError)
-       qDebug() << "\n*******************\nIf this error occur, please make sure you have openssl installed (also you can try just copy libeay32.dll and ssleay32.dll files from Qt SDK QtCreator/bin folder into your folder where your program .exe file located (tested on non-static compilation only))\n*******************\n";
+//    if(error == QNetworkReply::QNetworkReply::UnknownNetworkError)
+//       qDebug() << "\n*******************\nIf this error occur, please make sure that you have openssl installed (also you can try just copy libeay32.dll and ssleay32.dll files from Qt SDK QtCreator/bin folder into your folder where your program .exe file located (tested on non-static compilation only))\n*******************\n";
 
-    if(error == QNetworkReply::AuthenticationRequiredError) emit signalAccessTokenExpired();
+//    if(error == QNetworkReply::AuthenticationRequiredError) emit signalAccessTokenExpired();
 }
 
 void DriveEngine::slotFilesSslErrors(const QList<QSslError>& errors)
 {
-    qDebug() << "slotFilesSslErrors error";
-
     foreach(const QSslError& e,errors)
     {
         qDebug() << "error = " << e.error();
@@ -197,12 +212,24 @@ bool DriveEngine::parseReply(const QString& str, int type)
         parser->setType(type);
     }
 
+    connect(parser->getXMLHandler(), SIGNAL(signalAllResDownloaded(int)),this, SLOT(slotResDownloaded(int)));
+
     source.setData(str.toAscii());
 
     reader->setContentHandler(parser);
     reader->setErrorHandler(parser);
 
     return reader->parse(&source);
+}
+
+void DriveEngine::slotResDownloaded(int queryType)
+{
+  qDebug() << "----------------> DriveEngine::slotResDownloaded " << QString::number(queryType);
+  if(queryType == FOLDER_TYPE)
+  {
+     UiInstance::ui->discTreeView->collapseAll();
+     //qDebug() << "!!!!!!!!!!!!!!!!!!!!! DriveEngine::slotResDownloaded " << QString::number(queryType);
+  }
 }
 
 OAuth2* DriveEngine::getOAuth2(void) const
@@ -219,6 +246,7 @@ void DriveEngine::slotDownload(void)
 
     QSettings settings(COMPANY_NAME, APP_NAME);
     TreeItemInfo treeItems = *parser->getXMLHandler()->getTreeItemInfo();
+    //QList<TreeItemInfo::Data> fileItems = parser->getXMLHandler()->getTreeItemInfo()->getFileItems();
     int index = getCurrentModelItemIndex();
     QString downloadLink(treeItems[index].downloadLink);
 
@@ -226,9 +254,6 @@ void DriveEngine::slotDownload(void)
     {
         if(slotCheckWorkDir(false))
         {
-            TreeItemInfo treeItems = *parser->getXMLHandler()->getTreeItemInfo();
-            int index = getCurrentModelItemIndex();
-
             QString fileName = settings.value(WORK_DIR).toString() + "\/" + treeItems[index].name;
             QString fileType =  treeItems[index].fileType;
 
@@ -343,4 +368,20 @@ void DriveEngine::slotTreeViewExpanded(const QModelIndex& index)
 void DriveEngine::slotTreeViewCollapsed(const QModelIndex& index)
 {
     CommonTools::removeTreeViewOpenedItem(index.row());
+}
+
+void DriveEngine::slotTreeViewClicked(const QModelIndex& index)
+{
+    TreeItemInfo treeItems = *parser->getXMLHandler()->getTreeItemInfo();
+    int treeItemsIndex = getCurrentModelItemIndex();
+
+    if(treeItems[treeItemsIndex].type == FOLDER_TYPE_STR)
+    {
+       if(!filesManager) filesManager = new FilesManager;
+
+       QString query(treeItems[treeItemsIndex].self);
+       query += QString("/contents");
+
+       filesManager->getFilles(query);
+    }
 }

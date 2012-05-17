@@ -41,6 +41,7 @@ public:
     const QList<Data>& getItems(void) const;
     const QList<Data>& getFileItems(void) const;
     void normalize(void);
+    //void showFiles(void);
 
 private:
     QList<Data> items;
