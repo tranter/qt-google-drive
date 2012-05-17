@@ -53,6 +53,8 @@ void DriveEngine::setConnections(void)
 
 void DriveEngine::slotReplyFinished(QNetworkReply* reply)
 {
+    //qDebug() << "=============================================================================== slotReplyFinished" << replyStr[EFolders].toAscii();
+
     if(!replyStr[EFolders].isEmpty() && !replyStr[EFiles].isEmpty())
     {
 //        CommonTools::logToFile("Folders.txt", replyStr[EFolders].toAscii());
@@ -63,8 +65,8 @@ void DriveEngine::slotReplyFinished(QNetworkReply* reply)
         if(parseReply(replyStr[EFiles], FILE_TYPE)) setModel();
         else qDebug() << "parseReply(replyStr[EFiles] NOT OK";
 
-        //parseReply(CommonTools::loadFromFile("folder.tre"), FOLDER_TYPE);
-        //if(parseReply(CommonTools::loadFromFile("files.tre"), FILE_TYPE)) setModel();
+//        parseReply(CommonTools::loadFromFile("folder.tre"), FOLDER_TYPE);
+//        if(parseReply(CommonTools::loadFromFile("files.tre"), FILE_TYPE)) setModel();
     }
 }
 
@@ -95,8 +97,6 @@ void DriveEngine::setModel(void)
         UiInstance::ui->discTreeView->header()->resizeSection(i, 120);
 
     UiInstance::ui->discTreeView->header()->resizeSection(0, 750);
-
-    //qDebug() << " UiInstance::ui->discTreeView->collapseAll();";
 }
 
 void DriveEngine::slotGet(void)
@@ -121,6 +121,12 @@ void DriveEngine::slotFoldersReadyRead()
     replyStr[EFolders].append(reply[EFolders]->readAll());
 }
 
+void DriveEngine::slotFilesReadyRead()
+{
+    qDebug() << "slotFilesReadyRead";
+    replyStr[EFiles].append(reply[EFiles]->readAll());
+}
+
 void DriveEngine::slotFoldersError(QNetworkReply::NetworkError error)
 {
     qDebug() << "slotFoldersError error = " << error;
@@ -128,23 +134,19 @@ void DriveEngine::slotFoldersError(QNetworkReply::NetworkError error)
 
 void DriveEngine::slotFoldersSslErrors(const QList<QSslError>& errors)
 {
-    qDebug() << "slotFoldersSslErrors error";
-
     foreach(const QSslError& e,errors)
     {
         qDebug() << "error = " << e.error();
     }
 }
 
-void DriveEngine::slotFilesReadyRead()
-{
-    qDebug() << "slotFilesReadyRead";
-    replyStr[EFiles].append(reply[EFiles]->readAll());
-}
-
 void DriveEngine::slotFilesError(QNetworkReply::NetworkError error)
 {
     qDebug() << "slotFilesError error = " << error;
+
+    if(error == QNetworkReply::QNetworkReply::UnknownNetworkError)
+       qDebug() << "\n*******************\nIf this error occur, please make sure you have openssl installed (also you can try just copy libeay32.dll and ssleay32.dll files from Qt SDK QtCreator/bin folder into your folder where your program .exe file located (tested on non-static compilation only))\n*******************\n";
+
     if(error == QNetworkReply::AuthenticationRequiredError) emit signalAccessTokenExpired();
 }
 

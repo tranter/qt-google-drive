@@ -58,8 +58,6 @@ void NetworkManager::slotError(QNetworkReply::NetworkError error)
 
 void NetworkManager::slotSslErrors(const QList<QSslError>& errors)
 {
-    qDebug() << "slotSslErrors error";
-
     foreach(const QSslError& e,errors)
     {
         qDebug() << "error = " << e.error();

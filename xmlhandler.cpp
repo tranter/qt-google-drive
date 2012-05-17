@@ -69,7 +69,7 @@ bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs
     {
     case FOLDER_TYPE:
     {
-        resPath = FOLDER_TYPE_STR;
+        //resPath = FOLDER_TYPE_STR;
         type = TreeItemInfo::Efolder;
         itemData.fileSize = infoToken;
     }
@@ -77,13 +77,13 @@ bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs
 
     case FILE_TYPE:
     {
-        resPath = FILE_TYPE_STR;
+        //resPath = FILE_TYPE_STR;
         type = TreeItemInfo::EFile;
     }
         break;
     }
 
-    if(qName == CONTENT && resPath == FILE_TYPE_STR)
+    if(qName == CONTENT && /*resPath == FILE_TYPE_STR*/ type == TreeItemInfo::EFile)
     {
         itemData.fileType = FYLE_TYPE_ATTRIBUTE_TAG;
         itemData.downloadLink = FYLE_TYPE_SRC_ATTRIBUTE_TAG;
@@ -92,7 +92,6 @@ bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs
     if(qName == FOLDER_TITLE_TAG) tags[ETitle]= true;
     if(qName == FILE_SIZE_TAG) tags[ESize] = true;
     if(qName == UPDATED_FILE_TAG) tags[EUpdated] = true;
-
 
     if(HIERARCHY_ATTRIBUTE_TAG == PARENT_TAG)
     {
