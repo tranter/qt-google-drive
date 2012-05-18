@@ -28,7 +28,7 @@ private:
 
 private slots:
     void slotloginDone();
-    void slotUpdateModel();
+    void slotUpdateFileList();
 
 signals:
     void siganalGet(void);

@@ -241,15 +241,10 @@ void DriveEngine::slotDownload(void)
 
     QSettings settings(COMPANY_NAME, APP_NAME);
 
-    //TreeItemInfo treeItems = *parser->getXMLHandler()->getTreeItemInfo();
-    //int index = getCurrentModelItemIndex();
-
     QList<TreeItemInfo::Data> treeItems = filesManager->getParser()->getXMLHandler()->getTreeItemInfo()->getFileItems();
     int index = getCurrentFileItemIndex();
 
     QString downloadLink(treeItems[index].downloadLink);
-
-    qDebug() << "---------------------------------> downloadLink" << downloadLink;
 
     if(!downloadLink.isEmpty())
     {
@@ -274,6 +269,8 @@ void DriveEngine::slotUpload(void)
         if(uploadFileManager->getState() == NetworkManager::EBusy) return;
     }    
 
+    //qDebug() << "index.row():"  << QString::number(currentFoderIndex.row());
+
     QSettings settings(COMPANY_NAME, APP_NAME);
     accessToken = settings.value("access_token").toString();
 
@@ -291,7 +288,7 @@ void DriveEngine::slotUpload(void)
             if(uploadFileManager) delete uploadFileManager;
             uploadFileManager = new UploadFileManager(parent);
 
-            connect(uploadFileManager, SIGNAL(signalUpdateModel()), parent, SLOT(slotUpdateModel()));
+            connect(uploadFileManager, SIGNAL(signalUpdateFileList()), parent, SLOT(slotUpdateFileList()));
 
             uploadFileManager->startUpload(uploadLink, fileName);
         }
@@ -324,22 +321,16 @@ int DriveEngine::getCurrentFileItemIndex(void) const
     int count = fileItemsInfo.count();
     QString fileName(UiInstance::ui->filesViewWidget->currentIndex().data().toString());
 
-    //qDebug() << "---------------------> fileName\n" << fileName;
-
     int currentFileIndex = 0;
 
     for(int i = 1; i < count; ++i)
     {
-
-        //qDebug() << "---------------------> fileItemsInfo[i].item" << fileItemsInfo[i].name;
         if(fileName == fileItemsInfo[i].name)
         {
             currentFileIndex = i;
             break;
         }
     }
-
-    qDebug() << "---------------------> currentFileIndex" << QString::number(currentFileIndex);
 
     return currentFileIndex;
 }
@@ -399,6 +390,33 @@ void DriveEngine::slotTreeViewCollapsed(const QModelIndex& index)
 
 void DriveEngine::slotTreeViewClicked(const QModelIndex& index)
 {
+  //currentFoderIndex = index;
+
+  qDebug() << "index.row():"  << QString::number(index.row());
+
+  showFiles();
+
+//    TreeItemInfo treeItems = *parser->getXMLHandler()->getTreeItemInfo();
+//    int treeItemsIndex = getCurrentModelItemIndex();
+
+//    if(treeItems[treeItemsIndex].type == FOLDER_TYPE_STR)
+//    {
+//       if(!filesManager) filesManager = new FilesManager;
+
+//       QString query(treeItems[treeItemsIndex].self);
+//       query += QString("/contents");
+
+//       filesManager->getFiles(query);
+//    }
+}
+
+void DriveEngine::slotItemClicked(QTreeWidgetItem* item, int column)
+{
+    qDebug() << "column:"  << QString::number(column);
+}
+
+void DriveEngine::showFiles(void)
+{
     TreeItemInfo treeItems = *parser->getXMLHandler()->getTreeItemInfo();
     int treeItemsIndex = getCurrentModelItemIndex();
 
@@ -411,9 +429,4 @@ void DriveEngine::slotTreeViewClicked(const QModelIndex& index)
 
        filesManager->getFiles(query);
     }
-}
-
-void DriveEngine::slotItemClicked(QTreeWidgetItem* item, int column)
-{
-    qDebug() << "column:"  << QString::number(column);
 }

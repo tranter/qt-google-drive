@@ -41,6 +41,7 @@ public:
     OAuth2* getOAuth2(void) const;
     int getCurrentModelItemIndex(void) const;
     int getCurrentFileItemIndex(void) const;
+    void showFiles(void);
     
 public slots:
     void slotStartLogin(void);
@@ -93,6 +94,7 @@ private:
     DownloadFileManager* downloadManager;
     UploadFileManager* uploadFileManager;
     FilesManager* filesManager;
+    //QModelIndex currentFoderIndex;
 };
 
 #endif // DRIVEENGINE_H

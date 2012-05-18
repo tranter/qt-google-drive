@@ -22,7 +22,7 @@ private:
     QString getContentTypeByExtension(const QString& ext);
 
 signals:
-    void signalUpdateModel();
+    void signalUpdateFileList();
 
 private:
     bool allowPut;

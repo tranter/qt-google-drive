@@ -2,7 +2,6 @@
 #include "ui_mainwindow.h"
 #include <QDebug>
 #include <QFile>
-#include "qt_windows.h"
 
 Ui::MainWindow* UiInstance::ui = NULL;
 
@@ -62,10 +61,9 @@ void MainWindow::slotloginDone(void)
     init();
 }
 
-void MainWindow::slotUpdateModel()
+void MainWindow::slotUpdateFileList()
 {
   qDebug() << "slotUpdateModel()";
-  Sleep(1000);
-  init();
+  driveEngine->showFiles();
 }
 
