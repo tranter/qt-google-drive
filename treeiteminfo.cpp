@@ -25,13 +25,13 @@ const QList<TreeItemInfo::Data>& TreeItemInfo::getFileItems(void) const
     return fileItems;
 }
 
-void TreeItemInfo::push_back(TreeItemInfo::Data& data, ETypes type)
+void TreeItemInfo::push_back(TreeItemInfo::Data& data, int type)
 {
     switch(type)
     {
-    case Efolder: items.push_back(data);
+    case FOLDER_TYPE: items.push_back(data);
         break;
-    case EFile: fileItems.push_back(data);
+    case FILE_TYPE: fileItems.push_back(data);
         break;
     }
 }
@@ -45,6 +45,27 @@ void TreeItemInfo::normalize(void)
 TreeItemInfo::Data& TreeItemInfo::operator [] (int index)
 {
     return items[index];
+}
+
+void TreeItemInfo::setAccountOwner(const QString& name)
+{
+ accountOwner = name;
+}
+
+QString TreeItemInfo::getAccountOwner(void) const
+{
+  return accountOwner;
+}
+
+void TreeItemInfo::setDataOwner(const QString& name, int index, int type)
+{
+    switch(type)
+    {
+    case FOLDER_TYPE: items[index].dataOwner = name;
+        break;
+    case FILE_TYPE: fileItems[index].dataOwner = name;
+        break;
+    }
 }
 
 //void TreeItemInfo::showFiles(void)

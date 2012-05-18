@@ -19,6 +19,10 @@
 #define PUBLISHED_FILE_TAG "published"
 #define UPDATED_FILE_TAG "updated"
 #define EDITED_FILE_TAG "app:edited"
+#define AUTHOR_TAG "author"
+#define ENTRY_TAG "entry"
+
+#define OWNER_ME QString("me")
 
 #define FOLDER_TYPE 0
 #define FILE_TYPE 1

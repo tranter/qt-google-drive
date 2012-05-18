@@ -26,13 +26,6 @@ class DriveEngine : public QObject
     Q_OBJECT
 public:
 
-//    enum EReplies
-//    {
-//        EFolders = 0,
-//        EFiles,
-//        ERepliesCount
-//    };
-
     explicit DriveEngine(QObject *parentObj = 0);
     ~DriveEngine();
 

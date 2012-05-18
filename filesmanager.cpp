@@ -101,7 +101,11 @@ void FilesManager::show(void)
         items.push_back(new QTreeWidgetItem(UiInstance::ui->filesViewWidget));
         items.last()->setText(0, fileItems[i].name);
         items.last()->setIcon(0, QPixmap(fileItems[i].iconPath));
-        items.last()->setText(1, fileItems[i].fileUpdated);
-        items.last()->setText(2, fileItems[i].fileSize);
+
+
+
+        items.last()->setText(1, fileItems[i].dataOwner);
+        items.last()->setText(2, fileItems[i].fileUpdated);
+        items.last()->setText(3, fileItems[i].fileSize);
     }
 }

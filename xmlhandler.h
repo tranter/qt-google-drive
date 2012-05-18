@@ -17,6 +17,8 @@ public:
         ETitle = 0,
         ESize,
         EUpdated,
+        EAuthor,
+        EEntry,
         ETagsCount
     };
 
@@ -50,7 +52,6 @@ private:
     bool tags[ETagsCount];
     QList<ResManager*> resManagers;
     int resDownloadedCount;
-    //QString infoToken;
     QLocale locale;
     bool isResDownloding;
 };

@@ -1,12 +1,10 @@
 #include "xmlhandler.h"
 #include "mainwindow.h"
 #include <QDebug>
-//#include "qt_windows.h"
 
 XMLHandler::XMLHandler(int type):
     queryType(type),
     itemInfo(new TreeItemInfo),
-    //infoToken(QString(INFO_TOKEN)),
     resDownloadedCount(0),
     isResDownloding(false)
 {
@@ -30,6 +28,32 @@ bool XMLHandler::endElement(const QString &namespaceURI, const QString &localNam
 
 bool XMLHandler::characters(const QString &str)
 {
+    if(tags[EAuthor] && !tags[EEntry])
+    {
+        itemInfo->setAccountOwner(str);
+        tags[EAuthor] = false;
+    }
+
+    if(tags[EAuthor] && tags[EEntry])
+    {
+        int index;
+
+        switch(queryType)
+        {
+        case FOLDER_TYPE:
+            index =  itemInfo->getItems().count() - 1;
+            break;
+        case FILE_TYPE:
+            index =  itemInfo->getFileItems().count()  -1;
+            break;
+        }
+
+        QString author(str);
+        if(itemInfo->getAccountOwner() == author) author = OWNER_ME;
+        itemInfo->setDataOwner(author, index, queryType);
+        tags[EAuthor] = false;
+    }
+
     if(tags[ETitle])
     {
         itemData.name = str;
@@ -38,13 +62,13 @@ bool XMLHandler::characters(const QString &str)
 
     if(tags[ESize])
     {
+        itemInfo->setFileSize(CommonTools::getFormattedFileSize(str), itemInfo->getFileItems().count() - 1);
         tags[ESize] = false;
-        itemInfo->setFileSize(/*infoToken + */CommonTools::getFormattedFileSize(str), itemInfo->getFileItems().count() - 1);
     }
 
     if(tags[EUpdated])
     {
-        itemData.fileUpdated =  /*infoToken + */CommonTools::convertDate(str);
+        itemData.fileUpdated =  CommonTools::convertDate(str);
         tags[EUpdated] = false;
     }
 
@@ -58,13 +82,12 @@ TreeItemInfo* XMLHandler::getTreeItemInfo(void) const
 
 bool XMLHandler::fatalError(const QXmlParseException &exception)
 {
-    qDebug() << "XMLHandler::fatalError =" << exception.message();
+    qDebug() << "XMLHandler::fatalError:" << exception.message();
     return true;
 }
 
 bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs, int queryType)
 {
-    TreeItemInfo::ETypes type;
     QString itemType;
 
     switch(queryType)
@@ -72,25 +95,24 @@ bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs
     case FOLDER_TYPE:
     {
         itemType = FOLDER_TYPE_STR;
-        type = TreeItemInfo::Efolder;
-        //itemData.fileSize = /*infoToken*/;
     }
         break;
 
     case FILE_TYPE:
     {
         itemType = FILE_TYPE_STR;
-        type = TreeItemInfo::EFile;
     }
         break;
     }
 
-    if(qName == CONTENT && itemType == FILE_TYPE_STR /* type == TreeItemInfo::EFile*/)
+    if(qName == CONTENT && itemType == FILE_TYPE_STR)
     {
         itemData.fileType = FYLE_TYPE_ATTRIBUTE_TAG;
         itemData.downloadLink = FYLE_TYPE_SRC_ATTRIBUTE_TAG;
     }
 
+    if(qName == ENTRY_TAG) tags[EEntry] = true;
+    if(qName == AUTHOR_TAG) tags[EAuthor]= true;
     if(qName == FOLDER_TITLE_TAG) tags[ETitle]= true;
     if(qName == FILE_SIZE_TAG) tags[ESize] = true;
     if(qName == UPDATED_FILE_TAG) tags[EUpdated] = true;
@@ -98,7 +120,7 @@ bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs
     if(HIERARCHY_ATTRIBUTE_TAG == PARENT_TAG)
     {
         itemData.item = NULL;
-        itemData.parent = /*infoToken + */HIERARCHY_VALUE_TAG;
+        itemData.parent = HIERARCHY_VALUE_TAG;
     }
 
     if(HIERARCHY_ATTRIBUTE_TAG == UPLOAD_TAG)
@@ -121,9 +143,10 @@ bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs
 
     if(HIERARCHY_ATTRIBUTE_TAG == SELF_TAG)
     {
-        itemData.self = /*infoToken + */HIERARCHY_VALUE_TAG;
+        itemData.self = HIERARCHY_VALUE_TAG;
         itemData.type = itemType;
-        itemInfo->push_back(itemData, type);
+        itemInfo->push_back(itemData, queryType);
+        qDebug() << "------------------------------------------> push";
         setDefaults();
     }
 
@@ -149,9 +172,10 @@ void XMLHandler::setType(int type)
 void XMLHandler::setDefaults(void)
 {
     itemData.item = NULL;
-    itemData.fileSize = /*infoToken + */"---";
+    //itemData.dataOwner = "";
+    itemData.fileSize = "---";
     itemData.fileUpdated = "";
-    itemData.parent = /*infoToken + */ROOT_TAG;
+    itemData.parent = ROOT_TAG;
 }
 
 bool XMLHandler::resDownloadingNow(void) const

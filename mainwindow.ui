@@ -79,6 +79,11 @@
     </column>
     <column>
      <property name="text">
+      <string>Owner</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
       <string>Last Modified</string>
      </property>
     </column>

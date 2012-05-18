@@ -177,8 +177,6 @@ void DriveEngine::slotUpload(void)
         if(uploadFileManager->getState() == NetworkManager::EBusy) return;
     }
 
-    //qDebug() << "index.row():"  << QString::number(currentFoderIndex.row());
-
     QSettings settings(COMPANY_NAME, APP_NAME);
     accessToken = settings.value("access_token").toString();
 
