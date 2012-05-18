@@ -17,7 +17,8 @@ public:
     explicit FilesManager(QObject *parent = 0);
 
 public:
-    void getFilles(const QString& query);
+    void getFiles(const QString& query);
+    XMLParser* getParser(void) const;
 
 private slots:
     void slotReplyFinished(QNetworkReply* reply);
@@ -35,7 +36,7 @@ private:
     QNetworkReply *reply;
     QNetworkRequest request;
     QString replyStr;
-    XMLParser *parser;
+    XMLParser* parser;
     QList<QTreeWidgetItem*> items;
 };
 

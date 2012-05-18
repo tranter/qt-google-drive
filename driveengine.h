@@ -40,6 +40,7 @@ public:
     void init(void);
     OAuth2* getOAuth2(void) const;
     int getCurrentModelItemIndex(void) const;
+    int getCurrentFileItemIndex(void) const;
     
 public slots:
     void slotStartLogin(void);
@@ -65,6 +66,8 @@ private slots:
     void slotTreeViewClicked(const QModelIndex& index);
 
     void slotResDownloaded(int queryType);
+
+    void slotItemClicked(QTreeWidgetItem* item, int column);
 
 signals:
     void signalAccessTokenExpired();

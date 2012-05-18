@@ -51,7 +51,7 @@ void DriveEngine::setConnections(void)
     connect(UiInstance::ui->discTreeView, SIGNAL(expanded(const QModelIndex&)), this, SLOT(slotTreeViewExpanded(const QModelIndex&)));
     connect(UiInstance::ui->discTreeView, SIGNAL(collapsed(const QModelIndex&)), this, SLOT(slotTreeViewCollapsed(const QModelIndex&)));
     connect(UiInstance::ui->discTreeView, SIGNAL(clicked (const QModelIndex&)), this, SLOT(slotTreeViewClicked(const QModelIndex&)));
-
+    connect(UiInstance::ui->filesViewWidget, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(slotItemClicked(QTreeWidgetItem*, int)));
 }
 
 void DriveEngine::slotReplyFinished(QNetworkReply* reply)
@@ -103,7 +103,7 @@ void DriveEngine::setModel(void)
 //    UiInstance::ui->discTreeView->header()->resizeSection(0, 200);
 //    UiInstance::ui->discTreeView->header()->resizeSection(1, 550);
 
-      UiInstance::ui->treeViewWidget->header()->resizeSection(0, 400);
+      UiInstance::ui->filesViewWidget->header()->resizeSection(0, 400);
 }
 
 void DriveEngine::slotGet(void)
@@ -141,7 +141,7 @@ void DriveEngine::slotFilesReadyRead()
 
 void DriveEngine::slotFoldersError(QNetworkReply::NetworkError error)
 {
-    qDebug() << "slotFoldersError error = " << error;
+    qDebug() << "slotFoldersError error:" << error;
 
     if(error == QNetworkReply::QNetworkReply::UnknownNetworkError)
        qDebug() << "\n*******************\nIf this error occur, please make sure that you have openssl installed (also you can try just copy libeay32.dll and ssleay32.dll files from Qt SDK QtCreator/bin folder into your folder where your program .exe file located (tested on non-static compilation only))\n*******************\n";
@@ -153,13 +153,13 @@ void DriveEngine::slotFoldersSslErrors(const QList<QSslError>& errors)
 {
     foreach(const QSslError& e,errors)
     {
-        qDebug() << "error = " << e.error();
+        qDebug() << "Ssl error:" << e.error();
     }
 }
 
 void DriveEngine::slotFilesError(QNetworkReply::NetworkError error)
 {
-    qDebug() << "slotFilesError error = " << error;
+    qDebug() << "slotFilesError error:" << error;
 
 //    if(error == QNetworkReply::QNetworkReply::UnknownNetworkError)
 //       qDebug() << "\n*******************\nIf this error occur, please make sure that you have openssl installed (also you can try just copy libeay32.dll and ssleay32.dll files from Qt SDK QtCreator/bin folder into your folder where your program .exe file located (tested on non-static compilation only))\n*******************\n";
@@ -171,7 +171,7 @@ void DriveEngine::slotFilesSslErrors(const QList<QSslError>& errors)
 {
     foreach(const QSslError& e,errors)
     {
-        qDebug() << "error = " << e.error();
+        qDebug() << "Ssl error:" << e.error();
     }
 }
 
@@ -224,12 +224,7 @@ bool DriveEngine::parseReply(const QString& str, int type)
 
 void DriveEngine::slotResDownloaded(int queryType)
 {
-  qDebug() << "----------------> DriveEngine::slotResDownloaded " << QString::number(queryType);
-  if(queryType == FOLDER_TYPE)
-  {
-     UiInstance::ui->discTreeView->collapseAll();
-     //qDebug() << "!!!!!!!!!!!!!!!!!!!!! DriveEngine::slotResDownloaded " << QString::number(queryType);
-  }
+  if(queryType == FOLDER_TYPE) UiInstance::ui->discTreeView->collapseAll();
 }
 
 OAuth2* DriveEngine::getOAuth2(void) const
@@ -245,10 +240,16 @@ void DriveEngine::slotDownload(void)
     }
 
     QSettings settings(COMPANY_NAME, APP_NAME);
-    TreeItemInfo treeItems = *parser->getXMLHandler()->getTreeItemInfo();
-    //QList<TreeItemInfo::Data> fileItems = parser->getXMLHandler()->getTreeItemInfo()->getFileItems();
-    int index = getCurrentModelItemIndex();
+
+    //TreeItemInfo treeItems = *parser->getXMLHandler()->getTreeItemInfo();
+    //int index = getCurrentModelItemIndex();
+
+    QList<TreeItemInfo::Data> treeItems = filesManager->getParser()->getXMLHandler()->getTreeItemInfo()->getFileItems();
+    int index = getCurrentFileItemIndex();
+
     QString downloadLink(treeItems[index].downloadLink);
+
+    qDebug() << "---------------------------------> downloadLink" << downloadLink;
 
     if(!downloadLink.isEmpty())
     {
@@ -271,7 +272,7 @@ void DriveEngine::slotUpload(void)
     if(uploadFileManager)
     {
         if(uploadFileManager->getState() == NetworkManager::EBusy) return;
-    }
+    }    
 
     QSettings settings(COMPANY_NAME, APP_NAME);
     accessToken = settings.value("access_token").toString();
@@ -301,7 +302,7 @@ int DriveEngine::getCurrentModelItemIndex(void) const
 {
     TreeItem *item = static_cast<TreeItem*>(UiInstance::ui->discTreeView->currentIndex().internalPointer());
     TreeItemInfo treeItems = *parser->getXMLHandler()->getTreeItemInfo();
-    int count = parser->getXMLHandler()->getTreeItemInfo()->getItems().count();
+    int count = treeItems.getItems().count();
 
     int currentModelIndex = 0;
 
@@ -315,6 +316,32 @@ int DriveEngine::getCurrentModelItemIndex(void) const
     }
 
     return currentModelIndex;
+}
+
+int DriveEngine::getCurrentFileItemIndex(void) const
+{
+    QList<TreeItemInfo::Data> fileItemsInfo = filesManager->getParser()->getXMLHandler()->getTreeItemInfo()->getFileItems();
+    int count = fileItemsInfo.count();
+    QString fileName(UiInstance::ui->filesViewWidget->currentIndex().data().toString());
+
+    //qDebug() << "---------------------> fileName\n" << fileName;
+
+    int currentFileIndex = 0;
+
+    for(int i = 1; i < count; ++i)
+    {
+
+        //qDebug() << "---------------------> fileItemsInfo[i].item" << fileItemsInfo[i].name;
+        if(fileName == fileItemsInfo[i].name)
+        {
+            currentFileIndex = i;
+            break;
+        }
+    }
+
+    qDebug() << "---------------------> currentFileIndex" << QString::number(currentFileIndex);
+
+    return currentFileIndex;
 }
 
 bool DriveEngine::slotCheckWorkDir(bool showDlg)
@@ -382,6 +409,11 @@ void DriveEngine::slotTreeViewClicked(const QModelIndex& index)
        QString query(treeItems[treeItemsIndex].self);
        query += QString("/contents");
 
-       filesManager->getFilles(query);
+       filesManager->getFiles(query);
     }
+}
+
+void DriveEngine::slotItemClicked(QTreeWidgetItem* item, int column)
+{
+    qDebug() << "column:"  << QString::number(column);
 }

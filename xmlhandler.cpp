@@ -108,7 +108,7 @@ bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs
 
     if(HIERARCHY_ATTRIBUTE_TAG == ICON_TAG)
     {
-        if(!CommonTools::resFileFromURLExists(HIERARCHY_VALUE_TAG))
+        if(!CommonTools::fileFromURLExists(HIERARCHY_VALUE_TAG))
         {
             isResDownloding = true;
             resManagers.push_back(new ResManager);
@@ -116,7 +116,7 @@ bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs
             connect(resManagers.last(), SIGNAL(signalResDownloaded()), this, SLOT(slotResDownloaded()));
         }
 
-        itemData.iconPath = CommonTools::getResPath(HIERARCHY_VALUE_TAG);
+        itemData.iconPath = CommonTools::getFileNameFromURL(HIERARCHY_VALUE_TAG);
     }
 
     if(HIERARCHY_ATTRIBUTE_TAG == SELF_TAG)

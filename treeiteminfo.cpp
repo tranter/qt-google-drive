@@ -38,9 +38,6 @@ void TreeItemInfo::push_back(TreeItemInfo::Data& data, ETypes type)
 
 void TreeItemInfo::normalize(void)
 {
-    //    for(int i = fileItems.count() - 1; i > 0; --i)
-    //        items.push_front(fileItems[i]);
-
     for(int i =  1; i < fileItems.count(); ++i)
         items.push_back(fileItems[i]);
 }

@@ -9,7 +9,7 @@ FilesManager::FilesManager(QObject *parent):
 {
 }
 
-void FilesManager::getFilles(const QString& query)
+void FilesManager::getFiles(const QString& query)
 {
     if(networkAccessManager) delete networkAccessManager;
     networkAccessManager = new QNetworkAccessManager(this);
@@ -47,14 +47,14 @@ void FilesManager::slotReadyRead()
 
 void FilesManager::slotError(QNetworkReply::NetworkError error)
 {
-    qDebug() << "slotError error = " << error;
+    qDebug() << "slotError error:" << error;
 }
 
 void FilesManager::slotSslErrors(const QList<QSslError>& errors)
 {
     foreach(const QSslError& e,errors)
     {
-        qDebug() << "error = " << e.error();
+        qDebug() << "Ssl error:" << e.error();
     }
 }
 
@@ -78,8 +78,12 @@ bool FilesManager::parseReply(const QString& str)
 
 void FilesManager::slotResDownloaded(int queryType)
 {
-  //qDebug() << "----------------> FilesManager::slotResDownloaded " << QString::number(queryType);
   if(queryType == FILE_TYPE) show();
+}
+
+XMLParser* FilesManager::getParser(void) const
+{
+ return parser;
 }
 
 void FilesManager::show(void)
@@ -94,7 +98,7 @@ void FilesManager::show(void)
 
     for(int i = 1; i < fileItems.count(); ++i)
     {
-        items.push_back(new QTreeWidgetItem(UiInstance::ui->treeViewWidget));
+        items.push_back(new QTreeWidgetItem(UiInstance::ui->filesViewWidget));
         items.last()->setText(0, fileItems[i].name);
         items.last()->setIcon(0, QPixmap(fileItems[i].iconPath));
         items.last()->setText(1, fileItems[i].fileUpdated);

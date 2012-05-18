@@ -60,7 +60,7 @@
      <bool>true</bool>
     </attribute>
    </widget>
-   <widget class="QTreeWidget" name="treeViewWidget">
+   <widget class="QTreeWidget" name="filesViewWidget">
     <property name="geometry">
      <rect>
       <x>310</x>

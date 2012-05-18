@@ -116,14 +116,14 @@ QByteArray CommonTools::loadFromFile(const QString& fileName)
     return arr;
 }
 
-bool CommonTools::resFileFromURLExists(const QString& url)
+bool CommonTools::fileFromURLExists(const QString& url)
 {
     QFileInfo fi(url);
     QFile file(fi.fileName());
     return file.exists();
 }
 
-QString CommonTools::getResPath(const QString& url)
+QString CommonTools::getFileNameFromURL(const QString& url)
 {
   QFileInfo fi(url);
   return fi.fileName();
