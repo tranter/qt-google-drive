@@ -26,12 +26,12 @@ class DriveEngine : public QObject
     Q_OBJECT
 public:
 
-    enum EReplies
-    {
-        EFolders = 0,
-        EFiles,
-        ERepliesCount
-    };
+//    enum EReplies
+//    {
+//        EFolders = 0,
+//        EFiles,
+//        ERepliesCount
+//    };
 
     explicit DriveEngine(QObject *parentObj = 0);
     ~DriveEngine();
@@ -55,10 +55,6 @@ private slots:
     void slotFoldersError(QNetworkReply::NetworkError error);
     void slotFoldersSslErrors(const QList<QSslError>& errors);
 
-    void slotFilesReadyRead();
-    void slotFilesError(QNetworkReply::NetworkError error);
-    void slotFilesSslErrors(const QList<QSslError>& errors);
-
     void slotDownload(void);
     void slotUpload(void);
 
@@ -68,25 +64,24 @@ private slots:
 
     void slotResDownloaded(int queryType);
 
-    void slotItemClicked(QTreeWidgetItem* item, int column);
+    //void slotItemClicked(QTreeWidgetItem* item, int column);
 
 signals:
     void signalAccessTokenExpired();
 
 private:
     void setConnections(void);
-    void settings(EReplies eReply);
+    void settings(void);
     bool parseReply(const QString& str, int type);
     void setModel(void);
-    void loadOpenedItems(void);
 
 private:
     OAuth2* oAuth2;
     QNetworkAccessManager* networkAccessManager;
     QWidget* parent;
-    QNetworkReply* reply[ERepliesCount];
-    QNetworkRequest request[ERepliesCount];
-    QString replyStr[ERepliesCount];
+    QNetworkReply* reply;
+    QNetworkRequest request;
+    QString replyStr;
     QString accessToken;
     TreeModel* model;
     XMLParser *parser;
@@ -94,7 +89,6 @@ private:
     DownloadFileManager* downloadManager;
     UploadFileManager* uploadFileManager;
     FilesManager* filesManager;
-    //QModelIndex currentFoderIndex;
 };
 
 #endif // DRIVEENGINE_H

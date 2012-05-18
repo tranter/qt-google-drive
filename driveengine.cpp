@@ -51,26 +51,12 @@ void DriveEngine::setConnections(void)
     connect(UiInstance::ui->discTreeView, SIGNAL(expanded(const QModelIndex&)), this, SLOT(slotTreeViewExpanded(const QModelIndex&)));
     connect(UiInstance::ui->discTreeView, SIGNAL(collapsed(const QModelIndex&)), this, SLOT(slotTreeViewCollapsed(const QModelIndex&)));
     connect(UiInstance::ui->discTreeView, SIGNAL(clicked (const QModelIndex&)), this, SLOT(slotTreeViewClicked(const QModelIndex&)));
-    connect(UiInstance::ui->filesViewWidget, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(slotItemClicked(QTreeWidgetItem*, int)));
+    //connect(UiInstance::ui->filesViewWidget, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(slotItemClicked(QTreeWidgetItem*, int)));
 }
 
 void DriveEngine::slotReplyFinished(QNetworkReply* reply)
 {
-    if(parseReply(replyStr[EFolders], FOLDER_TYPE)) setModel();
-
-//    if(!replyStr[EFolders].isEmpty() && !replyStr[EFiles].isEmpty())
-//    {
-////        CommonTools::logToFile("Folders.txt", replyStr[EFolders].toAscii());
-////        CommonTools::logToFile("Files.txt", replyStr[EFiles].toAscii());
-
-//        if(!parseReply(replyStr[EFolders], FOLDER_TYPE)) qDebug() << "parseReply(replyStr[EFolders] NOT OK";
-
-//        if(parseReply(replyStr[EFiles], FILE_TYPE)) setModel();
-//        else qDebug() << "parseReply(replyStr[EFiles] NOT OK";
-
-////        parseReply(CommonTools::loadFromFile("folder.tre"), FOLDER_TYPE);
-////        if(parseReply(CommonTools::loadFromFile("files.tre"), FILE_TYPE)) setModel();
-//    }
+    if(parseReply(replyStr, FOLDER_TYPE)) setModel();
 }
 
 void DriveEngine::setModel(void)
@@ -79,64 +65,27 @@ void DriveEngine::setModel(void)
 
     QList<QVariant> rootData;
 
-    /*
-      add other columns into rootData here, if necessary (i.e. columns with titles which contain additional info about items)
-      (example: rootData << TREE_VIEW_MAIN_TITLE << OTHER_COLIMN_TITLE1 <<  OTHER_COLIMN_TITLE2;)
-    */
-
-    //rootData << TREE_VIEW_MAIN_TITLE /*<< TREE_VIEW_FILE_TITLE <<*/ TREE_VIEW_UPDATED_TITLE << TREE_VIEW_SIZE_TITLE;
-    //rootData << TREE_VIEW_MAIN_TITLE << "parent" << "self" << TREE_VIEW_UPDATED_TITLE << TREE_VIEW_SIZE_TITLE;
-     rootData << TREE_VIEW_MAIN_TITLE;
+    rootData << TREE_VIEW_MAIN_TITLE;
 
     TreeItemInfo* itemInfo = parser->getXMLHandler()->getTreeItemInfo();
 
-    //itemInfo->normalize();
-
     model = new TreeModel(rootData, itemInfo);
     UiInstance::ui->discTreeView->setModel(model);
-
-    //loadOpenedItems();
-
-//    for(int i = 2; i < model->columnCount(); ++i)
-//        UiInstance::ui->discTreeView->header()->resizeSection(i, 120);
-
-//    UiInstance::ui->discTreeView->header()->resizeSection(0, 200);
-//    UiInstance::ui->discTreeView->header()->resizeSection(1, 550);
-
-      UiInstance::ui->filesViewWidget->header()->resizeSection(0, 400);
+    UiInstance::ui->filesViewWidget->header()->resizeSection(0, 400);
 }
 
 void DriveEngine::slotGet(void)
 {
-    QStringList requestStr;
-
-    requestStr << GET_FOLDERS;
-    //requestStr << GET_FILES;
-
-    CommonTools::setHeader(request[EFolders]);
-    request[EFolders].setUrl(QUrl(requestStr[EFolders]));
-    reply[EFolders] = networkAccessManager->get(request[EFolders]);
-    settings(EFolders);
-
-//    for(int i = EFolders;i < ERepliesCount;++i)
-//    {
-//        CommonTools::setHeader(request[i]);
-//        request[i].setUrl(QUrl(requestStr[i]));
-//        reply[i] = networkAccessManager->get(request[i]);
-//        settings(static_cast<EReplies> (i));
-//    }
+    CommonTools::setHeader(request);
+    request.setUrl(QUrl(GET_FOLDERS));
+    reply = networkAccessManager->get(request);
+    settings();
 }
 
 void DriveEngine::slotFoldersReadyRead()
 {
     //qDebug() << "slotFoldersReadyRead";
-    replyStr[EFolders].append(reply[EFolders]->readAll());
-}
-
-void DriveEngine::slotFilesReadyRead()
-{
-    //qDebug() << "slotFilesReadyRead";
-    replyStr[EFiles].append(reply[EFiles]->readAll());
+    replyStr.append(reply->readAll());
 }
 
 void DriveEngine::slotFoldersError(QNetworkReply::NetworkError error)
@@ -157,65 +106,24 @@ void DriveEngine::slotFoldersSslErrors(const QList<QSslError>& errors)
     }
 }
 
-void DriveEngine::slotFilesError(QNetworkReply::NetworkError error)
+void DriveEngine::settings(void)
 {
-    qDebug() << "slotFilesError error:" << error;
-
-//    if(error == QNetworkReply::QNetworkReply::UnknownNetworkError)
-//       qDebug() << "\n*******************\nIf this error occur, please make sure that you have openssl installed (also you can try just copy libeay32.dll and ssleay32.dll files from Qt SDK QtCreator/bin folder into your folder where your program .exe file located (tested on non-static compilation only))\n*******************\n";
-
-//    if(error == QNetworkReply::AuthenticationRequiredError) emit signalAccessTokenExpired();
-}
-
-void DriveEngine::slotFilesSslErrors(const QList<QSslError>& errors)
-{
-    foreach(const QSslError& e,errors)
-    {
-        qDebug() << "Ssl error:" << e.error();
-    }
-}
-
-void DriveEngine::settings(EReplies eReply)
-{
-    switch(eReply)
-    {
-    case EFolders:
-    {
-        connect(reply[EFolders], SIGNAL(readyRead()), this, SLOT(slotFoldersReadyRead()));
-        connect(reply[EFolders], SIGNAL(error(QNetworkReply::NetworkError)),this, SLOT(slotFoldersError(QNetworkReply::NetworkError)));
-        connect(reply[EFolders], SIGNAL(sslErrors(const QList<QSslError>&)),this, SLOT(slotFoldersSslErrors(const QList<QSslError>&)));
-    }
-        break;
-    case EFiles:
-    {
-        connect(reply[EFiles], SIGNAL(readyRead()), this, SLOT(slotFilesReadyRead()));
-        connect(reply[EFiles], SIGNAL(error(QNetworkReply::NetworkError)),this, SLOT(slotFilesError(QNetworkReply::NetworkError)));
-        connect(reply[EFiles], SIGNAL(sslErrors(const QList<QSslError>&)),this, SLOT(slotFilesSslErrors(const QList<QSslError>&)));
-    }
-        break;
-    }
+    connect(reply, SIGNAL(readyRead()), this, SLOT(slotFoldersReadyRead()));
+    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),this, SLOT(slotFoldersError(QNetworkReply::NetworkError)));
+    connect(reply, SIGNAL(sslErrors(const QList<QSslError>&)),this, SLOT(slotFoldersSslErrors(const QList<QSslError>&)));
 }
 
 bool DriveEngine::parseReply(const QString& str, int type)
 {
     QXmlInputSource source;
 
-    if(type == FOLDER_TYPE)
-    {
-        if(parser) delete parser;
-        if(reader) delete reader;
-        parser = new XMLParser(type);
-        reader = new QXmlSimpleReader;
-    }
-    else
-    {
-        parser->setType(type);
-    }
+    if(parser) delete parser;
+    if(reader) delete reader;
+    parser = new XMLParser(type);
+    reader = new QXmlSimpleReader;
 
     connect(parser->getXMLHandler(), SIGNAL(signalAllResDownloaded(int)),this, SLOT(slotResDownloaded(int)));
-
     source.setData(str.toAscii());
-
     reader->setContentHandler(parser);
     reader->setErrorHandler(parser);
 
@@ -267,7 +175,7 @@ void DriveEngine::slotUpload(void)
     if(uploadFileManager)
     {
         if(uploadFileManager->getState() == NetworkManager::EBusy) return;
-    }    
+    }
 
     //qDebug() << "index.row():"  << QString::number(currentFoderIndex.row());
 
@@ -367,17 +275,6 @@ bool DriveEngine::slotCheckWorkDir(bool showDlg)
     return dirTextNotEmpty;
 }
 
-void DriveEngine::loadOpenedItems(void)
-{
-    QList<int> indexes = CommonTools::getTreeViewOpenedItem();
-    CommonTools::treeViewOpenedItemClear();
-
-    for(int i = 0; i < indexes.count(); ++i)
-    {
-        UiInstance::ui->discTreeView->expand(model->index(indexes[i], 0, QModelIndex()));
-    }
-}
-
 void DriveEngine::slotTreeViewExpanded(const QModelIndex& index)
 {
     CommonTools::addTreeViewOpenedItem(index.row());
@@ -390,30 +287,13 @@ void DriveEngine::slotTreeViewCollapsed(const QModelIndex& index)
 
 void DriveEngine::slotTreeViewClicked(const QModelIndex& index)
 {
-  //currentFoderIndex = index;
-
-  qDebug() << "index.row():"  << QString::number(index.row());
-
   showFiles();
-
-//    TreeItemInfo treeItems = *parser->getXMLHandler()->getTreeItemInfo();
-//    int treeItemsIndex = getCurrentModelItemIndex();
-
-//    if(treeItems[treeItemsIndex].type == FOLDER_TYPE_STR)
-//    {
-//       if(!filesManager) filesManager = new FilesManager;
-
-//       QString query(treeItems[treeItemsIndex].self);
-//       query += QString("/contents");
-
-//       filesManager->getFiles(query);
-//    }
 }
 
-void DriveEngine::slotItemClicked(QTreeWidgetItem* item, int column)
-{
-    qDebug() << "column:"  << QString::number(column);
-}
+//void DriveEngine::slotItemClicked(QTreeWidgetItem* item, int column)
+//{
+//    qDebug() << "column:"  << QString::number(column);
+//}
 
 void DriveEngine::showFiles(void)
 {
