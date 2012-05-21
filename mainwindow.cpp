@@ -73,15 +73,17 @@ bool MainWindow::CheckReg(void)
 {
     bool regState = true;
 
-     if(CLIENT_ID == "YOUR_CLIENT_ID_HERE" || REDIRECT_URI "YOUR_REDIRECT_URI_HERE" || CLIENT_SECRET == "YOUR_CLIENT_SECRET")
+     if(CLIENT_ID == "YOUR_CLIENT_ID_HERE" || REDIRECT_URI == "YOUR_REDIRECT_URI_HERE" || CLIENT_SECRET == "YOUR_CLIENT_SECRET")
     {
+         regState = false;
+
         // TODO: change link to wiki page
         QMessageBox::warning(this, "Warning",
                              "To work with application you need to register your own application in <b>Google</b>.\n"
                              "Learn more from <a href='http://code.google.com/p/qt-google-drive/'>here</a>");
-
-        regState = false;
     }
+
+    qDebug() << "CheckReg:" << regState;
 
     return regState;
 }
