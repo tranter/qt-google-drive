@@ -93,7 +93,7 @@ void DriveEngine::slotUpload(void)
     if(!fileName.isEmpty())
     {
         TreeItemInfo treeItems = *foldersManager->getParser()->getXMLHandler()->getTreeItemInfo();
-        int index = getCurrentModelItemIndex2();
+        int index = getCurrentModelItemIndex();
 
         QString uploadLink(treeItems[index].uploadLink + "/?convert=false");
 
@@ -109,7 +109,7 @@ void DriveEngine::slotUpload(void)
     }
 }
 
-int DriveEngine::getCurrentModelItemIndex2(void) const
+int DriveEngine::getCurrentModelItemIndex(void) const
 {
     QTreeWidgetItem* pointer = static_cast<QTreeWidgetItem*>(UiInstance::ui->folderViewWidget->currentIndex().internalPointer());
     TreeItemInfo treeItems = *foldersManager->getParser()->getXMLHandler()->getTreeItemInfo();
@@ -183,7 +183,7 @@ bool DriveEngine::slotCheckWorkDir(bool showDlg)
 
 void DriveEngine::slotFolderTreeViewClicked(const QModelIndex& index)
 {
-    showFiles2();
+    showFiles();
 }
 
 void DriveEngine::showFolders(void)
@@ -192,10 +192,10 @@ void DriveEngine::showFolders(void)
     foldersManager->getFolders(GET_FOLDERS);
 }
 
-void DriveEngine::showFiles2(void)
+void DriveEngine::showFiles(void)
 {
     TreeItemInfo treeItems = *foldersManager->getParser()->getXMLHandler()->getTreeItemInfo();
-    int treeItemsIndex = getCurrentModelItemIndex2();
+    int treeItemsIndex = getCurrentModelItemIndex();
 
     if(treeItems[treeItemsIndex].type == FOLDER_TYPE_STR)
     {

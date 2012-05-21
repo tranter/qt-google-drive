@@ -16,8 +16,6 @@ SOURCES += main.cpp\
            logindialog.cpp \
            driveengine.cpp \
            xmlparser.cpp \
-           treeitem.cpp \
-           treemodel.cpp \
     treeiteminfo.cpp \
     resmanager.cpp \
     xmlhandler.cpp \
@@ -36,8 +34,6 @@ HEADERS  += mainwindow.h\
             driveengine.h \
             AppRegData.h \
             xmlparser.h \
-            treeitem.h \
-            treemodel.h \
     treeiteminfo.h \
     Def.h \
     resmanager.h \

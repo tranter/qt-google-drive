@@ -58,12 +58,7 @@ void NetworkManager::slotUploadFinished()
 
 void NetworkManager::slotError(QNetworkReply::NetworkError error)
 {
-    qDebug() << "slotError error:" << error;
-
-//    if(error == QNetworkReply::QNetworkReply::UnknownNetworkError)
-//       qDebug() << "\n*******************\nIf this error occur, please make sure that you have openssl installed (also you can try just copy libeay32.dll and ssleay32.dll files from Qt SDK QtCreator/bin folder into your folder where your program .exe file located (tested on non-static compilation only))\n*******************\n";
-
-//    if(error == QNetworkReply::AuthenticationRequiredError) emit signalAccessTokenRequired();
+    qDebug() << "NetworkManager::slotError error:" << error;
 }
 
 void NetworkManager::slotSslErrors(const QList<QSslError>& errors)

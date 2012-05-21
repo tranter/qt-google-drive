@@ -33,7 +33,7 @@ void FilesManager::slotReplyFinished(QNetworkReply* reply)
     else qDebug() << "parse not OK";
 
     replyStr.clear();
-    if(!parser->getXMLHandler()->resDownloadingNow()) show();//TODO
+    if(!parser->getXMLHandler()->resDownloadingNow()) show();
 }
 
 bool FilesManager::parseReply(const QString& str)

@@ -25,18 +25,16 @@ public:
 
 private:
     void setConnections(void);
+    bool CheckReg(void);
 
 private slots:
     void slotloginDone();
     void slotUpdateFileList();
-
-signals:
-    void siganalGet(void);
-    //void signalPost(void);
     
 private:
     Ui::MainWindow* ui;
     DriveEngine* driveEngine;
+
 };
 
 class UiInstance

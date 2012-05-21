@@ -5,11 +5,6 @@ TreeItemInfo::TreeItemInfo()
 {
 }
 
-void TreeItemInfo::setPointer(int index, TreeItem* item)
-{
-    items[index].item = item;
-}
-
 void TreeItemInfo::setPointer(int index, QTreeWidgetItem* pointer)
 {
     items[index].pointer = pointer;

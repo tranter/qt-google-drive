@@ -46,7 +46,6 @@ private:
     QString clientID;
     QString redirectURI;
     LoginDialog* loginDialog;
-    QWidget* parent;
     QString codeStr;
 };
 

@@ -26,10 +26,10 @@ public:
 public:
     void init(void);
     OAuth2* getOAuth2(void) const;
-    int getCurrentModelItemIndex2(void) const;
+    int getCurrentModelItemIndex(void) const;
     int getCurrentFileItemIndex(void) const;
     void showFolders(void);
-    void showFiles2(void);
+    void showFiles(void);
     FoldersManager* getFoldersManager(void) const;
 
 public slots:

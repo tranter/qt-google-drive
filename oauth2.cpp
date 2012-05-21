@@ -3,7 +3,6 @@
 #include <QApplication>
 #include "logindialog.h"
 #include <QSettings>
-#include <QMessageBox>
 #include "AppRegData.h"
 #include "Def.h"
 
@@ -15,15 +14,13 @@ OAuth2::OAuth2(QWidget* parent)
     endPoint = END_POINT;
 
     loginDialog = new LoginDialog(parent);
-
-    this->parent = parent;
+    networkManager = new QNetworkAccessManager(this);
 
     connect(loginDialog, SIGNAL(signalCodeObtained()), this, SLOT(slotCodeObtained()));
-
-    networkManager = new QNetworkAccessManager(this);
     connect(networkManager, SIGNAL(finished(QNetworkReply*)),this, SLOT(slotReplyFinished(QNetworkReply*)));
 
     QSettings settings(COMPANY_NAME, APP_NAME);
+
     accessToken = settings.value("access_token", "").toString();
     refreshToken = settings.value("refresh_token").toString();
 }
@@ -136,16 +133,7 @@ bool OAuth2::isAuthorized()
 
 void OAuth2::startLogin(bool bForce)
 {
-    qDebug() << "startLogin";
-
-    if(clientID == "YOUR_CLIENT_ID_HERE" || redirectURI == "YOUR_REDIRECT_URI_HERE")
-    {
-        // TODO: change link to wiki page
-        QMessageBox::warning(parent, "Warning",
-                             "To work with application you need to register your own application in <b>Google</b>.\n"
-                             "Learn more from <a href='http://code.google.com/p/qt-google-drive/'>here</a>");
-        return;
-    }
+    qDebug() << "OAuth2::startLogin";
 
     if(accessToken.isEmpty() || refreshToken.isEmpty() || bForce)
     {

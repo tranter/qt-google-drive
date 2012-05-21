@@ -113,7 +113,6 @@ bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs
 
     if(HIERARCHY_ATTRIBUTE_TAG == PARENT_TAG)
     {
-        itemData.item = NULL;
         itemData.parent = HIERARCHY_VALUE_TAG;
     }
 
@@ -161,7 +160,6 @@ void XMLHandler::setType(int type)
 
 void XMLHandler::setDefaults(void)
 {
-    itemData.item = NULL;
     itemData.fileSize = "---";
     itemData.fileUpdated = "";
     itemData.parent = ROOT_TAG;

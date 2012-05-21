@@ -2,7 +2,6 @@
 #define TREEITEMINFO_H
 
 #include <QVariant>
-#include "treeitem.h"
 #include <QTreeWidgetItem>
 #include "Def.h"
 
@@ -13,7 +12,7 @@ public:
 
     struct Data
     {
-        TreeItem *item;
+        //TreeItem *item;
         QTreeWidgetItem* pointer;
         QString type;
         QString dataOwner;
@@ -32,7 +31,6 @@ public:
     Data& operator [] (int index);
 
 public:
-    void setPointer(int index, TreeItem* item);
     void setPointer(int index, QTreeWidgetItem* pointer);
     void setFileSize(const QString& size, int index);
     void push_back(Data& data, int type);
