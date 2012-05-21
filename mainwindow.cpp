@@ -65,7 +65,7 @@ void MainWindow::slotloginDone(void)
 
 void MainWindow::slotUpdateFileList()
 {
-    qDebug() << "slotUpdateModel()";
+    qDebug() << "MainWindow::slotUpdateFileList";
     driveEngine->showFiles();
 }
 
@@ -82,8 +82,6 @@ bool MainWindow::CheckReg(void)
                              "To work with application you need to register your own application in <b>Google</b>.\n"
                              "Learn more from <a href='http://code.google.com/p/qt-google-drive/'>here</a>");
     }
-
-    qDebug() << "CheckReg:" << regState;
 
     return regState;
 }

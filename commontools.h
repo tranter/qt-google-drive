@@ -15,10 +15,6 @@ class CommonTools
 public:
     static void setHeader(QNetworkRequest& request);
     static void msg(const QString& str);
-    static const QList<int> getTreeViewOpenedItem(void);
-    static void addTreeViewOpenedItem(int index);
-    static void removeTreeViewOpenedItem(int index);
-    static void treeViewOpenedItemClear(void);
     static QString convertDate(const QString& dtStr);
     static QString getFormattedDate(QDateTime& dt);
     static QString getFormattedFileSize(const QString& sizeStr);
