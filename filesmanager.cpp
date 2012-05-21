@@ -26,7 +26,7 @@ void FilesManager::getFiles(const QString& url)
 
 void FilesManager::slotReplyFinished(QNetworkReply* reply)
 {
-    qDebug() << "--------------> replyStr" << replyStr;
+    qDebug() << "FilesManager::slotReplyFinished";
     //CommonTools::logToFile("currentfiles.txt", replyStr.toAscii());
 
     if(parseReply(replyStr)) qDebug() << "parse OK";
@@ -69,7 +69,6 @@ void FilesManager::show(void)
     QList<TreeItemInfo::Data> fileItems = parser->getXMLHandler()->getTreeItemInfo()->getFileItems();
 
     for(int i = 0; i < items.count(); ++i) delete items[i];
-
     items.clear();
 
     QApplication::restoreOverrideCursor();
@@ -84,5 +83,6 @@ void FilesManager::show(void)
         items.last()->setText(3, fileItems[i].fileSize);
     }
 
-    //UiInstance::ui->filesViewWidget->setSortingEnabled(true);
+    UiInstance::ui->filesViewWidget->setSortingEnabled(true);
+    UiInstance::ui->filesViewWidget->sortItems(0, Qt::AscendingOrder);
 }

@@ -39,11 +39,15 @@ void DriveEngine::init(void)
     if(oAuth2) delete oAuth2;
     oAuth2 = new OAuth2(parent);
 
-    connect(UiInstance::ui->folderViewWidget, SIGNAL(clicked (const QModelIndex&)), this, SLOT(slotFolderTreeViewClicked(const QModelIndex&)));
-
+    setConnections();
     showFolders();
-
     UiInstance::ui->filesViewWidget->header()->resizeSection(0, 400);
+}
+
+void DriveEngine::setConnections(void)
+{
+    connect(UiInstance::ui->folderViewWidget, SIGNAL(clicked (const QModelIndex&)), this, SLOT(slotFolderTreeViewClicked(const QModelIndex&)));
+    connect(UiInstance::ui->filesViewWidget->header(), SIGNAL(sortIndicatorChanged(int, Qt::SortOrder)), this, SLOT(slotSortIndicatorChanged(int, Qt::SortOrder)));
 }
 
 OAuth2* DriveEngine::getOAuth2(void) const
@@ -202,7 +206,7 @@ void DriveEngine::showFiles(void)
         if(!filesManager) filesManager = new FilesManager;
 
         QString query(treeItems[treeItemsIndex].self);
-        query += QString("/contents?max-results=10000");
+        query += QString("/contents" + MAX_RESULTS);
 
         qDebug() << "query:" << query;
 
@@ -213,4 +217,9 @@ void DriveEngine::showFiles(void)
 FoldersManager* DriveEngine::getFoldersManager(void) const
 {
     return foldersManager;
+}
+
+void DriveEngine::slotSortIndicatorChanged(int logicalIndex, Qt::SortOrder order)
+{
+    qDebug() << "index:" << QString::number(logicalIndex) << " order:" << order;
 }

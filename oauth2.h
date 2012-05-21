@@ -25,20 +25,20 @@ public:
     void setRedirectURI(const QString& redirectURIStr);
     QString permanentLoginUrl();
 
-signals: 
-    void loginDone();//Signal that is emitted when login is ended OK.
+private:
+    void setConnections(void);
+    QString getParamFromJson(const QString& jsonStr, const QString& lval);
 
 private slots:
     void slotReplyFinished(QNetworkReply* reply);
     void slotCodeObtained();
     void getAccessTokenFromRefreshToken();
 
-private:
-    QString getParamFromJson(const QString& jsonStr, const QString& lval);
+signals:
+    void loginDone();//Signal that is emitted when login is ended OK.
 
 private:
     QNetworkAccessManager* networkManager;
-
     QString accessToken;
     QString refreshToken;
     QString endPoint;

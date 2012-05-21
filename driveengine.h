@@ -26,11 +26,14 @@ public:
 public:
     void init(void);
     OAuth2* getOAuth2(void) const;
-    int getCurrentModelItemIndex(void) const;
-    int getCurrentFileItemIndex(void) const;
     void showFolders(void);
     void showFiles(void);
     FoldersManager* getFoldersManager(void) const;
+
+private:
+    void setConnections(void);
+    int getCurrentModelItemIndex(void) const;
+    int getCurrentFileItemIndex(void) const;
 
 public slots:
     void slotStartLogin();
@@ -41,6 +44,7 @@ private slots:
     void slotDownload(void);
     void slotUpload(void);
     void slotFolderTreeViewClicked(const QModelIndex& index);
+    void slotSortIndicatorChanged(int logicalIndex, Qt::SortOrder order);
 
 private:
     OAuth2* oAuth2;

@@ -16,8 +16,8 @@ void FoldersManager::getFolders(const QString& url)
 
 void FoldersManager::slotReplyFinished(QNetworkReply* reply)
 {
-    qDebug() << "slotReplyFinished";
-    CommonTools::logToFile("currentfolders.txt", replyStr.toAscii());
+    qDebug() << "FoldersManager::slotReplyFinished";
+    //CommonTools::logToFile("currentfolders.txt", replyStr.toAscii());
 
     if(parseReply(replyStr)) qDebug() << "parse OK";
     else qDebug() << "parse not OK";
@@ -67,6 +67,7 @@ XMLParser* FoldersManager::getParser(void) const
 void FoldersManager::show(void)
 {
     for(int i = 0; i < items.count(); ++i) delete items[i];
+    items.clear();
     UiInstance::ui->folderViewWidget->clear();
 
     QTreeWidgetItem* root = new QTreeWidgetItem(UiInstance::ui->folderViewWidget);
@@ -77,6 +78,7 @@ void FoldersManager::show(void)
     buildTree(ROOT_TAG, items.last());
 
     UiInstance::ui->folderViewWidget->setSortingEnabled(true);
+    UiInstance::ui->folderViewWidget->sortItems(0, Qt::AscendingOrder);
     root->setExpanded(true);
 }
 

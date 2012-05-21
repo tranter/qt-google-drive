@@ -2,7 +2,8 @@
 #define DEF_H
 
 #define GET_FOLDERS QString("https://docs.google.com/feeds/default/private/full/-/folder?showroot=true")
-#define GET_FILES QString("https://docs.google.com/feeds/default/private/full?max-results=10000")
+//#define GET_FILES QString("https://docs.google.com/feeds/default/private/full?max-results=10000")
+#define MAX_RESULTS QString("?max-results=10000")
 
 #define OAUTH2_TOKEN_URL "https://accounts.google.com/o/oauth2/token"
 

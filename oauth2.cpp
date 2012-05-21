@@ -16,8 +16,7 @@ OAuth2::OAuth2(QWidget* parent)
     loginDialog = new LoginDialog(parent);
     networkManager = new QNetworkAccessManager(this);
 
-    connect(loginDialog, SIGNAL(signalCodeObtained()), this, SLOT(slotCodeObtained()));
-    connect(networkManager, SIGNAL(finished(QNetworkReply*)),this, SLOT(slotReplyFinished(QNetworkReply*)));
+    setConnections();
 
     QSettings settings(COMPANY_NAME, APP_NAME);
 
@@ -28,6 +27,12 @@ OAuth2::OAuth2(QWidget* parent)
 OAuth2::~OAuth2()
 {
     if(networkManager) delete networkManager;
+}
+
+void OAuth2::setConnections(void)
+{
+    connect(loginDialog, SIGNAL(signalCodeObtained()), this, SLOT(slotCodeObtained()));
+    connect(networkManager, SIGNAL(finished(QNetworkReply*)),this, SLOT(slotReplyFinished(QNetworkReply*)));
 }
 
 void OAuth2::slotCodeObtained()
