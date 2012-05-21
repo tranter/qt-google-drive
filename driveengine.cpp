@@ -47,6 +47,7 @@ void DriveEngine::init(void)
 void DriveEngine::setConnections(void)
 {
     connect(UiInstance::ui->folderViewWidget, SIGNAL(clicked (const QModelIndex&)), this, SLOT(slotFolderTreeViewClicked(const QModelIndex&)));
+    connect(UiInstance::ui->filesViewWidget, SIGNAL(clicked (const QModelIndex&)), this, SLOT(slotFilesTreeViewClicked(const QModelIndex&)));
     connect(UiInstance::ui->filesViewWidget->header(), SIGNAL(sortIndicatorChanged(int, Qt::SortOrder)), this, SLOT(slotSortIndicatorChanged(int, Qt::SortOrder)));
 }
 
@@ -190,6 +191,11 @@ void DriveEngine::slotFolderTreeViewClicked(const QModelIndex& index)
     showFiles();
 }
 
+void DriveEngine::slotFilesTreeViewClicked(const QModelIndex& index)
+{
+  showFilesFromFolderInFilesView();
+}
+
 void DriveEngine::showFolders(void)
 {
     if(!foldersManager) foldersManager = new FoldersManager;
@@ -206,7 +212,31 @@ void DriveEngine::showFiles(void)
         if(!filesManager) filesManager = new FilesManager;
 
         QString query(treeItems[treeItemsIndex].self);
-        query += QString("/contents" + MAX_RESULTS);
+        query += QString(CONTENTS + MAX_RESULTS);
+
+        qDebug() << "query:" << query;
+
+        filesManager->getFiles(query);
+    }
+}
+
+void DriveEngine::showFilesFromFolderInFilesView(void)
+{
+    QList<TreeItemInfo::Data> treeItems = filesManager->getParser()->getXMLHandler()->getTreeItemInfo()->getFileItems();
+    int index = getCurrentFileItemIndex();
+
+    QString str(treeItems[index].self);
+    QStringList strList = str.split("/");
+
+    str = strList[strList.count() - 1];
+
+    if(str.indexOf(FOLDER_TYPE_STR) != -1)
+    {
+        if(!filesManager) filesManager = new FilesManager;
+
+        QString query(GET_FILES_IN_FOLDER);
+        query += str;
+        query += QString(CONTENTS + MAX_RESULTS);
 
         qDebug() << "query:" << query;
 

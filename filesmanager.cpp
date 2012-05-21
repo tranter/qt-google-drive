@@ -9,6 +9,11 @@ FilesManager::FilesManager(QObject *parent):
 {
 }
 
+FilesManager::~FilesManager()
+{
+ if(parser) delete parser;
+}
+
 void FilesManager::getFiles(const QString& url)
 {
     if(!firstRequest)
@@ -83,6 +88,10 @@ void FilesManager::show(void)
         items.last()->setText(3, fileItems[i].fileSize);
     }
 
-    UiInstance::ui->filesViewWidget->setSortingEnabled(true);
-    UiInstance::ui->filesViewWidget->sortItems(0, Qt::AscendingOrder);
+//    UiInstance::ui->filesViewWidget->setSortingEnabled(true);
+//    UiInstance::ui->filesViewWidget->sortItems(0, Qt::AscendingOrder);
+}
+
+void FilesManager::sort(int column, Qt::SortOrder order)
+{
 }

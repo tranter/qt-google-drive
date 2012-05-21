@@ -11,6 +11,7 @@ class FoldersManager : public NetworkManager
     Q_OBJECT
 public:
     explicit FoldersManager(QObject *parent = 0);
+    ~FoldersManager();
     
 public:
     void getFolders(const QString& url);

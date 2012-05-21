@@ -7,6 +7,11 @@ FoldersManager::FoldersManager(QObject *parent) :
 {
 }
 
+FoldersManager::~FoldersManager()
+{
+ if(parser) delete parser;
+}
+
 void FoldersManager::getFolders(const QString& url)
 {
     qDebug() << "FoldersManager::getFolders";
