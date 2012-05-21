@@ -4,135 +4,46 @@
 #include "AppRegData.h"
 #include <QMessageBox>
 
-DriveEngine::DriveEngine(QObject *parentObj) :
-    QObject(parentObj),
-    networkAccessManager(NULL),
-    parent(static_cast<QWidget*>(parentObj)),
-    model(NULL),
-    parser(NULL),
-    reader(NULL),
+DriveEngine::DriveEngine(QObject *parent) :
+    QObject(parent),
     oAuth2(NULL),
     downloadManager(NULL),
     uploadFileManager(NULL),
+    foldersManager(NULL),
     filesManager(NULL)
 {
+    this->parent = static_cast<QWidget*>(parent);
 }
 
 DriveEngine::~DriveEngine()
 {
-    if(networkAccessManager) delete networkAccessManager;
     if(downloadManager) delete downloadManager;
     if(uploadFileManager) delete uploadFileManager;
-    if(model) delete model;
-    if(parser) delete parser;
+    if(foldersManager) delete foldersManager;
+    if(filesManager) delete filesManager;
     if(oAuth2) delete oAuth2;
 }
 
-void DriveEngine::slotStartLogin(void)
+void DriveEngine::slotStartLogin()
+{
+    oAuth2->startLogin(false);
+}
+
+void DriveEngine::slotStartLoginFromMenu()
 {
     oAuth2->startLogin(true);
 }
 
 void DriveEngine::init(void)
 {
-    if(networkAccessManager) delete networkAccessManager;
-    networkAccessManager = new QNetworkAccessManager(this);
-
     if(oAuth2) delete oAuth2;
     oAuth2 = new OAuth2(parent);
 
-    setConnections();
-}
+    connect(UiInstance::ui->folderViewWidget, SIGNAL(clicked (const QModelIndex&)), this, SLOT(slotFolderTreeViewClicked(const QModelIndex&)));
 
-void DriveEngine::setConnections(void)
-{
-    connect(networkAccessManager, SIGNAL(finished(QNetworkReply*)),this, SLOT(slotReplyFinished(QNetworkReply*)));
-    connect(parent, SIGNAL(siganalGet()), this, SLOT(slotGet()));
-    connect(UiInstance::ui->discTreeView, SIGNAL(expanded(const QModelIndex&)), this, SLOT(slotTreeViewExpanded(const QModelIndex&)));
-    connect(UiInstance::ui->discTreeView, SIGNAL(collapsed(const QModelIndex&)), this, SLOT(slotTreeViewCollapsed(const QModelIndex&)));
-    connect(UiInstance::ui->discTreeView, SIGNAL(clicked (const QModelIndex&)), this, SLOT(slotTreeViewClicked(const QModelIndex&)));
-    //connect(UiInstance::ui->filesViewWidget, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(slotItemClicked(QTreeWidgetItem*, int)));
-}
+    showFolders();
 
-void DriveEngine::slotReplyFinished(QNetworkReply* reply)
-{
-    if(parseReply(replyStr, FOLDER_TYPE)) setModel();
-}
-
-void DriveEngine::setModel(void)
-{
-    if(model) delete model;
-
-    QList<QVariant> rootData;
-
-    rootData << TREE_VIEW_MAIN_TITLE;
-
-    TreeItemInfo* itemInfo = parser->getXMLHandler()->getTreeItemInfo();
-
-    model = new TreeModel(rootData, itemInfo);
-    UiInstance::ui->discTreeView->setModel(model);
     UiInstance::ui->filesViewWidget->header()->resizeSection(0, 400);
-}
-
-void DriveEngine::slotGet(void)
-{
-    CommonTools::setHeader(request);
-    request.setUrl(QUrl(GET_FOLDERS));
-    reply = networkAccessManager->get(request);
-    settings();
-}
-
-void DriveEngine::slotFoldersReadyRead()
-{
-    //qDebug() << "slotFoldersReadyRead";
-    replyStr.append(reply->readAll());
-}
-
-void DriveEngine::slotFoldersError(QNetworkReply::NetworkError error)
-{
-    qDebug() << "slotFoldersError error:" << error;
-
-    if(error == QNetworkReply::QNetworkReply::UnknownNetworkError)
-       qDebug() << "\n*******************\nIf this error occur, please make sure that you have openssl installed (also you can try just copy libeay32.dll and ssleay32.dll files from Qt SDK QtCreator/bin folder into your folder where your program .exe file located (tested on non-static compilation only))\n*******************\n";
-
-    if(error == QNetworkReply::AuthenticationRequiredError) emit signalAccessTokenExpired();
-}
-
-void DriveEngine::slotFoldersSslErrors(const QList<QSslError>& errors)
-{
-    foreach(const QSslError& e,errors)
-    {
-        qDebug() << "Ssl error:" << e.error();
-    }
-}
-
-void DriveEngine::settings(void)
-{
-    connect(reply, SIGNAL(readyRead()), this, SLOT(slotFoldersReadyRead()));
-    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),this, SLOT(slotFoldersError(QNetworkReply::NetworkError)));
-    connect(reply, SIGNAL(sslErrors(const QList<QSslError>&)),this, SLOT(slotFoldersSslErrors(const QList<QSslError>&)));
-}
-
-bool DriveEngine::parseReply(const QString& str, int type)
-{
-    QXmlInputSource source;
-
-    if(parser) delete parser;
-    if(reader) delete reader;
-    parser = new XMLParser(type);
-    reader = new QXmlSimpleReader;
-
-    connect(parser->getXMLHandler(), SIGNAL(signalAllResDownloaded(int)),this, SLOT(slotResDownloaded(int)));
-    source.setData(str.toAscii());
-    reader->setContentHandler(parser);
-    reader->setErrorHandler(parser);
-
-    return reader->parse(&source);
-}
-
-void DriveEngine::slotResDownloaded(int queryType)
-{
-  if(queryType == FOLDER_TYPE) UiInstance::ui->discTreeView->collapseAll();
 }
 
 OAuth2* DriveEngine::getOAuth2(void) const
@@ -177,15 +88,12 @@ void DriveEngine::slotUpload(void)
         if(uploadFileManager->getState() == NetworkManager::EBusy) return;
     }
 
-    QSettings settings(COMPANY_NAME, APP_NAME);
-    accessToken = settings.value("access_token").toString();
-
     QString fileName = QFileDialog::getOpenFileName(parent, "Uploading file", QDir::homePath(), "All files(*)");
 
     if(!fileName.isEmpty())
     {
-        TreeItemInfo treeItems = *parser->getXMLHandler()->getTreeItemInfo();
-        int index = getCurrentModelItemIndex();
+        TreeItemInfo treeItems = *foldersManager->getParser()->getXMLHandler()->getTreeItemInfo();
+        int index = getCurrentModelItemIndex2();
 
         QString uploadLink(treeItems[index].uploadLink + "/?convert=false");
 
@@ -201,17 +109,17 @@ void DriveEngine::slotUpload(void)
     }
 }
 
-int DriveEngine::getCurrentModelItemIndex(void) const
+int DriveEngine::getCurrentModelItemIndex2(void) const
 {
-    TreeItem *item = static_cast<TreeItem*>(UiInstance::ui->discTreeView->currentIndex().internalPointer());
-    TreeItemInfo treeItems = *parser->getXMLHandler()->getTreeItemInfo();
+    QTreeWidgetItem* pointer = static_cast<QTreeWidgetItem*>(UiInstance::ui->folderViewWidget->currentIndex().internalPointer());
+    TreeItemInfo treeItems = *foldersManager->getParser()->getXMLHandler()->getTreeItemInfo();
     int count = treeItems.getItems().count();
 
     int currentModelIndex = 0;
 
-    for(int i = 1; i < count; ++i)
+    for(int i = 0; i < count; ++i)
     {
-        if(treeItems[i].item == item)
+        if(treeItems[i].pointer == pointer)
         {
             currentModelIndex = i;
             break;
@@ -273,38 +181,36 @@ bool DriveEngine::slotCheckWorkDir(bool showDlg)
     return dirTextNotEmpty;
 }
 
-void DriveEngine::slotTreeViewExpanded(const QModelIndex& index)
+void DriveEngine::slotFolderTreeViewClicked(const QModelIndex& index)
 {
-    CommonTools::addTreeViewOpenedItem(index.row());
+    showFiles2();
 }
 
-void DriveEngine::slotTreeViewCollapsed(const QModelIndex& index)
+void DriveEngine::showFolders(void)
 {
-    CommonTools::removeTreeViewOpenedItem(index.row());
+    if(!foldersManager) foldersManager = new FoldersManager;
+    foldersManager->getFolders(GET_FOLDERS);
 }
 
-void DriveEngine::slotTreeViewClicked(const QModelIndex& index)
+void DriveEngine::showFiles2(void)
 {
-  showFiles();
-}
-
-//void DriveEngine::slotItemClicked(QTreeWidgetItem* item, int column)
-//{
-//    qDebug() << "column:"  << QString::number(column);
-//}
-
-void DriveEngine::showFiles(void)
-{
-    TreeItemInfo treeItems = *parser->getXMLHandler()->getTreeItemInfo();
-    int treeItemsIndex = getCurrentModelItemIndex();
+    TreeItemInfo treeItems = *foldersManager->getParser()->getXMLHandler()->getTreeItemInfo();
+    int treeItemsIndex = getCurrentModelItemIndex2();
 
     if(treeItems[treeItemsIndex].type == FOLDER_TYPE_STR)
     {
-       if(!filesManager) filesManager = new FilesManager;
+        if(!filesManager) filesManager = new FilesManager;
 
-       QString query(treeItems[treeItemsIndex].self);
-       query += QString("/contents");
+        QString query(treeItems[treeItemsIndex].self);
+        query += QString("/contents?max-results=10000");
 
-       filesManager->getFiles(query);
+        qDebug() << "query:" << query;
+
+        filesManager->getFiles(query);
     }
+}
+
+FoldersManager* DriveEngine::getFoldersManager(void) const
+{
+    return foldersManager;
 }

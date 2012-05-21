@@ -3,6 +3,7 @@
 
 #include <QVariant>
 #include "treeitem.h"
+#include <QTreeWidgetItem>
 #include "Def.h"
 
 class TreeItemInfo
@@ -10,15 +11,10 @@ class TreeItemInfo
 public:
     TreeItemInfo();
 
-//    enum ETypes
-//    {
-//      Efolder = 0,
-//      EFile
-//    };
-
     struct Data
     {
         TreeItem *item;
+        QTreeWidgetItem* pointer;
         QString type;
         QString dataOwner;
         QString fileType;
@@ -36,7 +32,8 @@ public:
     Data& operator [] (int index);
 
 public:
-    void setPointer(int index, TreeItem *item);
+    void setPointer(int index, TreeItem* item);
+    void setPointer(int index, QTreeWidgetItem* pointer);
     void setFileSize(const QString& size, int index);
     void push_back(Data& data, int type);
     const QList<Data>& getItems(void) const;

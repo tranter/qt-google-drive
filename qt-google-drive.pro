@@ -27,7 +27,8 @@ SOURCES += main.cpp\
     uploadmanager.cpp \
     networkmanager.cpp \
     progressbardialog.cpp \
-    filesmanager.cpp
+    filesmanager.cpp \
+    foldersmanager.cpp
 
 HEADERS  += mainwindow.h\
             oauth2.h\
@@ -45,7 +46,8 @@ HEADERS  += mainwindow.h\
     commontools.h \
     uploadmanager.h \
     progressbardialog.h \
-    filesmanager.h
+    filesmanager.h \
+    foldersmanager.h
 
 HEADERS  +=  networkmanager.h
 HEADERS  +=  xmlhandler.h \

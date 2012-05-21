@@ -31,12 +31,14 @@ void MainWindow::init(void)
     QTextCodec::setCodecForCStrings(QTextCodec::codecForLocale());
     QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
 
-    emit siganalGet();
+    //UiInstance::ui->folderViewWidget->setVisible(false);
+
+    //emit siganalGet();
 }
 
 void MainWindow::setConnections(void)
 {
-    connect(UiInstance::ui->actionMenuLogin, SIGNAL(triggered()), driveEngine, SLOT(slotStartLogin()));
+    connect(UiInstance::ui->actionMenuLogin, SIGNAL(triggered()), driveEngine, SLOT(slotStartLoginFromMenu()));
     connect(UiInstance::ui->actionMenuQuit, SIGNAL(triggered()), this, SLOT(close()));
     connect(UiInstance::ui->actionMenuDownload, SIGNAL(triggered()), driveEngine, SLOT(slotDownload()));
     connect(UiInstance::ui->actionDownload, SIGNAL(triggered()), driveEngine, SLOT(slotDownload()));
@@ -45,7 +47,8 @@ void MainWindow::setConnections(void)
     connect(UiInstance::ui->actionMenuSettings, SIGNAL(triggered()), driveEngine, SLOT(slotCheckWorkDir()));
     connect(UiInstance::ui->actionSettings, SIGNAL(triggered()), driveEngine, SLOT(slotCheckWorkDir()));
     connect(driveEngine->getOAuth2(), SIGNAL(loginDone()), this, SLOT(slotloginDone()));
-    connect(driveEngine, SIGNAL(signalAccessTokenExpired()), driveEngine, SLOT(slotStartLogin()));
+    //connect(driveEngine, SIGNAL(signalAccessTokenRequired()), driveEngine, SLOT(slotStartLogin()));
+    connect(driveEngine->getFoldersManager(), SIGNAL(signalAccessTokenRequired()), driveEngine, SLOT(slotStartLogin()));
 }
 
 Ui::MainWindow* UiInstance::Instance()
@@ -64,6 +67,6 @@ void MainWindow::slotloginDone(void)
 void MainWindow::slotUpdateFileList()
 {
   qDebug() << "slotUpdateModel()";
-  driveEngine->showFiles();
+  driveEngine->showFiles2();
 }
 

@@ -132,7 +132,7 @@ int TreeModel::rowCount(const QModelIndex &parent) const
 
 void TreeModel::setupModelData(TreeItem *parent)
 {
-    buildTree(/*QString(INFO_TOKEN) + */ROOT_TAG, parent);
+    buildTree(ROOT_TAG, parent);
 }
 
 void TreeModel::buildTree(const QString& searchStr, TreeItem *parent)

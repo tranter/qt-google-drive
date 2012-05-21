@@ -7,9 +7,9 @@ UploadFileManager::UploadFileManager(QObject *parent) :
 {
 }
 
-void UploadFileManager::uploadFinished()
+void UploadFileManager::slotUploadFinished()
 {
-   NetworkManager::uploadFinished();
+   NetworkManager::slotUploadFinished();
    if (!operationCanceled) emit signalUpdateFileList();
 }
 
@@ -62,7 +62,7 @@ void UploadFileManager::setPostFinishedSettings(QNetworkReply* reply)
             request.setRawHeader("Content-Length", (QString("%1").arg(fileSize)).toLatin1());
             request.setRawHeader("Content-Range", (QString("bytes 0-%1/%2").arg(fileSize-1).arg(fileSize)).toLatin1());
 
-            doPutRequest(location,arr);
+            putRequest(location,arr);
         }
     }
 }

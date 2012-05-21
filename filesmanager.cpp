@@ -2,28 +2,25 @@
 #include <QDebug>
 
 FilesManager::FilesManager(QObject *parent):
-    QObject(parent),
-    networkAccessManager(NULL),
-    parser(NULL)
+    NetworkManager(parent),
+    parser(NULL),
+    firstRequest(true)
 
 {
 }
 
-void FilesManager::getFiles(const QString& query)
+void FilesManager::getFiles(const QString& url)
 {
-    if(networkAccessManager) delete networkAccessManager;
-    networkAccessManager = new QNetworkAccessManager(this);
+    if(!firstRequest)
+    {
+     if(networkManager) delete networkManager;
+     networkManager = new QNetworkAccessManager(this);
+    }
 
-    connect(networkAccessManager, SIGNAL(finished(QNetworkReply*)),this, SLOT(slotReplyFinished(QNetworkReply*)));
+    CommonTools::setHeader(request);    
+    getRequest(url);
 
-    CommonTools::setHeader(request);
-    request.setUrl(QUrl(query));
-    reply = networkAccessManager->get(request);
-
-    connect(reply, SIGNAL(readyRead()), this, SLOT(slotReadyRead()));
-    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),this, SLOT(slotError(QNetworkReply::NetworkError)));
-    connect(reply, SIGNAL(sslErrors(const QList<QSslError>&)),this, SLOT(slotSslErrors( const QList<QSslError>&)));
-
+    firstRequest = false;
     QApplication::setOverrideCursor(Qt::WaitCursor);
 }
 
@@ -33,29 +30,10 @@ void FilesManager::slotReplyFinished(QNetworkReply* reply)
     //CommonTools::logToFile("currentfiles.txt", replyStr.toAscii());
 
     if(parseReply(replyStr)) qDebug() << "parse OK";
-    else qDebug() << "parse NOT OK";
+    else qDebug() << "parse not OK";
 
     replyStr.clear();
-
-    if(!parser->getXMLHandler()->resDownloadingNow()) show();
-}
-
-void FilesManager::slotReadyRead()
-{
-    replyStr.append(reply->readAll());
-}
-
-void FilesManager::slotError(QNetworkReply::NetworkError error)
-{
-    qDebug() << "slotError error:" << error;
-}
-
-void FilesManager::slotSslErrors(const QList<QSslError>& errors)
-{
-    foreach(const QSslError& e,errors)
-    {
-        qDebug() << "Ssl error:" << e.error();
-    }
+    if(!parser->getXMLHandler()->resDownloadingNow()) show();//TODO
 }
 
 bool FilesManager::parseReply(const QString& str)
@@ -101,11 +79,10 @@ void FilesManager::show(void)
         items.push_back(new QTreeWidgetItem(UiInstance::ui->filesViewWidget));
         items.last()->setText(0, fileItems[i].name);
         items.last()->setIcon(0, QPixmap(fileItems[i].iconPath));
-
-
-
         items.last()->setText(1, fileItems[i].dataOwner);
         items.last()->setText(2, fileItems[i].fileUpdated);
         items.last()->setText(3, fileItems[i].fileSize);
     }
+
+    //UiInstance::ui->filesViewWidget->setSortingEnabled(true);
 }

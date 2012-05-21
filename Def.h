@@ -4,6 +4,8 @@
 #define GET_FOLDERS QString("https://docs.google.com/feeds/default/private/full/-/folder?showroot=true")
 #define GET_FILES QString("https://docs.google.com/feeds/default/private/full?max-results=10000")
 
+#define OAUTH2_TOKEN_URL "https://accounts.google.com/o/oauth2/token"
+
 #define ROOT_TAG "https://docs.google.com/feeds/default/private/full/folder%3Aroot"
 #define PARENT_TAG "http://schemas.google.com/docs/2007#parent"
 #define UPLOAD_TAG QString("http://schemas.google.com/g/2005#resumable-create-media")
@@ -36,7 +38,7 @@
 #define TREE_VIEW_SIZE_TITLE "Size"
 #define TREE_VIEW_UPDATED_TITLE "Last Modified"
 
-#define ADDITIONAL_INFO_KEY "additional info state"
+//#define ADDITIONAL_INFO_KEY "additional info state"
 
 // to add this token in the beginning of string means that images will not be drawing in the tree view
 //#define INFO_TOKEN '|'

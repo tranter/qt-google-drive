@@ -28,9 +28,10 @@ public:
     virtual void setPostFinishedSettings(QNetworkReply* reply);
 
 public:
-    void startDownload(QUrl url, QString& fileName, const QString& fileType = "text/html");
+    void startDownload(QUrl url, QString& fileName, const QString& type = "text/html");
     void startUpload(QUrl url, const QString& fileName);
-    void doPutRequest(const QString & url,const QByteArray& data);
+    void putRequest(const QString & url,const QByteArray& data);
+    void getRequest(const QString & url);
 
 public:
     virtual void setStartSettings(QUrl url, const QString& fileName, const QString& progressBarDialogInfoText);
@@ -38,28 +39,36 @@ public:
 public:
     EStates getState(void) const;
     void setState(EStates currentState);
+    const NetworkManager* self(void) const;
 
 public slots:
-    virtual void downloadProgress(qint64 bytesReceived, qint64 bytesTotal);
-    virtual void downloadFinished();
-    virtual void downloadReadyRead();
-    virtual void uploadProgress(qint64 bytesSent, qint64 bytesTotal);
-    virtual void uploadFinished();
+    virtual void slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
+    virtual void slotDownloadFinished();
+    virtual void slotDownloadReadyRead();
+    virtual void slotUploadProgress(qint64 bytesSent, qint64 bytesTotal);
+    virtual void slotUploadFinished();
+    virtual void slotPostFinished(QNetworkReply* reply);
     virtual void slotError(QNetworkReply::NetworkError error);
     virtual void slotSslErrors(const QList<QSslError>& errors);
-    virtual void postFinished(QNetworkReply* reply);
+    virtual void slotReplyFinished(QNetworkReply* reply);
+    virtual void slotReplyReadyRead();
     virtual void slotProgressCanceled();
 
+private:
+    void connectErrorHandlers(void);
+
 protected:
+    QObject* parent;
     QNetworkAccessManager* networkManager;
     QNetworkReply *reply;
     QNetworkRequest request;
     QByteArray uploadContent;
     EStates state;
     QFile file;
-    QString type;
+    QString fileType;
     ProgressBarDialog progressBarDialog;
     bool operationCanceled;
+    QString replyStr;
 };
 
 #endif // NETWORKMANAGER_H

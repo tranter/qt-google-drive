@@ -5,9 +5,14 @@ TreeItemInfo::TreeItemInfo()
 {
 }
 
-void TreeItemInfo::setPointer(int index, TreeItem *item)
+void TreeItemInfo::setPointer(int index, TreeItem* item)
 {
     items[index].item = item;
+}
+
+void TreeItemInfo::setPointer(int index, QTreeWidgetItem* pointer)
+{
+    items[index].pointer = pointer;
 }
 
 void TreeItemInfo::setFileSize(const QString& size, int index)

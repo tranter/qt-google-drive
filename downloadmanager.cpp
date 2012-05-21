@@ -22,9 +22,9 @@ QString DownloadFileManager::getExt(void) const
 {
     QString ext(".html");
 
-    if(type == "text/html") ext = ".html";
-    if(type == "image/png") ext = ".png";
-    if(type == "application/pdf") ext = ".pdf";
+    if(fileType == "text/html") ext = ".html";
+    if(fileType == "image/png") ext = ".png";
+    if(fileType == "application/pdf") ext = ".pdf";
 
     return ext;
 }

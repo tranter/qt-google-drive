@@ -32,7 +32,7 @@ private slots:
 
 signals:
     void siganalGet(void);
-    void signalPost(void);
+    //void signalPost(void);
     
 private:
     Ui::MainWindow* ui;

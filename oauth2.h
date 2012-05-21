@@ -1,8 +1,10 @@
 #ifndef OAUTH2_H
 #define OAUTH2_H
 
-#include <QString>
-#include <QObject>
+//#include <QString>
+//#include <QObject>
+#include "networkmanager.h"
+#include <QTimer>
 
 class LoginDialog;
 
@@ -12,40 +14,40 @@ class OAuth2 : public QObject
 
 public:
     OAuth2(QWidget* parent = 0);
-    QString getAccessToken() const;
+    ~OAuth2();
+
+public:
     bool isAuthorized();
     void startLogin(bool bForce);
 
-    //Functions to set application's details.
     void setScope(const QString& scopeStr);
     void setClientID(const QString& clientIDStr);
     void setRedirectURI(const QString& redirectURIStr);
-    void setCompanyName(const QString& companyNameStr);
-    void setAppName(const QString& appNameStr);
+    QString permanentLoginUrl();
 
-    QString loginUrl();
-
-signals:
-    //Signal that is emitted when login is ended OK.
-    void loginDone();
+signals: 
+    void loginDone();//Signal that is emitted when login is ended OK.
 
 private slots:
-    void accessTokenObtained();
+    void slotReplyFinished(QNetworkReply* reply);
+    void slotCodeObtained();
+    void getAccessTokenFromRefreshToken();
 
 private:
-    QString accessToken;
+    QString getParamFromJson(const QString& jsonStr, const QString& lval);
 
+private:
+    QNetworkAccessManager* networkManager;
+
+    QString accessToken;
+    QString refreshToken;
     QString endPoint;
     QString scope;
     QString clientID;
     QString redirectURI;
-    QString responseType;
-
-    QString companyName;
-    QString appName;
-
     LoginDialog* loginDialog;
-    QWidget* m_pParent;
+    QWidget* parent;
+    QString codeStr;
 };
 
 #endif // OAUTH2_H

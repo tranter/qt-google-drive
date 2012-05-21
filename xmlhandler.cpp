@@ -40,17 +40,17 @@ bool XMLHandler::characters(const QString &str)
 
         switch(queryType)
         {
-        case FOLDER_TYPE:
-            index =  itemInfo->getItems().count() - 1;
+        case FOLDER_TYPE: index = itemInfo->getItems().count() - 1;
             break;
-        case FILE_TYPE:
-            index =  itemInfo->getFileItems().count()  -1;
+        case FILE_TYPE: index = itemInfo->getFileItems().count()  -1;
             break;
         }
 
         QString author(str);
+
         if(itemInfo->getAccountOwner() == author) author = OWNER_ME;
         itemInfo->setDataOwner(author, index, queryType);
+
         tags[EAuthor] = false;
     }
 
@@ -92,16 +92,10 @@ bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs
 
     switch(queryType)
     {
-    case FOLDER_TYPE:
-    {
-        itemType = FOLDER_TYPE_STR;
-    }
+    case FOLDER_TYPE: itemType = FOLDER_TYPE_STR;
         break;
 
-    case FILE_TYPE:
-    {
-        itemType = FILE_TYPE_STR;
-    }
+    case FILE_TYPE:itemType = FILE_TYPE_STR;
         break;
     }
 
@@ -123,10 +117,7 @@ bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs
         itemData.parent = HIERARCHY_VALUE_TAG;
     }
 
-    if(HIERARCHY_ATTRIBUTE_TAG == UPLOAD_TAG)
-    {
-        itemData.uploadLink = HIERARCHY_VALUE_TAG;
-    }
+    if(HIERARCHY_ATTRIBUTE_TAG == UPLOAD_TAG) itemData.uploadLink = HIERARCHY_VALUE_TAG;
 
     if(HIERARCHY_ATTRIBUTE_TAG == ICON_TAG)
     {
@@ -146,7 +137,6 @@ bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs
         itemData.self = HIERARCHY_VALUE_TAG;
         itemData.type = itemType;
         itemInfo->push_back(itemData, queryType);
-        qDebug() << "------------------------------------------> push";
         setDefaults();
     }
 
@@ -172,7 +162,6 @@ void XMLHandler::setType(int type)
 void XMLHandler::setDefaults(void)
 {
     itemData.item = NULL;
-    //itemData.dataOwner = "";
     itemData.fileSize = "---";
     itemData.fileUpdated = "";
     itemData.parent = ROOT_TAG;

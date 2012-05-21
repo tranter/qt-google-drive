@@ -28,6 +28,7 @@ public:
     void setupModelData(TreeItem *parent);
     int init(QList<QVariant> rootData);
     int columnCount();
+    //void sort ( int column, Qt::SortOrder order = Qt::AscendingOrder );
 
 private:
     void fillTree(QList< QList<QVariant> > columnData, TreeItem *parent, QList<int> indexes);

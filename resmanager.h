@@ -19,7 +19,7 @@ public:
     void cashRes(const QString& url);
 
 public slots:
-    virtual void downloadFinished();
+    virtual void slotDownloadFinished();
 
 signals:
     void signalResDownloaded();

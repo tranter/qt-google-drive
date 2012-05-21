@@ -16,7 +16,7 @@ public:
     virtual void setPostFinishedSettings(QNetworkReply* reply);
 
 public:
-    virtual void uploadFinished();
+    virtual void slotUploadFinished();
 
 private:
     QString getContentTypeByExtension(const QString& ext);

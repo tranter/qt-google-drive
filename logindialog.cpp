@@ -1,6 +1,5 @@
 #include "logindialog.h"
 #include "ui_logindialog.h"
-
 #include <QDebug>
 #include <QWebView>
 
@@ -19,28 +18,31 @@ LoginDialog::~LoginDialog()
 
 void LoginDialog::urlChanged(const QUrl &url)
 {
-    qDebug() << "urlChanged URL = " << url;
     QString str = url.toString();
-    if(str.indexOf("access_token") != -1)
+
+    if(str.indexOf("code=") != -1)
     {
-        QStringList query = str.split("#");
-        QStringList lst = query[1].split("&");
-        for (int i=0; i<lst.count(); i++ )
+        QStringList parseStrs = str.split("?");
+        QStringList exp = parseStrs[1].split("&");
+
+        for (int i = 0; i < exp.count(); ++i)
         {
-            QStringList pair = lst[i].split("=");
-            if (pair[0] == "access_token")
+            QStringList token = exp[i].split("=");
+
+            if (token[0] == "code")
             {
-                accessToken = pair[1];
-                emit accessTokenObtained();
+                codeStr = token[1];
+                emit signalCodeObtained();
                 QDialog::accept();
+                break;
             }
         }
     }
 }
 
-QString LoginDialog::getAccessToken() const
+QString LoginDialog::code()
 {
-    return accessToken;
+    return codeStr;
 }
 
 void LoginDialog::setLoginUrl(const QString& url)
