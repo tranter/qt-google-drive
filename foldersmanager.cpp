@@ -67,6 +67,7 @@ XMLParser* FoldersManager::getParser(void) const
 void FoldersManager::show(void)
 {
     for(int i = 0; i < items.count(); ++i) delete items[i];
+    UiInstance::ui->folderViewWidget->clear();
 
     QTreeWidgetItem* root = new QTreeWidgetItem(UiInstance::ui->folderViewWidget);
 
