@@ -199,7 +199,7 @@ void DriveEngine::slotFilesTreeViewClicked(const QModelIndex& index)
 void DriveEngine::showFolders(void)
 {
     if(!foldersManager) foldersManager = new FoldersManager;
-    foldersManager->getFolders(GET_FOLDERS);
+    foldersManager->get(GET_FOLDERS);
 }
 
 void DriveEngine::showFiles(void)
@@ -216,7 +216,7 @@ void DriveEngine::showFiles(void)
 
         qDebug() << "query:" << query;
 
-        filesManager->getFiles(query);
+        filesManager->get(query);
     }
 }
 
@@ -240,7 +240,7 @@ void DriveEngine::showFilesFromFolderInFilesView(void)
 
         qDebug() << "query:" << query;
 
-        filesManager->getFiles(query);
+        filesManager->get(query);
     }
 }
 

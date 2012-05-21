@@ -9,49 +9,50 @@ QT       += core gui webkit network xml
 TARGET = qtdrive
 TEMPLATE = app
 
+SOURCES += main.cpp
+SOURCES += mainwindow.cpp
+SOURCES += oauth2.cpp
+SOURCES += logindialog.cpp
+SOURCES += driveengine.cpp
+SOURCES += xmlparser.cpp
+SOURCES += treeiteminfo.cpp
+SOURCES += resmanager.cpp
+SOURCES += xmlhandler.cpp
+SOURCES += downloadmanager.cpp
+SOURCES += settingsdialog.cpp
+SOURCES += commontools.cpp
+SOURCES += uploadmanager.cpp
+SOURCES += networkmanager.cpp
+SOURCES += progressbardialog.cpp
+SOURCES += filesmanager.cpp
+SOURCES += foldersmanager.cpp
+SOURCES += additionalfoldesmanager.cpp
+SOURCES += contentmanager.cpp
 
-SOURCES += main.cpp\
-           mainwindow.cpp\
-           oauth2.cpp\
-           logindialog.cpp \
-           driveengine.cpp \
-           xmlparser.cpp \
-    treeiteminfo.cpp \
-    resmanager.cpp \
-    xmlhandler.cpp \
-    downloadmanager.cpp\
-    settingsdialog.cpp \
-    commontools.cpp \
-    uploadmanager.cpp \
-    networkmanager.cpp \
-    progressbardialog.cpp \
-    filesmanager.cpp \
-    foldersmanager.cpp
-
-HEADERS  += mainwindow.h\
-            oauth2.h\
-            logindialog.h \
-            driveengine.h \
-            AppRegData.h \
-            xmlparser.h \
-    treeiteminfo.h \
-    Def.h \
-    resmanager.h \
-    downloadmanager.h\
-    settingsdialog.h \
-    commontools.h \
-    uploadmanager.h \
-    progressbardialog.h \
-    filesmanager.h \
-    foldersmanager.h
-
+HEADERS  += mainwindow.h
+HEADERS  += oauth2.h
+HEADERS  += logindialog.h
+HEADERS  += driveengine.h
+HEADERS  += AppRegData.h
+HEADERS  += xmlparser.h
+HEADERS  += treeiteminfo.h
+HEADERS  += Def.h
+HEADERS  += resmanager.h
+HEADERS  += downloadmanager.h
+HEADERS  += settingsdialog.h
+HEADERS  += commontools.h
+HEADERS  += uploadmanager.h
+HEADERS  += progressbardialog.h
+HEADERS  += filesmanager.h
+HEADERS  += foldersmanager.h
 HEADERS  +=  networkmanager.h
-HEADERS  +=  xmlhandler.h \
+HEADERS  +=  xmlhandler.h
+HEADERS  +=  contentmanager.h
+HEADERS  +=  additionalfoldesmanager.h
 
-FORMS    += mainwindow.ui\
-            logindialog.ui\
-             settingsdialog.ui \
-    progressbardialog.ui
+FORMS    += mainwindow.ui
+FORMS    += logindialog.ui
+FORMS    += settingsdialog.ui
+FORMS    += progressbardialog.ui
 
-RESOURCES += \
-    resource.qrc
+RESOURCES += resource.qrc

@@ -1,34 +1,10 @@
 #include "foldersmanager.h"
+#include "mainwindow.h"
 #include <QDebug>
 
 FoldersManager::FoldersManager(QObject *parent) :
-    NetworkManager(parent),
-    parser(NULL)
+    ContentManager(FOLDER_TYPE,parent)
 {
-}
-
-FoldersManager::~FoldersManager()
-{
- if(parser) delete parser;
-}
-
-void FoldersManager::getFolders(const QString& url)
-{
-    qDebug() << "FoldersManager::getFolders";
-    CommonTools::setHeader(request);
-    getRequest(url);
-}
-
-void FoldersManager::slotReplyFinished(QNetworkReply* reply)
-{
-    qDebug() << "FoldersManager::slotReplyFinished";
-    //CommonTools::logToFile("currentfolders.txt", replyStr.toAscii());
-
-    if(parseReply(replyStr)) qDebug() << "parse OK";
-    else qDebug() << "parse not OK";
-
-    replyStr.clear();
-    if(!parser->getXMLHandler()->resDownloadingNow()) show();
 }
 
 void FoldersManager::slotError(QNetworkReply::NetworkError error)
@@ -39,34 +15,6 @@ void FoldersManager::slotError(QNetworkReply::NetworkError error)
        qDebug() << "\n*******************\nIf this error occur, please make sure that you have openssl installed (also you can try just copy libeay32.dll and ssleay32.dll files from Qt SDK QtCreator/bin folder into your folder where your program .exe file located (tested on non-static compilation only))\n*******************\n";
 
     if(error == QNetworkReply::AuthenticationRequiredError) emit signalAccessTokenRequired();
-}
-
-bool FoldersManager::parseReply(const QString& str)
-{
-    QXmlSimpleReader reader;
-    QXmlInputSource source;
-
-    if(parser) delete parser;
-    parser = new XMLParser(FOLDER_TYPE);
-
-    connect(parser->getXMLHandler(), SIGNAL(signalAllResDownloaded(int)),this, SLOT(slotResDownloaded(int)));
-
-    source.setData(str.toAscii());
-
-    reader.setContentHandler(parser);
-    reader.setErrorHandler(parser);
-
-    return reader.parse(&source);
-}
-
-void FoldersManager::slotResDownloaded(int queryType)
-{
-    if(queryType == FOLDER_TYPE) show();
-}
-
-XMLParser* FoldersManager::getParser(void) const
-{
-    return parser;
 }
 
 void FoldersManager::show(void)

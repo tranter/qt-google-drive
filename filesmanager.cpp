@@ -1,20 +1,15 @@
 #include "filesmanager.h"
+#include "mainwindow.h"
 #include <QDebug>
 
 FilesManager::FilesManager(QObject *parent):
-    NetworkManager(parent),
-    parser(NULL),
+    ContentManager(FILE_TYPE,parent),
     firstRequest(true)
 
 {
 }
 
-FilesManager::~FilesManager()
-{
- if(parser) delete parser;
-}
-
-void FilesManager::getFiles(const QString& url)
+void FilesManager::get(const QString& url)
 {
     if(!firstRequest)
     {
@@ -22,52 +17,12 @@ void FilesManager::getFiles(const QString& url)
      networkManager = new QNetworkAccessManager(this);
     }
 
-    CommonTools::setHeader(request);    
-    getRequest(url);
+    ContentManager::get(url);
 
     firstRequest = false;
     QApplication::setOverrideCursor(Qt::WaitCursor);
 }
 
-void FilesManager::slotReplyFinished(QNetworkReply* reply)
-{
-    qDebug() << "FilesManager::slotReplyFinished";
-    //CommonTools::logToFile("currentfiles.txt", replyStr.toAscii());
-
-    if(parseReply(replyStr)) qDebug() << "parse OK";
-    else qDebug() << "parse not OK";
-
-    replyStr.clear();
-    if(!parser->getXMLHandler()->resDownloadingNow()) show();
-}
-
-bool FilesManager::parseReply(const QString& str)
-{
-    QXmlSimpleReader reader;
-    QXmlInputSource source;
-
-    if(parser) delete parser;
-    parser = new XMLParser(FILE_TYPE);
-
-    connect(parser->getXMLHandler(), SIGNAL(signalAllResDownloaded(int)),this, SLOT(slotResDownloaded(int)));
-
-    source.setData(str.toAscii());
-
-    reader.setContentHandler(parser);
-    reader.setErrorHandler(parser);
-
-    return reader.parse(&source);
-}
-
-void FilesManager::slotResDownloaded(int queryType)
-{
-  if(queryType == FILE_TYPE) show();
-}
-
-XMLParser* FilesManager::getParser(void) const
-{
- return parser;
-}
 
 void FilesManager::show(void)
 {
