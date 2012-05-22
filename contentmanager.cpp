@@ -1,5 +1,5 @@
 #include "contentmanager.h"
-#include <QDebug>
+#include <QApplication>
 #include <QDebug>
 
 ContentManager::ContentManager(int handleType, QObject *parent):
@@ -11,13 +11,18 @@ ContentManager::ContentManager(int handleType, QObject *parent):
 
 ContentManager::~ContentManager()
 {
- if(parser) delete parser;
+    if(parser) delete parser;
 }
 
 void ContentManager::get(const QString& url)
 {
+    if(networkManager) delete networkManager;
+    networkManager = new QNetworkAccessManager(this);
+
     CommonTools::setHeader(request);
     getRequest(url);
+
+    QApplication::setOverrideCursor(Qt::WaitCursor);
 }
 
 void ContentManager::slotReplyFinished(QNetworkReply* reply)
@@ -29,6 +34,8 @@ void ContentManager::slotReplyFinished(QNetworkReply* reply)
 
     replyStr.clear();
     if(!parser->getXMLHandler()->resDownloadingNow()) show();
+
+    QApplication::restoreOverrideCursor();
 }
 
 bool ContentManager::parseReply(const QString& str)
@@ -51,11 +58,11 @@ bool ContentManager::parseReply(const QString& str)
 
 void ContentManager::slotResDownloaded(int queryType)
 {
-  if(queryType == type) show();
+    if(queryType == type) show();
 }
 
 XMLParser* ContentManager::getParser(void) const
 {
- return parser;
+    return parser;
 }
 

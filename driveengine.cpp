@@ -10,22 +10,29 @@ DriveEngine::DriveEngine(QObject *parent) :
     downloadManager(NULL),
     uploadFileManager(NULL),
     foldersManager(NULL),
-    filesManager(NULL)
+    filesManager(NULL),
+    additionalFoldersManager(NULL),
+    additionalViewActivated(false)
 {
     this->parent = static_cast<QWidget*>(parent);
+    qDebug() << "DriveEngine::DriveEngine()";
 }
 
 DriveEngine::~DriveEngine()
 {
+    qDebug() << "DriveEngine::~DriveEngine()";
+
     if(downloadManager) delete downloadManager;
     if(uploadFileManager) delete uploadFileManager;
     if(foldersManager) delete foldersManager;
     if(filesManager) delete filesManager;
+    if(additionalFoldersManager) delete additionalFoldersManager;
     if(oAuth2) delete oAuth2;
 }
 
 void DriveEngine::slotStartLogin()
 {
+    qDebug() << "DriveEngine::slotStartLogin";
     oAuth2->startLogin(false);
 }
 
@@ -41,14 +48,16 @@ void DriveEngine::init(void)
 
     setConnections();
     showFolders();
-    UiInstance::ui->filesViewWidget->header()->resizeSection(0, 400);
+
+    UiInstance::ui->filesView->header()->resizeSection(0, 380);
 }
 
 void DriveEngine::setConnections(void)
 {
-    connect(UiInstance::ui->folderViewWidget, SIGNAL(clicked (const QModelIndex&)), this, SLOT(slotFolderTreeViewClicked(const QModelIndex&)));
-    connect(UiInstance::ui->filesViewWidget, SIGNAL(clicked (const QModelIndex&)), this, SLOT(slotFilesTreeViewClicked(const QModelIndex&)));
-    connect(UiInstance::ui->filesViewWidget->header(), SIGNAL(sortIndicatorChanged(int, Qt::SortOrder)), this, SLOT(slotSortIndicatorChanged(int, Qt::SortOrder)));
+    connect(UiInstance::ui->foldersView, SIGNAL(clicked (const QModelIndex&)), this, SLOT(slotFoldersViewClicked(const QModelIndex&)));
+    connect(UiInstance::ui->filesView, SIGNAL(clicked (const QModelIndex&)), this, SLOT(slotFilesViewClicked(const QModelIndex&)));
+    connect(UiInstance::ui->additionalFoldersView, SIGNAL(clicked (const QModelIndex&)), this, SLOT(slotAdditionalFoldersViewClicked(const QModelIndex&)));
+    connect(UiInstance::ui->filesView->header(), SIGNAL(sortIndicatorChanged(int, Qt::SortOrder)), this, SLOT(slotFilesSortIndicatorChanged(int, Qt::SortOrder)));
 }
 
 OAuth2* DriveEngine::getOAuth2(void) const
@@ -58,6 +67,17 @@ OAuth2* DriveEngine::getOAuth2(void) const
 
 void DriveEngine::slotDownload(void)
 {
+   if(additionalViewActivated) download(additionalFoldersManager);
+   else download(filesManager);
+}
+
+void DriveEngine::slotUpload(void)
+{
+   upload();
+}
+
+void DriveEngine::download(FilesManager* manager)
+{
     if(downloadManager)
     {
         if(downloadManager->getState() == NetworkManager::EBusy) return;
@@ -65,8 +85,9 @@ void DriveEngine::slotDownload(void)
 
     QSettings settings(COMPANY_NAME, APP_NAME);
 
-    QList<TreeItemInfo::Data> treeItems = filesManager->getParser()->getXMLHandler()->getTreeItemInfo()->getFileItems();
-    int index = getCurrentFileItemIndex();
+    //QList<TreeItemInfo::Data> treeItems = filesManager->getParser()->getXMLHandler()->getTreeItemInfo()->getFileItems();
+    QList<TreeItemInfo::Data> treeItems = manager->getParser()->getXMLHandler()->getTreeItemInfo()->getFileItems();
+    int index = getCurrentFileItemIndex(manager);
 
     QString downloadLink(treeItems[index].downloadLink);
 
@@ -86,8 +107,14 @@ void DriveEngine::slotDownload(void)
     }
 }
 
-void DriveEngine::slotUpload(void)
+void DriveEngine::upload(void)
 {
+    if(additionalViewActivated)
+    {
+        CommonTools::msg("To upload a file please select a folder in \"Drive\" view");
+        return;
+    }
+
     if(uploadFileManager)
     {
         if(uploadFileManager->getState() == NetworkManager::EBusy) return;
@@ -116,7 +143,7 @@ void DriveEngine::slotUpload(void)
 
 int DriveEngine::getCurrentModelItemIndex(void) const
 {
-    QTreeWidgetItem* pointer = static_cast<QTreeWidgetItem*>(UiInstance::ui->folderViewWidget->currentIndex().internalPointer());
+    QTreeWidgetItem* pointer = static_cast<QTreeWidgetItem*>(UiInstance::ui->foldersView->currentIndex().internalPointer());
     TreeItemInfo treeItems = *foldersManager->getParser()->getXMLHandler()->getTreeItemInfo();
     int count = treeItems.getItems().count();
 
@@ -134,11 +161,12 @@ int DriveEngine::getCurrentModelItemIndex(void) const
     return currentModelIndex;
 }
 
-int DriveEngine::getCurrentFileItemIndex(void) const
+int DriveEngine::getCurrentFileItemIndex(FilesManager* manager) const
 {
-    QList<TreeItemInfo::Data> fileItemsInfo = filesManager->getParser()->getXMLHandler()->getTreeItemInfo()->getFileItems();
+    //QList<TreeItemInfo::Data> fileItemsInfo = filesManager->getParser()->getXMLHandler()->getTreeItemInfo()->getFileItems();
+    QList<TreeItemInfo::Data> fileItemsInfo = manager->getParser()->getXMLHandler()->getTreeItemInfo()->getFileItems();
     int count = fileItemsInfo.count();
-    QString fileName(UiInstance::ui->filesViewWidget->currentIndex().data().toString());
+    QString fileName(UiInstance::ui->filesView->currentIndex().data().toString());
 
     int currentFileIndex = 0;
 
@@ -186,20 +214,48 @@ bool DriveEngine::slotCheckWorkDir(bool showDlg)
     return dirTextNotEmpty;
 }
 
-void DriveEngine::slotFolderTreeViewClicked(const QModelIndex& index)
+void DriveEngine::slotFoldersViewClicked(const QModelIndex&)
 {
+    additionalViewActivated = false;
+    additionalFoldersManager->clear();
+
     showFiles();
 }
 
-void DriveEngine::slotFilesTreeViewClicked(const QModelIndex& index)
+void DriveEngine::slotFilesViewClicked(const QModelIndex&)
 {
-  showFilesFromFolderInFilesView();
+    qDebug()  << "DriveEngine::slotFilesViewClicked";
+    if(!additionalViewActivated) showFilesFromFolderInFilesView();
+}
+
+void DriveEngine::slotAdditionalFoldersViewClicked(const QModelIndex& index)
+{
+    qDebug()  << "DriveEngine::slotAdditionalFoldersView" << index.model()->data(index).toString();
+    QString query;
+    additionalViewActivated = true;
+
+    if(index.model()->data(index).toString() == ALL_ITEMS_TITLE) query = GET_ALL_ITEMS + MAX_RESULTS;
+    if(index.model()->data(index).toString() == OWNED_BY_ME_TITLE) query = GET_OWNED_BY_ME;
+    if(index.model()->data(index).toString() == TRASH_TITLE) query = GET_TRASH;
+
+
+    additionalFoldersManager->get(query);
 }
 
 void DriveEngine::showFolders(void)
 {
     if(!foldersManager) foldersManager = new FoldersManager;
     foldersManager->get(GET_FOLDERS);
+
+    //connect(foldersManager, SIGNAL(signalFoldersShowed()), this, SLOT(slotFoldersShowed()));
+
+    if(!additionalFoldersManager) additionalFoldersManager = new AdditionalFoldersManager;
+
+    QString generalImage(":ico/allitems");
+
+    additionalFoldersManager->create(ALL_ITEMS_TITLE, generalImage);
+    additionalFoldersManager->create(OWNED_BY_ME_TITLE, generalImage);
+    additionalFoldersManager->create(TRASH_TITLE, ":ico/trash");
 }
 
 void DriveEngine::showFiles(void)
@@ -223,7 +279,7 @@ void DriveEngine::showFiles(void)
 void DriveEngine::showFilesFromFolderInFilesView(void)
 {
     QList<TreeItemInfo::Data> treeItems = filesManager->getParser()->getXMLHandler()->getTreeItemInfo()->getFileItems();
-    int index = getCurrentFileItemIndex();
+    int index = getCurrentFileItemIndex(filesManager);
 
     QString str(treeItems[index].self);
     QStringList strList = str.split("/");
@@ -249,7 +305,12 @@ FoldersManager* DriveEngine::getFoldersManager(void) const
     return foldersManager;
 }
 
-void DriveEngine::slotSortIndicatorChanged(int logicalIndex, Qt::SortOrder order)
+void DriveEngine::slotFilesSortIndicatorChanged(int logicalIndex, Qt::SortOrder order)
 {
     qDebug() << "index:" << QString::number(logicalIndex) << " order:" << order;
 }
+
+//void DriveEngine::slotFoldersShowed()
+//{
+//    qDebug() << "DriveEngine::slotFoldersShowed()";
+//}

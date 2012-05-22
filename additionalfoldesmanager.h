@@ -1,18 +1,23 @@
 #ifndef ADDITIONALFOLDESMANAGER_H
 #define ADDITIONALFOLDESMANAGER_H
 
-#include <QObject>
+//#include "contentmanager.h"
+#include "filesmanager.h"
 
-class AdditionalFoldesManager : public QObject
+class AdditionalFoldersManager : public FilesManager//ContentManager
 {
     Q_OBJECT
 public:
-    explicit AdditionalFoldesManager(QObject *parent = 0);
-    
-signals:
-    
-public slots:
-    
+    explicit AdditionalFoldersManager(QObject *parent = 0);
+    virtual ~AdditionalFoldersManager();
+
+public:
+    void create(const QString& name, QString iconName = "");
+    void clear(void);
+
+private:
+    //virtual void show(void);
+    QList<QTreeWidgetItem*> additionalFolders;
 };
 
 #endif // ADDITIONALFOLDESMANAGER_H

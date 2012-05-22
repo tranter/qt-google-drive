@@ -2,8 +2,12 @@
 #define DEF_H
 
 #define GET_FOLDERS QString("https://docs.google.com/feeds/default/private/full/-/folder?showroot=true")
-//#define GET_FILES QString("https://docs.google.com/feeds/default/private/full?max-results=10000")
 #define GET_FILES_IN_FOLDER QString("https://docs.google.com/feeds/default/private/full/")
+#define GET_ALL_ITEMS QString("https://docs.google.com/feeds/default/private/full")
+#define GET_TRASH QString("https://docs.google.com/feeds/default/private/full/-/trashed?showfolders=true")
+#define GET_OWNED_BY_ME QString("https://docs.google.com/feeds/default/private/full/-/mine")
+//#define
+
 #define CONTENTS QString("/contents")
 #define MAX_RESULTS QString("?max-results=10000")
 
@@ -36,15 +40,11 @@
 #define FILE_TYPE_STR "file"
 #define FOLDER_TYPE_STR "folder"
 
-#define TREE_VIEW_MAIN_TITLE "My Disc"
-#define TREE_VIEW_FILE_TITLE "Title"
-#define TREE_VIEW_SIZE_TITLE "Size"
-#define TREE_VIEW_UPDATED_TITLE "Last Modified"
+#define MAIN_TITLE "My drive"
+#define ALL_ITEMS_TITLE "All items"
+#define OWNED_BY_ME_TITLE "Owned by me"
+#define TRASH_TITLE "Trash"
 
-//#define ADDITIONAL_INFO_KEY "additional info state"
-
-// to add this token in the beginning of string means that images will not be drawing in the tree view
-//#define INFO_TOKEN '|'
 
 #define CONTENT "content"
 

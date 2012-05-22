@@ -153,6 +153,7 @@ void OAuth2::startLogin(bool bForce)
 
 void OAuth2::getAccessTokenFromRefreshToken()
 {
+    qDebug() << "OAuth2::getAccessTokenFromRefreshToken";
     QUrl url(OAUTH2_TOKEN_URL);
     QNetworkRequest request;
     request.setUrl(url);

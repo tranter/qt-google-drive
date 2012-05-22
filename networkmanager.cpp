@@ -3,7 +3,7 @@
 
 NetworkManager::NetworkManager(QObject *parent) :
     QObject(parent),
-    networkManager(new QNetworkAccessManager),
+    networkManager(/*new QNetworkAccessManager*/NULL),
     state(EReady),
     operationCanceled(false)
 {
@@ -71,6 +71,9 @@ void NetworkManager::slotSslErrors(const QList<QSslError>& errors)
 
 void NetworkManager::startDownload(QUrl url, QString& fileName, const QString& type)
 {
+    if(networkManager) delete networkManager;
+    networkManager = new QNetworkAccessManager(this);
+
     fileType = type;
 
     setStartSettings(url, fileName, "Downloading file: ");
@@ -88,6 +91,9 @@ void NetworkManager::startDownload(QUrl url, QString& fileName, const QString& t
 
 void NetworkManager::startUpload(QUrl url, const QString& fileName)
 {    
+    if(networkManager) delete networkManager;
+    networkManager = new QNetworkAccessManager(this);
+
     setStartSettings(url, fileName, "Uploading file: ");
     setUploadSettings();
 

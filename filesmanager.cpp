@@ -3,26 +3,9 @@
 #include <QDebug>
 
 FilesManager::FilesManager(QObject *parent):
-    ContentManager(FILE_TYPE,parent),
-    firstRequest(true)
-
+    ContentManager(FILE_TYPE, parent)
 {
 }
-
-void FilesManager::get(const QString& url)
-{
-    if(!firstRequest)
-    {
-     if(networkManager) delete networkManager;
-     networkManager = new QNetworkAccessManager(this);
-    }
-
-    ContentManager::get(url);
-
-    firstRequest = false;
-    QApplication::setOverrideCursor(Qt::WaitCursor);
-}
-
 
 void FilesManager::show(void)
 {
@@ -31,11 +14,9 @@ void FilesManager::show(void)
     for(int i = 0; i < items.count(); ++i) delete items[i];
     items.clear();
 
-    QApplication::restoreOverrideCursor();
-
     for(int i = 1; i < fileItems.count(); ++i)
     {
-        items.push_back(new QTreeWidgetItem(UiInstance::ui->filesViewWidget));
+        items.push_back(new QTreeWidgetItem(UiInstance::ui->filesView));
         items.last()->setText(0, fileItems[i].name);
         items.last()->setIcon(0, QPixmap(fileItems[i].iconPath));
         items.last()->setText(1, fileItems[i].dataOwner);
@@ -43,8 +24,8 @@ void FilesManager::show(void)
         items.last()->setText(3, fileItems[i].fileSize);
     }
 
-//    UiInstance::ui->filesViewWidget->setSortingEnabled(true);
-//    UiInstance::ui->filesViewWidget->sortItems(0, Qt::AscendingOrder);
+//    UiInstance::ui->filesView->setSortingEnabled(true);
+//    UiInstance::ui->filesView->sortItems(0, Qt::AscendingOrder);
 }
 
 void FilesManager::sort(int column, Qt::SortOrder order)

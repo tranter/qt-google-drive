@@ -3,7 +3,7 @@
 #include <QDebug>
 
 FoldersManager::FoldersManager(QObject *parent) :
-    ContentManager(FOLDER_TYPE,parent)
+    ContentManager(FOLDER_TYPE, parent)
 {
 }
 
@@ -14,25 +14,31 @@ void FoldersManager::slotError(QNetworkReply::NetworkError error)
     if(error == QNetworkReply::UnknownNetworkError)
        qDebug() << "\n*******************\nIf this error occur, please make sure that you have openssl installed (also you can try just copy libeay32.dll and ssleay32.dll files from Qt SDK QtCreator/bin folder into your folder where your program .exe file located (tested on non-static compilation only))\n*******************\n";
 
-    if(error == QNetworkReply::AuthenticationRequiredError) emit signalAccessTokenRequired();
+    if(error == QNetworkReply::AuthenticationRequiredError)
+    {
+        reply->abort();
+        emit signalAccessTokenRequired();
+    }
 }
 
 void FoldersManager::show(void)
 {
     for(int i = 0; i < items.count(); ++i) delete items[i];
     items.clear();
-    UiInstance::ui->folderViewWidget->clear();
+    UiInstance::ui->foldersView->clear();
 
-    QTreeWidgetItem* root = new QTreeWidgetItem(UiInstance::ui->folderViewWidget);
+    QTreeWidgetItem* root = new QTreeWidgetItem(UiInstance::ui->foldersView);
 
     items.push_back(root);
-    items.last()->setText(0, "My Drive");
+    items.last()->setText(0, MAIN_TITLE);
 
     buildTree(ROOT_TAG, items.last());
 
-    UiInstance::ui->folderViewWidget->setSortingEnabled(true);
-    UiInstance::ui->folderViewWidget->sortItems(0, Qt::AscendingOrder);
+//    UiInstance::ui->folderViewWidget->setSortingEnabled(true);
+//    UiInstance::ui->folderViewWidget->sortItems(0, Qt::AscendingOrder);
+
     root->setExpanded(true);
+    //emit signalFoldersShowed();
 }
 
 void FoldersManager::buildTree(const QString& searchStr, QTreeWidgetItem* parent)

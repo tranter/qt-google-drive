@@ -3,7 +3,7 @@
 
 #include "contentmanager.h"
 
-class FoldersManager : public ContentManager// NetworkManager
+class FoldersManager : public ContentManager
 {
     Q_OBJECT
 public:
@@ -14,6 +14,7 @@ public slots:
 
 signals:
     void signalAccessTokenRequired();
+    //void signalFoldersShowed();
 
 private:
     void buildTree(const QString& searchStr, QTreeWidgetItem* parent);

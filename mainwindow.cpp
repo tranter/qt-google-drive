@@ -60,6 +60,7 @@ Ui::MainWindow* UiInstance::Instance()
 
 void MainWindow::slotloginDone(void)
 {
+    qDebug() << "MainWindow::slotloginDone";
     init();
 }
 

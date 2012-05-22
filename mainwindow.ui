@@ -20,14 +20,17 @@
    <bool>false</bool>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QTreeWidget" name="filesViewWidget">
+   <widget class="QTreeWidget" name="filesView">
     <property name="geometry">
      <rect>
-      <x>310</x>
+      <x>305</x>
       <y>9</y>
-      <width>701</width>
+      <width>706</width>
       <height>600</height>
      </rect>
+    </property>
+    <property name="cursor" stdset="0">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="sortingEnabled">
      <bool>false</bool>
@@ -65,14 +68,17 @@
      </property>
     </column>
    </widget>
-   <widget class="QTreeWidget" name="folderViewWidget">
+   <widget class="QTreeWidget" name="foldersView">
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>10</y>
       <width>291</width>
-      <height>601</height>
+      <height>359</height>
      </rect>
+    </property>
+    <property name="cursor" stdset="0">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="animated">
      <bool>true</bool>
@@ -80,6 +86,27 @@
     <column>
      <property name="text">
       <string>Drive</string>
+     </property>
+    </column>
+   </widget>
+   <widget class="QTreeWidget" name="additionalFoldersView">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>370</y>
+      <width>291</width>
+      <height>239</height>
+     </rect>
+    </property>
+    <property name="cursor" stdset="0">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="animated">
+     <bool>true</bool>
+    </property>
+    <column>
+     <property name="text">
+      <string>Additional</string>
      </property>
     </column>
    </widget>
@@ -142,6 +169,9 @@
      <normaloff>:/ico/settings</normaloff>:/ico/settings</iconset>
    </property>
    <property name="text">
+    <string>Settings</string>
+   </property>
+   <property name="iconText">
     <string>Settings</string>
    </property>
   </action>

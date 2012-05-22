@@ -28,6 +28,7 @@ protected:
     int type;
     XMLParser* parser;
     QList<QTreeWidgetItem*> items;
+    //bool firstRequest;
 };
 
 

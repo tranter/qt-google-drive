@@ -3,7 +3,7 @@
 
 #include "contentmanager.h"
 
-class FilesManager : public ContentManager //public NetworkManager
+class FilesManager : public ContentManager
 {
     Q_OBJECT
 public:
@@ -17,14 +17,10 @@ public:
     explicit FilesManager(QObject *parent = 0);
 
 public:
-    void get(const QString& url);
     void sort(int column, Qt::SortOrder order);
 
 private:
     virtual void show(void);
-
-private:
-    bool firstRequest;
 };
 
 #endif // FILESMANAGER_H

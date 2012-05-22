@@ -11,9 +11,11 @@
 #include "uploadmanager.h"
 #include "filesmanager.h"
 #include "foldersmanager.h"
+#include "additionalfoldesmanager.h"
 
 class FoldersManager;
 class FilesManager;
+class AdditionalFoldersManager;
 
 class DriveEngine : public QObject
 {
@@ -34,7 +36,9 @@ public:
 private:
     void setConnections(void);
     int getCurrentModelItemIndex(void) const;
-    int getCurrentFileItemIndex(void) const;
+    int getCurrentFileItemIndex(FilesManager *manager) const;
+    void download(FilesManager *manager);
+    void upload(void);
 
 public slots:
     void slotStartLogin();
@@ -44,9 +48,11 @@ public slots:
 private slots:
     void slotDownload(void);
     void slotUpload(void);
-    void slotFolderTreeViewClicked(const QModelIndex& index);
-    void slotFilesTreeViewClicked(const QModelIndex& index);
-    void slotSortIndicatorChanged(int logicalIndex, Qt::SortOrder order);
+    void slotFoldersViewClicked(const QModelIndex&);
+    void slotFilesViewClicked(const QModelIndex&);
+    void slotAdditionalFoldersViewClicked(const QModelIndex& index);
+    void slotFilesSortIndicatorChanged(int logicalIndex, Qt::SortOrder order);
+    //void slotFoldersShowed();
 
 private:
     OAuth2* oAuth2;
@@ -55,6 +61,8 @@ private:
     UploadFileManager* uploadFileManager;
     FoldersManager* foldersManager;
     FilesManager* filesManager;
+    AdditionalFoldersManager* additionalFoldersManager;
+    bool additionalViewActivated;
 };
 
 #endif // DRIVEENGINE_H
