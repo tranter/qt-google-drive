@@ -170,7 +170,12 @@ void NetworkManager::getRequest(const QString & url)
 {
     qDebug() << "NetworkManager::getRequest url:" << url;
 
+    if(networkManager) delete networkManager;
+    networkManager = new QNetworkAccessManager(this);
+
     request.setUrl(QUrl(url));
+
+    qDebug() << "request.url()" << request.url();
 
     reply = networkManager->get(request);
 

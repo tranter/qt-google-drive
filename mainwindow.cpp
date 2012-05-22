@@ -22,6 +22,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::init(void)
 {
+    qDebug() << "MainWindow::init";
     if(driveEngine) delete driveEngine;
 
     if(!CheckReg()) return;
