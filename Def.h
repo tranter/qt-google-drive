@@ -6,7 +6,7 @@
 #define GET_ALL_ITEMS QString("https://docs.google.com/feeds/default/private/full")
 #define GET_TRASH QString("https://docs.google.com/feeds/default/private/full/-/trashed?showfolders=true")
 #define GET_OWNED_BY_ME QString("https://docs.google.com/feeds/default/private/full/-/mine")
-//#define
+#define GET_STARRED QString("https://docs.google.com/feeds/default/private/full/-/starred")
 
 #define CONTENTS QString("/contents")
 #define MAX_RESULTS QString("?max-results=10000")
@@ -40,11 +40,11 @@
 #define FILE_TYPE_STR "file"
 #define FOLDER_TYPE_STR "folder"
 
-#define MAIN_TITLE "My drive"
-#define ALL_ITEMS_TITLE "All items"
-#define OWNED_BY_ME_TITLE "Owned by me"
-#define TRASH_TITLE "Trash"
-
+#define MAIN_TITLE QString("My drive")
+#define ALL_ITEMS_TITLE QString("All items")
+#define OWNED_BY_ME_TITLE QString("Owned by me")
+#define TRASH_TITLE QString("Trash")
+#define GET_STARRED_TITLE QString("Starred")
 
 #define CONTENT "content"
 

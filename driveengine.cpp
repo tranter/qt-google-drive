@@ -163,7 +163,6 @@ int DriveEngine::getCurrentModelItemIndex(void) const
 
 int DriveEngine::getCurrentFileItemIndex(FilesManager* manager) const
 {
-    //QList<TreeItemInfo::Data> fileItemsInfo = filesManager->getParser()->getXMLHandler()->getTreeItemInfo()->getFileItems();
     QList<TreeItemInfo::Data> fileItemsInfo = manager->getParser()->getXMLHandler()->getTreeItemInfo()->getFileItems();
     int count = fileItemsInfo.count();
     QString fileName(UiInstance::ui->filesView->currentIndex().data().toString());
@@ -236,8 +235,8 @@ void DriveEngine::slotAdditionalFoldersViewClicked(const QModelIndex& index)
 
     if(index.model()->data(index).toString() == ALL_ITEMS_TITLE) query = GET_ALL_ITEMS + MAX_RESULTS;
     if(index.model()->data(index).toString() == OWNED_BY_ME_TITLE) query = GET_OWNED_BY_ME;
+    if(index.model()->data(index).toString() == GET_STARRED_TITLE)  query = GET_STARRED;
     if(index.model()->data(index).toString() == TRASH_TITLE) query = GET_TRASH;
-
 
     additionalFoldersManager->get(query);
 }
@@ -255,6 +254,7 @@ void DriveEngine::showFolders(void)
 
     additionalFoldersManager->create(ALL_ITEMS_TITLE, generalImage);
     additionalFoldersManager->create(OWNED_BY_ME_TITLE, generalImage);
+    additionalFoldersManager->create(GET_STARRED_TITLE, generalImage);
     additionalFoldersManager->create(TRASH_TITLE, ":ico/trash");
 }
 
