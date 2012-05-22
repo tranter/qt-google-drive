@@ -12,10 +12,13 @@ ContentManager::ContentManager(int handleType, QObject *parent):
 ContentManager::~ContentManager()
 {
     if(parser) delete parser;
+    qDebug() << "ContentManager::~ContentManager()";
 }
 
 void ContentManager::get(const QString& url)
 {
+    QApplication::setOverrideCursor(Qt::ArrowCursor);
+
     if(networkManager) delete networkManager;
     networkManager = new QNetworkAccessManager(this);
 

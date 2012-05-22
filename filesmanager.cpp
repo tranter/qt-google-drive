@@ -7,6 +7,12 @@ FilesManager::FilesManager(QObject *parent):
 {
 }
 
+FilesManager::~FilesManager()
+{
+    for(int i = 0; i < items.count(); ++i) delete items[i];
+    items.clear();
+}
+
 void FilesManager::show(void)
 {
     QList<TreeItemInfo::Data> fileItems = parser->getXMLHandler()->getTreeItemInfo()->getFileItems();

@@ -15,6 +15,7 @@ public:
     };
 
     explicit FilesManager(QObject *parent = 0);
+    virtual ~FilesManager();
 
 public:
     void sort(int column, Qt::SortOrder order);
