@@ -27,7 +27,7 @@ DriveEngine::~DriveEngine()
     if(foldersManager) delete foldersManager;
     if(filesManager) delete filesManager;
     if(additionalFoldersManager) delete additionalFoldersManager;
-    if(oAuth2) delete oAuth2;
+    if(oAuth2) oAuth2->deleteLater();
 }
 
 void DriveEngine::slotStartLogin()
