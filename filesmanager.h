@@ -18,7 +18,6 @@ public:
     virtual ~FilesManager();
 
 public:
-    //void clear(void);
     void sort(int column, Qt::SortOrder order);
 
 private:

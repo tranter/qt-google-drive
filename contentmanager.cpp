@@ -5,15 +5,17 @@
 ContentManager::ContentManager(int handleType, QObject *parent):
     NetworkManager(parent),
     type(handleType),
-    parser(NULL)
+    parser(NULL),
+    operationsManager(new OperationsManager)
 {
     qDebug() << "ContentManager::ContentManager()";
 }
 
 ContentManager::~ContentManager()
 {
-    if(parser) delete parser;
     qDebug() << "ContentManager::~ContentManager()";
+    if(parser) delete parser;
+    if(operationsManager) delete operationsManager;
 }
 
 void ContentManager::get(const QString& url)
@@ -22,6 +24,7 @@ void ContentManager::get(const QString& url)
 
     CommonTools::setHeader(request);
     getRequest(url);
+    operationsManager->setNetworkManager(getNetworkManager());
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
 }
@@ -76,4 +79,11 @@ void ContentManager::clear(void)
     for(int i = 0; i < items.count(); ++i) delete items[i];
     QApplication::setOverrideCursor(Qt::ArrowCursor);
 }
+
+void ContentManager::deleteFile(const QString &url)
+{
+  operationsManager->deleteFile(url);
+}
+
+
 

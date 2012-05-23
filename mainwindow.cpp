@@ -4,6 +4,7 @@
 #include <QFile>
 #include <QMessageBox>
 #include "AppRegData.h"
+#include <QKeyEvent>
 
 Ui::MainWindow* UiInstance::ui = NULL;
 
@@ -32,6 +33,8 @@ void MainWindow::init(void)
     driveEngine->slotCheckWorkDir(false);
 
     setConnections();
+
+    UiInstance::ui->filesView->installEventFilter(this);
 
     QTextCodec::setCodecForCStrings(QTextCodec::codecForLocale());
     QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
@@ -75,9 +78,9 @@ bool MainWindow::CheckReg(void)
 {
     bool regState = true;
 
-     if(CLIENT_ID == "YOUR_CLIENT_ID_HERE" || REDIRECT_URI == "YOUR_REDIRECT_URI_HERE" || CLIENT_SECRET == "YOUR_CLIENT_SECRET")
+    if(CLIENT_ID == "YOUR_CLIENT_ID_HERE" || REDIRECT_URI == "YOUR_REDIRECT_URI_HERE" || CLIENT_SECRET == "YOUR_CLIENT_SECRET")
     {
-         regState = false;
+        regState = false;
 
         // TODO: change link to wiki page
         QMessageBox::warning(this, "Warning",
@@ -88,3 +91,21 @@ bool MainWindow::CheckReg(void)
     return regState;
 }
 
+bool MainWindow::eventFilter(QObject *object, QEvent *event)
+{
+    if (object == UiInstance::ui->filesView && event->type() == QEvent::KeyPress)
+    {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+
+        if (keyEvent->key() == Qt::Key_Delete) {
+            qDebug() << "del";
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    return false;
+}

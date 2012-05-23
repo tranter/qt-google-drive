@@ -32,6 +32,8 @@ public:
     void startUpload(QUrl url, const QString& fileName);
     void putRequest(const QString & url,const QByteArray& data);
     void getRequest(const QString & url);
+    void init(void);
+    const QNetworkAccessManager *getNetworkManager(void) const;
 
 public:
     virtual void setStartSettings(QUrl url, const QString& fileName, const QString& progressBarDialogInfoText);

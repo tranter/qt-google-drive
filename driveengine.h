@@ -25,6 +25,9 @@ public:
     explicit DriveEngine(QObject *parent = 0);
     ~DriveEngine();
 
+//public:
+//    virtual bool event (QEvent* e);
+
 public:
     void init(void);
     OAuth2* getOAuth2(void) const;

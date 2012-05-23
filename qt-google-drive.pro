@@ -9,7 +9,8 @@ QT       += core gui webkit network xml
 TARGET = qtdrive
 TEMPLATE = app
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    operationsmanager.cpp
 SOURCES += mainwindow.cpp
 SOURCES += oauth2.cpp
 SOURCES += logindialog.cpp
@@ -29,7 +30,8 @@ SOURCES += foldersmanager.cpp
 SOURCES += additionalfoldesmanager.cpp
 SOURCES += contentmanager.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    operationsmanager.h
 HEADERS  += oauth2.h
 HEADERS  += logindialog.h
 HEADERS  += driveengine.h

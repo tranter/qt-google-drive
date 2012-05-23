@@ -10,6 +10,17 @@ NetworkManager::NetworkManager(QObject *parent) :
     this->parent = parent;
 }
 
+void NetworkManager::init(void)
+{
+    if(networkManager) networkManager->deleteLater();
+    networkManager = new QNetworkAccessManager(this);
+}
+
+const QNetworkAccessManager* NetworkManager::getNetworkManager(void) const
+{
+    return  networkManager;
+}
+
 NetworkManager::~NetworkManager()
 {
     if(networkManager) networkManager->deleteLater();
@@ -38,7 +49,7 @@ void NetworkManager::slotDownloadReadyRead()
 
 void NetworkManager::slotReplyReadyRead()
 {
-  replyStr.append(reply->readAll());
+    replyStr.append(reply->readAll());
 }
 
 void NetworkManager::slotUploadProgress( qint64 bytesSent, qint64 bytesTotal )
@@ -71,9 +82,7 @@ void NetworkManager::slotSslErrors(const QList<QSslError>& errors)
 
 void NetworkManager::startDownload(QUrl url, QString& fileName, const QString& type)
 {
-    if(networkManager) networkManager->deleteLater();
-    networkManager = new QNetworkAccessManager(this);
-
+    init();
     fileType = type;
 
     setStartSettings(url, fileName, "Downloading file: ");
@@ -91,9 +100,7 @@ void NetworkManager::startDownload(QUrl url, QString& fileName, const QString& t
 
 void NetworkManager::startUpload(QUrl url, const QString& fileName)
 {    
-    if(networkManager) networkManager->deleteLater();
-    networkManager = new QNetworkAccessManager(this);
-
+    init();
     setStartSettings(url, fileName, "Uploading file: ");
     setUploadSettings();
 
@@ -137,9 +144,9 @@ void NetworkManager::setStartSettings(QUrl url, const QString& fileName, const Q
 
 void NetworkManager::slotProgressCanceled()
 {
-  qDebug() << "slotProgressCanceled";
-  operationCanceled = true;
-  reply->abort();
+    qDebug() << "slotProgressCanceled";
+    operationCanceled = true;
+    reply->abort();
 }
 
 void NetworkManager::slotPostFinished(QNetworkReply* reply)
@@ -170,9 +177,7 @@ void NetworkManager::getRequest(const QString & url)
 {
     qDebug() << "NetworkManager::getRequest url:" << url;
 
-    if(networkManager) networkManager->deleteLater();
-    networkManager = new QNetworkAccessManager(this);
-
+    init();
     request.setUrl(QUrl(url));
 
     qDebug() << "request.url()" << request.url();
@@ -186,7 +191,7 @@ void NetworkManager::getRequest(const QString & url)
 
 const NetworkManager* NetworkManager::self(void) const
 {
- return this;
+    return this;
 }
 
 void NetworkManager::setDownloadSettings(void) {}

@@ -21,6 +21,9 @@ public:
     ~MainWindow();
 
 public:
+    virtual bool eventFilter(QObject *object, QEvent *event);
+
+public:
     void init(void);
 
 private:

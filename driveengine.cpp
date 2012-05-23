@@ -222,7 +222,14 @@ void DriveEngine::slotFoldersViewClicked(const QModelIndex&)
 
 void DriveEngine::slotFilesViewClicked(const QModelIndex&)
 {
-    qDebug()  << "DriveEngine::slotFilesViewClicked";   
+    qDebug()  << "DriveEngine::slotFilesViewClicked";
+
+    QList<TreeItemInfo::Data> itemData = filesManager->getParser()->getXMLHandler()->getTreeItemInfo()->getFileItems();
+    int index = getCurrentFileItemIndex(filesManager);
+    qDebug()  << itemData[index].self;
+
+    filesManager->deleteFile(itemData[index].self);
+
     if(!additionalViewActivated) showFilesFromFolderInFilesView();
 }
 
@@ -314,6 +321,12 @@ void DriveEngine::slotFilesSortIndicatorChanged(int logicalIndex, Qt::SortOrder 
 {
     qDebug() << "index:" << QString::number(logicalIndex) << " order:" << order;
 }
+
+//bool DriveEngine::event(QEvent* e)
+//{
+//  qDebug() << "DriveEngine::event:";
+//  return true;
+//}
 
 //void DriveEngine::slotFoldersShowed()
 //{

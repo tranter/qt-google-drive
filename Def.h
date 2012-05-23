@@ -11,6 +11,8 @@
 #define GET_USER_PRESENTATIONS QString("https://docs.google.com/feeds/default/private/full/-/presentation")
 #define GET_USER_SPREADSHEETS QString("https://docs.google.com/feeds/default/private/full/-/spreadsheet")
 
+#define DELETE_FILE "https://docs.google.com/feeds/default/private/full/file:"
+
 #define CONTENTS QString("/contents")
 #define MAX_RESULTS QString("?max-results=1000")
 
