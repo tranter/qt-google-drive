@@ -22,13 +22,6 @@ void FilesManager::show(void)
 
     qDebug() << "FilesManager::show items.count():" << QString::number(items.count());
 
-//    for(int i = 0; i < items.count(); ++i)
-//    {
-//        if(items[i]) delete items[i];
-//        items[i] = NULL;
-//    }
-
-//    items.clear();
     clear();
 
     UiInstance::ui->filesView->clear();

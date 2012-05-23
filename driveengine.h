@@ -22,11 +22,14 @@ class DriveEngine : public QObject
     Q_OBJECT
 public:
 
+    enum EObjects
+    {
+        EFilesView = 0 ,
+        EFoldersView
+    };
+
     explicit DriveEngine(QObject *parent = 0);
     ~DriveEngine();
-
-//public:
-//    virtual bool event (QEvent* e);
 
 public:
     void init(void);
@@ -42,11 +45,13 @@ private:
     int getCurrentFileItemIndex(FilesManager *manager) const;
     void download(FilesManager *manager);
     void upload(void);
+    bool folderInFilesView(QString &resourceID);
 
 public slots:
     void slotStartLogin();
     void slotStartLoginFromMenu();
     bool slotCheckWorkDir(bool showDlg = true);
+    void slotDeleteFileFinished();
 
 private slots:
     void slotDownload(void);
@@ -55,6 +60,7 @@ private slots:
     void slotFilesViewClicked(const QModelIndex&);
     void slotAdditionalFoldersViewClicked(const QModelIndex& index);
     void slotFilesSortIndicatorChanged(int logicalIndex, Qt::SortOrder order);
+    void slotDel(QObject* object);
     //void slotFoldersShowed();
 
 private:

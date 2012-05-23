@@ -33,6 +33,9 @@ private:
 private slots:
     void slotloginDone();
     void slotUpdateFileList();
+
+signals:
+    void signalDel(QObject* object);
     
 private:
     Ui::MainWindow* ui;

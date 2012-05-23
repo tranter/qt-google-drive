@@ -32,6 +32,7 @@ public:
     void startUpload(QUrl url, const QString& fileName);
     void putRequest(const QString & url,const QByteArray& data);
     void getRequest(const QString & url);
+    void delRes(const QString & url);
     void init(void);
     const QNetworkAccessManager *getNetworkManager(void) const;
 

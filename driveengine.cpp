@@ -68,13 +68,13 @@ OAuth2* DriveEngine::getOAuth2(void) const
 
 void DriveEngine::slotDownload(void)
 {
-   if(additionalViewActivated) download(additionalFoldersManager);
-   else download(filesManager);
+    if(additionalViewActivated) download(additionalFoldersManager);
+    else download(filesManager);
 }
 
 void DriveEngine::slotUpload(void)
 {
-   upload();
+    upload();
 }
 
 void DriveEngine::download(FilesManager* manager)
@@ -223,13 +223,6 @@ void DriveEngine::slotFoldersViewClicked(const QModelIndex&)
 void DriveEngine::slotFilesViewClicked(const QModelIndex&)
 {
     qDebug()  << "DriveEngine::slotFilesViewClicked";
-
-    QList<TreeItemInfo::Data> itemData = filesManager->getParser()->getXMLHandler()->getTreeItemInfo()->getFileItems();
-    int index = getCurrentFileItemIndex(filesManager);
-    qDebug()  << itemData[index].self;
-
-    filesManager->deleteFile(itemData[index].self);
-
     if(!additionalViewActivated) showFilesFromFolderInFilesView();
 }
 
@@ -245,7 +238,7 @@ void DriveEngine::slotAdditionalFoldersViewClicked(const QModelIndex& index)
     if(index.model()->data(index).toString() == GET_USER_DOCUMENTS_TITLE) query = GET_USER_DOCUMENTS + MAX_RESULTS;
     if(index.model()->data(index).toString() == GET_USER_PRESENTATIONS_TITLE) query = GET_USER_PRESENTATIONS + MAX_RESULTS;
     if(index.model()->data(index).toString() == GET_USER_SPREADSHEETS_TITLE) query = GET_USER_SPREADSHEETS + MAX_RESULTS;
-    if(index.model()->data(index).toString() == OWNED_BY_ME_TITLE) query = GET_OWNED_BY_ME + MAX_RESULTS;   
+    if(index.model()->data(index).toString() == OWNED_BY_ME_TITLE) query = GET_OWNED_BY_ME + MAX_RESULTS;
     if(index.model()->data(index).toString() == GET_STARRED_TITLE)  query = GET_STARRED;
     if(index.model()->data(index).toString() == TRASH_TITLE) query = GET_TRASH;
 
@@ -288,20 +281,31 @@ void DriveEngine::showFiles(void)
     }
 }
 
-void DriveEngine::showFilesFromFolderInFilesView(void)
+bool DriveEngine::folderInFilesView(QString& resourceID)
 {
     QList<TreeItemInfo::Data> treeItems = filesManager->getParser()->getXMLHandler()->getTreeItemInfo()->getFileItems();
     int index = getCurrentFileItemIndex(filesManager);
+    bool isFolder = false;
 
     QString str(treeItems[index].self);
     QStringList strList = str.split("/");
-
     str = strList[strList.count() - 1];
 
     if(str.indexOf(FOLDER_TYPE_STR) != -1)
     {
-        if(!filesManager) filesManager = new FilesManager;
+        resourceID = str;
+        isFolder = true;
+    }
 
+    return isFolder;
+}
+
+void DriveEngine::showFilesFromFolderInFilesView(void)
+{
+    QString str;
+
+    if(folderInFilesView(str))
+    {
         QString query(GET_FILES_IN_FOLDER);
         query += str;
         query += QString(CONTENTS + MAX_RESULTS);
@@ -322,11 +326,29 @@ void DriveEngine::slotFilesSortIndicatorChanged(int logicalIndex, Qt::SortOrder 
     qDebug() << "index:" << QString::number(logicalIndex) << " order:" << order;
 }
 
-//bool DriveEngine::event(QEvent* e)
-//{
-//  qDebug() << "DriveEngine::event:";
-//  return true;
-//}
+void DriveEngine::slotDel(QObject* object)
+{
+    if (object == UiInstance::ui->foldersView)
+    {
+        qDebug() << "folder";
+    }
+
+    if (object == UiInstance::ui->filesView)
+    {
+        qDebug() << "file";
+        QList<TreeItemInfo::Data> itemData = filesManager->getParser()->getXMLHandler()->getTreeItemInfo()->getFileItems();
+        int index = getCurrentFileItemIndex(filesManager);
+        connect(filesManager->getOperationsManager(), SIGNAL(signalDeleteFileFinished()), this, SLOT(slotDeleteFileFinished()));
+
+        filesManager->deleteFile(itemData[index].self);
+    }
+}
+
+void DriveEngine::slotDeleteFileFinished()
+{
+  qDebug() << "DriveEngine::slotDeleteFileFinished";
+  showFiles();
+}
 
 //void DriveEngine::slotFoldersShowed()
 //{

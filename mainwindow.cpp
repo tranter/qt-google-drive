@@ -34,6 +34,7 @@ void MainWindow::init(void)
 
     setConnections();
 
+    UiInstance::ui->foldersView->installEventFilter(this);
     UiInstance::ui->filesView->installEventFilter(this);
 
     QTextCodec::setCodecForCStrings(QTextCodec::codecForLocale());
@@ -52,12 +53,12 @@ void MainWindow::setConnections(void)
     connect(UiInstance::ui->actionSettings, SIGNAL(triggered()), driveEngine, SLOT(slotCheckWorkDir()));
     connect(driveEngine->getOAuth2(), SIGNAL(loginDone()), this, SLOT(slotloginDone()));
     connect(driveEngine->getFoldersManager(), SIGNAL(signalAccessTokenRequired()), driveEngine, SLOT(slotStartLogin()));
+    connect(this, SIGNAL(signalDel(QObject*)), driveEngine, SLOT(slotDel(QObject*)));
 }
 
 Ui::MainWindow* UiInstance::Instance()
 {
-    if(!UiInstance::ui)
-        UiInstance::ui = new Ui::MainWindow;
+    if(!UiInstance::ui) UiInstance::ui = new Ui::MainWindow;
 
     return UiInstance::ui;
 }
@@ -93,12 +94,12 @@ bool MainWindow::CheckReg(void)
 
 bool MainWindow::eventFilter(QObject *object, QEvent *event)
 {
-    if (object == UiInstance::ui->filesView && event->type() == QEvent::KeyPress)
+    if (event->type() == QEvent::KeyPress)
     {
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
 
         if (keyEvent->key() == Qt::Key_Delete) {
-            qDebug() << "del";
+            emit signalDel(object);
             return true;
         }
         else

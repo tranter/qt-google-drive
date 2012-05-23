@@ -189,6 +189,19 @@ void NetworkManager::getRequest(const QString & url)
     connectErrorHandlers();
 }
 
+void NetworkManager::delRes(const QString & url)
+{
+    qDebug() << "NetworkManager::delRes" << url;
+
+    init();
+    request.setUrl(QUrl(url));
+
+    reply = networkManager->deleteResource(request);
+
+    connect(networkManager, SIGNAL(finished(QNetworkReply*)),this, SLOT(slotReplyFinished(QNetworkReply*)));
+    connectErrorHandlers();
+}
+
 const NetworkManager* NetworkManager::self(void) const
 {
     return this;

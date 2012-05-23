@@ -1,23 +1,26 @@
 #ifndef OPERATIONSMANAGER_H
 #define OPERATIONSMANAGER_H
 
-#include <QNetworkAccessManager>
+#include "networkmanager.h"
 #include "Def.h"
 
-class OperationsManager
+class OperationsManager : public NetworkManager
 {
+     Q_OBJECT
 public:
-    OperationsManager();
+    OperationsManager(QObject *parent = 0);
 
 public:
     void deleteFile(const QString& url);
-    void setNetworkManager(const QNetworkAccessManager *manager);
+
+public slots:
+    virtual void slotReplyFinished(QNetworkReply* reply);
+
+signals:
+    void signalDeleteFileFinished(void);
 
 private:
     QString getFileQuery(const QString& url);
-
-private:
-    const QNetworkAccessManager* networkManager;
 
 };
 

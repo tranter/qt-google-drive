@@ -18,6 +18,7 @@ public:
     XMLParser* getParser(void) const;
     void clear(void);
     void deleteFile(const QString& url);
+    OperationsManager* getOperationsManager(void) const;
 
 public slots:
     virtual void slotReplyFinished(QNetworkReply* reply);
