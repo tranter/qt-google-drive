@@ -43,8 +43,9 @@ void DriveEngine::slotStartLoginFromMenu()
 
 void DriveEngine::init(void)
 {
-    if(oAuth2) oAuth2->deleteLater();
-    oAuth2 = new OAuth2(parent);
+    if(!oAuth2) oAuth2 = new OAuth2(parent);
+    if(!additionalFoldersManager) additionalFoldersManager = new AdditionalFoldersManager;
+    if(!filesManager) filesManager = new FilesManager;
 
     setConnections();
     showFolders();
@@ -215,10 +216,7 @@ bool DriveEngine::slotCheckWorkDir(bool showDlg)
 void DriveEngine::slotFoldersViewClicked(const QModelIndex&)
 {
     additionalViewActivated = false;
-
     additionalFoldersManager->clear();
-    //filesManager->clear();
-
     showFiles();
 }
 
@@ -234,12 +232,13 @@ void DriveEngine::slotAdditionalFoldersViewClicked(const QModelIndex& index)
     QString query;
     additionalViewActivated = true;
 
-//    additionalFoldersManager->clear();
-     filesManager->clear();
+    filesManager->clear();
 
     if(index.model()->data(index).toString() == ALL_ITEMS_TITLE) query = GET_ALL_ITEMS + MAX_RESULTS;
-    if(index.model()->data(index).toString() == OWNED_BY_ME_TITLE) query = GET_OWNED_BY_ME + MAX_RESULTS;
     if(index.model()->data(index).toString() == GET_USER_DOCUMENTS_TITLE) query = GET_USER_DOCUMENTS + MAX_RESULTS;
+    if(index.model()->data(index).toString() == GET_USER_PRESENTATIONS_TITLE) query = GET_USER_PRESENTATIONS + MAX_RESULTS;
+    if(index.model()->data(index).toString() == GET_USER_SPREADSHEETS_TITLE) query = GET_USER_SPREADSHEETS + MAX_RESULTS;
+    if(index.model()->data(index).toString() == OWNED_BY_ME_TITLE) query = GET_OWNED_BY_ME + MAX_RESULTS;   
     if(index.model()->data(index).toString() == GET_STARRED_TITLE)  query = GET_STARRED;
     if(index.model()->data(index).toString() == TRASH_TITLE) query = GET_TRASH;
 
@@ -253,26 +252,26 @@ void DriveEngine::showFolders(void)
 
     //connect(foldersManager, SIGNAL(signalFoldersShowed()), this, SLOT(slotFoldersShowed()));
 
-    if(!additionalFoldersManager) additionalFoldersManager = new AdditionalFoldersManager;
-
     QString generalImage(":ico/allitems");
 
     additionalFoldersManager->create(ALL_ITEMS_TITLE, generalImage);
-    additionalFoldersManager->create(OWNED_BY_ME_TITLE, generalImage);
     additionalFoldersManager->create(GET_USER_DOCUMENTS_TITLE, generalImage);
+    additionalFoldersManager->create(GET_USER_PRESENTATIONS_TITLE, generalImage);
+    additionalFoldersManager->create(GET_USER_SPREADSHEETS_TITLE, generalImage);
+    additionalFoldersManager->create(OWNED_BY_ME_TITLE, generalImage);
     additionalFoldersManager->create(GET_STARRED_TITLE, generalImage);
     additionalFoldersManager->create(TRASH_TITLE, ":ico/trash");
 }
 
 void DriveEngine::showFiles(void)
 {
+    qDebug()  << "DriveEngine::showFiles";
+
     TreeItemInfo treeItems = *foldersManager->getParser()->getXMLHandler()->getTreeItemInfo();
     int treeItemsIndex = getCurrentModelItemIndex();
 
     if(treeItems[treeItemsIndex].type == FOLDER_TYPE_STR)
     {
-        if(!filesManager) filesManager = new FilesManager;
-
         QString query(treeItems[treeItemsIndex].self);
         query += QString(CONTENTS + MAX_RESULTS);
 

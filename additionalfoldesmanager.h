@@ -12,7 +12,6 @@ public:
 
 public:
     void create(const QString& name, QString iconName = "");
-    //void clear(void);
 
 private:
     QList<QTreeWidgetItem*> additionalFolders;

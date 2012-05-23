@@ -5,6 +5,7 @@
 FilesManager::FilesManager(QObject *parent):
     ContentManager(FILE_TYPE, parent)
 {
+    qDebug() << "FilesManager::FilesManager()";
 }
 
 FilesManager::~FilesManager()
@@ -44,12 +45,15 @@ void FilesManager::show(void)
     UiInstance::ui->filesView->sortItems(0, Qt::AscendingOrder);
 }
 
-void FilesManager::clear(void)
-{
-    for(int i = 0; i < items.count(); ++i) delete items[i];
-    items.clear();
-    QApplication::setOverrideCursor(Qt::ArrowCursor);
-}
+//void FilesManager::clear(void)
+//{
+//    if(items.isEmpty())  return;
+
+//    for(int i = 0; i < items.count(); ++i) delete items[i];
+//    items.clear();
+
+//    QApplication::setOverrideCursor(Qt::ArrowCursor);
+//}
 
 void FilesManager::sort(int column, Qt::SortOrder order)
 {

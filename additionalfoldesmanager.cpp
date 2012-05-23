@@ -18,9 +18,3 @@ void AdditionalFoldersManager::create(const QString& name, QString iconName)
   additionalFolders.last()->setText(0, name);
   additionalFolders.last()->setIcon(0, QPixmap(iconName));
 }
-
-//void AdditionalFoldersManager::clear(void)
-//{
-//    for(int i = 0; i < items.count(); ++i) delete items[i];
-//    items.clear();
-//}

@@ -15,6 +15,7 @@ public:
 public:
     virtual void get(const QString& url);
     XMLParser* getParser(void) const;
+    void clear(void);
 
 public slots:
     virtual void slotReplyFinished(QNetworkReply* reply);

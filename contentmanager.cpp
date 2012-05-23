@@ -7,6 +7,7 @@ ContentManager::ContentManager(int handleType, QObject *parent):
     type(handleType),
     parser(NULL)
 {
+    qDebug() << "ContentManager::ContentManager()";
 }
 
 ContentManager::~ContentManager()
@@ -65,5 +66,14 @@ void ContentManager::slotResDownloaded(int queryType)
 XMLParser* ContentManager::getParser(void) const
 {
     return parser;
+}
+
+void ContentManager::clear(void)
+{
+    qDebug() << "ContentManager::clear";
+    items.clear();
+    if(items.empty()) return;
+    for(int i = 0; i < items.count(); ++i) delete items[i];
+    QApplication::setOverrideCursor(Qt::ArrowCursor);
 }
 
