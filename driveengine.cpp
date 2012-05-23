@@ -22,11 +22,11 @@ DriveEngine::~DriveEngine()
 {
     qDebug() << "DriveEngine::~DriveEngine()";
 
-    if(downloadManager) delete downloadManager;
-    if(uploadFileManager) delete uploadFileManager;
-    if(foldersManager) delete foldersManager;
-    if(filesManager) delete filesManager;
-    if(additionalFoldersManager) delete additionalFoldersManager;
+    if(downloadManager) downloadManager->deleteLater();
+    if(uploadFileManager) uploadFileManager->deleteLater();
+    if(foldersManager) foldersManager->deleteLater();
+    if(filesManager) filesManager->deleteLater();
+    if(additionalFoldersManager) additionalFoldersManager->deleteLater();
     if(oAuth2) oAuth2->deleteLater();
 }
 
@@ -43,7 +43,7 @@ void DriveEngine::slotStartLoginFromMenu()
 
 void DriveEngine::init(void)
 {
-    if(oAuth2) delete oAuth2;
+    if(oAuth2) oAuth2->deleteLater();
     oAuth2 = new OAuth2(parent);
 
     setConnections();
@@ -85,7 +85,6 @@ void DriveEngine::download(FilesManager* manager)
 
     QSettings settings(COMPANY_NAME, APP_NAME);
 
-    //QList<TreeItemInfo::Data> treeItems = filesManager->getParser()->getXMLHandler()->getTreeItemInfo()->getFileItems();
     QList<TreeItemInfo::Data> treeItems = manager->getParser()->getXMLHandler()->getTreeItemInfo()->getFileItems();
     int index = getCurrentFileItemIndex(manager);
 
@@ -98,7 +97,7 @@ void DriveEngine::download(FilesManager* manager)
             QString fileName = settings.value(WORK_DIR).toString() + "\/" + treeItems[index].name;
             QString fileType =  treeItems[index].fileType;
 
-            if(downloadManager) delete downloadManager;
+            if(downloadManager) downloadManager->deleteLater();
             downloadManager = new DownloadFileManager(parent);
 
             downloadManager->startDownload(QUrl(downloadLink), fileName, fileType);
@@ -131,7 +130,7 @@ void DriveEngine::upload(void)
 
         if(!uploadLink.isEmpty())
         {
-            if(uploadFileManager) delete uploadFileManager;
+            if(uploadFileManager) uploadFileManager->deleteLater();
             uploadFileManager = new UploadFileManager(parent);
 
             connect(uploadFileManager, SIGNAL(signalUpdateFileList()), parent, SLOT(slotUpdateFileList()));
@@ -216,14 +215,16 @@ bool DriveEngine::slotCheckWorkDir(bool showDlg)
 void DriveEngine::slotFoldersViewClicked(const QModelIndex&)
 {
     additionalViewActivated = false;
+
     additionalFoldersManager->clear();
+    //filesManager->clear();
 
     showFiles();
 }
 
 void DriveEngine::slotFilesViewClicked(const QModelIndex&)
 {
-    qDebug()  << "DriveEngine::slotFilesViewClicked";
+    qDebug()  << "DriveEngine::slotFilesViewClicked";   
     if(!additionalViewActivated) showFilesFromFolderInFilesView();
 }
 
@@ -233,8 +234,12 @@ void DriveEngine::slotAdditionalFoldersViewClicked(const QModelIndex& index)
     QString query;
     additionalViewActivated = true;
 
+//    additionalFoldersManager->clear();
+     filesManager->clear();
+
     if(index.model()->data(index).toString() == ALL_ITEMS_TITLE) query = GET_ALL_ITEMS + MAX_RESULTS;
-    if(index.model()->data(index).toString() == OWNED_BY_ME_TITLE) query = GET_OWNED_BY_ME;
+    if(index.model()->data(index).toString() == OWNED_BY_ME_TITLE) query = GET_OWNED_BY_ME + MAX_RESULTS;
+    if(index.model()->data(index).toString() == GET_USER_DOCUMENTS_TITLE) query = GET_USER_DOCUMENTS + MAX_RESULTS;
     if(index.model()->data(index).toString() == GET_STARRED_TITLE)  query = GET_STARRED;
     if(index.model()->data(index).toString() == TRASH_TITLE) query = GET_TRASH;
 
@@ -254,6 +259,7 @@ void DriveEngine::showFolders(void)
 
     additionalFoldersManager->create(ALL_ITEMS_TITLE, generalImage);
     additionalFoldersManager->create(OWNED_BY_ME_TITLE, generalImage);
+    additionalFoldersManager->create(GET_USER_DOCUMENTS_TITLE, generalImage);
     additionalFoldersManager->create(GET_STARRED_TITLE, generalImage);
     additionalFoldersManager->create(TRASH_TITLE, ":ico/trash");
 }

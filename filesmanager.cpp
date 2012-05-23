@@ -9,16 +9,26 @@ FilesManager::FilesManager(QObject *parent):
 
 FilesManager::~FilesManager()
 {
-    for(int i = 0; i < items.count(); ++i) delete items[i];
-    items.clear();
+    qDebug() << "FilesManager::~FilesManager()";
+    UiInstance::ui->filesView->clear();
 }
 
 void FilesManager::show(void)
 {
+    qDebug() << "FilesManager::show";
+
     QList<TreeItemInfo::Data> fileItems = parser->getXMLHandler()->getTreeItemInfo()->getFileItems();
 
-    for(int i = 0; i < items.count(); ++i) delete items[i];
+    qDebug() << "FilesManager::show items.count():" << QString::number(items.count());
+
+    for(int i = 0; i < items.count(); ++i)
+    {
+        if(items[i]) delete items[i];
+        items[i] = NULL;
+    }
+
     items.clear();
+    UiInstance::ui->filesView->clear();
 
     for(int i = 1; i < fileItems.count(); ++i)
     {
@@ -32,6 +42,13 @@ void FilesManager::show(void)
 
     UiInstance::ui->filesView->setSortingEnabled(true);
     UiInstance::ui->filesView->sortItems(0, Qt::AscendingOrder);
+}
+
+void FilesManager::clear(void)
+{
+    for(int i = 0; i < items.count(); ++i) delete items[i];
+    items.clear();
+    QApplication::setOverrideCursor(Qt::ArrowCursor);
 }
 
 void FilesManager::sort(int column, Qt::SortOrder order)

@@ -7,7 +7,7 @@ XMLParser::XMLParser(int type):
 
 XMLParser::~XMLParser()
 {
-    delete xmlHandler;
+    xmlHandler->deleteLater();
 }
 
 bool XMLParser::startElement(const QString &namespaceURI, const QString &localName, const QString &qName, const QXmlAttributes &attribs)

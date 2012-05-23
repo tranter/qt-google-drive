@@ -7,9 +7,12 @@
 #define GET_TRASH QString("https://docs.google.com/feeds/default/private/full/-/trashed?showfolders=true")
 #define GET_OWNED_BY_ME QString("https://docs.google.com/feeds/default/private/full/-/mine")
 #define GET_STARRED QString("https://docs.google.com/feeds/default/private/full/-/starred")
+#define GET_USER_DOCUMENTS QString("https://docs.google.com/feeds/default/private/full/-/document")
+//#define GET_USER_PRESENTATIONS QString("https://docs.google.com/feeds/default/private/full/-/presentation")
+//#define GET_USER_SPREADSHEETS QString("https://docs.google.com/feeds/default/private/full/-/spreadsheet")
 
 #define CONTENTS QString("/contents")
-#define MAX_RESULTS QString("?max-results=10000")
+#define MAX_RESULTS QString("?max-results=1000")
 
 #define OAUTH2_TOKEN_URL "https://accounts.google.com/o/oauth2/token"
 
@@ -45,6 +48,9 @@
 #define OWNED_BY_ME_TITLE QString("Owned by me")
 #define TRASH_TITLE QString("Trash")
 #define GET_STARRED_TITLE QString("Starred")
+#define GET_USER_DOCUMENTS_TITLE QString("My Documents")
+//#define GET_USER_PRESENTATIONS_TITLE QString("My Presentations")
+//#define GET_USER_SPREADSHEETS_TITLE QString("My Spreadsheets")
 
 #define CONTENT "content"
 

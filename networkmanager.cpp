@@ -3,7 +3,7 @@
 
 NetworkManager::NetworkManager(QObject *parent) :
     QObject(parent),
-    networkManager(/*new QNetworkAccessManager*/NULL),
+    networkManager(NULL),
     state(EReady),
     operationCanceled(false)
 {
@@ -12,7 +12,7 @@ NetworkManager::NetworkManager(QObject *parent) :
 
 NetworkManager::~NetworkManager()
 {
-    if(networkManager) delete networkManager;
+    if(networkManager) networkManager->deleteLater();
 }
 
 void NetworkManager::slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
@@ -71,7 +71,7 @@ void NetworkManager::slotSslErrors(const QList<QSslError>& errors)
 
 void NetworkManager::startDownload(QUrl url, QString& fileName, const QString& type)
 {
-    if(networkManager) delete networkManager;
+    if(networkManager) networkManager->deleteLater();
     networkManager = new QNetworkAccessManager(this);
 
     fileType = type;
@@ -91,7 +91,7 @@ void NetworkManager::startDownload(QUrl url, QString& fileName, const QString& t
 
 void NetworkManager::startUpload(QUrl url, const QString& fileName)
 {    
-    if(networkManager) delete networkManager;
+    if(networkManager) networkManager->deleteLater();
     networkManager = new QNetworkAccessManager(this);
 
     setStartSettings(url, fileName, "Uploading file: ");
@@ -170,7 +170,7 @@ void NetworkManager::getRequest(const QString & url)
 {
     qDebug() << "NetworkManager::getRequest url:" << url;
 
-    if(networkManager) delete networkManager;
+    if(networkManager) networkManager->deleteLater();
     networkManager = new QNetworkAccessManager(this);
 
     request.setUrl(QUrl(url));

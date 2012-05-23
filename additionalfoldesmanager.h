@@ -1,7 +1,6 @@
 #ifndef ADDITIONALFOLDESMANAGER_H
 #define ADDITIONALFOLDESMANAGER_H
 
-//#include "contentmanager.h"
 #include "filesmanager.h"
 
 class AdditionalFoldersManager : public FilesManager//ContentManager
@@ -13,10 +12,9 @@ public:
 
 public:
     void create(const QString& name, QString iconName = "");
-    void clear(void);
+    //void clear(void);
 
 private:
-    //virtual void show(void);
     QList<QTreeWidgetItem*> additionalFolders;
 };
 

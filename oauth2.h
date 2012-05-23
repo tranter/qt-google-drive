@@ -1,8 +1,6 @@
 #ifndef OAUTH2_H
 #define OAUTH2_H
 
-//#include <QString>
-//#include <QObject>
 #include "networkmanager.h"
 #include <QTimer>
 

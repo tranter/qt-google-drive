@@ -19,9 +19,6 @@ void ContentManager::get(const QString& url)
 {
     QApplication::setOverrideCursor(Qt::ArrowCursor);
 
-    if(networkManager) delete networkManager;
-    networkManager = new QNetworkAccessManager(this);
-
     CommonTools::setHeader(request);
     getRequest(url);
 
@@ -61,6 +58,7 @@ bool ContentManager::parseReply(const QString& str)
 
 void ContentManager::slotResDownloaded(int queryType)
 {
+    qDebug() << "ContentManager::slotResDownloaded";
     if(queryType == type) show();
 }
 
