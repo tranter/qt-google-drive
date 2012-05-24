@@ -11,10 +11,10 @@ DriveEngine::DriveEngine(QObject *parent) :
     uploadFileManager(NULL),
     foldersManager(NULL),
     filesManager(NULL),
-    additionalFoldersManager(NULL),
-    additionalViewActivated(false)
+    additionalFoldersManager(NULL)
 {
     this->parent = static_cast<QWidget*>(parent);
+    for(int i = 0; i < EElementsStatesCount; ++i) elementsStates[i] = false;
     qDebug() << "DriveEngine::DriveEngine()";
 }
 
@@ -57,7 +57,7 @@ void DriveEngine::setConnections(void)
 {
     connect(UiInstance::ui->foldersView, SIGNAL(clicked (const QModelIndex&)), this, SLOT(slotFoldersViewClicked(const QModelIndex&)));
     connect(UiInstance::ui->filesView, SIGNAL(clicked (const QModelIndex&)), this, SLOT(slotFilesViewClicked(const QModelIndex&)));
-    connect(UiInstance::ui->additionalFoldersView, SIGNAL(clicked (const QModelIndex&)), this, SLOT(slotAdditionalFoldersViewClicked(const QModelIndex&)));
+    connect(UiInstance::ui->additionalFoldersView, SIGNAL(clicked (const QModelIndex&)), this, SLOT(slotAdditionalShowFiles(const QModelIndex&)));
     connect(UiInstance::ui->filesView->header(), SIGNAL(sortIndicatorChanged(int, Qt::SortOrder)), this, SLOT(slotFilesSortIndicatorChanged(int, Qt::SortOrder)));
 }
 
@@ -67,8 +67,8 @@ OAuth2* DriveEngine::getOAuth2(void) const
 }
 
 void DriveEngine::slotDownload(void)
-{
-    if(additionalViewActivated) download(additionalFoldersManager);
+{    
+    if(elementsStates[EAdditionalViewFocused]) download(additionalFoldersManager);
     else download(filesManager);
 }
 
@@ -109,7 +109,7 @@ void DriveEngine::download(FilesManager* manager)
 
 void DriveEngine::upload(void)
 {
-    if(additionalViewActivated)
+    if(elementsStates[EAdditionalViewFocused])
     {
         CommonTools::msg("To upload a file please select a folder in \"Drive\" view");
         return;
@@ -215,7 +215,10 @@ bool DriveEngine::slotCheckWorkDir(bool showDlg)
 
 void DriveEngine::slotFoldersViewClicked(const QModelIndex&)
 {
-    additionalViewActivated = false;
+    elementsStates[EFolderViewFocused] = true;
+    elementsStates[EAdditionalViewFocused] = false;
+    elementsStates[ETrashFocused] = false;
+
     additionalFoldersManager->clear();
     showFiles();
 }
@@ -223,14 +226,22 @@ void DriveEngine::slotFoldersViewClicked(const QModelIndex&)
 void DriveEngine::slotFilesViewClicked(const QModelIndex&)
 {
     qDebug()  << "DriveEngine::slotFilesViewClicked";
-    if(!additionalViewActivated) showFilesFromFolderInFilesView();
+    elementsStates[EFolderViewFocused] = false;
+    if(!elementsStates[EAdditionalViewFocused]) showFilesFromFolderInFilesView();
 }
 
-void DriveEngine::slotAdditionalFoldersViewClicked(const QModelIndex& index)
+void DriveEngine::slotAdditionalShowFiles(const QModelIndex& index)
 {
     qDebug()  << "DriveEngine::slotAdditionalFoldersView" << index.model()->data(index).toString();
+
+    if(index.model()->data(index).toString() == TRASH_TITLE) elementsStates[ETrashFocused] = true;
+    else elementsStates[ETrashFocused] = false;
+
     QString query;
-    additionalViewActivated = true;
+    currentAdditionalFolderIndex = index;
+
+    elementsStates[EFolderViewFocused] = false;
+    elementsStates[EAdditionalViewFocused] = true;
 
     filesManager->clear();
 
@@ -328,6 +339,8 @@ void DriveEngine::slotFilesSortIndicatorChanged(int logicalIndex, Qt::SortOrder 
 
 void DriveEngine::slotDel(QObject* object)
 {
+    qDebug() << "DriveEngine::slotDel";
+
     if (object == UiInstance::ui->foldersView)
     {
         qDebug() << "folder";
@@ -336,18 +349,39 @@ void DriveEngine::slotDel(QObject* object)
     if (object == UiInstance::ui->filesView)
     {
         qDebug() << "file";
-        QList<TreeItemInfo::Data> itemData = filesManager->getParser()->getXMLHandler()->getTreeItemInfo()->getFileItems();
-        int index = getCurrentFileItemIndex(filesManager);
-        connect(filesManager->getOperationsManager(), SIGNAL(signalDeleteFileFinished()), this, SLOT(slotDeleteFileFinished()));
 
-        filesManager->deleteFile(itemData[index].self);
+        FilesManager* manager;
+
+        if(elementsStates[EAdditionalViewFocused]) manager = additionalFoldersManager;
+        else manager = filesManager;
+
+        QList<TreeItemInfo::Data> itemData = manager->getParser()->getXMLHandler()->getTreeItemInfo()->getFileItems();
+        int index = getCurrentFileItemIndex(manager);
+        connect(manager->getOperationsManager(), SIGNAL(signalDeleteFileFinished()), this, SLOT(slotDeleteFileFinished()));
+        manager->deleteFile(itemData[index].self);
     }
+}
+
+void DriveEngine::slotTriggeredDel()
+{
+    qDebug() << "DriveEngine::slotTriggeredDel";
+
+    if(elementsStates[ETrashFocused]) return;
+
+    QObject* object;
+
+    if(elementsStates[EFolderViewFocused]) object = UiInstance::ui->foldersView;
+    else object = UiInstance::ui->filesView;
+
+    slotDel(object);
 }
 
 void DriveEngine::slotDeleteFileFinished()
 {
-  qDebug() << "DriveEngine::slotDeleteFileFinished";
-  showFiles();
+    qDebug() << "DriveEngine::slotDeleteFileFinished";
+
+    if(elementsStates[EAdditionalViewFocused]) slotAdditionalShowFiles(currentAdditionalFolderIndex);
+    else showFiles();
 }
 
 //void DriveEngine::slotFoldersShowed()

@@ -157,6 +157,7 @@
     </property>
     <addaction name="actionMenuDownload"/>
     <addaction name="actionMenuUpload"/>
+    <addaction name="actionMenuDelete"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuActions"/>
@@ -176,6 +177,7 @@
    <addaction name="actionDownload"/>
    <addaction name="actionUpload"/>
    <addaction name="separator"/>
+   <addaction name="actionDelete"/>
    <addaction name="separator"/>
    <addaction name="actionSettings"/>
    <addaction name="separator"/>
@@ -254,6 +256,20 @@
    </property>
    <property name="text">
     <string>Quit</string>
+   </property>
+  </action>
+  <action name="actionDelete">
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/ico/delete</normaloff>:/ico/delete</iconset>
+   </property>
+   <property name="text">
+    <string>Delete</string>
+   </property>
+  </action>
+  <action name="actionMenuDelete">
+   <property name="text">
+    <string>Delete</string>
    </property>
   </action>
  </widget>

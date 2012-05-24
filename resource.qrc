@@ -9,5 +9,6 @@
         <file alias="quit">res/application-exit.png</file>
         <file alias="logo">res/drive-text-logo-flat.png</file>
         <file alias="trash">res/trash.png</file>
+        <file alias="delete">res/edit-delete.png</file>
     </qresource>
 </RCC>

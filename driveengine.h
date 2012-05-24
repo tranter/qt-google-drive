@@ -28,6 +28,14 @@ public:
         EFoldersView
     };
 
+    enum EElementsStates
+    {
+        EFolderViewFocused = 0,
+        EAdditionalViewFocused,
+        ETrashFocused,
+        EElementsStatesCount
+    };
+
     explicit DriveEngine(QObject *parent = 0);
     ~DriveEngine();
 
@@ -42,8 +50,8 @@ public:
 private:
     void setConnections(void);
     int getCurrentModelItemIndex(void) const;
-    int getCurrentFileItemIndex(FilesManager *manager) const;
-    void download(FilesManager *manager);
+    int getCurrentFileItemIndex(FilesManager* manager) const;
+    void download(FilesManager* manager);
     void upload(void);
     bool folderInFilesView(QString &resourceID);
 
@@ -58,9 +66,10 @@ private slots:
     void slotUpload(void);
     void slotFoldersViewClicked(const QModelIndex&);
     void slotFilesViewClicked(const QModelIndex&);
-    void slotAdditionalFoldersViewClicked(const QModelIndex& index);
+    void slotAdditionalShowFiles(const QModelIndex& index);
     void slotFilesSortIndicatorChanged(int logicalIndex, Qt::SortOrder order);
     void slotDel(QObject* object);
+    void slotTriggeredDel();
     //void slotFoldersShowed();
 
 private:
@@ -71,7 +80,8 @@ private:
     FoldersManager* foldersManager;
     FilesManager* filesManager;
     AdditionalFoldersManager* additionalFoldersManager;
-    bool additionalViewActivated;
+    bool elementsStates[EElementsStatesCount];
+    QModelIndex currentAdditionalFolderIndex;
 };
 
 #endif // DRIVEENGINE_H
