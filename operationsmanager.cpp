@@ -8,9 +8,9 @@ OperationsManager::OperationsManager(QObject *parent):
 {
 }
 
-void OperationsManager::deleteFile(const QString& url)
+void OperationsManager::del(const QString& url)
 {
-    qDebug() << "OperationsManager::deleteFile" << getFileQuery(url);
+    qDebug() << "OperationsManager::del" << getFileQuery(url);
     CommonTools::setHeader(request);
     request.setRawHeader("If-Match", "*");
     delRes(getFileQuery(url));
@@ -31,6 +31,6 @@ QString OperationsManager::getFileQuery(const QString& url)
 void OperationsManager::slotReplyFinished(QNetworkReply* reply)
 {
   qDebug() << "OperationsManager::slotReplyFinished";
-  emit signalDeleteFileFinished();
+  emit signalDelFinished();
 }
 

@@ -32,6 +32,7 @@ public:
     {
         EFolderViewFocused = 0,
         EAdditionalViewFocused,
+        EFilesViewFocused,
         ETrashFocused,
         EElementsStatesCount
     };
@@ -42,24 +43,14 @@ public:
 public:
     void init(void);
     OAuth2* getOAuth2(void) const;
-    void showFolders(void);
     void showFiles(void);
-    void showFilesFromFolderInFilesView(void);
     FoldersManager* getFoldersManager(void) const;
-
-private:
-    void setConnections(void);
-    int getCurrentModelItemIndex(void) const;
-    int getCurrentFileItemIndex(FilesManager* manager) const;
-    void download(FilesManager* manager);
-    void upload(void);
-    bool folderInFilesView(QString &resourceID);
 
 public slots:
     void slotStartLogin();
     void slotStartLoginFromMenu();
     bool slotCheckWorkDir(bool showDlg = true);
-    void slotDeleteFileFinished();
+    void slotDelFinished();
 
 private slots:
     void slotDownload(void);
@@ -73,13 +64,24 @@ private slots:
     //void slotFoldersShowed();
 
 private:
+    void setConnections(void);
+    int getCurrentModelItemIndex(void) const;
+    int getCurrentFileItemIndex(FilesManager* manager) const;
+    void download(FilesManager* manager);
+    void upload(void);
+    bool folderInFilesView(QString &resourceID);
+    void showFolders(void);
+    void showAdditionalFolders(void);
+    void showFilesFromFolderInFilesView(void);
+
+private:
     OAuth2* oAuth2;
     QWidget* parent;
     DownloadFileManager* downloadManager;
     UploadFileManager* uploadFileManager;
     FoldersManager* foldersManager;
     FilesManager* filesManager;
-    AdditionalFoldersManager* additionalFoldersManager;
+    AdditionalFoldersManager* additionalFilesManager;
     bool elementsStates[EElementsStatesCount];
     QModelIndex currentAdditionalFolderIndex;
 };

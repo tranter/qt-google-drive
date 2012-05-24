@@ -12,6 +12,7 @@
 #define GET_USER_SPREADSHEETS QString("https://docs.google.com/feeds/default/private/full/-/spreadsheet")
 
 #define DELETE_FILE "https://docs.google.com/feeds/default/private/full/file:"
+#define DELETE_FOLDER "https://docs.google.com/feeds/default/private/full/folder%3A"
 
 #define CONTENTS QString("/contents")
 #define MAX_RESULTS QString("?max-results=1000")

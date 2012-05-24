@@ -11,13 +11,13 @@ public:
     OperationsManager(QObject *parent = 0);
 
 public:
-    void deleteFile(const QString& url);
+    void del(const QString& url);
 
 public slots:
     virtual void slotReplyFinished(QNetworkReply* reply);
 
 signals:
-    void signalDeleteFileFinished(void);
+    void signalDelFinished(void);
 
 private:
     QString getFileQuery(const QString& url);

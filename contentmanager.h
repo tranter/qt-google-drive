@@ -17,7 +17,7 @@ public:
     virtual void get(const QString& url);
     XMLParser* getParser(void) const;
     void clear(void);
-    void deleteFile(const QString& url);
+    void del(const QString& url);
     OperationsManager* getOperationsManager(void) const;
 
 public slots:

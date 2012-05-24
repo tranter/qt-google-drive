@@ -79,9 +79,10 @@ void ContentManager::clear(void)
     QApplication::setOverrideCursor(Qt::ArrowCursor);
 }
 
-void ContentManager::deleteFile(const QString &url)
+void ContentManager::del(const QString &url)
 {
-  operationsManager->deleteFile(url);
+   qDebug() << "ContentManager::del";
+  operationsManager->del(url);
 }
 
 OperationsManager* ContentManager::getOperationsManager(void) const
