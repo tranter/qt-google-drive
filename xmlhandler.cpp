@@ -163,6 +163,7 @@ void XMLHandler::setDefaults(void)
     itemData.fileSize = "---";
     itemData.fileUpdated = "";
     itemData.parent = ROOT_TAG;
+    //itemData.self = "";
 }
 
 bool XMLHandler::resDownloadingNow(void) const

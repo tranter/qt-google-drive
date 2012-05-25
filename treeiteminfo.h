@@ -12,7 +12,6 @@ public:
 
     struct Data
     {
-        //TreeItem *item;
         QTreeWidgetItem* pointer;
         QString type;
         QString dataOwner;

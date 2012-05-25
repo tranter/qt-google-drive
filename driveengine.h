@@ -55,7 +55,7 @@ public slots:
 private slots:
     void slotDownload(void);
     void slotUpload(void);
-    void slotFoldersViewClicked(const QModelIndex&);
+    void slotFoldersViewClicked(const QModelIndex& index);
     void slotFilesViewClicked(const QModelIndex&);
     void slotAdditionalShowFiles(const QModelIndex& index);
     void slotFilesSortIndicatorChanged(int logicalIndex, Qt::SortOrder order);
@@ -73,6 +73,7 @@ private:
     void showFolders(void);
     void showAdditionalFolders(void);
     void showFilesFromFolderInFilesView(void);
+    void delItemInTree(TreeItemInfo item);
 
 private:
     OAuth2* oAuth2;
@@ -84,6 +85,7 @@ private:
     AdditionalFoldersManager* additionalFilesManager;
     bool elementsStates[EElementsStatesCount];
     QModelIndex currentAdditionalFolderIndex;
+    int currentFolderIndex;
 };
 
 #endif // DRIVEENGINE_H

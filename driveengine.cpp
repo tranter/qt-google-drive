@@ -215,8 +215,12 @@ bool DriveEngine::slotCheckWorkDir(bool showDlg)
     return dirTextNotEmpty;
 }
 
-void DriveEngine::slotFoldersViewClicked(const QModelIndex&)
+void DriveEngine::slotFoldersViewClicked(const QModelIndex& index)
 {
+    qDebug()  << "DriveEngine::slotFoldersViewClicked index" << QString::number(index.row());
+
+    currentFolderIndex = index.row();
+
     elementsStates[EFolderViewFocused] = true;
     elementsStates[EAdditionalViewFocused] = false;
     elementsStates[EFilesViewFocused] = false;
@@ -349,23 +353,25 @@ void DriveEngine::slotFilesSortIndicatorChanged(int logicalIndex, Qt::SortOrder 
 void DriveEngine::slotDel(QObject* object)
 {
     qDebug() << "DriveEngine::slotDel";
-
     if (object == UiInstance::ui->foldersView)
     {
         qDebug() << "folder";
         if(!elementsStates[EAdditionalViewFocused])
         {
-            TreeItemInfo treeItems = *foldersManager->getParser()->getXMLHandler()->getTreeItemInfo();
+            TreeItemInfo item = *foldersManager->getParser()->getXMLHandler()->getTreeItemInfo();
 
-            connect(foldersManager->getOperationsManager(), SIGNAL(signalDelFinished()), this, SLOT(slotDelFinished()));
-            foldersManager->del(treeItems[getCurrentModelItemIndex()].self);
+            if(item[getCurrentModelItemIndex()].parent != "")
+            {
+                connect(foldersManager->getOperationsManager(), SIGNAL(signalDelFinished()), this, SLOT(slotDelFinished()));
+                foldersManager->del(item[getCurrentModelItemIndex()].self);
+                delItemInTree(item);
+            }
         }
     }
 
     if (object == UiInstance::ui->filesView)
     {
         qDebug() << "file";
-
         FilesManager* manager;
 
         if(elementsStates[EAdditionalViewFocused]) manager = additionalFilesManager;
@@ -375,6 +381,23 @@ void DriveEngine::slotDel(QObject* object)
 
         connect(manager->getOperationsManager(), SIGNAL(signalDelFinished()), this, SLOT(slotDelFinished()));
         manager->del(itemData[getCurrentFileItemIndex(manager)].self);
+    }
+}
+
+void DriveEngine::delItemInTree(TreeItemInfo item)
+{
+    QTreeWidgetItem *parent = item[getCurrentModelItemIndex()].pointer->parent();
+    int index;
+
+    if (parent)
+    {
+        index = parent->indexOfChild(UiInstance::ui->foldersView->currentItem());
+        delete parent->takeChild(index);
+    }
+    else
+    {
+        index = UiInstance::ui->foldersView->indexOfTopLevelItem(UiInstance::ui->foldersView->currentItem());
+        delete UiInstance::ui->foldersView->takeTopLevelItem(index);
     }
 }
 
@@ -397,12 +420,7 @@ void DriveEngine::slotDelFinished()
 {
     qDebug() << "DriveEngine::slotDelFinished";
 
-    if(elementsStates[EFolderViewFocused])
-    {
-        //UiInstance::ui->foldersView->clear();
-        showFolders();
-        return;
-    }
+    //if(elementsStates[EFolderViewFocused]) return;
 
     if(elementsStates[EAdditionalViewFocused]) slotAdditionalShowFiles(currentAdditionalFolderIndex);
     else showFiles();
