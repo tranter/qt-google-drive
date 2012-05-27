@@ -294,14 +294,16 @@ void DriveEngine::showFiles(void)
     TreeItemInfo treeItems = *foldersManager->getParser()->getXMLHandler()->getTreeItemInfo();
     int treeItemsIndex = getCurrentModelItemIndex();
 
-    if(treeItems[treeItemsIndex].type == FOLDER_TYPE_STR)
-    {
-        QString query(treeItems[treeItemsIndex].self);
-        query += QString(CONTENTS + MAX_RESULTS);
+    if (treeItems.getItems().size() > 0) {
+        if(treeItems[treeItemsIndex].type == FOLDER_TYPE_STR)
+        {
+            QString query(treeItems[treeItemsIndex].self);
+            query += QString(CONTENTS + MAX_RESULTS);
 
-        qDebug() << "query:" << query;
+            qDebug() << "query:" << query;
 
-        filesManager->get(query);
+            filesManager->get(query);
+        }
     }
 }
 
