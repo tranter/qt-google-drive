@@ -298,14 +298,16 @@ void DriveEngine::showFiles(void)
     TreeItemInfo item = *foldersManager->getParser()->getXMLHandler()->getTreeItemInfo();
     int treeItemsIndex = getCurrentFolderItemIndex();
 
-    if(item[treeItemsIndex].type == FOLDER_TYPE_STR)
-    {
-        QString query(item[treeItemsIndex].self);
-        query += QString(CONTENTS + MAX_RESULTS);
+    if (item.getItems().size() > 0) {
+        if(item[treeItemsIndex].type == FOLDER_TYPE_STR)
+        {
+            QString query(item[treeItemsIndex].self);
+            query += QString(CONTENTS + MAX_RESULTS);
 
-        qDebug() << "query:" << query;
+            qDebug() << "query:" << query;
 
-        filesManager->get(query);
+            filesManager->get(query);
+        }
     }
 }
 
