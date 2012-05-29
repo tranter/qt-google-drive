@@ -10,6 +10,7 @@ TARGET = qtdrive
 TEMPLATE = app
 
 SOURCES += main.cpp
+SOURCES += createfolderdialog.cpp
 SOURCES += mainwindow.cpp
 SOURCES += oauth2.cpp
 SOURCES += logindialog.cpp
@@ -31,6 +32,7 @@ SOURCES += contentmanager.cpp
 SOURCES += operationsmanager.cpp
 
 HEADERS  += mainwindow.h
+HEADERS  += createfolderdialog.h
 HEADERS  += oauth2.h
 HEADERS  += logindialog.h
 HEADERS  += driveengine.h
@@ -53,6 +55,7 @@ HEADERS  += additionalfoldesmanager.h
 HEADERS  += operationsmanager.h
 
 FORMS    += mainwindow.ui
+FORMS    += createfolderdialog.ui
 FORMS    += logindialog.ui
 FORMS    += settingsdialog.ui
 FORMS    += progressbardialog.ui

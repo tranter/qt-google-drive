@@ -157,6 +157,7 @@
     </property>
     <addaction name="actionMenuDownload"/>
     <addaction name="actionMenuUpload"/>
+    <addaction name="actionMenuCreateFolder"/>
     <addaction name="actionMenuDelete"/>
    </widget>
    <addaction name="menuFile"/>
@@ -177,6 +178,7 @@
    <addaction name="actionDownload"/>
    <addaction name="actionUpload"/>
    <addaction name="separator"/>
+   <addaction name="actionCreateFolder"/>
    <addaction name="actionDelete"/>
    <addaction name="separator"/>
    <addaction name="actionSettings"/>
@@ -268,8 +270,30 @@
    </property>
   </action>
   <action name="actionMenuDelete">
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/ico/delete</normaloff>:/ico/delete</iconset>
+   </property>
    <property name="text">
     <string>Delete</string>
+   </property>
+  </action>
+  <action name="actionCreateFolder">
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/ico/allitems</normaloff>:/ico/allitems</iconset>
+   </property>
+   <property name="text">
+    <string>Create collection</string>
+   </property>
+  </action>
+  <action name="actionMenuCreateFolder">
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/ico/allitems</normaloff>:/ico/allitems</iconset>
+   </property>
+   <property name="text">
+    <string>Create folder</string>
    </property>
   </action>
  </widget>

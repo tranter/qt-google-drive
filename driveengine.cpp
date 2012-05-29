@@ -11,7 +11,8 @@ DriveEngine::DriveEngine(QObject *parent) :
     uploadFileManager(NULL),
     foldersManager(NULL),
     filesManager(NULL),
-    additionalFilesManager(NULL)
+    additionalFilesManager(NULL),
+    createFolderDialog(NULL)
 {
     this->parent = static_cast<QWidget*>(parent);
     for(int i = 0; i < EElementsStatesCount; ++i) elementsStates[i] = false;
@@ -28,6 +29,7 @@ DriveEngine::~DriveEngine()
     if(filesManager) filesManager->deleteLater();
     if(additionalFilesManager) additionalFilesManager->deleteLater();
     if(oAuth2) oAuth2->deleteLater();
+    if(createFolderDialog) delete createFolderDialog;
 }
 
 void DriveEngine::slotStartLogin()
@@ -88,17 +90,18 @@ void DriveEngine::download(FilesManager* manager)
 
     QSettings settings(COMPANY_NAME, APP_NAME);
 
-    QList<TreeItemInfo::Data> treeItems = manager->getParser()->getXMLHandler()->getTreeItemInfo()->getFileItems();
+    QList<TreeItemInfo::Data> item = manager->getParser()->getXMLHandler()->getTreeItemInfo()->getFileItems();
     int index = getCurrentFileItemIndex(manager);
 
-    QString downloadLink(treeItems[index].downloadLink);
+    QString downloadLink(item[index].downloadLink);
+    qDebug() << "downloadLink:" << item[index].downloadLink;
 
     if(!downloadLink.isEmpty())
     {
         if(slotCheckWorkDir(false))
         {
-            QString fileName = settings.value(WORK_DIR).toString() + "\/" + treeItems[index].name;
-            QString fileType =  treeItems[index].fileType;
+            QString fileName = settings.value(WORK_DIR).toString() + "\/" + item[index].name;
+            QString fileType =  item[index].fileType;
 
             if(downloadManager) downloadManager->deleteLater();
             downloadManager = new DownloadFileManager(parent);
@@ -126,10 +129,11 @@ void DriveEngine::upload(void)
 
     if(!fileName.isEmpty())
     {
-        TreeItemInfo treeItems = *foldersManager->getParser()->getXMLHandler()->getTreeItemInfo();
-        int index = getCurrentModelItemIndex();
+        TreeItemInfo item = *foldersManager->getParser()->getXMLHandler()->getTreeItemInfo();
+        int index = getCurrentFolderItemIndex();
 
-        QString uploadLink(treeItems[index].uploadLink + "/?convert=false");
+        QString uploadLink(item[index].uploadLink + "/?convert=false");
+        qDebug() << "uploadLink:" << item[index].uploadLink;
 
         if(!uploadLink.isEmpty())
         {
@@ -143,17 +147,17 @@ void DriveEngine::upload(void)
     }
 }
 
-int DriveEngine::getCurrentModelItemIndex(void) const
+int DriveEngine::getCurrentFolderItemIndex(void) const
 {
     QTreeWidgetItem* pointer = static_cast<QTreeWidgetItem*>(UiInstance::ui->foldersView->currentIndex().internalPointer());
-    TreeItemInfo treeItems = *foldersManager->getParser()->getXMLHandler()->getTreeItemInfo();
-    int count = treeItems.getItems().count();
+    TreeItemInfo item = *foldersManager->getParser()->getXMLHandler()->getTreeItemInfo();
+    int count = item.getItems().count();
 
     int currentModelIndex = 0;
 
     for(int i = 0; i < count; ++i)
     {
-        if(treeItems[i].pointer == pointer)
+        if(item[i].pointer == pointer)
         {
             currentModelIndex = i;
             break;
@@ -165,15 +169,15 @@ int DriveEngine::getCurrentModelItemIndex(void) const
 
 int DriveEngine::getCurrentFileItemIndex(FilesManager* manager) const
 {
-    QList<TreeItemInfo::Data> fileItemsInfo = manager->getParser()->getXMLHandler()->getTreeItemInfo()->getFileItems();
-    int count = fileItemsInfo.count();
+    QList<TreeItemInfo::Data> item = manager->getParser()->getXMLHandler()->getTreeItemInfo()->getFileItems();
+    int count = item.count();
     QString fileName(UiInstance::ui->filesView->currentIndex().data().toString());
 
     int currentFileIndex = 0;
 
     for(int i = 1; i < count; ++i)
     {
-        if(fileName == fileItemsInfo[i].name)
+        if(fileName == item[i].name)
         {
             currentFileIndex = i;
             break;
@@ -291,12 +295,12 @@ void DriveEngine::showFiles(void)
 {
     qDebug()  << "DriveEngine::showFiles";
 
-    TreeItemInfo treeItems = *foldersManager->getParser()->getXMLHandler()->getTreeItemInfo();
-    int treeItemsIndex = getCurrentModelItemIndex();
+    TreeItemInfo item = *foldersManager->getParser()->getXMLHandler()->getTreeItemInfo();
+    int treeItemsIndex = getCurrentFolderItemIndex();
 
-    if(treeItems[treeItemsIndex].type == FOLDER_TYPE_STR)
+    if(item[treeItemsIndex].type == FOLDER_TYPE_STR)
     {
-        QString query(treeItems[treeItemsIndex].self);
+        QString query(item[treeItemsIndex].self);
         query += QString(CONTENTS + MAX_RESULTS);
 
         qDebug() << "query:" << query;
@@ -307,11 +311,11 @@ void DriveEngine::showFiles(void)
 
 bool DriveEngine::folderInFilesView(QString& resourceID)
 {
-    QList<TreeItemInfo::Data> treeItems = filesManager->getParser()->getXMLHandler()->getTreeItemInfo()->getFileItems();
+    QList<TreeItemInfo::Data> item = filesManager->getParser()->getXMLHandler()->getTreeItemInfo()->getFileItems();
     int index = getCurrentFileItemIndex(filesManager);
     bool isFolder = false;
 
-    QString str(treeItems[index].self);
+    QString str(item[index].self);
     QStringList strList = str.split("/");
     str = strList[strList.count() - 1];
 
@@ -360,10 +364,10 @@ void DriveEngine::slotDel(QObject* object)
         {
             TreeItemInfo item = *foldersManager->getParser()->getXMLHandler()->getTreeItemInfo();
 
-            if(item[getCurrentModelItemIndex()].parent != "")
+            if(item[getCurrentFolderItemIndex()].parent != "")
             {
                 connect(foldersManager->getOperationsManager(), SIGNAL(signalDelFinished()), this, SLOT(slotDelFinished()));
-                foldersManager->del(item[getCurrentModelItemIndex()].self);
+                foldersManager->del(item[getCurrentFolderItemIndex()].self);
                 delItemInTree(item);
             }
         }
@@ -386,7 +390,7 @@ void DriveEngine::slotDel(QObject* object)
 
 void DriveEngine::delItemInTree(TreeItemInfo item)
 {
-    QTreeWidgetItem *parent = item[getCurrentModelItemIndex()].pointer->parent();
+    QTreeWidgetItem *parent = item[getCurrentFolderItemIndex()].pointer->parent();
     int index;
 
     if (parent)
@@ -424,6 +428,48 @@ void DriveEngine::slotDelFinished()
 
     if(elementsStates[EAdditionalViewFocused]) slotAdditionalShowFiles(currentAdditionalFolderIndex);
     else showFiles();
+}
+
+void DriveEngine::slotCreateFolder()
+{
+    qDebug() << "slotCreateFolder";
+
+    if(createFolderDialog) delete createFolderDialog;
+    createFolderDialog = new CreateFolderDialog(parent);
+
+    connect(createFolderDialog, SIGNAL(signalAccept(const QString&)), this, SLOT(slotAcceptCreateFolder(const QString&)));
+    connect(createFolderDialog, SIGNAL(signalReject()), this, SLOT(slotRejectCreateFolder()));
+
+    createFolderDialog->exec();
+}
+
+void DriveEngine::slotAcceptCreateFolder(const QString& name)
+{
+    qDebug() << "DriveEngine::slotAcceptCreateFolder";
+    createFolder(name);
+    delete createFolderDialog;
+    createFolderDialog = NULL;
+}
+
+void DriveEngine::slotRejectCreateFolder()
+{
+    qDebug() << "DriveEngine::slotRejectCreateFolder()";
+    delete createFolderDialog;
+    createFolderDialog = NULL;
+}
+
+void DriveEngine::createFolder(const QString& name)
+{
+    qDebug() << "DriveEngine::createFolder";
+    TreeItemInfo item = *foldersManager->getParser()->getXMLHandler()->getTreeItemInfo();
+
+    if(name == "" || name.contains(QRegExp("[/\\\".<>]")))
+    {
+        CommonTools::msg("Please enter valid name");
+        return;
+    }
+
+    foldersManager->createFolder(item[getCurrentFolderItemIndex()].self, name);
 }
 
 //void DriveEngine::slotFoldersShowed()

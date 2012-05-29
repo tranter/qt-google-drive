@@ -18,6 +18,7 @@ public:
     XMLParser* getParser(void) const;
     void clear(void);
     void del(const QString& url);
+    void createFolder(const QString& folderUrl, const QString& name);
     OperationsManager* getOperationsManager(void) const;
 
 public slots:

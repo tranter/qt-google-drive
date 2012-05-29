@@ -11,7 +11,8 @@ public:
     OperationsManager(QObject *parent = 0);
 
 public:
-    void del(const QString& url);
+    void del(const QString& resUrl);
+    void createFolder(const QString& folderUrl, const QString& name);
 
 public slots:
     virtual void slotReplyFinished(QNetworkReply* reply);

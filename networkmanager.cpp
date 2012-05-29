@@ -166,6 +166,8 @@ void NetworkManager::putRequest(const QString & url,const QByteArray& data)
 {
     request.setUrl(QUrl(url));
 
+    qDebug() << "NetworkManager::putRequest request:" << request.url();
+
     reply = networkManager->put(request,data);
 
     connect(reply, SIGNAL(finished()), this, SLOT(slotUploadFinished()));

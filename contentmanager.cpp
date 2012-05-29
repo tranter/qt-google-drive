@@ -32,6 +32,8 @@ void ContentManager::slotReplyFinished(QNetworkReply* reply)
 {
     qDebug() << "ContentManager::slotReplyFinished";
 
+    CommonTools::logToFile(QString::number(type) + ".txt", replyStr.toAscii());
+
     if(parseReply(replyStr)) qDebug() << "parse OK";
     else qDebug() << "parse not OK";
 
@@ -83,6 +85,12 @@ void ContentManager::del(const QString &url)
 {
    qDebug() << "ContentManager::del";
   operationsManager->del(url);
+}
+
+void ContentManager::createFolder(const QString& folderUrl, const QString& name)
+{
+  qDebug() << "ContentManager::createCollection";
+  operationsManager->createFolder(folderUrl, name);
 }
 
 OperationsManager* ContentManager::getOperationsManager(void) const

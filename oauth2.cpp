@@ -26,7 +26,8 @@ OAuth2::OAuth2(QWidget* parent)
 
 OAuth2::~OAuth2()
 {
-    if(networkManager) networkManager->deleteLater();
+    loginDialog->deleteLater();
+    networkManager->deleteLater();
 }
 
 void OAuth2::setConnections(void)

@@ -12,10 +12,12 @@
 #include "filesmanager.h"
 #include "foldersmanager.h"
 #include "additionalfoldesmanager.h"
+#include "createfolderdialog.h"
 
 class FoldersManager;
 class FilesManager;
 class AdditionalFoldersManager;
+class CreateFolderDialog;
 
 class DriveEngine : public QObject
 {
@@ -51,6 +53,10 @@ public slots:
     void slotStartLoginFromMenu();
     bool slotCheckWorkDir(bool showDlg = true);
     void slotDelFinished();
+    void slotCreateFolder();
+    void slotAcceptCreateFolder(const QString &name);
+    void slotRejectCreateFolder();
+    void slotDel(QObject* object);
 
 private slots:
     void slotDownload(void);
@@ -59,13 +65,12 @@ private slots:
     void slotFilesViewClicked(const QModelIndex&);
     void slotAdditionalShowFiles(const QModelIndex& index);
     void slotFilesSortIndicatorChanged(int logicalIndex, Qt::SortOrder order);
-    void slotDel(QObject* object);
     void slotTriggeredDel();
     //void slotFoldersShowed();
 
 private:
     void setConnections(void);
-    int getCurrentModelItemIndex(void) const;
+    int getCurrentFolderItemIndex(void) const;
     int getCurrentFileItemIndex(FilesManager* manager) const;
     void download(FilesManager* manager);
     void upload(void);
@@ -74,6 +79,7 @@ private:
     void showAdditionalFolders(void);
     void showFilesFromFolderInFilesView(void);
     void delItemInTree(TreeItemInfo item);
+    void createFolder(const QString& name);
 
 private:
     OAuth2* oAuth2;
@@ -86,6 +92,7 @@ private:
     bool elementsStates[EElementsStatesCount];
     QModelIndex currentAdditionalFolderIndex;
     int currentFolderIndex;
+    CreateFolderDialog* createFolderDialog;
 };
 
 #endif // DRIVEENGINE_H

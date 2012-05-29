@@ -54,8 +54,10 @@ void MainWindow::setConnections(void)
     connect(driveEngine->getOAuth2(), SIGNAL(loginDone()), this, SLOT(slotloginDone()));
     connect(driveEngine->getFoldersManager(), SIGNAL(signalAccessTokenRequired()), driveEngine, SLOT(slotStartLogin()));
     connect(this, SIGNAL(signalDel(QObject*)), driveEngine, SLOT(slotDel(QObject*)));
-    connect(UiInstance::ui->actionMenuDelete, SIGNAL(triggered()), driveEngine, SLOT(slotDel(QObject*)));
+    connect(UiInstance::ui->actionMenuDelete, SIGNAL(triggered()), driveEngine, SLOT(slotTriggeredDel()));
     connect(UiInstance::ui->actionDelete, SIGNAL(triggered()), driveEngine, SLOT(slotTriggeredDel()));
+    connect(UiInstance::ui->actionMenuCreateFolder, SIGNAL(triggered()), driveEngine, SLOT(slotCreateFolder()));
+    connect(UiInstance::ui->actionCreateFolder, SIGNAL(triggered()), driveEngine, SLOT(slotCreateFolder()));
 }
 
 Ui::MainWindow* UiInstance::Instance()
