@@ -1,8 +1,6 @@
 #include "commontools.h"
 #include <QDebug>
 
-QList<int> CommonTools::indexes;
-
 void CommonTools::setHeader(QNetworkRequest& request)
 {
     QSettings settings(COMPANY_NAME, APP_NAME);

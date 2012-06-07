@@ -22,9 +22,6 @@ public:
     static QByteArray loadFromFile(const QString& fileName);
     static bool fileFromURLExists(const QString& url);
     static QString getFileNameFromURL(const QString& url);
-
-private:
-    static QList<int> indexes;
 };
 
 #endif // COMMONTOOLS_H
