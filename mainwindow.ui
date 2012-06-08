@@ -286,6 +286,12 @@
    <property name="text">
     <string>Create collection</string>
    </property>
+   <property name="visible">
+    <bool>false</bool>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
   </action>
   <action name="actionMenuCreateFolder">
    <property name="icon">
@@ -294,6 +300,12 @@
    </property>
    <property name="text">
     <string>Create folder</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
    </property>
   </action>
  </widget>

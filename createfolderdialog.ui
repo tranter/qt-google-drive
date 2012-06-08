@@ -18,12 +18,12 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>46</width>
-     <height>13</height>
+     <width>351</width>
+     <height>16</height>
     </rect>
    </property>
    <property name="text">
-    <string>Name:</string>
+    <string>Name: not implemented yet</string>
    </property>
   </widget>
   <widget class="QDialogButtonBox" name="buttonBox">
