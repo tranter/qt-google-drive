@@ -23,9 +23,9 @@
    <widget class="QTreeWidget" name="filesView">
     <property name="geometry">
      <rect>
-      <x>305</x>
+      <x>310</x>
       <y>9</y>
-      <width>706</width>
+      <width>701</width>
       <height>600</height>
      </rect>
     </property>
@@ -287,7 +287,7 @@
     <string>Create collection</string>
    </property>
    <property name="visible">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="iconVisibleInMenu">
     <bool>true</bool>
@@ -302,7 +302,7 @@
     <string>Create folder</string>
    </property>
    <property name="visible">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="iconVisibleInMenu">
     <bool>true</bool>

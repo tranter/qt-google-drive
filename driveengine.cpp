@@ -448,7 +448,9 @@ void DriveEngine::slotCreateFolder()
 void DriveEngine::slotAcceptCreateFolder(const QString& name)
 {
     qDebug() << "DriveEngine::slotAcceptCreateFolder";
+
     createFolder(name);
+
     delete createFolderDialog;
     createFolderDialog = NULL;
 }
@@ -456,6 +458,7 @@ void DriveEngine::slotAcceptCreateFolder(const QString& name)
 void DriveEngine::slotRejectCreateFolder()
 {
     qDebug() << "DriveEngine::slotRejectCreateFolder()";
+
     delete createFolderDialog;
     createFolderDialog = NULL;
 }
@@ -463,7 +466,9 @@ void DriveEngine::slotRejectCreateFolder()
 void DriveEngine::createFolder(const QString& name)
 {
     qDebug() << "DriveEngine::createFolder";
+
     TreeItemInfo item = *foldersManager->getParser()->getXMLHandler()->getTreeItemInfo();
+    int itemIndex = getCurrentFolderItemIndex();
 
     if(name == "" || name.contains(QRegExp("[/\\\".<>]")))
     {
@@ -471,7 +476,8 @@ void DriveEngine::createFolder(const QString& name)
         return;
     }
 
-    foldersManager->createFolder(item[getCurrentFolderItemIndex()].self, name);
+    foldersManager->createFolder(item[itemIndex].self, name);
+    foldersManager->insertFolder(name, item[itemIndex].pointer);
 }
 
 //void DriveEngine::slotFoldersShowed()

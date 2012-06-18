@@ -23,8 +23,6 @@ void FoldersManager::slotError(QNetworkReply::NetworkError error)
 
 void FoldersManager::show(void)
 {
-//    for(int i = 0; i < items.count(); ++i) delete items[i];
-//    items.clear();
     clear();
     UiInstance::ui->foldersView->clear();
 
@@ -83,4 +81,17 @@ void FoldersManager::fillTree(QList<QString> names, QList<QString> iconPathes, Q
         items.last()->setIcon(0, QPixmap(iconPathes[i]));
         parser->getXMLHandler()->getTreeItemInfo()->setPointer(indexes[i], items.last());
     }
+}
+
+void FoldersManager::insertFolder(QString name, QTreeWidgetItem* parent)
+{
+//    QTreeWidgetItem* treeWidgetItem =  new QTreeWidgetItem(parent);
+//    treeWidgetItem->setText(0, name);
+//    //items.last()->setIcon(0, QPixmap(iconPathes[i]));
+//    parser->getXMLHandler()->getTreeItemInfo()->setPointer(indexes[i], treeWidgetItem);
+    items.push_back(new QTreeWidgetItem(parent));
+    items.last()->setText(0, name);
+    //items.last()->setIcon(0, QPixmap(iconPathes[i]));
+    //parser->getXMLHandler()->getTreeItemInfo()->setPointer(indexes[i], items.last());
+    parent->setExpanded(true);
 }

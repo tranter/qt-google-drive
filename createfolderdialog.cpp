@@ -6,6 +6,7 @@ CreateFolderDialog::CreateFolderDialog(QWidget *parent) :
     ui(new Ui::CreateFolderDialog)
 {
     ui->setupUi(this);
+    ui->nameEdit->setFocus();
     connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(slotAccept()));
     connect(ui->buttonBox, SIGNAL(rejected()), this, SLOT(slotReject()));
 }
