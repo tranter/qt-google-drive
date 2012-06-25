@@ -6,15 +6,14 @@
 #include "AppRegData.h"
 #include "Def.h"
 
-OAuth2::OAuth2(QWidget* parent)
+OAuth2::OAuth2(QWidget* parent) :
+   loginDialog(new LoginDialog(parent)),
+   networkManager(new QNetworkAccessManager(this))
 { 
     scope = SCOPE;
     clientID = CLIENT_ID;
     redirectURI = REDIRECT_URI;
     endPoint = END_POINT;
-
-    loginDialog = new LoginDialog(parent);
-    networkManager = new QNetworkAccessManager(this);
 
     setConnections();
 
@@ -26,14 +25,12 @@ OAuth2::OAuth2(QWidget* parent)
 
 OAuth2::~OAuth2()
 {
-    loginDialog->deleteLater();
-    networkManager->deleteLater();
 }
 
 void OAuth2::setConnections(void)
 {
-    connect(loginDialog, SIGNAL(signalCodeObtained()), this, SLOT(slotCodeObtained()));
-    connect(networkManager, SIGNAL(finished(QNetworkReply*)),this, SLOT(slotReplyFinished(QNetworkReply*)));
+    connect(loginDialog.data(), SIGNAL(signalCodeObtained()), this, SLOT(slotCodeObtained()));
+    connect(networkManager.data(), SIGNAL(finished(QNetworkReply*)),this, SLOT(slotReplyFinished(QNetworkReply*)));
 }
 
 void OAuth2::slotCodeObtained()

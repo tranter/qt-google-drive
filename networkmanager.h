@@ -25,7 +25,7 @@ public:
 public:
     virtual void setDownloadSettings(void);
     virtual void setUploadSettings(void);
-    virtual void setPostFinishedSettings(QNetworkReply* reply);
+    virtual void setPostFinishedSettings(QNetworkReply*);
 
 public:
     void startDownload(QUrl url, QString& fileName, const QString& type = "text/html");
@@ -53,7 +53,7 @@ public slots:
     virtual void slotPostFinished(QNetworkReply* reply);
     virtual void slotError(QNetworkReply::NetworkError error);
     virtual void slotSslErrors(const QList<QSslError>& errors);
-    virtual void slotReplyFinished(QNetworkReply* reply);
+    virtual void slotReplyFinished(QNetworkReply*);
     virtual void slotReplyReadyRead();
     virtual void slotProgressCanceled();
 
@@ -62,7 +62,8 @@ private:
 
 protected:
     QObject* parent;
-    QNetworkAccessManager* networkManager;
+    //QNetworkAccessManager* networkManager;
+    QScopedPointer <QNetworkAccessManager> networkManager;
     QNetworkReply *reply;
     QNetworkRequest request;
     QByteArray uploadContent;

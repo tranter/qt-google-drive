@@ -39,8 +39,7 @@ signals:
     
 private:
     Ui::MainWindow* ui;
-    DriveEngine* driveEngine;
-
+    QScopedPointer<DriveEngine> driveEngine;
 };
 
 class UiInstance
@@ -51,8 +50,7 @@ public:
 
 private:
     UiInstance(){};
-    UiInstance(UiInstance& root){};
-    UiInstance& operator=(UiInstance&){};
+    Q_DISABLE_COPY(UiInstance);
 };
 
 #endif // MAINWINDOW_H

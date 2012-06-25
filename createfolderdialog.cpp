@@ -9,6 +9,7 @@ CreateFolderDialog::CreateFolderDialog(QWidget *parent) :
     ui->nameEdit->setFocus();
     connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(slotAccept()));
     connect(ui->buttonBox, SIGNAL(rejected()), this, SLOT(slotReject()));
+    connect(this, SIGNAL(finished(int)), this, SLOT(slotFinished(int)));
 }
 
 CreateFolderDialog::~CreateFolderDialog()
@@ -24,4 +25,9 @@ void CreateFolderDialog::slotAccept()
 void CreateFolderDialog::slotReject()
 {
     emit signalReject();
+}
+
+void CreateFolderDialog::slotFinished(int result)
+{
+    emit signalFinished(result);
 }

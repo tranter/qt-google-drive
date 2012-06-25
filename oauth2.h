@@ -36,14 +36,16 @@ signals:
     void loginDone();//Signal that is emitted when login is ended OK.
 
 private:
-    QNetworkAccessManager* networkManager;
+    QScopedPointer<LoginDialog> loginDialog;
+    QScopedPointer<QNetworkAccessManager> networkManager;
+
     QString accessToken;
     QString refreshToken;
     QString endPoint;
     QString scope;
     QString clientID;
     QString redirectURI;
-    LoginDialog* loginDialog;
+
     QString codeStr;
 };
 

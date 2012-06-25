@@ -30,10 +30,11 @@ protected:
     virtual void show(void) = 0;
 
 protected:
-    int type;
-    XMLParser* parser;
+    QScopedPointer<OperationsManager> operationsManager;
+    QScopedPointer<XMLParser> parser;
     QList<QTreeWidgetItem*> items;
-    OperationsManager* operationsManager;
+
+    int type;
 };
 
 

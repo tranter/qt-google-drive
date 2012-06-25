@@ -4,9 +4,8 @@
 
 ContentManager::ContentManager(int handleType, QObject *parent):
     NetworkManager(parent),
-    type(handleType),
-    parser(NULL),
-    operationsManager(new OperationsManager(parent))
+    operationsManager(new OperationsManager(parent)),
+    type(handleType)
 {
     qDebug() << "ContentManager::ContentManager()";
 }
@@ -14,8 +13,6 @@ ContentManager::ContentManager(int handleType, QObject *parent):
 ContentManager::~ContentManager()
 {
     qDebug() << "ContentManager::~ContentManager()";
-    if(parser) delete parser;
-    if(operationsManager) operationsManager->deleteLater();
 }
 
 void ContentManager::get(const QString& url)
@@ -48,15 +45,14 @@ bool ContentManager::parseReply(const QString& str)
     QXmlSimpleReader reader;
     QXmlInputSource source;
 
-    if(parser) delete parser;
-    parser = new XMLParser(type);
+    parser.reset(new XMLParser(type));
 
     connect(parser->getXMLHandler(), SIGNAL(signalAllResDownloaded(int)),this, SLOT(slotResDownloaded(int)));
 
     source.setData(str.toAscii());
 
-    reader.setContentHandler(parser);
-    reader.setErrorHandler(parser);
+    reader.setContentHandler(parser.data());
+    reader.setErrorHandler(parser.data());
 
     return reader.parse(&source);
 }
@@ -69,7 +65,7 @@ void ContentManager::slotResDownloaded(int queryType)
 
 XMLParser* ContentManager::getParser(void) const
 {
-    return parser;
+    return parser.data();
 }
 
 void ContentManager::clear(void)
@@ -83,7 +79,7 @@ void ContentManager::clear(void)
 
 void ContentManager::del(const QString &url)
 {
-   qDebug() << "ContentManager::del";
+  qDebug() << "ContentManager::del";
   operationsManager->del(url);
 }
 
@@ -95,7 +91,7 @@ void ContentManager::createFolder(const QString& folderUrl, const QString& name)
 
 OperationsManager* ContentManager::getOperationsManager(void) const
 {
-  return operationsManager;
+  return operationsManager.data();
 }
 
 

@@ -18,10 +18,12 @@ public:
 public slots:
     void slotAccept();
     void slotReject();
+    void slotFinished(int result);
 
 signals:
     void signalAccept(const QString& name);
     void signalReject();
+    void signalFinished(int result);
 
 private:
     Ui::CreateFolderDialog *ui;

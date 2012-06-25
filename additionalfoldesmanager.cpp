@@ -9,7 +9,7 @@ AdditionalFoldersManager::AdditionalFoldersManager(QObject *parent) :
 AdditionalFoldersManager::~AdditionalFoldersManager()
 {
  for(int i = 0; i < additionalFolders.count(); ++i) delete additionalFolders[i];
- additionalFolders. clear();
+ additionalFolders.clear();
 }
 
 void AdditionalFoldersManager::create(const QString& name, QString iconName)

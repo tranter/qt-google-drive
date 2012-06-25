@@ -23,13 +23,6 @@ class DriveEngine : public QObject
 {
     Q_OBJECT
 public:
-
-    enum EObjects
-    {
-        EFilesView = 0 ,
-        EFoldersView
-    };
-
     enum EElementsStates
     {
         EFolderViewFocused = 0,
@@ -56,6 +49,7 @@ public slots:
     void slotCreateFolder();
     void slotAcceptCreateFolder(const QString &name);
     void slotRejectCreateFolder();
+    void slotFinishedCreateFolder(int result);
     void slotDel(QObject* object);
 
 private slots:
@@ -82,17 +76,20 @@ private:
     void createFolder(const QString& name);
 
 private:
-    OAuth2* oAuth2;
     QWidget* parent;
-    DownloadFileManager* downloadManager;
-    UploadFileManager* uploadFileManager;
-    FoldersManager* foldersManager;
-    FilesManager* filesManager;
-    AdditionalFoldersManager* additionalFilesManager;
-    bool elementsStates[EElementsStatesCount];
     QModelIndex currentAdditionalFolderIndex;
+
     int currentFolderIndex;
+    bool elementsStates[EElementsStatesCount];
+
     CreateFolderDialog* createFolderDialog;
+
+    QScopedPointer<DownloadFileManager> downloadManager;
+    QScopedPointer<UploadFileManager> uploadFileManager;
+    QScopedPointer<FoldersManager> foldersManager;
+    QScopedPointer<FilesManager> filesManager;
+    QScopedPointer<AdditionalFoldersManager> additionalFilesManager;
+    QScopedPointer<OAuth2> oAuth2;
 };
 
 #endif // DRIVEENGINE_H

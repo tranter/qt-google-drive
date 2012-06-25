@@ -6,12 +6,6 @@
 
 DriveEngine::DriveEngine(QObject *parent) :
     QObject(parent),
-    oAuth2(NULL),
-    downloadManager(NULL),
-    uploadFileManager(NULL),
-    foldersManager(NULL),
-    filesManager(NULL),
-    additionalFilesManager(NULL),
     createFolderDialog(NULL)
 {
     this->parent = static_cast<QWidget*>(parent);
@@ -22,14 +16,6 @@ DriveEngine::DriveEngine(QObject *parent) :
 DriveEngine::~DriveEngine()
 {
     qDebug() << "DriveEngine::~DriveEngine()";
-
-    if(downloadManager) downloadManager->deleteLater();
-    if(uploadFileManager) uploadFileManager->deleteLater();
-    if(foldersManager) foldersManager->deleteLater();
-    if(filesManager) filesManager->deleteLater();
-    if(additionalFilesManager) additionalFilesManager->deleteLater();
-    if(oAuth2) oAuth2->deleteLater();
-    if(createFolderDialog) delete createFolderDialog;
 }
 
 void DriveEngine::slotStartLogin()
@@ -45,10 +31,9 @@ void DriveEngine::slotStartLoginFromMenu()
 
 void DriveEngine::init(void)
 {
-    if(!oAuth2) oAuth2 = new OAuth2(parent);
-    //if(!foldersManager) foldersManager = new FoldersManager;
-    if(!additionalFilesManager) additionalFilesManager = new AdditionalFoldersManager;
-    if(!filesManager) filesManager = new FilesManager;
+    oAuth2.reset(new OAuth2(parent));
+    additionalFilesManager.reset(new AdditionalFoldersManager);
+    filesManager.reset(new FilesManager);
 
     setConnections();
     showFolders();
@@ -67,13 +52,13 @@ void DriveEngine::setConnections(void)
 
 OAuth2* DriveEngine::getOAuth2(void) const
 {
-    return oAuth2;
+    return oAuth2.data();
 }
 
 void DriveEngine::slotDownload(void)
 {    
-    if(elementsStates[EAdditionalViewFocused]) download(additionalFilesManager);
-    else download(filesManager);
+    if(elementsStates[EAdditionalViewFocused]) download(additionalFilesManager.data());
+    else download(filesManager.data());
 }
 
 void DriveEngine::slotUpload(void)
@@ -100,12 +85,10 @@ void DriveEngine::download(FilesManager* manager)
     {
         if(slotCheckWorkDir(false))
         {
-            QString fileName = settings.value(WORK_DIR).toString() + "\/" + item[index].name;
+            QString fileName = settings.value(WORK_DIR).toString() + "/" + item[index].name;
             QString fileType =  item[index].fileType;
 
-            if(downloadManager) downloadManager->deleteLater();
-            downloadManager = new DownloadFileManager(parent);
-
+            downloadManager.reset(new DownloadFileManager(parent));
             downloadManager->startDownload(QUrl(downloadLink), fileName, fileType);
         }
         else CommonTools::msg(SET_DIR_REMINDER_MSG);
@@ -136,12 +119,9 @@ void DriveEngine::upload(void)
         qDebug() << "uploadLink:" << item[index].uploadLink;
 
         if(!uploadLink.isEmpty())
-        {
-            if(uploadFileManager) uploadFileManager->deleteLater();
-            uploadFileManager = new UploadFileManager(parent);
-
-            connect(uploadFileManager, SIGNAL(signalUpdateFileList()), parent, SLOT(slotUpdateFileList()));
-
+        {    
+            uploadFileManager.reset(new UploadFileManager(parent));
+            connect(uploadFileManager.data(), SIGNAL(signalUpdateFileList()), parent, SLOT(slotUpdateFileList()));
             uploadFileManager->startUpload(uploadLink, fileName);
         }
     }
@@ -271,9 +251,7 @@ void DriveEngine::slotAdditionalShowFiles(const QModelIndex& index)
 
 void DriveEngine::showFolders(void)
 {
-    if(foldersManager) delete foldersManager;
-    foldersManager = new FoldersManager;
-
+    foldersManager.reset(new FoldersManager);
     foldersManager->get(GET_FOLDERS);
     //connect(foldersManager, SIGNAL(signalFoldersShowed()), this, SLOT(slotFoldersShowed()));
 }
@@ -314,7 +292,7 @@ void DriveEngine::showFiles(void)
 bool DriveEngine::folderInFilesView(QString& resourceID)
 {
     QList<TreeItemInfo::Data> item = filesManager->getParser()->getXMLHandler()->getTreeItemInfo()->getFileItems();
-    int index = getCurrentFileItemIndex(filesManager);
+    int index = getCurrentFileItemIndex(filesManager.data());
     bool isFolder = false;
 
     QString str(item[index].self);
@@ -348,7 +326,7 @@ void DriveEngine::showFilesFromFolderInFilesView(void)
 
 FoldersManager* DriveEngine::getFoldersManager(void) const
 {
-    return foldersManager;
+    return foldersManager.data();
 }
 
 void DriveEngine::slotFilesSortIndicatorChanged(int logicalIndex, Qt::SortOrder order)
@@ -380,8 +358,8 @@ void DriveEngine::slotDel(QObject* object)
         qDebug() << "file";
         FilesManager* manager;
 
-        if(elementsStates[EAdditionalViewFocused]) manager = additionalFilesManager;
-        else manager = filesManager;
+        if(elementsStates[EAdditionalViewFocused]) manager = additionalFilesManager.data();
+        else manager = filesManager.data();
 
         QList<TreeItemInfo::Data> itemData = manager->getParser()->getXMLHandler()->getTreeItemInfo()->getFileItems();
 
@@ -436,11 +414,11 @@ void DriveEngine::slotCreateFolder()
 {
     qDebug() << "slotCreateFolder";
 
-    if(createFolderDialog) delete createFolderDialog;
     createFolderDialog = new CreateFolderDialog(parent);
 
     connect(createFolderDialog, SIGNAL(signalAccept(const QString&)), this, SLOT(slotAcceptCreateFolder(const QString&)));
     connect(createFolderDialog, SIGNAL(signalReject()), this, SLOT(slotRejectCreateFolder()));
+    connect(createFolderDialog, SIGNAL(signalFinished(int)), this, SLOT(slotFinishedCreateFolder(int)));
 
     createFolderDialog->exec();
 }
@@ -448,19 +426,20 @@ void DriveEngine::slotCreateFolder()
 void DriveEngine::slotAcceptCreateFolder(const QString& name)
 {
     qDebug() << "DriveEngine::slotAcceptCreateFolder";
-
-    createFolder(name);
-
+    createFolder(name);  
     delete createFolderDialog;
-    createFolderDialog = NULL;
 }
 
 void DriveEngine::slotRejectCreateFolder()
 {
     qDebug() << "DriveEngine::slotRejectCreateFolder()";
-
     delete createFolderDialog;
-    createFolderDialog = NULL;
+}
+
+void DriveEngine::slotFinishedCreateFolder(int result)
+{
+ qDebug() << "DriveEngine::slotFinishedCreateFolder() result:" << result;
+ delete createFolderDialog;
 }
 
 void DriveEngine::createFolder(const QString& name)

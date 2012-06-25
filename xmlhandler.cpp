@@ -3,8 +3,8 @@
 #include <QDebug>
 
 XMLHandler::XMLHandler(int type):
-    queryType(type),
     itemInfo(new TreeItemInfo),
+    queryType(type), 
     resDownloadedCount(0),
     isResDownloding(false)
 {
@@ -13,7 +13,6 @@ XMLHandler::XMLHandler(int type):
 
 XMLHandler::~XMLHandler()
 {
-    delete itemInfo;
 }
 
 bool XMLHandler::startElement(const QString &namespaceURI, const QString &localName, const QString &qName, const QXmlAttributes &attribs)
@@ -77,7 +76,7 @@ bool XMLHandler::characters(const QString &str)
 
 TreeItemInfo* XMLHandler::getTreeItemInfo(void) const
 {
-    return itemInfo;
+    return itemInfo.data();
 }
 
 bool XMLHandler::fatalError(const QXmlParseException &exception)
@@ -163,7 +162,6 @@ void XMLHandler::setDefaults(void)
     itemData.fileSize = "---";
     itemData.fileUpdated = "";
     itemData.parent = ROOT_TAG;
-    //itemData.self = "";
 }
 
 bool XMLHandler::resDownloadingNow(void) const

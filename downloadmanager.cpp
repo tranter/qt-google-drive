@@ -6,6 +6,7 @@
 DownloadFileManager::DownloadFileManager(QObject *parent) :
     NetworkManager(parent)
 {
+  qDebug() << "DownloadFileManager::DownloadFileManager";
 }
 
 void DownloadFileManager::setDownloadSettings(void)

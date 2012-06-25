@@ -19,8 +19,7 @@ public:
     void setType(int type);
 
 private:
-    XMLHandler* xmlHandler;
-
+    QScopedPointer<XMLHandler> xmlHandler;
 };
 
 #endif // XMLPARSER_H

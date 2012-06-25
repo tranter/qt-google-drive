@@ -46,14 +46,15 @@ private:
     void setDefaults();
 
 private:
-    int queryType;
-    TreeItemInfo* itemInfo;
+    QScopedPointer<TreeItemInfo> itemInfo;
     TreeItemInfo::Data itemData;
-    bool tags[ETagsCount];
     QList<ResManager*> resManagers;
-    int resDownloadedCount;
     QLocale locale;
+
+    int queryType;
+    int resDownloadedCount;
     bool isResDownloding;
+    bool tags[ETagsCount];     
 };
 
 #endif // XMLHANDLER_H
