@@ -42,8 +42,15 @@ signals:
     void signalAllResDownloaded(int);
 
 private:
-    bool handleReply(const QString &qName, const QXmlAttributes &attribs, int queryType);
-    void setDefaults();
+    bool handleReply(const QString& qName, const QXmlAttributes &attribs);
+    void handleAuthorTag(const QString &str, bool entryTag);
+    void handleTitleTag(const QString &str);
+    void handleSizeTag(const QString &str);
+    void handleUpdatedTag(const QString &str);
+    void setDefaults(void);
+    void setTag(const QString& qName, bool state);
+    void setItemType(QString& itemType);
+    void saveResData(const QXmlAttributes& attribs);
 
 private:
     QScopedPointer<TreeItemInfo> itemInfo;
