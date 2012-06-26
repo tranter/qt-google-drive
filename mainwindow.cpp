@@ -23,7 +23,7 @@ void MainWindow::init(void)
 {
     qDebug() << "MainWindow::init";
 
-    if(!CheckReg()) return;
+    if(!checkReg()) return;
 
     driveEngine.reset(new DriveEngine(this));
     driveEngine->init();
@@ -76,11 +76,11 @@ void MainWindow::slotUpdateFileList()
     driveEngine->showFiles();
 }
 
-bool MainWindow::CheckReg(void)
+bool MainWindow::checkReg(void)
 {
     bool regState = true;
 
-    if(CLIENT_ID == "YOUR_CLIENT_ID_HERE" || REDIRECT_URI == "YOUR_REDIRECT_URI_HERE" || CLIENT_SECRET == "YOUR_CLIENT_SECRET")
+    if(CLIENT_ID == QString("YOUR_CLIENT_ID_HERE") || REDIRECT_URI == QString("YOUR_REDIRECT_URI_HERE") || CLIENT_SECRET == QString("YOUR_CLIENT_SECRET"))
     {
         regState = false;
 

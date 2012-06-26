@@ -28,7 +28,7 @@ public:
 
 private:
     void setConnections(void);
-    bool CheckReg(void);
+    bool checkReg(void);
 
 private slots:
     void slotloginDone();
