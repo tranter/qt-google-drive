@@ -1,12 +1,10 @@
 #include "downloadmanager.h"
-#include <QDebug>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
 DownloadFileManager::DownloadFileManager(QObject *parent) :
     NetworkManager(parent)
 {
-  qDebug() << "DownloadFileManager::DownloadFileManager";
 }
 
 void DownloadFileManager::setDownloadSettings(void)

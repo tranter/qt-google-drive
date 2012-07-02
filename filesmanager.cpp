@@ -1,29 +1,20 @@
 #include "filesmanager.h"
 #include "mainwindow.h"
-#include <QDebug>
 
 FilesManager::FilesManager(QObject *parent):
     ContentManager(FILE_TYPE, parent)
 {
-    qDebug() << "FilesManager::FilesManager()";
 }
 
 FilesManager::~FilesManager()
 {
-    qDebug() << "FilesManager::~FilesManager()";
     SUi::Inst()->filesView->clear();
 }
 
 void FilesManager::show(void)
 {
-    qDebug() << "FilesManager::show";
-
     QList<TreeItemInfo::Data> fileItems = parser->getXMLHandler()->getTreeItemInfo()->getFileItems();
-
-    qDebug() << "FilesManager::show items.count():" << QString::number(items.count());
-
     clear();
-
     SUi::Inst()->filesView->clear();
 
     for(int i = 1; i < fileItems.count(); ++i)

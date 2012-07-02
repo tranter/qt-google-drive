@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QDebug>
 #include <QFile>
 #include <QMessageBox>
 #include "AppRegData.h"
@@ -26,7 +25,7 @@ void MainWindow::init(void)
     if(!CheckReg()) return;
 
     SDriveEngine::FreeInst();
-    SDriveEngine::Inst()->init();
+    SDriveEngine::Inst(this)->init();
     SDriveEngine::Inst()->slotCheckWorkDir(false);
 
     setConnections();
@@ -98,7 +97,7 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event)
     return false;
 }
 
-Ui::MainWindow* SUi::Inst()
+Ui::MainWindow* SUi::Inst(QObject *parent)
 {
     if(!ui) ui = new Ui::MainWindow;
     return ui;
@@ -109,9 +108,9 @@ void SUi::FreeInst(void)
     if(ui) delete ui; ui = NULL;
 }
 
-DriveEngine* SDriveEngine::Inst()
+DriveEngine* SDriveEngine::Inst(QObject *parent)
 {
-    if(!driveEngine) driveEngine = new DriveEngine;
+    if(!driveEngine) driveEngine = new DriveEngine(parent);
     return driveEngine;
 }
 

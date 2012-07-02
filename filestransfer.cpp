@@ -66,13 +66,11 @@ void FilesTransfer::upload(void)
 
 void FilesTransfer::slotDownload(void)
 {
-    qDebug("FilesTransfer::slotDownload");
     if(SDriveEngine::Inst()->elementsStates[DriveEngine::EAdditionalViewFocused]) download(SDriveEngine::Inst()->additionalFilesManager.data());
     else download(SDriveEngine::Inst()->filesManager.data());
 }
 
 void FilesTransfer::slotUpload(void)
 {
-    qDebug("FilesTransfer::slotUpload");
     upload();
 }

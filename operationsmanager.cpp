@@ -10,7 +10,6 @@ OperationsManager::OperationsManager(QObject *parent):
 
 void OperationsManager::del(const QString& resUrl)
 {
-    qDebug() << "OperationsManager::del" << getFileQuery(resUrl);
     CommonTools::setHeader(request);
     request.setRawHeader("If-Match", "*");
     delRes(getFileQuery(resUrl));
@@ -18,8 +17,6 @@ void OperationsManager::del(const QString& resUrl)
 
 void OperationsManager::createFolder(const QString& folderUrl, const QString& name)
 {
-    qDebug() << "OperationsManager::createCollection";
-
     QString url(folderUrl + "/contents");
 
 //    CommonTools::setHeader(request);
@@ -88,7 +85,6 @@ QString OperationsManager::getFileQuery(const QString& url)
 
 void OperationsManager::slotReplyFinished(QNetworkReply* reply)
 {
-  qDebug() << "OperationsManager::slotReplyFinished";
   emit signalDelFinished();
 }
 

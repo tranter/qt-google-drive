@@ -1,5 +1,4 @@
 #include "oauth2.h"
-#include <QDebug>
 #include <QApplication>
 #include "logindialog.h"
 #include <QSettings>
@@ -57,7 +56,6 @@ void OAuth2::slotReplyFinished(QNetworkReply* reply)
 {
     QSettings settings(COMPANY_NAME, APP_NAME);
     QString replyStr = reply->readAll();
-    qDebug() << "Reply:" << replyStr << "\n";
 
     int expires = getParamFromJson(replyStr, "expires_in").toInt();
     accessToken = getParamFromJson(replyStr, "access_token");
@@ -71,11 +69,8 @@ void OAuth2::slotReplyFinished(QNetworkReply* reply)
         settings.setValue("refresh_token", refreshToken);
     }
 
-    qDebug() << "access_token:" << accessToken;
-    qDebug() << "refresh_token:" << refreshToken;
-    qDebug() << "expires_in:" << QString::number(expires);
-
     if(!accessToken.isEmpty()) QTimer::singleShot((expires - 120) * 1000, this, SLOT(getAccessTokenFromRefreshToken()));
+
     emit loginDone();
 }
 
@@ -124,7 +119,7 @@ QString OAuth2::permanentLoginUrl()
 {
     QString str = QString("%1?client_id=%2&redirect_uri=%3&response_type=code&scope=%4&approval_prompt=force&access_type=offline").
             arg(endPoint).arg(clientID).arg(redirectURI).arg(scope);
-    qDebug() << "permanentLoginUrl URL" << str;
+
     return str;
 }
 
@@ -136,8 +131,6 @@ bool OAuth2::isAuthorized()
 
 void OAuth2::startLogin(bool bForce)
 {
-    qDebug() << "OAuth2::startLogin";
-
     if(accessToken.isEmpty() || refreshToken.isEmpty() || bForce)
     {
         loginDialog->setLoginUrl(permanentLoginUrl());
@@ -151,7 +144,6 @@ void OAuth2::startLogin(bool bForce)
 
 void OAuth2::getAccessTokenFromRefreshToken()
 {
-    qDebug() << "OAuth2::getAccessTokenFromRefreshToken";
     QUrl url(OAUTH2_TOKEN_URL);
     QNetworkRequest request;
     request.setUrl(url);

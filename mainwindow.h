@@ -40,7 +40,7 @@ signals:
 class SUi
 {
 public:
-    static Ui::MainWindow* Inst();
+    static Ui::MainWindow* Inst(QObject *parent = 0);
     static void FreeInst(void);
 
 private:
@@ -55,7 +55,7 @@ private:
 class SDriveEngine
 {
 public:
-    static DriveEngine* Inst();
+    static DriveEngine* Inst(QObject *parent = 0);
     static void FreeInst(void);
 
 private:

@@ -1,5 +1,5 @@
 #include "commontools.h"
-#include <QDebug>
+#include <QLocale>
 
 void CommonTools::setHeader(QNetworkRequest& request)
 {

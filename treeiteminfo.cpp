@@ -1,5 +1,4 @@
 #include "treeiteminfo.h"
-#include <QDebug>
 
 TreeItemInfo::TreeItemInfo()
 {
@@ -67,10 +66,4 @@ void TreeItemInfo::setDataOwner(const QString& name, int index, int type)
         break;
     }
 }
-
-//void TreeItemInfo::showFiles(void)
-//{
-//    for(int i = 0; i < fileItems.count(); ++i)
-//        qDebug() << "file: " << fileItems[i].name;
-//}
 
