@@ -84,7 +84,8 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event)
     {
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
 
-        if (keyEvent->key() == Qt::Key_Delete) {
+        if (keyEvent->key() == Qt::Key_Delete)
+        {
             emit signalDel(object);
             return true;
         }
@@ -105,7 +106,8 @@ Ui::MainWindow* SUi::Inst(void)
 
 void SUi::FreeInst(void)
 {
-    if(ui) delete ui; ui = NULL;
+    if(ui) delete ui;
+    ui = NULL;
 }
 
 DriveEngine* SDriveEngine::Inst(QObject *parent)
@@ -116,5 +118,6 @@ DriveEngine* SDriveEngine::Inst(QObject *parent)
 
 void SDriveEngine::FreeInst(void)
 {
-    if(driveEngine) delete driveEngine; driveEngine = NULL;
+    if(driveEngine) delete driveEngine;
+    driveEngine = NULL;
 }
