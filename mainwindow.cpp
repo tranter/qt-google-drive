@@ -97,7 +97,7 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event)
     return false;
 }
 
-Ui::MainWindow* SUi::Inst(QObject *parent)
+Ui::MainWindow* SUi::Inst(void)
 {
     if(!ui) ui = new Ui::MainWindow;
     return ui;

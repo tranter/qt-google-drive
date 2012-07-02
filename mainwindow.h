@@ -40,7 +40,7 @@ signals:
 class SUi
 {
 public:
-    static Ui::MainWindow* Inst(QObject *parent = 0);
+    static Ui::MainWindow* Inst(void);
     static void FreeInst(void);
 
 private:
