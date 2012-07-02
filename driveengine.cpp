@@ -37,15 +37,15 @@ void DriveEngine::init(void)
     showFolders();
     showAdditionalFolders();
 
-    UiInstance::Instance()->filesView->header()->resizeSection(0, 380);
+    SUi::Inst()->filesView->header()->resizeSection(0, 380);
 }
 
 void DriveEngine::setConnections(void)
 {
-    connect(UiInstance::Instance()->foldersView, SIGNAL(clicked (const QModelIndex&)), this, SLOT(slotFoldersViewClicked(const QModelIndex&)));
-    connect(UiInstance::Instance()->filesView, SIGNAL(clicked (const QModelIndex&)), this, SLOT(slotFilesViewClicked(const QModelIndex&)));
-    connect(UiInstance::Instance()->additionalFoldersView, SIGNAL(clicked (const QModelIndex&)), this, SLOT(slotAdditionalShowFiles(const QModelIndex&)));
-    connect(UiInstance::Instance()->filesView->header(), SIGNAL(sortIndicatorChanged(int, Qt::SortOrder)), this, SLOT(slotFilesSortIndicatorChanged(int, Qt::SortOrder)));
+    connect(SUi::Inst()->foldersView, SIGNAL(clicked (const QModelIndex&)), this, SLOT(slotFoldersViewClicked(const QModelIndex&)));
+    connect(SUi::Inst()->filesView, SIGNAL(clicked (const QModelIndex&)), this, SLOT(slotFilesViewClicked(const QModelIndex&)));
+    connect(SUi::Inst()->additionalFoldersView, SIGNAL(clicked (const QModelIndex&)), this, SLOT(slotAdditionalShowFiles(const QModelIndex&)));
+    connect(SUi::Inst()->filesView->header(), SIGNAL(sortIndicatorChanged(int, Qt::SortOrder)), this, SLOT(slotFilesSortIndicatorChanged(int, Qt::SortOrder)));
 }
 
 OAuth2* DriveEngine::getOAuth2(void) const
@@ -125,7 +125,7 @@ void DriveEngine::slotUpload(void)
 
 int DriveEngine::getCurrentFolderItemIndex(void) const
 {
-    QTreeWidgetItem* pointer = static_cast<QTreeWidgetItem*>(UiInstance::Instance()->foldersView->currentIndex().internalPointer());
+    QTreeWidgetItem* pointer = static_cast<QTreeWidgetItem*>(SUi::Inst()->foldersView->currentIndex().internalPointer());
     TreeItemInfo item = *foldersManager->getParser()->getXMLHandler()->getTreeItemInfo();
     int count = item.getItems().count();
 
@@ -147,7 +147,7 @@ int DriveEngine::getCurrentFileItemIndex(FilesManager* manager) const
 {
     QList<TreeItemInfo::Data> item = manager->getParser()->getXMLHandler()->getTreeItemInfo()->getFileItems();
     int count = item.count();
-    QString fileName(UiInstance::Instance()->filesView->currentIndex().data().toString());
+    QString fileName(SUi::Inst()->filesView->currentIndex().data().toString());
 
     int currentFileIndex = 0;
 
@@ -321,9 +321,15 @@ void DriveEngine::slotFilesSortIndicatorChanged(int logicalIndex, Qt::SortOrder 
     qDebug() << "index:" << QString::number(logicalIndex) << " order:" << order;
 }
 
+void DriveEngine::slotUpdateFileList()
+{
+    qDebug("DriveEngine::slotUpdateFileList");
+    SDriveEngine::Inst()->showFiles();
+}
+
 void DriveEngine::slotDel(QObject* object)
 {
-    if (object == UiInstance::Instance()->foldersView)
+    if (object == SUi::Inst()->foldersView)
     {
         if(!elementsStates[EAdditionalViewFocused])
         {
@@ -338,7 +344,7 @@ void DriveEngine::slotDel(QObject* object)
         }
     }
 
-    if (object == UiInstance::Instance()->filesView)
+    if (object == SUi::Inst()->filesView)
     {
         FilesManager* manager;
 
@@ -359,13 +365,13 @@ void DriveEngine::delItemInTree(TreeItemInfo item)
 
     if (parent)
     {
-        index = parent->indexOfChild(UiInstance::Instance()->foldersView->currentItem());
+        index = parent->indexOfChild(SUi::Inst()->foldersView->currentItem());
         delete parent->takeChild(index);
     }
     else
     {
-        index = UiInstance::Instance()->foldersView->indexOfTopLevelItem(UiInstance::Instance()->foldersView->currentItem());
-        delete UiInstance::Instance()->foldersView->takeTopLevelItem(index);
+        index = SUi::Inst()->foldersView->indexOfTopLevelItem(SUi::Inst()->foldersView->currentItem());
+        delete SUi::Inst()->foldersView->takeTopLevelItem(index);
     }
 }
 
@@ -376,8 +382,8 @@ void DriveEngine::slotTriggeredDel()
 
     QObject* object;
 
-    if(elementsStates[EFolderViewFocused]) object = UiInstance::Instance()->foldersView;
-    else object = UiInstance::Instance()->filesView;
+    if(elementsStates[EFolderViewFocused]) object = SUi::Inst()->foldersView;
+    else object = SUi::Inst()->filesView;
 
     slotDel(object);
 }

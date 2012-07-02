@@ -11,7 +11,7 @@ FilesManager::FilesManager(QObject *parent):
 FilesManager::~FilesManager()
 {
     qDebug() << "FilesManager::~FilesManager()";
-    UiInstance::Instance()->filesView->clear();
+    SUi::Inst()->filesView->clear();
 }
 
 void FilesManager::show(void)
@@ -24,11 +24,11 @@ void FilesManager::show(void)
 
     clear();
 
-    UiInstance::Instance()->filesView->clear();
+    SUi::Inst()->filesView->clear();
 
     for(int i = 1; i < fileItems.count(); ++i)
     {
-        items.push_back(new QTreeWidgetItem(UiInstance::Instance()->filesView));
+        items.push_back(new QTreeWidgetItem(SUi::Inst()->filesView));
         items.last()->setText(0, fileItems[i].name);
         items.last()->setIcon(0, QPixmap(fileItems[i].iconPath));
         items.last()->setText(1, fileItems[i].dataOwner);
@@ -36,8 +36,8 @@ void FilesManager::show(void)
         items.last()->setText(3, fileItems[i].fileSize);
     }
 
-    UiInstance::Instance()->filesView->setSortingEnabled(true);
-    UiInstance::Instance()->filesView->sortItems(0, Qt::AscendingOrder);
+    SUi::Inst()->filesView->setSortingEnabled(true);
+    SUi::Inst()->filesView->sortItems(0, Qt::AscendingOrder);
 }
 
 void FilesManager::sort(int column, Qt::SortOrder order)

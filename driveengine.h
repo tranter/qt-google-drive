@@ -65,6 +65,7 @@ private slots:
     void slotAdditionalShowFiles(const QModelIndex& index);
     void slotFilesSortIndicatorChanged(int logicalIndex, Qt::SortOrder order);
     void slotTriggeredDel();
+    void slotUpdateFileList();
 
 private:
     void setConnections(void);

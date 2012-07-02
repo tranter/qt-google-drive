@@ -32,36 +32,36 @@ private:
 
 private slots:
     void slotloginDone();
-    void slotUpdateFileList();
 
 signals:
     void signalDel(QObject* object);
-    
-private:
-    DriveEngine* driveEngine;
 };
 
-class UiInstance
+class SUi
 {
 public:
-    static Ui::MainWindow* Instance();
+    static Ui::MainWindow* Inst();
+    inline static void FreeInst(void){if(ui) delete ui; ui = NULL;}
 
 private:
-    UiInstance(){};
-    Q_DISABLE_COPY(UiInstance);
+    SUi(){}
+    ~SUi();
+    Q_DISABLE_COPY(SUi);
 
 private:
     static Ui::MainWindow* ui;
 };
 
-class DriveEngineInstance
+class SDriveEngine
 {
 public:
-    static DriveEngine* Instance();
+    static DriveEngine* Inst();
+    inline static void FreeInst(void){if(driveEngine) delete driveEngine; driveEngine = NULL;}
 
 private:
-    DriveEngineInstance(){};
-    Q_DISABLE_COPY(DriveEngineInstance);
+    SDriveEngine(){}
+    ~SDriveEngine();
+    Q_DISABLE_COPY(SDriveEngine);
 
 private:
     static DriveEngine* driveEngine;
