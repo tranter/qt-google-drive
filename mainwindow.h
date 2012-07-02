@@ -38,19 +38,33 @@ signals:
     void signalDel(QObject* object);
     
 private:
-    Ui::MainWindow* ui;
-    QScopedPointer<DriveEngine> driveEngine;
+    DriveEngine* driveEngine;
 };
 
 class UiInstance
 {
 public:
     static Ui::MainWindow* Instance();
-    static Ui::MainWindow* ui;
 
 private:
     UiInstance(){};
     Q_DISABLE_COPY(UiInstance);
+
+private:
+    static Ui::MainWindow* ui;
+};
+
+class DriveEngineInstance
+{
+public:
+    static DriveEngine* Instance();
+
+private:
+    DriveEngineInstance(){};
+    Q_DISABLE_COPY(DriveEngineInstance);
+
+private:
+    static DriveEngine* driveEngine;
 };
 
 #endif // MAINWINDOW_H

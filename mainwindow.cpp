@@ -7,16 +7,18 @@
 #include <QKeyEvent>
 
 Ui::MainWindow* UiInstance::ui = NULL;
+DriveEngine* DriveEngineInstance::driveEngine = NULL;
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent)
+    QMainWindow(parent),
+    driveEngine(NULL)
 {
     UiInstance::Instance()->setupUi(this);
 }
 
 MainWindow::~MainWindow()
 {
-    delete UiInstance::ui;
+     if(driveEngine) delete driveEngine;
 }
 
 void MainWindow::init(void)
@@ -25,14 +27,15 @@ void MainWindow::init(void)
 
     if(!CheckReg()) return;
 
-    driveEngine.reset(new DriveEngine(this));
+    if(driveEngine) delete driveEngine;
+    driveEngine = DriveEngineInstance::Instance();
     driveEngine->init();
     driveEngine->slotCheckWorkDir(false);
 
     setConnections();
 
-    UiInstance::ui->foldersView->installEventFilter(this);
-    UiInstance::ui->filesView->installEventFilter(this);
+    UiInstance::Instance()->foldersView->installEventFilter(this);
+    UiInstance::Instance()->filesView->installEventFilter(this);
 
     QTextCodec::setCodecForCStrings(QTextCodec::codecForLocale());
     QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
@@ -40,39 +43,43 @@ void MainWindow::init(void)
 
 void MainWindow::setConnections(void)
 {
-    connect(UiInstance::ui->actionMenuLogin, SIGNAL(triggered()), driveEngine.data(), SLOT(slotStartLoginFromMenu()));
-    connect(UiInstance::ui->actionMenuQuit, SIGNAL(triggered()), this, SLOT(close()));
-    connect(UiInstance::ui->actionMenuDownload, SIGNAL(triggered()), driveEngine.data(), SLOT(slotDownload()));
-    connect(UiInstance::ui->actionDownload, SIGNAL(triggered()), driveEngine.data(), SLOT(slotDownload()));
-    connect(UiInstance::ui->actionMenuUpload, SIGNAL(triggered()), driveEngine.data(), SLOT(slotUpload()));
-    connect(UiInstance::ui->actionUpload, SIGNAL(triggered()), driveEngine.data(), SLOT(slotUpload()));
-    connect(UiInstance::ui->actionMenuSettings, SIGNAL(triggered()), driveEngine.data(), SLOT(slotCheckWorkDir()));
-    connect(UiInstance::ui->actionSettings, SIGNAL(triggered()), driveEngine.data(), SLOT(slotCheckWorkDir()));
+    connect(UiInstance::Instance()->actionMenuLogin, SIGNAL(triggered()), driveEngine, SLOT(slotStartLoginFromMenu()));
+    connect(UiInstance::Instance()->actionMenuQuit, SIGNAL(triggered()), this, SLOT(close()));
+    connect(UiInstance::Instance()->actionMenuDownload, SIGNAL(triggered()), driveEngine, SLOT(slotDownload()));
+    connect(UiInstance::Instance()->actionDownload, SIGNAL(triggered()), driveEngine, SLOT(slotDownload()));
+    connect(UiInstance::Instance()->actionMenuUpload, SIGNAL(triggered()), driveEngine, SLOT(slotUpload()));
+    connect(UiInstance::Instance()->actionUpload, SIGNAL(triggered()), driveEngine, SLOT(slotUpload()));
+    connect(UiInstance::Instance()->actionMenuSettings, SIGNAL(triggered()), driveEngine, SLOT(slotCheckWorkDir()));
+    connect(UiInstance::Instance()->actionSettings, SIGNAL(triggered()), driveEngine, SLOT(slotCheckWorkDir()));
     connect(driveEngine->getOAuth2(), SIGNAL(loginDone()), this, SLOT(slotloginDone()));
-    connect(driveEngine->getFoldersManager(), SIGNAL(signalAccessTokenRequired()), driveEngine.data(), SLOT(slotStartLogin()));
-    connect(this, SIGNAL(signalDel(QObject*)), driveEngine.data(), SLOT(slotDel(QObject*)));
-    connect(UiInstance::ui->actionMenuDelete, SIGNAL(triggered()), driveEngine.data(), SLOT(slotTriggeredDel()));
-    connect(UiInstance::ui->actionDelete, SIGNAL(triggered()), driveEngine.data(), SLOT(slotTriggeredDel()));
-    connect(UiInstance::ui->actionMenuCreateFolder, SIGNAL(triggered()), driveEngine.data(), SLOT(slotCreateFolder()));
-    connect(UiInstance::ui->actionCreateFolder, SIGNAL(triggered()), driveEngine.data(), SLOT(slotCreateFolder()));
+    connect(driveEngine->getFoldersManager(), SIGNAL(signalAccessTokenRequired()), driveEngine, SLOT(slotStartLogin()));
+    connect(this, SIGNAL(signalDel(QObject*)), driveEngine, SLOT(slotDel(QObject*)));
+    connect(UiInstance::Instance()->actionMenuDelete, SIGNAL(triggered()), driveEngine, SLOT(slotTriggeredDel()));
+    connect(UiInstance::Instance()->actionDelete, SIGNAL(triggered()), driveEngine, SLOT(slotTriggeredDel()));
+    connect(UiInstance::Instance()->actionMenuCreateFolder, SIGNAL(triggered()), driveEngine, SLOT(slotCreateFolder()));
+    connect(UiInstance::Instance()->actionCreateFolder, SIGNAL(triggered()), driveEngine, SLOT(slotCreateFolder()));
 }
 
 Ui::MainWindow* UiInstance::Instance()
 {
-    if(!UiInstance::ui) UiInstance::ui = new Ui::MainWindow;
-
-    return UiInstance::ui;
+    if(!ui) ui = new Ui::MainWindow;
+    return ui;
 }
 
-void MainWindow::slotloginDone(void)
+DriveEngine* DriveEngineInstance::Instance()
 {
-    qDebug() << "MainWindow::slotloginDone";
+    if(!driveEngine) driveEngine = new DriveEngine;
+    return driveEngine;
+}
+
+void MainWindow::slotloginDone()
+{
     init();
 }
 
 void MainWindow::slotUpdateFileList()
 {
-    qDebug() << "MainWindow::slotUpdateFileList";
+    qDebug("MainWindow::slotUpdateFileList");
     driveEngine->showFiles();
 }
 

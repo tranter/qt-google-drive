@@ -13,11 +13,13 @@
 #include "foldersmanager.h"
 #include "additionalfoldesmanager.h"
 #include "createfolderdialog.h"
+#include "filiestransfer.h"
 
 class FoldersManager;
 class FilesManager;
 class AdditionalFoldersManager;
 class CreateFolderDialog;
+class FiliesTransfer;
 
 class DriveEngine : public QObject
 {
@@ -34,6 +36,9 @@ public:
 
     explicit DriveEngine(QObject *parent = 0);
     ~DriveEngine();
+
+public:
+    friend class FiliesTransfer;
 
 public:
     void init(void);
@@ -60,14 +65,13 @@ private slots:
     void slotAdditionalShowFiles(const QModelIndex& index);
     void slotFilesSortIndicatorChanged(int logicalIndex, Qt::SortOrder order);
     void slotTriggeredDel();
-    //void slotFoldersShowed();
 
 private:
     void setConnections(void);
     int getCurrentFolderItemIndex(void) const;
     int getCurrentFileItemIndex(FilesManager* manager) const;
-    void download(FilesManager* manager);
-    void upload(void);
+//    void download(FilesManager* manager);
+//    void upload(void);
     bool folderInFilesView(QString &resourceID);
     void showFolders(void);
     void showAdditionalFolders(void);
@@ -83,6 +87,8 @@ private:
     bool elementsStates[EElementsStatesCount];
 
     CreateFolderDialog* createFolderDialog;
+
+    QScopedPointer<FiliesTransfer> filiesTransfer;
 
     QScopedPointer<DownloadFileManager> downloadManager;
     QScopedPointer<UploadFileManager> uploadFileManager;

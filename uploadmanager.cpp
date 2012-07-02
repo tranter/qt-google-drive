@@ -9,6 +9,7 @@ UploadFileManager::UploadFileManager(QObject *parent) :
 
 void UploadFileManager::slotUploadFinished()
 {
+   qDebug("UploadFileManager::slotUploadFinished()");
    NetworkManager::slotUploadFinished();
    if (!operationCanceled) emit signalUpdateFileList();
 }
