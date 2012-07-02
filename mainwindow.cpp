@@ -23,8 +23,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::init(void)
 {
-    qDebug() << "MainWindow::init";
-
     if(!CheckReg()) return;
 
     SDriveEngine::FreeInst();
@@ -44,10 +42,10 @@ void MainWindow::setConnections(void)
 {
     connect(SUi::Inst()->actionMenuLogin, SIGNAL(triggered()), SDriveEngine::Inst(), SLOT(slotStartLoginFromMenu()));
     connect(SUi::Inst()->actionMenuQuit, SIGNAL(triggered()), this, SLOT(close()));
-    connect(SUi::Inst()->actionMenuDownload, SIGNAL(triggered()), SDriveEngine::Inst(), SLOT(slotDownload()));
-    connect(SUi::Inst()->actionDownload, SIGNAL(triggered()), SDriveEngine::Inst(), SLOT(slotDownload()));
-    connect(SUi::Inst()->actionMenuUpload, SIGNAL(triggered()), SDriveEngine::Inst(), SLOT(slotUpload()));
-    connect(SUi::Inst()->actionUpload, SIGNAL(triggered()), SDriveEngine::Inst(), SLOT(slotUpload()));
+    connect(SUi::Inst()->actionMenuDownload, SIGNAL(triggered()), SDriveEngine::Inst()->getfilesTransfer(), SLOT(slotDownload()));
+    connect(SUi::Inst()->actionDownload, SIGNAL(triggered()), SDriveEngine::Inst()->getfilesTransfer(), SLOT(slotDownload()));
+    connect(SUi::Inst()->actionMenuUpload, SIGNAL(triggered()), SDriveEngine::Inst()->getfilesTransfer(), SLOT(slotUpload()));
+    connect(SUi::Inst()->actionUpload, SIGNAL(triggered()), SDriveEngine::Inst()->getfilesTransfer(), SLOT(slotUpload()));
     connect(SUi::Inst()->actionMenuSettings, SIGNAL(triggered()), SDriveEngine::Inst(), SLOT(slotCheckWorkDir()));
     connect(SUi::Inst()->actionSettings, SIGNAL(triggered()), SDriveEngine::Inst(), SLOT(slotCheckWorkDir()));
     connect(SDriveEngine::Inst()->getOAuth2(), SIGNAL(loginDone()), this, SLOT(slotloginDone()));
@@ -59,34 +57,16 @@ void MainWindow::setConnections(void)
     connect(SUi::Inst()->actionCreateFolder, SIGNAL(triggered()), SDriveEngine::Inst(), SLOT(slotCreateFolder()));
 }
 
-Ui::MainWindow* SUi::Inst()
-{
-    if(!ui) ui = new Ui::MainWindow;
-    return ui;
-}
-
-DriveEngine* SDriveEngine::Inst()
-{
-    if(!driveEngine) driveEngine = new DriveEngine;
-    return driveEngine;
-}
-
 void MainWindow::slotloginDone()
 {
     init();
 }
 
-//void MainWindow::slotUpdateFileList()
-//{
-//    qDebug("MainWindow::slotUpdateFileList");
-//    SDriveEngine::Inst()->showFiles();
-//}
-
 bool MainWindow::CheckReg(void)
 {
     bool regState = true;
 
-    if(CLIENT_ID == "YOUR_CLIENT_ID_HERE" || REDIRECT_URI == "YOUR_REDIRECT_URI_HERE" || CLIENT_SECRET == "YOUR_CLIENT_SECRET")
+    if(CLIENT_ID == QString("YOUR_CLIENT_ID_HERE") || REDIRECT_URI == QString("YOUR_REDIRECT_URI_HERE") || CLIENT_SECRET == QString("YOUR_CLIENT_SECRET"))
     {
         regState = false;
 
@@ -116,4 +96,26 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event)
     }
 
     return false;
+}
+
+Ui::MainWindow* SUi::Inst()
+{
+    if(!ui) ui = new Ui::MainWindow;
+    return ui;
+}
+
+void SUi::FreeInst(void)
+{
+    if(ui) delete ui; ui = NULL;
+}
+
+DriveEngine* SDriveEngine::Inst()
+{
+    if(!driveEngine) driveEngine = new DriveEngine;
+    return driveEngine;
+}
+
+void SDriveEngine::FreeInst(void)
+{
+    if(driveEngine) delete driveEngine; driveEngine = NULL;
 }

@@ -31,7 +31,7 @@ void DriveEngine::init(void)
     oAuth2.reset(new OAuth2(parent));
     additionalFilesManager.reset(new AdditionalFoldersManager);
     filesManager.reset(new FilesManager);
-    filiesTransfer.reset(new FiliesTransfer);
+    filesTransfer.reset(new FilesTransfer);
 
     setConnections();
     showFolders();
@@ -52,76 +52,6 @@ OAuth2* DriveEngine::getOAuth2(void) const
 {
     return oAuth2.data();
 }
-
-void DriveEngine::slotDownload(void)
-{
-    if(elementsStates[EAdditionalViewFocused]) filiesTransfer->download(additionalFilesManager.data());
-    else filiesTransfer->download(filesManager.data());
-}
-
-void DriveEngine::slotUpload(void)
-{
-    filiesTransfer->upload();
-}
-
-//void DriveEngine::download(FilesManager* manager)
-//{
-//    if(downloadManager)
-//    {
-//        if(downloadManager->getState() == NetworkManager::EBusy) return;
-//    }
-
-//    QSettings settings(COMPANY_NAME, APP_NAME);
-
-//    QList<TreeItemInfo::Data> item = manager->getParser()->getXMLHandler()->getTreeItemInfo()->getFileItems();
-//    int index = getCurrentFileItemIndex(manager);
-
-//    QString downloadLink(item[index].downloadLink);
-
-//    if(!downloadLink.isEmpty())
-//    {
-//        if(slotCheckWorkDir(false))
-//        {
-//            QString fileName = settings.value(WORK_DIR).toString() + "/" + item[index].name;
-//            QString fileType =  item[index].fileType;
-
-//            downloadManager.reset(new DownloadFileManager(parent));
-//            downloadManager->startDownload(QUrl(downloadLink), fileName, fileType);
-//        }
-//        else CommonTools::msg(SET_DIR_REMINDER_MSG);
-//    }
-//}
-
-//void DriveEngine::upload(void)
-//{
-//    if(elementsStates[EAdditionalViewFocused])
-//    {
-//        CommonTools::msg("To upload a file please select a folder in \"Drive\" view");
-//        return;
-//    }
-
-//    if(uploadFileManager)
-//    {
-//        if(uploadFileManager->getState() == NetworkManager::EBusy) return;
-//    }
-
-//    QString fileName = QFileDialog::getOpenFileName(parent, "Uploading file", QDir::homePath(), "All files(*)");
-
-//    if(!fileName.isEmpty())
-//    {
-//        TreeItemInfo item = *foldersManager->getParser()->getXMLHandler()->getTreeItemInfo();
-//        int index = getCurrentFolderItemIndex();
-
-//        QString uploadLink(item[index].uploadLink + "/?convert=false");
-
-//        if(!uploadLink.isEmpty())
-//        {
-//            uploadFileManager.reset(new UploadFileManager(parent));
-//            connect(uploadFileManager.data(), SIGNAL(signalUpdateFileList()), parent, SLOT(slotUpdateFileList()));
-//            uploadFileManager->startUpload(uploadLink, fileName);
-//        }
-//    }
-//}
 
 int DriveEngine::getCurrentFolderItemIndex(void) const
 {
@@ -314,6 +244,11 @@ void DriveEngine::showFilesFromFolderInFilesView(void)
 FoldersManager* DriveEngine::getFoldersManager(void) const
 {
     return foldersManager.data();
+}
+
+FilesTransfer* DriveEngine::getfilesTransfer(void) const
+{
+    return filesTransfer.data();
 }
 
 void DriveEngine::slotFilesSortIndicatorChanged(int logicalIndex, Qt::SortOrder order)

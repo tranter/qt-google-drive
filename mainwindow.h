@@ -41,7 +41,7 @@ class SUi
 {
 public:
     static Ui::MainWindow* Inst();
-    inline static void FreeInst(void){if(ui) delete ui; ui = NULL;}
+    static void FreeInst(void);
 
 private:
     SUi(){}
@@ -56,7 +56,7 @@ class SDriveEngine
 {
 public:
     static DriveEngine* Inst();
-    inline static void FreeInst(void){if(driveEngine) delete driveEngine; driveEngine = NULL;}
+    static void FreeInst(void);
 
 private:
     SDriveEngine(){}
