@@ -13,7 +13,9 @@ namespace Ui
 }
 
 class DriveEngine;
-typedef TSingleton<DriveEngine> TDriveEngine;
+
+typedef TSingleton<Ui::MainWindow> SUi;
+typedef TSingleton<DriveEngine> SDriveEngine;
 
 class MainWindow : public QMainWindow
 {
@@ -37,36 +39,6 @@ private slots:
 
 signals:
     void signalDel(QObject* object);
-};
-
-class SUi
-{
-public:
-    static Ui::MainWindow* Inst(void);
-    static void FreeInst(void);
-
-private:
-    SUi();
-    ~SUi();
-    Q_DISABLE_COPY(SUi)
-
-private:
-    static Ui::MainWindow* ui;
-};
-
-class SDriveEngine
-{
-public:
-    static DriveEngine* Inst(QObject *parent = 0);
-    static void FreeInst(void);
-
-private:
-    SDriveEngine();
-    ~SDriveEngine();
-    Q_DISABLE_COPY(SDriveEngine)
-
-private:
-    static DriveEngine* driveEngine;
 };
 
 #endif // MAINWINDOW_H

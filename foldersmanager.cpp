@@ -24,9 +24,9 @@ void FoldersManager::slotError(QNetworkReply::NetworkError error)
 void FoldersManager::show(void)
 {
     clear();
-    SUi::Inst()->foldersView->clear();
+    SUi::inst()->foldersView->clear();
 
-    QTreeWidgetItem* root = new QTreeWidgetItem(SUi::Inst()->foldersView);
+    QTreeWidgetItem* root = new QTreeWidgetItem(SUi::inst()->foldersView);
 
     items.push_back(root);
     items.last()->setText(0, MAIN_TITLE);

@@ -8,7 +8,7 @@ class TSingleton
 {
 public:
     static T* inst(void);
-    static T* inst(QObject *parent = 0);
+    static T* inst(QObject *parent);
     static void freeInst(void);
 
 private:

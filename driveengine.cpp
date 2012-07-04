@@ -37,15 +37,15 @@ void DriveEngine::init(void)
     showFolders();
     showAdditionalFolders();
 
-    SUi::Inst()->filesView->header()->resizeSection(0, 380);
+    SUi::inst()->filesView->header()->resizeSection(0, 380);
 }
 
 void DriveEngine::setConnections(void)
 {
-    connect(SUi::Inst()->foldersView, SIGNAL(clicked (const QModelIndex&)), this, SLOT(slotFoldersViewClicked(const QModelIndex&)));
-    connect(SUi::Inst()->filesView, SIGNAL(clicked (const QModelIndex&)), this, SLOT(slotFilesViewClicked(const QModelIndex&)));
-    connect(SUi::Inst()->additionalFoldersView, SIGNAL(clicked (const QModelIndex&)), this, SLOT(slotAdditionalShowFiles(const QModelIndex&)));
-    connect(SUi::Inst()->filesView->header(), SIGNAL(sortIndicatorChanged(int, Qt::SortOrder)), this, SLOT(slotFilesSortIndicatorChanged(int, Qt::SortOrder)));
+    connect(SUi::inst()->foldersView, SIGNAL(clicked (const QModelIndex&)), this, SLOT(slotFoldersViewClicked(const QModelIndex&)));
+    connect(SUi::inst()->filesView, SIGNAL(clicked (const QModelIndex&)), this, SLOT(slotFilesViewClicked(const QModelIndex&)));
+    connect(SUi::inst()->additionalFoldersView, SIGNAL(clicked (const QModelIndex&)), this, SLOT(slotAdditionalShowFiles(const QModelIndex&)));
+    connect(SUi::inst()->filesView->header(), SIGNAL(sortIndicatorChanged(int, Qt::SortOrder)), this, SLOT(slotFilesSortIndicatorChanged(int, Qt::SortOrder)));
 }
 
 OAuth2* DriveEngine::getOAuth2(void) const
@@ -55,7 +55,7 @@ OAuth2* DriveEngine::getOAuth2(void) const
 
 int DriveEngine::getCurrentFolderItemIndex(void) const
 {
-    QTreeWidgetItem* pointer = static_cast<QTreeWidgetItem*>(SUi::Inst()->foldersView->currentIndex().internalPointer());
+    QTreeWidgetItem* pointer = static_cast<QTreeWidgetItem*>(SUi::inst()->foldersView->currentIndex().internalPointer());
     TreeItemInfo item = *foldersManager->getParser()->getXMLHandler()->getTreeItemInfo();
     int count = item.getItems().count();
 
@@ -77,7 +77,7 @@ int DriveEngine::getCurrentFileItemIndex(FilesManager* manager) const
 {
     QList<TreeItemInfo::Data> item = manager->getParser()->getXMLHandler()->getTreeItemInfo()->getFileItems();
     int count = item.count();
-    QString fileName(SUi::Inst()->filesView->currentIndex().data().toString());
+    QString fileName(SUi::inst()->filesView->currentIndex().data().toString());
 
     int currentFileIndex = 0;
 
@@ -259,12 +259,12 @@ void DriveEngine::slotFilesSortIndicatorChanged(int logicalIndex, Qt::SortOrder 
 void DriveEngine::slotUpdateFileList()
 {
     qDebug("DriveEngine::slotUpdateFileList");
-    SDriveEngine::Inst()->showFiles();
+    SDriveEngine::inst()->showFiles();
 }
 
 void DriveEngine::slotDel(QObject* object)
 {
-    if (object == SUi::Inst()->foldersView)
+    if (object == SUi::inst()->foldersView)
     {
         if(!elementsStates[EAdditionalViewFocused])
         {
@@ -279,7 +279,7 @@ void DriveEngine::slotDel(QObject* object)
         }
     }
 
-    if (object == SUi::Inst()->filesView)
+    if (object == SUi::inst()->filesView)
     {
         FilesManager* manager;
 
@@ -300,13 +300,13 @@ void DriveEngine::delItemInTree(TreeItemInfo item)
 
     if (parent)
     {
-        index = parent->indexOfChild(SUi::Inst()->foldersView->currentItem());
+        index = parent->indexOfChild(SUi::inst()->foldersView->currentItem());
         delete parent->takeChild(index);
     }
     else
     {
-        index = SUi::Inst()->foldersView->indexOfTopLevelItem(SUi::Inst()->foldersView->currentItem());
-        delete SUi::Inst()->foldersView->takeTopLevelItem(index);
+        index = SUi::inst()->foldersView->indexOfTopLevelItem(SUi::inst()->foldersView->currentItem());
+        delete SUi::inst()->foldersView->takeTopLevelItem(index);
     }
 }
 
@@ -317,8 +317,8 @@ void DriveEngine::slotTriggeredDel()
 
     QObject* object;
 
-    if(elementsStates[EFolderViewFocused]) object = SUi::Inst()->foldersView;
-    else object = SUi::Inst()->filesView;
+    if(elementsStates[EFolderViewFocused]) object = SUi::inst()->foldersView;
+    else object = SUi::inst()->filesView;
 
     slotDel(object);
 }
