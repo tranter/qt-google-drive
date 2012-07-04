@@ -1,5 +1,4 @@
 #include "uploadmanager.h"
-#include <QDebug>
 
 UploadFileManager::UploadFileManager(QObject *parent) :
     NetworkManager(parent),

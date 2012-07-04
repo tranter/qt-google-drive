@@ -1,5 +1,4 @@
 #include "resmanager.h"
-#include <QDebug>
 
 ResManager::ResManager(QObject *parent):
             NetworkManager(parent)

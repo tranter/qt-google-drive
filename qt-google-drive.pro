@@ -30,6 +30,7 @@ SOURCES += foldersmanager.cpp
 SOURCES += additionalfoldesmanager.cpp
 SOURCES += contentmanager.cpp
 SOURCES += operationsmanager.cpp
+SOURCES += filestransfer.cpp
 
 HEADERS  += mainwindow.h
 HEADERS  += createfolderdialog.h
@@ -53,6 +54,8 @@ HEADERS  += xmlhandler.h
 HEADERS  += contentmanager.h
 HEADERS  += additionalfoldesmanager.h
 HEADERS  += operationsmanager.h
+HEADERS  += filestransfer.h
+HEADERS  += singleton.h
 
 FORMS    += mainwindow.ui
 FORMS    += createfolderdialog.ui

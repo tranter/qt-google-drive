@@ -6,7 +6,6 @@ NetworkManager::NetworkManager(QObject *parent) :
     state(EReady),
     operationCanceled(false)
 {
-    qDebug() << "NetworkManager::NetworkManager()";
     this->parent = parent;
 }
 
@@ -22,13 +21,10 @@ const QNetworkAccessManager* NetworkManager::getNetworkManager(void) const
 
 NetworkManager::~NetworkManager()
 {
-    qDebug() << "NetworkManager::~NetworkManager()";
 }
 
 void NetworkManager::slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 {
-    qDebug() << "bytesReceived =" << bytesReceived << "bytesTotal =" << bytesTotal;
-
     progressBarDialog.setMaximum(bytesTotal);
     progressBarDialog.setValue(bytesReceived);
 }
@@ -53,15 +49,12 @@ void NetworkManager::slotReplyReadyRead()
 
 void NetworkManager::slotUploadProgress( qint64 bytesSent, qint64 bytesTotal )
 {
-    qDebug() << "bytesSent:" << bytesSent <<  "bytesTotal:" << bytesTotal;
-
     progressBarDialog.setMaximum(bytesTotal);
     progressBarDialog.setValue(bytesSent);
 }
 
 void NetworkManager::slotUploadFinished()
 {
-    qDebug() << "uploadFinished";
     progressBarDialog.hide();
     state = EReady;
 }
@@ -143,15 +136,12 @@ void NetworkManager::setStartSettings(QUrl url, const QString& fileName, const Q
 
 void NetworkManager::slotProgressCanceled()
 {
-    qDebug() << "slotProgressCanceled";
     operationCanceled = true;
     reply->abort();
 }
 
 void NetworkManager::slotPostFinished(QNetworkReply* reply)
 {
-    qDebug() << "postFinished";
-
     if (reply->error())
     {
         qDebug() << "postFinished. Reply with the error";
@@ -165,8 +155,6 @@ void NetworkManager::putRequest(const QString & url,const QByteArray& data)
 {
     request.setUrl(QUrl(url));
 
-    qDebug() << "NetworkManager::putRequest request:" << request.url();
-
     reply = networkManager->put(request,data);
 
     connect(reply, SIGNAL(finished()), this, SLOT(slotUploadFinished()));
@@ -176,12 +164,8 @@ void NetworkManager::putRequest(const QString & url,const QByteArray& data)
 
 void NetworkManager::getRequest(const QString & url)
 {
-    qDebug() << "NetworkManager::getRequest url:" << url;
-
     init();
     request.setUrl(QUrl(url));
-
-    qDebug() << "request.url()" << request.url();
 
     reply = networkManager->get(request);
 
@@ -192,8 +176,6 @@ void NetworkManager::getRequest(const QString & url)
 
 void NetworkManager::delRes(const QString & url)
 {
-    qDebug() << "NetworkManager::delRes" << url;
-
     init();
     request.setUrl(QUrl(url));
 

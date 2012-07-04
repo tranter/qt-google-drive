@@ -1,6 +1,5 @@
 #include "progressbardialog.h"
 #include "ui_progressbardialog.h"
-#include <QDebug>
 
 ProgressBarDialog::ProgressBarDialog(QWidget *parent) :
     QDialog(parent),
@@ -17,7 +16,6 @@ ProgressBarDialog::~ProgressBarDialog()
 
 void ProgressBarDialog::slotCancel()
 {
-    qDebug() << "slotCancel";
     hide();
     emit signalProgressCanceled();
 }

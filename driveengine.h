@@ -13,11 +13,13 @@
 #include "foldersmanager.h"
 #include "additionalfoldesmanager.h"
 #include "createfolderdialog.h"
+#include "filestransfer.h"
 
 class FoldersManager;
 class FilesManager;
 class AdditionalFoldersManager;
 class CreateFolderDialog;
+class FilesTransfer;
 
 class DriveEngine : public QObject
 {
@@ -35,11 +37,14 @@ public:
     explicit DriveEngine(QObject *parent = 0);
     ~DriveEngine();
 
+    friend class FilesTransfer;
+
 public:
     void init(void);
     OAuth2* getOAuth2(void) const;
     void showFiles(void);
     FoldersManager* getFoldersManager(void) const;
+    FilesTransfer* getfilesTransfer(void) const;
 
 public slots:
     void slotStartLogin();
@@ -53,21 +58,17 @@ public slots:
     void slotDel(QObject* object);
 
 private slots:
-    void slotDownload(void);
-    void slotUpload(void);
     void slotFoldersViewClicked(const QModelIndex& index);
     void slotFilesViewClicked(const QModelIndex&);
     void slotAdditionalShowFiles(const QModelIndex& index);
     void slotFilesSortIndicatorChanged(int logicalIndex, Qt::SortOrder order);
     void slotTriggeredDel();
-    //void slotFoldersShowed();
+    void slotUpdateFileList();
 
 private:
     void setConnections(void);
     int getCurrentFolderItemIndex(void) const;
     int getCurrentFileItemIndex(FilesManager* manager) const;
-    void download(FilesManager* manager);
-    void upload(void);
     bool folderInFilesView(QString &resourceID);
     void showFolders(void);
     void showAdditionalFolders(void);
@@ -83,6 +84,8 @@ private:
     bool elementsStates[EElementsStatesCount];
 
     CreateFolderDialog* createFolderDialog;
+
+    QScopedPointer<FilesTransfer> filesTransfer;
 
     QScopedPointer<DownloadFileManager> downloadManager;
     QScopedPointer<UploadFileManager> uploadFileManager;
