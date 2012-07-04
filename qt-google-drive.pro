@@ -55,6 +55,7 @@ HEADERS  += contentmanager.h
 HEADERS  += additionalfoldesmanager.h
 HEADERS  += operationsmanager.h
 HEADERS  += filestransfer.h
+HEADERS  += singleton.h
 
 FORMS    += mainwindow.ui
 FORMS    += createfolderdialog.ui

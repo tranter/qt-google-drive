@@ -5,6 +5,7 @@
 #include "driveengine.h"
 #include <QDateTime>
 #include <QTextCodec>
+#include "singleton.h"
 
 namespace Ui
 {
@@ -12,6 +13,7 @@ namespace Ui
 }
 
 class DriveEngine;
+typedef TSingleton<DriveEngine> TDriveEngine;
 
 class MainWindow : public QMainWindow
 {
@@ -44,9 +46,9 @@ public:
     static void FreeInst(void);
 
 private:
-    SUi(){}
+    SUi();
     ~SUi();
-    Q_DISABLE_COPY(SUi);
+    Q_DISABLE_COPY(SUi)
 
 private:
     static Ui::MainWindow* ui;
@@ -59,9 +61,9 @@ public:
     static void FreeInst(void);
 
 private:
-    SDriveEngine(){}
+    SDriveEngine();
     ~SDriveEngine();
-    Q_DISABLE_COPY(SDriveEngine);
+    Q_DISABLE_COPY(SDriveEngine)
 
 private:
     static DriveEngine* driveEngine;

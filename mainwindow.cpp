@@ -24,6 +24,12 @@ void MainWindow::init(void)
 {
     if(!CheckReg()) return;
 
+    //TSingleton<DriveEngine>::inst(this)->init();
+    //TDriveEngine::inst(this)->init();
+    //driveEngine.inst(this)->init();
+    //TSingleton<DriveEngine> s;
+    //s.inst(this);
+
     SDriveEngine::FreeInst();
     SDriveEngine::Inst(this)->init();
     SDriveEngine::Inst()->slotCheckWorkDir(false);
