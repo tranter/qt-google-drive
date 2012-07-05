@@ -13,7 +13,7 @@
 #include "foldersmanager.h"
 #include "additionalfoldesmanager.h"
 #include "createfolderdialog.h"
-#include "filestransfer.h"
+#include "filestransferui.h"
 
 class FoldersManager;
 class FilesManager;

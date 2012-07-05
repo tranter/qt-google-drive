@@ -34,6 +34,7 @@ void DriveEngine::init(void)
     filesTransfer.reset(new FilesTransfer);
 
     setConnections();
+
     showFolders();
     showAdditionalFolders();
 
