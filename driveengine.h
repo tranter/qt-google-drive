@@ -19,7 +19,7 @@ class FoldersManager;
 class FilesManager;
 class AdditionalFoldersManager;
 class CreateFolderDialog;
-class FilesTransfer;
+class FilesTransferUI;
 
 class DriveEngine : public QObject
 {
@@ -37,14 +37,14 @@ public:
     explicit DriveEngine(QObject *parent = 0);
     ~DriveEngine();
 
-    friend class FilesTransfer;
+    friend class FilesTransferUI;
 
 public:
     void init(void);
     OAuth2* getOAuth2(void) const;
     void showFiles(void);
     FoldersManager* getFoldersManager(void) const;
-    FilesTransfer* getfilesTransfer(void) const;
+    FilesTransferUI* getfilesTransfer(void) const;
 
 public slots:
     void slotStartLogin();
@@ -85,7 +85,7 @@ private:
 
     CreateFolderDialog* createFolderDialog;
 
-    QScopedPointer<FilesTransfer> filesTransfer;
+    QScopedPointer<FilesTransferUI> filesTransfer;
 
     QScopedPointer<DownloadFileManager> downloadManager;
     QScopedPointer<UploadFileManager> uploadFileManager;

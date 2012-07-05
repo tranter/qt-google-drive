@@ -31,7 +31,7 @@ void DriveEngine::init(void)
     oAuth2.reset(new OAuth2(parent));
     additionalFilesManager.reset(new AdditionalFoldersManager);
     filesManager.reset(new FilesManager);
-    filesTransfer.reset(new FilesTransfer);
+    filesTransfer.reset(new FilesTransferUI);
 
     setConnections();
 
@@ -247,7 +247,7 @@ FoldersManager* DriveEngine::getFoldersManager(void) const
     return foldersManager.data();
 }
 
-FilesTransfer* DriveEngine::getfilesTransfer(void) const
+FilesTransferUI* DriveEngine::getfilesTransfer(void) const
 {
     return filesTransfer.data();
 }
