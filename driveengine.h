@@ -14,12 +14,14 @@
 #include "additionalfoldesmanager.h"
 #include "createfolderdialog.h"
 #include "filestransferui.h"
+#include "filesui.h"
 
 class FoldersManager;
 class FilesManager;
 class AdditionalFoldersManager;
 class CreateFolderDialog;
 class FilesTransferUI;
+class FilesUI;
 
 class DriveEngine : public QObject
 {
@@ -38,13 +40,14 @@ public:
     ~DriveEngine();
 
     friend class FilesTransferUI;
+    friend class FilesUI;
 
 public:
     void init(void);
     OAuth2* getOAuth2(void) const;
-    void showFiles(void);
+   // void showFiles(void);
     FoldersManager* getFoldersManager(void) const;
-    FilesTransferUI* getfilesTransfer(void) const;
+    FilesTransferUI* getfilesTransferUI(void) const;
 
 public slots:
     void slotStartLogin();
@@ -59,20 +62,17 @@ public slots:
 
 private slots:
     void slotFoldersViewClicked(const QModelIndex& index);
-    void slotFilesViewClicked(const QModelIndex&);
-    void slotAdditionalShowFiles(const QModelIndex& index);
-    void slotFilesSortIndicatorChanged(int logicalIndex, Qt::SortOrder order);
     void slotTriggeredDel();
-    void slotUpdateFileList();
+    void slotFilesSortIndicatorChanged(int logicalIndex, Qt::SortOrder order);
 
 private:
     void setConnections(void);
     int getCurrentFolderItemIndex(void) const;
-    int getCurrentFileItemIndex(FilesManager* manager) const;
+    //int getCurrentFileItemIndex(FilesManager* manager) const;
     bool folderInFilesView(QString &resourceID);
     void showFolders(void);
     void showAdditionalFolders(void);
-    void showFilesFromFolderInFilesView(void);
+    //void showFilesFromFolderInFilesView(void);
     void delItemInTree(TreeItemInfo item);
     void createFolder(const QString& name);
 
@@ -86,6 +86,7 @@ private:
     CreateFolderDialog* createFolderDialog;
 
     QScopedPointer<FilesTransferUI> filesTransfer;
+    QScopedPointer<FilesUI> filesUI;
 
     QScopedPointer<DownloadFileManager> downloadManager;
     QScopedPointer<UploadFileManager> uploadFileManager;

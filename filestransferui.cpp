@@ -15,7 +15,7 @@ void FilesTransferUI::download(FilesManager* manager)
     QSettings settings(COMPANY_NAME, APP_NAME);
 
     QList<TreeItemInfo::Data> item = manager->getParser()->getXMLHandler()->getTreeItemInfo()->getFileItems();
-    int index = SDriveEngine::inst()->getCurrentFileItemIndex(manager);
+    int index = SDriveEngine::inst()->filesUI->getCurrentFileItemIndex(manager);
 
     QString downloadLink(item[index].downloadLink);
 
@@ -58,7 +58,7 @@ void FilesTransferUI::upload(void)
         if(!uploadLink.isEmpty())
         {
             SDriveEngine::inst()->uploadFileManager.reset(new UploadFileManager(SDriveEngine::inst()->parent));
-            connect(SDriveEngine::inst()->uploadFileManager.data(), SIGNAL(signalUpdateFileList()), SDriveEngine::inst(), SLOT(slotUpdateFileList()));
+            connect(SDriveEngine::inst()->uploadFileManager.data(), SIGNAL(signalUpdateFileList()), SDriveEngine::inst()->filesUI.data(), SLOT(slotUpdateFileList()));
             SDriveEngine::inst()->uploadFileManager->startUpload(uploadLink, fileName);
         }
     }

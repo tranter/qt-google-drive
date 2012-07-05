@@ -38,10 +38,10 @@ void MainWindow::setConnections(void)
 {
     connect(SUi::inst()->actionMenuLogin, SIGNAL(triggered()), SDriveEngine::inst(), SLOT(slotStartLoginFromMenu()));
     connect(SUi::inst()->actionMenuQuit, SIGNAL(triggered()), this, SLOT(close()));
-    connect(SUi::inst()->actionMenuDownload, SIGNAL(triggered()), SDriveEngine::inst()->getfilesTransfer(), SLOT(slotDownload()));
-    connect(SUi::inst()->actionDownload, SIGNAL(triggered()), SDriveEngine::inst()->getfilesTransfer(), SLOT(slotDownload()));
-    connect(SUi::inst()->actionMenuUpload, SIGNAL(triggered()), SDriveEngine::inst()->getfilesTransfer(), SLOT(slotUpload()));
-    connect(SUi::inst()->actionUpload, SIGNAL(triggered()), SDriveEngine::inst()->getfilesTransfer(), SLOT(slotUpload()));
+    connect(SUi::inst()->actionMenuDownload, SIGNAL(triggered()), SDriveEngine::inst()->getfilesTransferUI(), SLOT(slotDownload()));
+    connect(SUi::inst()->actionDownload, SIGNAL(triggered()), SDriveEngine::inst()->getfilesTransferUI(), SLOT(slotDownload()));
+    connect(SUi::inst()->actionMenuUpload, SIGNAL(triggered()), SDriveEngine::inst()->getfilesTransferUI(), SLOT(slotUpload()));
+    connect(SUi::inst()->actionUpload, SIGNAL(triggered()), SDriveEngine::inst()->getfilesTransferUI(), SLOT(slotUpload()));
     connect(SUi::inst()->actionMenuSettings, SIGNAL(triggered()), SDriveEngine::inst(), SLOT(slotCheckWorkDir()));
     connect(SUi::inst()->actionSettings, SIGNAL(triggered()), SDriveEngine::inst(), SLOT(slotCheckWorkDir()));
     connect(SDriveEngine::inst()->getOAuth2(), SIGNAL(loginDone()), this, SLOT(slotloginDone()));
