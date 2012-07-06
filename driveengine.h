@@ -15,6 +15,8 @@
 #include "createfolderdialog.h"
 #include "filestransferui.h"
 #include "filesui.h"
+#include "foldersui.h"
+#include "operationsui.h"
 
 class FoldersManager;
 class FilesManager;
@@ -22,6 +24,8 @@ class AdditionalFoldersManager;
 class CreateFolderDialog;
 class FilesTransferUI;
 class FilesUI;
+class FoldersUI;
+class OperationsUI;
 
 class DriveEngine : public QObject
 {
@@ -41,40 +45,23 @@ public:
 
     friend class FilesTransferUI;
     friend class FilesUI;
+    friend class FoldersUI;
+    friend class OperationsUI;
 
-public:
-    void init(void);
-    OAuth2* getOAuth2(void) const;
-   // void showFiles(void);
-    FoldersManager* getFoldersManager(void) const;
+public:   
     FilesTransferUI* getfilesTransferUI(void) const;
+    FoldersManager* getFoldersManager(void) const;
+    OAuth2* getOAuth2(void) const;
+    OperationsUI* getOperationsUI(void) const;
+    void init(void);
 
 public slots:
     void slotStartLogin();
     void slotStartLoginFromMenu();
     bool slotCheckWorkDir(bool showDlg = true);
-    void slotDelFinished();
-    void slotCreateFolder();
-    void slotAcceptCreateFolder(const QString &name);
-    void slotRejectCreateFolder();
-    void slotFinishedCreateFolder(int result);
-    void slotDel(QObject* object);
-
-private slots:
-    void slotFoldersViewClicked(const QModelIndex& index);
-    void slotTriggeredDel();
-    void slotFilesSortIndicatorChanged(int logicalIndex, Qt::SortOrder order);
 
 private:
     void setConnections(void);
-    int getCurrentFolderItemIndex(void) const;
-    //int getCurrentFileItemIndex(FilesManager* manager) const;
-    bool folderInFilesView(QString &resourceID);
-    void showFolders(void);
-    void showAdditionalFolders(void);
-    //void showFilesFromFolderInFilesView(void);
-    void delItemInTree(TreeItemInfo item);
-    void createFolder(const QString& name);
 
 private:
     QWidget* parent;
@@ -87,6 +74,8 @@ private:
 
     QScopedPointer<FilesTransferUI> filesTransfer;
     QScopedPointer<FilesUI> filesUI;
+    QScopedPointer<FoldersUI> foldersUI;
+    QScopedPointer<OperationsUI> operationsUI;
 
     QScopedPointer<DownloadFileManager> downloadManager;
     QScopedPointer<UploadFileManager> uploadFileManager;

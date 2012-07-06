@@ -1,4 +1,5 @@
 #include "filesui.h"
+#include <QDebug>
 
 FilesUI::FilesUI(QObject *parent) :
     QObject(parent)
@@ -28,7 +29,7 @@ int FilesUI::getCurrentFileItemIndex(FilesManager* manager) const
 void FilesUI::showFiles(void)
 {
     TreeItemInfo item = *SDriveEngine::inst()->foldersManager->getParser()->getXMLHandler()->getTreeItemInfo();
-    int treeItemsIndex = SDriveEngine::inst()->getCurrentFolderItemIndex();
+    int treeItemsIndex = SDriveEngine::inst()->foldersUI->getCurrentFolderItemIndex();
 
     if (item.getItems().size() > 0) {
         if(item[treeItemsIndex].type == FOLDER_TYPE_STR)
@@ -45,7 +46,7 @@ void FilesUI::showFilesFromFolderInFilesView(void)
 {
     QString str;
 
-    if(SDriveEngine::inst()->folderInFilesView(str))
+    if(SDriveEngine::inst()->foldersUI->folderInFilesView(str))
     {
         QString query(GET_FILES_IN_FOLDER);
         query += str;
@@ -78,6 +79,11 @@ void FilesUI::slotAdditionalShowFiles(const QModelIndex& index)
     if(index.model()->data(index).toString() == TRASH_TITLE) query = GET_TRASH;
 
     SDriveEngine::inst()->additionalFilesManager->get(query);
+}
+
+void FilesUI::slotFilesSortIndicatorChanged(int logicalIndex, Qt::SortOrder order)
+{
+    qDebug() << "index:" << QString::number(logicalIndex) << " order:" << order;
 }
 
 void FilesUI::slotFilesViewClicked(const QModelIndex&)

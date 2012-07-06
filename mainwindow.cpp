@@ -45,12 +45,12 @@ void MainWindow::setConnections(void)
     connect(SUi::inst()->actionMenuSettings, SIGNAL(triggered()), SDriveEngine::inst(), SLOT(slotCheckWorkDir()));
     connect(SUi::inst()->actionSettings, SIGNAL(triggered()), SDriveEngine::inst(), SLOT(slotCheckWorkDir()));
     connect(SDriveEngine::inst()->getOAuth2(), SIGNAL(loginDone()), this, SLOT(slotloginDone()));
-    connect(SDriveEngine::inst()->getFoldersManager(), SIGNAL(signalAccessTokenRequired()), SDriveEngine::inst(), SLOT(slotStartLogin()));
-    connect(this, SIGNAL(signalDel(QObject*)), SDriveEngine::inst(), SLOT(slotDel(QObject*)));
-    connect(SUi::inst()->actionMenuDelete, SIGNAL(triggered()), SDriveEngine::inst(), SLOT(slotTriggeredDel()));
-    connect(SUi::inst()->actionDelete, SIGNAL(triggered()), SDriveEngine::inst(), SLOT(slotTriggeredDel()));
-    connect(SUi::inst()->actionMenuCreateFolder, SIGNAL(triggered()), SDriveEngine::inst(), SLOT(slotCreateFolder()));
-    connect(SUi::inst()->actionCreateFolder, SIGNAL(triggered()), SDriveEngine::inst(), SLOT(slotCreateFolder()));
+    connect(SDriveEngine::inst()->getFoldersManager(), SIGNAL(signalAccessTokenRequired()), SDriveEngine::inst(), SLOT(slotStartLogin())); 
+    connect(this, SIGNAL(signalDel(QObject*)), SDriveEngine::inst()->getOperationsUI(), SLOT(slotDel(QObject*)));
+    connect(SUi::inst()->actionMenuDelete, SIGNAL(triggered()), SDriveEngine::inst()->getOperationsUI(), SLOT(slotTriggeredDel()));
+    connect(SUi::inst()->actionDelete, SIGNAL(triggered()), SDriveEngine::inst()->getOperationsUI(), SLOT(slotTriggeredDel()));
+    connect(SUi::inst()->actionMenuCreateFolder, SIGNAL(triggered()), SDriveEngine::inst()->getOperationsUI(), SLOT(slotCreateFolder()));
+    connect(SUi::inst()->actionCreateFolder, SIGNAL(triggered()), SDriveEngine::inst()->getOperationsUI(), SLOT(slotCreateFolder()));
 }
 
 void MainWindow::slotloginDone()

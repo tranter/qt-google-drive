@@ -51,7 +51,7 @@ void FilesTransferUI::upload(void)
     if(!fileName.isEmpty())
     {
         TreeItemInfo item = *SDriveEngine::inst()->foldersManager->getParser()->getXMLHandler()->getTreeItemInfo();
-        int index = SDriveEngine::inst()->getCurrentFolderItemIndex();
+        int index = SDriveEngine::inst()->foldersUI->getCurrentFolderItemIndex();
 
         QString uploadLink(item[index].uploadLink + "/?convert=false");
 

@@ -1,7 +1,6 @@
 #ifndef FILESUI_H
 #define FILESUI_H
 
-#include <QObject>
 #include "driveengine.h"
 
 class FilesManager;
@@ -14,9 +13,12 @@ public:
 
     friend class DriveEngine;
     friend class FilesTransferUI;
+    friend class FoldersUI;
+    friend class OperationsUI;
 
 private slots:
     void slotAdditionalShowFiles(const QModelIndex& index);
+    void slotFilesSortIndicatorChanged(int logicalIndex, Qt::SortOrder order);
     void slotFilesViewClicked(const QModelIndex&);
     void slotUpdateFileList();
 

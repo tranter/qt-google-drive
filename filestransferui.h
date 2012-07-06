@@ -1,7 +1,6 @@
 #ifndef FILIESTRANSFER_H
 #define FILIESTRANSFER_H
 
-#include <QObject>
 #include "driveengine.h"
 
 class FilesManager;
