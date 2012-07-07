@@ -62,7 +62,7 @@ void FilesUI::slotAdditionalShowFiles(const QModelIndex& index)
     else SDriveEngine::inst()->elementsStates[DriveEngine::ETrashFocused] = false;
 
     QString query;
-    SDriveEngine::inst()->currentAdditionalFolderIndex = index;
+    SDriveEngine::inst()->getFoldersUI()->currentAdditionalFolderIndex = index;
 
     SDriveEngine::inst()->elementsStates[DriveEngine::EFolderViewFocused] = false;
     SDriveEngine::inst()->elementsStates[DriveEngine::EAdditionalViewFocused] = true;

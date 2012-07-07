@@ -59,13 +59,12 @@ void FoldersUI::showAdditionalFolders(void)
 
 void FoldersUI::showFolders(void)
 {
-    SDriveEngine::inst()->foldersManager.reset(new FoldersManager);
     SDriveEngine::inst()->foldersManager->get(GET_FOLDERS);
 }
 
 void FoldersUI::slotFoldersViewClicked(const QModelIndex& index)
 {
-    SDriveEngine::inst()->currentFolderIndex = index.row();
+    SDriveEngine::inst()->getFoldersUI()->currentFolderIndex = index.row();
 
     SDriveEngine::inst()->elementsStates[DriveEngine::EFolderViewFocused] = true;
     SDriveEngine::inst()->elementsStates[DriveEngine::EAdditionalViewFocused] = false;

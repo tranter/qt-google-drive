@@ -2,6 +2,7 @@
 #define OPERATIONSUI_H
 
 #include "driveengine.h"
+#include "createfolderdialog.h"
 
 class OperationsUI: public QObject
 {
@@ -25,6 +26,9 @@ private slots:
 private:
     void createFolder(const QString& name);
     void delItemInTree(TreeItemInfo item);
+
+private:
+    CreateFolderDialog* createFolderDialog;
 };
 
 #endif // OPERATIONSUI_H

@@ -4,7 +4,6 @@
 #include "oauth2.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "settingsdialog.h"
 #include <QFileDialog>
 #include <QTreeWidgetItem>
 #include "downloadmanager.h"
@@ -12,18 +11,19 @@
 #include "filesmanager.h"
 #include "foldersmanager.h"
 #include "additionalfoldesmanager.h"
-#include "createfolderdialog.h"
 #include "filestransferui.h"
 #include "filesui.h"
 #include "foldersui.h"
 #include "operationsui.h"
+#include "checkui.h"
 
-class FoldersManager;
-class FilesManager;
 class AdditionalFoldersManager;
+class CheckUI;
 class CreateFolderDialog;
+class FilesManager;
 class FilesTransferUI;
 class FilesUI;
+class FoldersManager;
 class FoldersUI;
 class OperationsUI;
 
@@ -49,34 +49,30 @@ public:
     friend class OperationsUI;
 
 public:   
+    CheckUI* getCheckUI(void) const;
+    FilesUI* getfilesUI(void) const;
     FilesTransferUI* getfilesTransferUI(void) const;
     FoldersManager* getFoldersManager(void) const;
+    FoldersUI* getFoldersUI(void) const;
     OAuth2* getOAuth2(void) const;
     OperationsUI* getOperationsUI(void) const;
+    QWidget* getParent(void) const;
     void init(void);
 
 public slots:
     void slotStartLogin();
     void slotStartLoginFromMenu();
-    bool slotCheckWorkDir(bool showDlg = true);
-
-private:
-    void setConnections(void);
 
 private:
     QWidget* parent;
-    QModelIndex currentAdditionalFolderIndex;
 
-    int currentFolderIndex;
     bool elementsStates[EElementsStatesCount];
 
-    CreateFolderDialog* createFolderDialog;
-
+    QScopedPointer<CheckUI> checkUI;
     QScopedPointer<FilesTransferUI> filesTransfer;
     QScopedPointer<FilesUI> filesUI;
     QScopedPointer<FoldersUI> foldersUI;
     QScopedPointer<OperationsUI> operationsUI;
-
     QScopedPointer<DownloadFileManager> downloadManager;
     QScopedPointer<UploadFileManager> uploadFileManager;
     QScopedPointer<FoldersManager> foldersManager;

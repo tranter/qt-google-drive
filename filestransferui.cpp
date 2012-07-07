@@ -21,7 +21,7 @@ void FilesTransferUI::download(FilesManager* manager)
 
     if(!downloadLink.isEmpty())
     {
-        if(SDriveEngine::inst()->slotCheckWorkDir(false))
+        if(SDriveEngine::inst()->checkUI->slotCheckWorkDir(false))
         {
             QString fileName = settings.value(WORK_DIR).toString() + "/" + item[index].name;
             QString fileType =  item[index].fileType;

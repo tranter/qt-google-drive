@@ -24,6 +24,9 @@ private:
     void showAdditionalFolders(void);
     void showFolders(void);
 
+private:
+    QModelIndex currentAdditionalFolderIndex;
+    int currentFolderIndex;
 };
 
 #endif // FOLDERSUI_H

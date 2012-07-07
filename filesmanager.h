@@ -7,7 +7,6 @@ class FilesManager : public ContentManager
 {
     Q_OBJECT
 public:
-
     enum ECustomSort
     {
       EByDate = 0,

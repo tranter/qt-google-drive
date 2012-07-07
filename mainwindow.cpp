@@ -1,8 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QFile>
-#include <QMessageBox>
-#include "AppRegData.h"
+#include <QTextCodec>
 #include <QKeyEvent>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -19,11 +17,14 @@ MainWindow::~MainWindow()
 
 void MainWindow::init(void)
 {
-    if(!checkReg()) return;
+    {
+        CheckUI checkUI;
+        if(!checkUI.checkReg()) return;
+    }
 
     SDriveEngine::freeInst();
     SDriveEngine::inst(this)->init();
-    SDriveEngine::inst()->slotCheckWorkDir(false);
+    SDriveEngine::inst()->getCheckUI()->slotCheckWorkDir(false);
 
     setConnections();
 
@@ -32,6 +33,8 @@ void MainWindow::init(void)
 
     QTextCodec::setCodecForCStrings(QTextCodec::codecForLocale());
     QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
+
+    SUi::inst()->filesView->header()->resizeSection(0, 380);
 }
 
 void MainWindow::setConnections(void)
@@ -42,37 +45,26 @@ void MainWindow::setConnections(void)
     connect(SUi::inst()->actionDownload, SIGNAL(triggered()), SDriveEngine::inst()->getfilesTransferUI(), SLOT(slotDownload()));
     connect(SUi::inst()->actionMenuUpload, SIGNAL(triggered()), SDriveEngine::inst()->getfilesTransferUI(), SLOT(slotUpload()));
     connect(SUi::inst()->actionUpload, SIGNAL(triggered()), SDriveEngine::inst()->getfilesTransferUI(), SLOT(slotUpload()));
-    connect(SUi::inst()->actionMenuSettings, SIGNAL(triggered()), SDriveEngine::inst(), SLOT(slotCheckWorkDir()));
-    connect(SUi::inst()->actionSettings, SIGNAL(triggered()), SDriveEngine::inst(), SLOT(slotCheckWorkDir()));
-    connect(SDriveEngine::inst()->getOAuth2(), SIGNAL(loginDone()), this, SLOT(slotloginDone()));
-    connect(SDriveEngine::inst()->getFoldersManager(), SIGNAL(signalAccessTokenRequired()), SDriveEngine::inst(), SLOT(slotStartLogin())); 
-    connect(this, SIGNAL(signalDel(QObject*)), SDriveEngine::inst()->getOperationsUI(), SLOT(slotDel(QObject*)));
+    connect(SUi::inst()->actionMenuSettings, SIGNAL(triggered()), SDriveEngine::inst()->getCheckUI(), SLOT(slotCheckWorkDir()));
+    connect(SUi::inst()->actionSettings, SIGNAL(triggered()), SDriveEngine::inst()->getCheckUI(), SLOT(slotCheckWorkDir()));
     connect(SUi::inst()->actionMenuDelete, SIGNAL(triggered()), SDriveEngine::inst()->getOperationsUI(), SLOT(slotTriggeredDel()));
     connect(SUi::inst()->actionDelete, SIGNAL(triggered()), SDriveEngine::inst()->getOperationsUI(), SLOT(slotTriggeredDel()));
     connect(SUi::inst()->actionMenuCreateFolder, SIGNAL(triggered()), SDriveEngine::inst()->getOperationsUI(), SLOT(slotCreateFolder()));
     connect(SUi::inst()->actionCreateFolder, SIGNAL(triggered()), SDriveEngine::inst()->getOperationsUI(), SLOT(slotCreateFolder()));
+    connect(SDriveEngine::inst()->getOAuth2(), SIGNAL(loginDone()), this, SLOT(slotloginDone()));
+    connect(SDriveEngine::inst()->getFoldersManager(), SIGNAL(signalAccessTokenRequired()), SDriveEngine::inst(), SLOT(slotStartLogin()));
+    connect(SUi::inst()->foldersView, SIGNAL(clicked (const QModelIndex&)), SDriveEngine::inst()->getFoldersUI(), SLOT(slotFoldersViewClicked(const QModelIndex&)));
+    connect(SUi::inst()->filesView, SIGNAL(clicked (const QModelIndex&)), SDriveEngine::inst()->getfilesUI(), SLOT(slotFilesViewClicked(const QModelIndex&)));
+    connect(SUi::inst()->additionalFoldersView, SIGNAL(clicked (const QModelIndex&)), SDriveEngine::inst()->getfilesUI(), SLOT(slotAdditionalShowFiles(const QModelIndex&)));
+    connect(SUi::inst()->filesView->header(), SIGNAL(sortIndicatorChanged(int, Qt::SortOrder)), SDriveEngine::inst()->getfilesUI(), SLOT(slotFilesSortIndicatorChanged(int, Qt::SortOrder)));
+    connect(SDriveEngine::inst()->getFoldersManager(), SIGNAL(signalAccessTokenRequired()), SDriveEngine::inst(), SLOT(slotStartLogin()));
+
+    connect(this, SIGNAL(signalDel(QObject*)),SDriveEngine::inst()->getOperationsUI(), SLOT(slotDel(QObject*)));
 }
 
 void MainWindow::slotloginDone()
 {
     init();
-}
-
-bool MainWindow::checkReg(void)
-{
-    bool regState = true;
-
-    if(CLIENT_ID == QString("YOUR_CLIENT_ID_HERE") || REDIRECT_URI == QString("YOUR_REDIRECT_URI_HERE") || CLIENT_SECRET == QString("YOUR_CLIENT_SECRET"))
-    {
-        regState = false;
-
-        // TODO: change link to wiki page
-        QMessageBox::warning(this, "Warning",
-                             "To work with application you need to register your own application in <b>Google</b>.\n"
-                             "Learn more from <a href='http://code.google.com/p/qt-google-drive/'>here</a>");
-    }
-
-    return regState;
 }
 
 bool MainWindow::eventFilter(QObject *object, QEvent *event)

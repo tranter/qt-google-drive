@@ -1,7 +1,8 @@
 #include "operationsui.h"
 
 OperationsUI::OperationsUI(QObject *parent) :
-    QObject(parent)
+    QObject(parent),
+    createFolderDialog(NULL)
 {
 }
 
@@ -68,35 +69,35 @@ void OperationsUI::slotTriggeredDel()
 
 void OperationsUI::slotDelFinished()
 {
-    if(SDriveEngine::inst()->elementsStates[DriveEngine::EAdditionalViewFocused]) SDriveEngine::inst()->filesUI->slotAdditionalShowFiles(SDriveEngine::inst()->currentAdditionalFolderIndex);
+    if(SDriveEngine::inst()->elementsStates[DriveEngine::EAdditionalViewFocused]) SDriveEngine::inst()->filesUI->slotAdditionalShowFiles(SDriveEngine::inst()->getFoldersUI()->currentAdditionalFolderIndex);
     else SDriveEngine::inst()->filesUI->showFiles();
 }
 
 void OperationsUI::slotCreateFolder()
 {
-    SDriveEngine::inst()->createFolderDialog = new CreateFolderDialog(SDriveEngine::inst()->parent);
+    createFolderDialog = new CreateFolderDialog(SDriveEngine::inst()->parent);
 
-    connect(SDriveEngine::inst()->createFolderDialog, SIGNAL(signalAccept(const QString&)), this, SLOT(slotAcceptCreateFolder(const QString&)));
-    connect(SDriveEngine::inst()->createFolderDialog, SIGNAL(signalReject()), this, SLOT(slotRejectCreateFolder()));
-    connect(SDriveEngine::inst()->createFolderDialog, SIGNAL(signalFinished(int)), this, SLOT(slotFinishedCreateFolder(int)));
+    connect(createFolderDialog, SIGNAL(signalAccept(const QString&)), this, SLOT(slotAcceptCreateFolder(const QString&)));
+    connect(createFolderDialog, SIGNAL(signalReject()), this, SLOT(slotRejectCreateFolder()));
+    connect(createFolderDialog, SIGNAL(signalFinished(int)), this, SLOT(slotFinishedCreateFolder(int)));
 
-    SDriveEngine::inst()->createFolderDialog->exec();
+    createFolderDialog->exec();
 }
 
 void OperationsUI::slotAcceptCreateFolder(const QString& name)
 {
     createFolder(name);
-    delete SDriveEngine::inst()->createFolderDialog;
+    delete createFolderDialog;
 }
 
 void OperationsUI::slotRejectCreateFolder()
 {
-    delete SDriveEngine::inst()->createFolderDialog;
+    delete createFolderDialog;
 }
 
 void OperationsUI::slotFinishedCreateFolder(int result)
 {
-    delete SDriveEngine::inst()->createFolderDialog;
+    delete createFolderDialog;
 }
 
 void OperationsUI::createFolder(const QString& name)

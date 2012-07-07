@@ -3,8 +3,7 @@
 
 #include <QMainWindow>
 #include "driveengine.h"
-#include <QDateTime>
-#include <QTextCodec>
+//#include <QDateTime>
 #include "singleton.h"
 
 namespace Ui
@@ -32,7 +31,6 @@ public:
 
 private:
     void setConnections(void);
-    bool checkReg(void);
 
 private slots:
     void slotloginDone();
