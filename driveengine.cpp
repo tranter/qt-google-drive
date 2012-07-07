@@ -40,6 +40,11 @@ void DriveEngine::slotStartLoginFromMenu()
     oAuth2->startLogin(true);
 }
 
+//DownloadFileManager* DriveEngine::getDownloadFileManager(void) const
+//{
+//    return downloadManager.data();
+//}
+
 CheckUI* DriveEngine::getCheckUI(void) const
 {
     return checkUI.data();

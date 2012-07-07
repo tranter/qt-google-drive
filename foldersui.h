@@ -1,7 +1,6 @@
 #ifndef FOLDERSUI_H
 #define FOLDERSUI_H
 
-//#include <QObject>
 #include "driveengine.h"
 
 class FoldersUI: public QObject

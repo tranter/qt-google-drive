@@ -2,8 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "driveengine.h"
-//#include <QDateTime>
 #include "singleton.h"
 
 namespace Ui

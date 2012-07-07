@@ -1,5 +1,6 @@
 #include "filesmanager.h"
 #include "mainwindow.h"
+#include "ui_mainwindow.h"
 
 FilesManager::FilesManager(QObject *parent):
     ContentManager(FILE_TYPE, parent)

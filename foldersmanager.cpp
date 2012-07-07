@@ -1,5 +1,6 @@
 #include "foldersmanager.h"
 #include "mainwindow.h"
+#include "ui_mainwindow.h"
 #include <QDebug>
 
 FoldersManager::FoldersManager(QObject *parent) :

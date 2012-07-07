@@ -1,5 +1,6 @@
 #include "additionalfoldesmanager.h"
 #include "mainwindow.h"
+#include "ui_mainwindow.h"
 
 AdditionalFoldersManager::AdditionalFoldersManager(QObject *parent) :
      FilesManager(parent)

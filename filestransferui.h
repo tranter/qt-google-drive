@@ -11,8 +11,6 @@ class FilesTransferUI : public QObject
 public:
     explicit FilesTransferUI(QObject *parent = 0);
 
-    friend class DriveEngine;
-
 private slots:
     void slotDownload(void);
     void slotUpload(void);

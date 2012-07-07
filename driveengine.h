@@ -49,6 +49,7 @@ public:
     friend class OperationsUI;
 
 public:   
+    //DownloadFileManager* getDownloadFileManager(void) const;
     CheckUI* getCheckUI(void) const;
     FilesUI* getfilesUI(void) const;
     FilesTransferUI* getfilesTransferUI(void) const;

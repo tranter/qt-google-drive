@@ -10,9 +10,6 @@ class OperationsUI: public QObject
 public:
     explicit OperationsUI(QObject *parent = 0);
 
-    friend class DriveEngine;
-    //friend class FilesUI;
-
 private slots:
     void slotCreateFolder();
     void slotAcceptCreateFolder(const QString &name);

@@ -11,7 +11,6 @@ class FilesUI: public QObject
 public:
     explicit FilesUI(QObject *parent = 0);
 
-    friend class DriveEngine;
     friend class FilesTransferUI;
     friend class FoldersUI;
     friend class OperationsUI;

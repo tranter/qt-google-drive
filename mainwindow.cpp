@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "driveengine.h"
 #include <QTextCodec>
 #include <QKeyEvent>
 
@@ -39,6 +40,7 @@ void MainWindow::init(void)
 
 void MainWindow::setConnections(void)
 {
+    connect(SDriveEngine::inst()->getFoldersManager(), SIGNAL(signalAccessTokenRequired()), SDriveEngine::inst(), SLOT(slotStartLogin()));
     connect(SUi::inst()->actionMenuLogin, SIGNAL(triggered()), SDriveEngine::inst(), SLOT(slotStartLoginFromMenu()));
     connect(SUi::inst()->actionMenuQuit, SIGNAL(triggered()), this, SLOT(close()));
     connect(SUi::inst()->actionMenuDownload, SIGNAL(triggered()), SDriveEngine::inst()->getfilesTransferUI(), SLOT(slotDownload()));
@@ -57,7 +59,6 @@ void MainWindow::setConnections(void)
     connect(SUi::inst()->filesView, SIGNAL(clicked (const QModelIndex&)), SDriveEngine::inst()->getfilesUI(), SLOT(slotFilesViewClicked(const QModelIndex&)));
     connect(SUi::inst()->additionalFoldersView, SIGNAL(clicked (const QModelIndex&)), SDriveEngine::inst()->getfilesUI(), SLOT(slotAdditionalShowFiles(const QModelIndex&)));
     connect(SUi::inst()->filesView->header(), SIGNAL(sortIndicatorChanged(int, Qt::SortOrder)), SDriveEngine::inst()->getfilesUI(), SLOT(slotFilesSortIndicatorChanged(int, Qt::SortOrder)));
-    connect(SDriveEngine::inst()->getFoldersManager(), SIGNAL(signalAccessTokenRequired()), SDriveEngine::inst(), SLOT(slotStartLogin()));
 
     connect(this, SIGNAL(signalDel(QObject*)),SDriveEngine::inst()->getOperationsUI(), SLOT(slotDel(QObject*)));
 }
