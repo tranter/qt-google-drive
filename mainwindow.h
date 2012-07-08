@@ -22,19 +22,16 @@ public:
     ~MainWindow();
 
 public:
-    virtual bool eventFilter(QObject *object, QEvent *event);
-
-public:
     void init(void);
+
+private:
+    virtual bool eventFilter(QObject *object, QEvent *event);
 
 private:
     void setConnections(void);
 
 private slots:
     void slotloginDone();
-
-signals:
-    void signalDel(QObject* object);
 };
 
 #endif // MAINWINDOW_H

@@ -16,8 +16,17 @@ DriveEngine::~DriveEngine()
 
 void DriveEngine::init(void)
 {
+    reset();
+    setKeyActions();
+
+    foldersUI->showFolders();
+    foldersUI->showAdditionalFolders();
+}
+
+void DriveEngine::reset(void)
+{
     additionalFilesManager.reset(new AdditionalFoldersManager);
-    checkUI.reset(new CheckUI);
+    checkUI.reset(new CheckUI);   
     filesManager.reset(new FilesManager);
     filesTransfer.reset(new FilesTransferUI);
     filesUI.reset(new FilesUI);
@@ -25,9 +34,12 @@ void DriveEngine::init(void)
     foldersUI.reset(new FoldersUI);
     oAuth2.reset(new OAuth2(parent));
     operationsUI.reset(new OperationsUI);
+    eventHandler.reset(new EventHandler(operationsUI.data()));
+}
 
-    foldersUI->showFolders();
-    foldersUI->showAdditionalFolders();
+void DriveEngine::setKeyActions(void)
+{
+ eventHandler->setKeyAction(Qt::Key_Delete, &OperationsUI::del);
 }
 
 void DriveEngine::slotStartLogin()
@@ -40,14 +52,14 @@ void DriveEngine::slotStartLoginFromMenu()
     oAuth2->startLogin(true);
 }
 
-//DownloadFileManager* DriveEngine::getDownloadFileManager(void) const
-//{
-//    return downloadManager.data();
-//}
-
 CheckUI* DriveEngine::getCheckUI(void) const
 {
     return checkUI.data();
+}
+
+EventHandler* DriveEngine::getEventHandler(void) const
+{
+    return eventHandler.data();
 }
 
 FilesUI* DriveEngine::getfilesUI(void) const

@@ -1,4 +1,5 @@
 #include "operationsui.h"
+#include <QDebug>
 
 OperationsUI::OperationsUI(QObject *parent) :
     QObject(parent),
@@ -6,8 +7,10 @@ OperationsUI::OperationsUI(QObject *parent) :
 {
 }
 
-void OperationsUI::slotDel(QObject* object)
+void OperationsUI::del(QObject* object)
 {
+    qDebug() << "OperationsUI::del()";
+
     if (object == SUi::inst()->foldersView)
     {
         if(!SDriveEngine::inst()->elementsStates[DriveEngine::EAdditionalViewFocused])
@@ -64,7 +67,7 @@ void OperationsUI::slotTriggeredDel()
     if(SDriveEngine::inst()->elementsStates[DriveEngine::EFolderViewFocused]) object = SUi::inst()->foldersView;
     else object = SUi::inst()->filesView;
 
-    slotDel(object);
+    del(object);
 }
 
 void OperationsUI::slotDelFinished()

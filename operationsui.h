@@ -10,13 +10,17 @@ class OperationsUI: public QObject
 public:
     explicit OperationsUI(QObject *parent = 0);
 
+public:
+   void del(QObject* object);
+
 private slots:
     void slotCreateFolder();
     void slotAcceptCreateFolder(const QString &name);
     void slotRejectCreateFolder();
     void slotFinishedCreateFolder(int result);
 
-    void slotDel(QObject* object);
+    //void slotDel(QObject* object);
+
     void slotTriggeredDel();
     void slotDelFinished();
 

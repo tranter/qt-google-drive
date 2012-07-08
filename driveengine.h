@@ -16,6 +16,7 @@
 #include "foldersui.h"
 #include "operationsui.h"
 #include "checkui.h"
+#include "eventhandler.h"
 
 class AdditionalFoldersManager;
 class CheckUI;
@@ -49,16 +50,20 @@ public:
     friend class OperationsUI;
 
 public:   
-    //DownloadFileManager* getDownloadFileManager(void) const;
     CheckUI* getCheckUI(void) const;
-    FilesUI* getfilesUI(void) const;
+    EventHandler* getEventHandler(void) const;
     FilesTransferUI* getfilesTransferUI(void) const;
+    FilesUI* getfilesUI(void) const;
     FoldersManager* getFoldersManager(void) const;
     FoldersUI* getFoldersUI(void) const;
     OAuth2* getOAuth2(void) const;
     OperationsUI* getOperationsUI(void) const;
     QWidget* getParent(void) const;
     void init(void);
+
+private:
+    void setKeyActions(void);
+    void reset();
 
 public slots:
     void slotStartLogin();
@@ -69,17 +74,18 @@ private:
 
     bool elementsStates[EElementsStatesCount];
 
+    QScopedPointer<AdditionalFoldersManager> additionalFilesManager;
     QScopedPointer<CheckUI> checkUI;
+    QScopedPointer<DownloadFileManager> downloadManager;
+    QScopedPointer<EventHandler> eventHandler;
+    QScopedPointer<FilesManager> filesManager;
     QScopedPointer<FilesTransferUI> filesTransfer;
     QScopedPointer<FilesUI> filesUI;
-    QScopedPointer<FoldersUI> foldersUI;
-    QScopedPointer<OperationsUI> operationsUI;
-    QScopedPointer<DownloadFileManager> downloadManager;
-    QScopedPointer<UploadFileManager> uploadFileManager;
     QScopedPointer<FoldersManager> foldersManager;
-    QScopedPointer<FilesManager> filesManager;
-    QScopedPointer<AdditionalFoldersManager> additionalFilesManager;
+    QScopedPointer<FoldersUI> foldersUI;
     QScopedPointer<OAuth2> oAuth2;
+    QScopedPointer<OperationsUI> operationsUI;
+    QScopedPointer<UploadFileManager> uploadFileManager;   
 };
 
 #endif // DRIVEENGINE_H
