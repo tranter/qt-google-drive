@@ -59,7 +59,6 @@ void MainWindow::setConnections(void)
     connect(SDriveEngine::inst()->getFoldersManager(), SIGNAL(signalAccessTokenRequired()), SDriveEngine::inst(), SLOT(slotStartLogin()));
     connect(SDriveEngine::inst()->getOAuth2(), SIGNAL(loginDone()), this, SLOT(slotloginDone()));
     connect(SDriveEngine::inst()->getFoldersManager(), SIGNAL(signalAccessTokenRequired()), SDriveEngine::inst(), SLOT(slotStartLogin()));
-    //connect(SDriveEngine::inst()->getEventHandler(), SIGNAL(signalDel(QObject*)),SDriveEngine::inst()->getOperationsUI(), SLOT(slotDel(QObject*)));
 }
 
 void MainWindow::slotloginDone()
@@ -69,6 +68,5 @@ void MainWindow::slotloginDone()
 
 bool MainWindow::eventFilter(QObject *object, QEvent *event)
 {
-    SDriveEngine::inst()->getEventHandler()->event(object, event);
-    return false;
+    return SDriveEngine::inst()->getEventHandler()->event(object, event);
 }
