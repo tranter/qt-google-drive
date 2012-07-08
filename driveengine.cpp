@@ -34,7 +34,7 @@ void DriveEngine::reset(void)
     foldersUI.reset(new FoldersUI);
     oAuth2.reset(new OAuth2(parent));
     operationsUI.reset(new OperationsUI);
-    eventHandler.reset(new EventHandler(operationsUI.data()));
+    eventHandler.reset(new EventHandler<OperationsUI>(operationsUI.data()));
 }
 
 void DriveEngine::setKeyActions(void)
@@ -57,7 +57,7 @@ CheckUI* DriveEngine::getCheckUI(void) const
     return checkUI.data();
 }
 
-EventHandler* DriveEngine::getEventHandler(void) const
+EventHandler<OperationsUI>* DriveEngine::getEventHandler(void) const
 {
     return eventHandler.data();
 }

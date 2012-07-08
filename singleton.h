@@ -12,18 +12,16 @@ public:
     static void freeInst(void);
 
 private:
-    TSingleton(){};
-    ~TSingleton(){};
+    TSingleton(){}
+    ~TSingleton(){}
     Q_DISABLE_COPY(TSingleton)
 
 private:
     static T* instObject;
 };
 
-
 template <typename T>
 T* TSingleton<T>::instObject = NULL;
-
 
 template <typename T>
 T* TSingleton<T>::inst(void)

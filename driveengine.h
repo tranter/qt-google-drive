@@ -51,7 +51,7 @@ public:
 
 public:   
     CheckUI* getCheckUI(void) const;
-    EventHandler* getEventHandler(void) const;
+    EventHandler<OperationsUI>* getEventHandler(void) const;
     FilesTransferUI* getfilesTransferUI(void) const;
     FilesUI* getfilesUI(void) const;
     FoldersManager* getFoldersManager(void) const;
@@ -77,7 +77,7 @@ private:
     QScopedPointer<AdditionalFoldersManager> additionalFilesManager;
     QScopedPointer<CheckUI> checkUI;
     QScopedPointer<DownloadFileManager> downloadManager;
-    QScopedPointer<EventHandler> eventHandler;
+    QScopedPointer<EventHandler <OperationsUI> > eventHandler;
     QScopedPointer<FilesManager> filesManager;
     QScopedPointer<FilesTransferUI> filesTransfer;
     QScopedPointer<FilesUI> filesUI;

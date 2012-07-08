@@ -35,7 +35,6 @@ SOURCES += operationsui.cpp
 SOURCES += filesui.cpp
 SOURCES += foldersui.cpp
 SOURCES += checkui.cpp
-SOURCES += eventhandler.cpp
 
 HEADERS  += mainwindow.h
 HEADERS  += createfolderdialog.h
