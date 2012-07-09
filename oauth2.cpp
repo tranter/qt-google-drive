@@ -4,6 +4,7 @@
 #include <QSettings>
 #include "AppRegData.h"
 #include "Def.h"
+#include "jsonparser.h"
 
 OAuth2::OAuth2(QWidget* parent) :
    loginDialog(new LoginDialog(parent)),
@@ -38,10 +39,12 @@ void OAuth2::slotCodeObtained()
     QUrl url(OAUTH2_TOKEN_URL);
 
     QNetworkRequest request;
+
     request.setUrl(url);
     request.setRawHeader("Content-Type", "application/x-www-form-urlencoded");
 
     QByteArray params = "client_id=" + QByteArray(CLIENT_ID);
+
     params += "&redirect_uri=";
     params += QByteArray(REDIRECT_URI);
     params += "&client_secret=";
@@ -56,13 +59,14 @@ void OAuth2::slotReplyFinished(QNetworkReply* reply)
 {
     QSettings settings(COMPANY_NAME, APP_NAME);
     QString replyStr = reply->readAll();
+    JSONParser jParser;
 
-    int expires = getParamFromJson(replyStr, "expires_in").toInt();
-    accessToken = getParamFromJson(replyStr, "access_token");
+    int expires = jParser.getParamFromJson(replyStr, "expires_in").toInt();
+    accessToken = jParser.getParamFromJson(replyStr, "access_token");
 
     settings.setValue("access_token", accessToken);
 
-    QString newRefreshToken = getParamFromJson(replyStr, "refresh_token");
+    QString newRefreshToken = jParser.getParamFromJson(replyStr, "refresh_token");
     if(!newRefreshToken.isEmpty())
     {
         refreshToken = newRefreshToken;
@@ -72,32 +76,6 @@ void OAuth2::slotReplyFinished(QNetworkReply* reply)
     if(!accessToken.isEmpty()) QTimer::singleShot((expires - 120) * 1000, this, SLOT(getAccessTokenFromRefreshToken()));
 
     emit loginDone();
-}
-
-QString OAuth2::getParamFromJson(const QString& jsonStr, const QString& lval)
-{
-    QString optStr = jsonStr;
-    optStr.remove(QRegExp("[ \"]"));
-    QStringList parseStrs = optStr.split("\n");
-    QString rval("");
-
-    for (int i = 0; i < parseStrs.count(); ++i)
-    {
-        QStringList exp = parseStrs[i].split(",");
-
-        for(int j = 0; j < exp.count(); ++j)
-        {
-            QStringList token = exp[j].split(":");
-
-            if(token[0] == lval)
-            {
-                rval = token[1];
-                break;
-            }
-        }
-    }
-
-    return rval;
 }
 
 void OAuth2::setScope(const QString& scopeStr)

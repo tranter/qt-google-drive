@@ -35,6 +35,7 @@ SOURCES += operationsui.cpp
 SOURCES += filesui.cpp
 SOURCES += foldersui.cpp
 SOURCES += checkui.cpp
+SOURCES += jsonparser.cpp
 
 HEADERS  += mainwindow.h
 HEADERS  += createfolderdialog.h
@@ -65,6 +66,7 @@ HEADERS  += filesui.h
 HEADERS  += foldersui.h
 HEADERS  += checkui.h
 HEADERS  += eventhandler.h
+HEADERS  += jsonparser.h
 
 FORMS    += mainwindow.ui
 FORMS    += createfolderdialog.ui

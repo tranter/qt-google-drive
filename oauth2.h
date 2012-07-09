@@ -25,7 +25,6 @@ public:
 
 private:
     void setConnections(void);
-    QString getParamFromJson(const QString& jsonStr, const QString& lval);
 
 private slots:
     void slotReplyFinished(QNetworkReply* reply);
