@@ -7,9 +7,12 @@
 #include "jsonparser.h"
 
 OAuth2::OAuth2(QWidget* parent) :
-   loginDialog(new LoginDialog(parent)),
-   networkManager(new QNetworkAccessManager(this))
+    NetworkManager(parent),
+    loginDialog(new LoginDialog(parent))
 { 
+    init();
+    networkManager = getNetworkManager();
+
     scope = SCOPE;
     clientID = CLIENT_ID;
     redirectURI = REDIRECT_URI;
@@ -19,8 +22,8 @@ OAuth2::OAuth2(QWidget* parent) :
 
     QSettings settings(COMPANY_NAME, APP_NAME);
 
-    accessToken = settings.value("access_token", "").toString();
-    refreshToken = settings.value("refresh_token").toString();
+    accessToken = settings.value(ACCESS_TOKEN, "").toString();
+    refreshToken = settings.value(REFRESH_TOKEN).toString();
 }
 
 OAuth2::~OAuth2()
@@ -30,18 +33,12 @@ OAuth2::~OAuth2()
 void OAuth2::setConnections(void)
 {
     connect(loginDialog.data(), SIGNAL(signalCodeObtained()), this, SLOT(slotCodeObtained()));
-    connect(networkManager.data(), SIGNAL(finished(QNetworkReply*)),this, SLOT(slotReplyFinished(QNetworkReply*)));
+    connect(networkManager, SIGNAL(finished(QNetworkReply*)),this, SLOT(slotReplyFinished(QNetworkReply*)));
 }
 
 void OAuth2::slotCodeObtained()
 {
     codeStr = loginDialog->code();
-    QUrl url(OAUTH2_TOKEN_URL);
-
-    QNetworkRequest request;
-
-    request.setUrl(url);
-    request.setRawHeader("Content-Type", "application/x-www-form-urlencoded");
 
     QByteArray params = "client_id=" + QByteArray(CLIENT_ID);
 
@@ -52,7 +49,7 @@ void OAuth2::slotCodeObtained()
     params += "&grant_type=authorization_code";
     params += "&code=" + codeStr;
 
-    networkManager->post(request, params);
+    networkManager->post(setRequest(), params);
 }
 
 void OAuth2::slotReplyFinished(QNetworkReply* reply)
@@ -61,16 +58,16 @@ void OAuth2::slotReplyFinished(QNetworkReply* reply)
     QString replyStr = reply->readAll();
     JSONParser jParser;
 
-    int expires = jParser.getParamFromJson(replyStr, "expires_in").toInt();
-    accessToken = jParser.getParamFromJson(replyStr, "access_token");
+    int expires = jParser.getParam(replyStr, "expires_in").toInt();
+    accessToken = jParser.getParam(replyStr, ACCESS_TOKEN);
 
-    settings.setValue("access_token", accessToken);
+    settings.setValue(ACCESS_TOKEN, accessToken);
 
-    QString newRefreshToken = jParser.getParamFromJson(replyStr, "refresh_token");
+    QString newRefreshToken = jParser.getParam(replyStr, REFRESH_TOKEN);
     if(!newRefreshToken.isEmpty())
     {
         refreshToken = newRefreshToken;
-        settings.setValue("refresh_token", refreshToken);
+        settings.setValue(REFRESH_TOKEN, refreshToken);
     }
 
     if(!accessToken.isEmpty()) QTimer::singleShot((expires - 120) * 1000, this, SLOT(getAccessTokenFromRefreshToken()));
@@ -101,7 +98,6 @@ QString OAuth2::permanentLoginUrl()
     return str;
 }
 
-
 bool OAuth2::isAuthorized()
 {
     return accessToken.isEmpty();
@@ -122,18 +118,25 @@ void OAuth2::startLogin(bool bForce)
 
 void OAuth2::getAccessTokenFromRefreshToken()
 {
-    QUrl url(OAUTH2_TOKEN_URL);
-    QNetworkRequest request;
-    request.setUrl(url);
-    request.setRawHeader("Content-Type", "application/x-www-form-urlencoded");
-
     QByteArray params = "client_id=" + QByteArray(CLIENT_ID);
+
     params += "&client_secret=";
     params += QByteArray(CLIENT_SECRET);
     params += "&grant_type=refresh_token";
     params += "&refresh_token=" + refreshToken;
 
-    networkManager->post(request, params);
+    networkManager->post(setRequest(), params);
+}
+
+QNetworkRequest OAuth2::setRequest(void)
+{
+    QUrl url(OAUTH2_TOKEN_URL);
+    QNetworkRequest request;
+
+    request.setUrl(url);
+    request.setRawHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    return request;
 }
 
 

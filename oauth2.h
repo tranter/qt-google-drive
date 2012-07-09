@@ -6,10 +6,9 @@
 
 class LoginDialog;
 
-class OAuth2 : public QObject
+class OAuth2 :  public NetworkManager
 {
     Q_OBJECT
-
 public:
     OAuth2(QWidget* parent = 0);
     ~OAuth2();
@@ -25,6 +24,7 @@ public:
 
 private:
     void setConnections(void);
+    QNetworkRequest setRequest(void);
 
 private slots:
     void slotReplyFinished(QNetworkReply* reply);
@@ -32,11 +32,11 @@ private slots:
     void getAccessTokenFromRefreshToken();
 
 signals:
-    void loginDone();//Signal that is emitted when login is ended OK.
+    void loginDone();
 
 private:
     QScopedPointer<LoginDialog> loginDialog;
-    QScopedPointer<QNetworkAccessManager> networkManager;
+    QNetworkAccessManager* networkManager;
 
     QString accessToken;
     QString refreshToken;

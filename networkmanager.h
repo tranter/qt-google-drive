@@ -34,7 +34,7 @@ public:
     void getRequest(const QString & url);
     void delRes(const QString & url);
     void init(void);
-    const QNetworkAccessManager *getNetworkManager(void) const;
+    QNetworkAccessManager *getNetworkManager(void) const;
 
 public:
     virtual void setStartSettings(QUrl url, const QString& fileName, const QString& progressBarDialogInfoText);
@@ -62,7 +62,6 @@ private:
 
 protected:
     QObject* parent;
-    //QNetworkAccessManager* networkManager;
     QScopedPointer <QNetworkAccessManager> networkManager;
     QNetworkReply *reply;
     QNetworkRequest request;

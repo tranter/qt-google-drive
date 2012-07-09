@@ -20,6 +20,9 @@
 
 #define OAUTH2_TOKEN_URL QString("https://accounts.google.com/o/oauth2/token")
 
+#define ACCESS_TOKEN QString("access_token")
+#define REFRESH_TOKEN QString("refresh_token")
+
 #define CONTENTS QString("/contents")
 #define MAX_RESULTS QString("?max-results=1000")
 

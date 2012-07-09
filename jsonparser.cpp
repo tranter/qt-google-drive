@@ -6,7 +6,7 @@ JSONParser::JSONParser()
 {
 }
 
-QString JSONParser::getParamFromJson(const QString& jsonStr, const QString& lval)
+QString JSONParser::getParam(const QString& jsonStr, const QString& lval)
 {
     QString optStr = jsonStr;
     optStr.remove(QRegExp("[ \"]"));

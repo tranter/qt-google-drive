@@ -14,7 +14,7 @@ void NetworkManager::init(void)
     networkManager.reset(new QNetworkAccessManager(this));
 }
 
-const QNetworkAccessManager* NetworkManager::getNetworkManager(void) const
+QNetworkAccessManager* NetworkManager::getNetworkManager(void) const
 {
     return  networkManager.data();
 }
