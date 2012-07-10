@@ -77,7 +77,7 @@ private:
     QScopedPointer<AdditionalFoldersManager> additionalFilesManager;
     QScopedPointer<CheckUI> checkUI;
     QScopedPointer<DownloadFileManager> downloadManager;
-    QScopedPointer<EventHandler <OperationsUI> > eventHandler;
+    QScopedPointer<EventHandler <OperationsUI> > opEventHandler;
     QScopedPointer<FilesManager> filesManager;
     QScopedPointer<FilesTransferUI> filesTransfer;
     QScopedPointer<FilesUI> filesUI;

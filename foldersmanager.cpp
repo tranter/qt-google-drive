@@ -13,7 +13,7 @@ void FoldersManager::slotError(QNetworkReply::NetworkError error)
     qDebug() << "FoldersManager::slotError error:" << error;
 
     if(error == QNetworkReply::UnknownNetworkError)
-       qDebug() << "\n*******************\nIf this error occur, please make sure that you have openssl installed (also you can try just copy libeay32.dll and ssleay32.dll files from Qt SDK QtCreator/bin folder into your folder where your program .exe file located (tested on non-static compilation only))\n*******************\n";
+        qDebug() << "\n*******************\nIf this error occur, please make sure that you have openssl installed (also you can try just copy libeay32.dll and ssleay32.dll files from Qt SDK QtCreator/bin folder into your folder where your program .exe file located (tested on non-static compilation only))\n*******************\n";
 
     if(error == QNetworkReply::AuthenticationRequiredError)
     {
@@ -34,11 +34,10 @@ void FoldersManager::show(void)
 
     buildTree(ROOT_TAG, items.last());
 
-//    UiInstance::ui->folderViewWidget->setSortingEnabled(true);
-//    UiInstance::ui->folderViewWidget->sortItems(0, Qt::AscendingOrder);
+    //    UiInstance::ui->folderViewWidget->setSortingEnabled(true);
+    //    UiInstance::ui->folderViewWidget->sortItems(0, Qt::AscendingOrder);
 
     root->setExpanded(true);
-    //emit signalFoldersShowed();
 }
 
 void FoldersManager::buildTree(const QString& searchStr, QTreeWidgetItem* parent)
@@ -46,6 +45,7 @@ void FoldersManager::buildTree(const QString& searchStr, QTreeWidgetItem* parent
     QList<QString> names, iconPathes;
     QList<QString> selfs;
     QList<int> indexes;
+
     folderItems = parser->getXMLHandler()->getTreeItemInfo()->getItems();
 
     int count = 0;
@@ -65,11 +65,7 @@ void FoldersManager::buildTree(const QString& searchStr, QTreeWidgetItem* parent
     if(count > 0)
     {
         fillTree(names, iconPathes, parent, indexes);
-
-        for (int i = 0; i < count; ++i)
-        {
-            buildTree(selfs[i], parent->child(i));
-        }
+        for (int i = 0; i < count; ++i) buildTree(selfs[i], parent->child(i));
     }
 }
 
@@ -86,13 +82,15 @@ void FoldersManager::fillTree(QList<QString> names, QList<QString> iconPathes, Q
 
 void FoldersManager::insertFolder(QString name, QTreeWidgetItem* parent)
 {
-//    QTreeWidgetItem* treeWidgetItem =  new QTreeWidgetItem(parent);
-//    treeWidgetItem->setText(0, name);
-//    //items.last()->setIcon(0, QPixmap(iconPathes[i]));
-//    parser->getXMLHandler()->getTreeItemInfo()->setPointer(indexes[i], treeWidgetItem);
+    //    QTreeWidgetItem* treeWidgetItem =  new QTreeWidgetItem(parent);
+    //    treeWidgetItem->setText(0, name);
+    //    items.last()->setIcon(0, QPixmap(iconPathes[i]));
+    //    parser->getXMLHandler()->getTreeItemInfo()->setPointer(indexes[i], treeWidgetItem);
+    //    items.last()->setIcon(0, QPixmap(iconPathes[i]));
+    //    parser->getXMLHandler()->getTreeItemInfo()->setPointer(indexes[i], items.last());
+
     items.push_back(new QTreeWidgetItem(parent));
     items.last()->setText(0, name);
-    //items.last()->setIcon(0, QPixmap(iconPathes[i]));
-    //parser->getXMLHandler()->getTreeItemInfo()->setPointer(indexes[i], items.last());
+
     parent->setExpanded(true);
 }

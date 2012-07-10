@@ -34,12 +34,12 @@ void DriveEngine::reset(void)
     foldersUI.reset(new FoldersUI);
     oAuth2.reset(new OAuth2(parent));
     operationsUI.reset(new OperationsUI);
-    eventHandler.reset(new EventHandler<OperationsUI>(operationsUI.data()));
+    opEventHandler.reset(new EventHandler<OperationsUI>(operationsUI.data()));
 }
 
 void DriveEngine::setKeyActions(void)
 {
- eventHandler->setKeyAction(Qt::Key_Delete, &OperationsUI::del);
+ opEventHandler->setKeyAction(Qt::Key_Delete, &OperationsUI::del);
 }
 
 void DriveEngine::slotStartLogin()
@@ -59,7 +59,7 @@ CheckUI* DriveEngine::getCheckUI(void) const
 
 EventHandler<OperationsUI>* DriveEngine::getEventHandler(void) const
 {
-    return eventHandler.data();
+    return opEventHandler.data();
 }
 
 FilesUI* DriveEngine::getfilesUI(void) const

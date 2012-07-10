@@ -19,7 +19,7 @@ public:
     void clear(void);
     void del(const QString& url);
     void createFolder(const QString& folderUrl, const QString& name);
-    OperationsManager* getOperationsManager(void) const;
+    OperationsManager* getOpMngr(void) const;
 
 public slots:
     virtual void slotReplyFinished(QNetworkReply* reply);
@@ -30,7 +30,7 @@ protected:
     virtual void show(void) = 0;
 
 protected:
-    QScopedPointer<OperationsManager> operationsManager;
+    QScopedPointer<OperationsManager> opMngr;
     QScopedPointer<XMLParser> parser;
     QList<QTreeWidgetItem*> items;
 

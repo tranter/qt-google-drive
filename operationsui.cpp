@@ -19,7 +19,7 @@ void OperationsUI::del(QObject* object)
 
             if(item[SDriveEngine::inst()->foldersUI->getCurrentFolderItemIndex()].parent != "")
             {
-                connect(SDriveEngine::inst()->foldersManager->getOperationsManager(), SIGNAL(signalDelFinished()), this, SLOT(slotDelFinished()));
+                connect(SDriveEngine::inst()->foldersManager->getOpMngr(), SIGNAL(signalDelFinished()), this, SLOT(slotDelFinished()));
                 SDriveEngine::inst()->foldersManager->del(item[SDriveEngine::inst()->foldersUI->getCurrentFolderItemIndex()].self);
                 delItemInTree(item);
             }
@@ -35,7 +35,7 @@ void OperationsUI::del(QObject* object)
 
         QList<TreeItemInfo::Data> itemData = manager->getParser()->getXMLHandler()->getTreeItemInfo()->getFileItems();
 
-        connect(manager->getOperationsManager(), SIGNAL(signalDelFinished()), this, SLOT(slotDelFinished()));
+        connect(manager->getOpMngr(), SIGNAL(signalDelFinished()), this, SLOT(slotDelFinished()));
         manager->del(itemData[SDriveEngine::inst()->filesUI->getCurrentFileItemIndex(manager)].self);
     }
 }

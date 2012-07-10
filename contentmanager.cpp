@@ -4,7 +4,7 @@
 
 ContentManager::ContentManager(int handleType, QObject *parent):
     NetworkManager(parent),
-    operationsManager(new OperationsManager(parent)),
+    opMngr(new OperationsManager(parent)),
     type(handleType)
 {
 }
@@ -25,7 +25,7 @@ void ContentManager::get(const QString& url)
 
 void ContentManager::slotReplyFinished(QNetworkReply* reply)
 {
-    CommonTools::logToFile(QString::number(type) + ".txt", replyStr.toAscii());
+    //CommonTools::logToFile(QString::number(type) + ".txt", replyStr.toAscii());
 
     if(parseReply(replyStr)) qDebug() << "parse OK";
     else qDebug() << "parse not OK";
@@ -75,17 +75,17 @@ void ContentManager::clear(void)
 
 void ContentManager::del(const QString &url)
 {
-  operationsManager->del(url);
+  opMngr->del(url);
 }
 
 void ContentManager::createFolder(const QString& folderUrl, const QString& name)
 {
-  operationsManager->createFolder(folderUrl, name);
+  opMngr->createFolder(folderUrl, name);
 }
 
-OperationsManager* ContentManager::getOperationsManager(void) const
+OperationsManager* ContentManager::getOpMngr(void) const
 {
-  return operationsManager.data();
+  return opMngr.data();
 }
 
 

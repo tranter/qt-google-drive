@@ -15,6 +15,7 @@ FilesManager::~FilesManager()
 void FilesManager::show(void)
 {
     QList<TreeItemInfo::Data> fileItems = parser->getXMLHandler()->getTreeItemInfo()->getFileItems();
+
     clear();
     SUi::inst()->filesView->clear();
 
@@ -28,8 +29,8 @@ void FilesManager::show(void)
         items.last()->setText(3, fileItems[i].fileSize);
     }
 
-    SUi::inst()->filesView->setSortingEnabled(true);
-    SUi::inst()->filesView->sortItems(0, Qt::AscendingOrder);
+//    SUi::inst()->filesView->setSortingEnabled(true);
+//    SUi::inst()->filesView->sortItems(0, Qt::AscendingOrder);
 }
 
 void FilesManager::sort(int column, Qt::SortOrder order)

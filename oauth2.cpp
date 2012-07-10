@@ -11,6 +11,7 @@ OAuth2::OAuth2(QWidget* parent) :
     loginDialog(new LoginDialog(parent))
 { 
     init();
+
     networkManager = getNetworkManager();
 
     scope = SCOPE;

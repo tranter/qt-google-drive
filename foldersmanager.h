@@ -14,7 +14,6 @@ public slots:
 
 signals:
     void signalAccessTokenRequired();
-    //void signalFoldersShowed();
 
 public:
     void insertFolder(QString name, QTreeWidgetItem* parent);
