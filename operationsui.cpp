@@ -13,14 +13,14 @@ void OperationsUI::del(QObject* object)
 
     if (object == SUi::inst()->foldersView)
     {
-        if(!SDriveEngine::inst()->elStates[DriveEngine::EAddViewFocused])
+        if(!SDriveEngine::inst()->elStates[DriveEngine::EAViewFocused])
         {
             ItemInfo item = *SDriveEngine::inst()->foldersMngr->getParser()->getXMLHandler()->getItemInfo();
 
-            if(item[SDriveEngine::inst()->foldersUI->getCurrentFolderItemIndex()].parent != "")
+            if(item[SDriveEngine::inst()->foldersUI->getCurrFolderItemId()].parent != "")
             {
                 connect(SDriveEngine::inst()->foldersMngr->getOpMngr(), SIGNAL(signalDelFinished()), this, SLOT(slotDelFinished()));
-                SDriveEngine::inst()->foldersMngr->del(item[SDriveEngine::inst()->foldersUI->getCurrentFolderItemIndex()].self);
+                SDriveEngine::inst()->foldersMngr->del(item[SDriveEngine::inst()->foldersUI->getCurrFolderItemId()].self);
                 delItemInTree(item);
             }
         }
@@ -30,19 +30,19 @@ void OperationsUI::del(QObject* object)
     {
         FilesManager* manager;
 
-        if(SDriveEngine::inst()->elStates[DriveEngine::EAddViewFocused]) manager = SDriveEngine::inst()->addlFilesMngr.data();
+        if(SDriveEngine::inst()->elStates[DriveEngine::EAViewFocused]) manager = SDriveEngine::inst()->aFoldersMngr.data();
         else manager = SDriveEngine::inst()->filesMngr.data();
 
         QList<ItemInfo::Data> itemData = manager->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
 
         connect(manager->getOpMngr(), SIGNAL(signalDelFinished()), this, SLOT(slotDelFinished()));
-        manager->del(itemData[SDriveEngine::inst()->filesUI->getCurrentFileItemIndex(manager)].self);
+        manager->del(itemData[SDriveEngine::inst()->filesUI->getCurrFileItemId(manager)].self);
     }
 }
 
 void OperationsUI::delItemInTree(ItemInfo item)
 {
-    QTreeWidgetItem *parent = item[SDriveEngine::inst()->foldersUI->getCurrentFolderItemIndex()].pointer->parent();
+    QTreeWidgetItem *parent = item[SDriveEngine::inst()->foldersUI->getCurrFolderItemId()].pointer->parent();
     int index;
 
     if (parent)
@@ -60,7 +60,7 @@ void OperationsUI::delItemInTree(ItemInfo item)
 void OperationsUI::slotTriggeredDel()
 {
     if(SDriveEngine::inst()->elStates[DriveEngine::ETrashFocused]) return;
-    if(SDriveEngine::inst()->elStates[DriveEngine::EAddViewFocused] && !SDriveEngine::inst()->elStates[DriveEngine::EFilesViewFocused]) return;
+    if(SDriveEngine::inst()->elStates[DriveEngine::EAViewFocused] && !SDriveEngine::inst()->elStates[DriveEngine::EFilesViewFocused]) return;
 
     QObject* object;
 
@@ -72,7 +72,7 @@ void OperationsUI::slotTriggeredDel()
 
 void OperationsUI::slotDelFinished()
 {
-    if(SDriveEngine::inst()->elStates[DriveEngine::EAddViewFocused]) SDriveEngine::inst()->filesUI->slotAdditionalShowFiles(SDriveEngine::inst()->getFoldersUI()->currAddFolderId);
+    if(SDriveEngine::inst()->elStates[DriveEngine::EAViewFocused]) SDriveEngine::inst()->filesUI->slotAShowFiles(SDriveEngine::inst()->getFoldersUI()->currAFolderId);
     else SDriveEngine::inst()->filesUI->showFiles();
 }
 
@@ -106,11 +106,11 @@ void OperationsUI::slotFinishedCreateFolder(int result)
 void OperationsUI::createFolder(const QString& name)
 {
     ItemInfo item = *SDriveEngine::inst()->foldersMngr->getParser()->getXMLHandler()->getItemInfo();
-    int itemIndex = SDriveEngine::inst()->foldersUI->getCurrentFolderItemIndex();
+    int itemIndex = SDriveEngine::inst()->foldersUI->getCurrFolderItemId();
 
     if(name == "" || name.contains(QRegExp("[/\\\".<>]")))
     {
-        CommonTools::msg("Please enter valid name");
+        CommonTools::msg("Please enter a valid name");
         return;
     }
 

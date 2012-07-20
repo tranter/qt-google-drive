@@ -35,7 +35,7 @@ public:
     enum EElementsStates
     {
         EFolderViewFocused = 0,
-        EAddViewFocused,
+        EAViewFocused,
         EFilesViewFocused,
         ETrashFocused,
         EElStatesCount
@@ -54,10 +54,10 @@ public:
     EventHandler<OperationsUI>* getEventHandler(void) const;
     FilesTransferUI* getfilesTransferUI(void) const;
     FilesUI* getfilesUI(void) const;
-    FoldersManager* getFoldersManager(void) const;
+    FoldersManager* getFoldersMngr(void) const;
     FoldersUI* getFoldersUI(void) const;
     OAuth2* getOAuth2(void) const;
-    OperationsUI* getOperationsUI(void) const;
+    OperationsUI* getOpUI(void) const;
     QWidget* getParent(void) const;
     void init(void);
 
@@ -74,7 +74,7 @@ private:
 
     bool elStates[EElStatesCount];
 
-    QScopedPointer<AdditionalFoldersManager> addlFilesMngr;
+    QScopedPointer<AdditionalFoldersManager> aFoldersMngr;
     QScopedPointer<CheckUI> checkUI;
     QScopedPointer<DownloadFileManager> downloadMngr;
     QScopedPointer<EventHandler <OperationsUI> > opEventHandler;

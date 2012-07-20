@@ -81,14 +81,7 @@ void FoldersManager::fillTree(QList<QString> names, QList<QString> iconPathes, Q
 }
 
 void FoldersManager::insertFolder(QString name, QTreeWidgetItem* parent)
-{
-    //    QTreeWidgetItem* treeWidgetItem =  new QTreeWidgetItem(parent);
-    //    treeWidgetItem->setText(0, name);
-    //    items.last()->setIcon(0, QPixmap(iconPathes[i]));
-    //    parser->getXMLHandler()->getTreeItemInfo()->setPointer(indexes[i], treeWidgetItem);
-    //    items.last()->setIcon(0, QPixmap(iconPathes[i]));
-    //    parser->getXMLHandler()->getTreeItemInfo()->setPointer(indexes[i], items.last());
-
+{    
     items.push_back(new QTreeWidgetItem(parent));
     items.last()->setText(0, name);
 

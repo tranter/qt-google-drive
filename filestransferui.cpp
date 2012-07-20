@@ -15,7 +15,7 @@ void FilesTransferUI::download(FilesManager* manager)
     QSettings settings(COMPANY_NAME, APP_NAME);
 
     QList<ItemInfo::Data> item = manager->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
-    int index = SDriveEngine::inst()->filesUI->getCurrentFileItemIndex(manager);
+    int index = SDriveEngine::inst()->filesUI->getCurrFileItemId(manager);
 
     QString downloadLink(item[index].downloadLink);
 
@@ -35,7 +35,7 @@ void FilesTransferUI::download(FilesManager* manager)
 
 void FilesTransferUI::upload(void)
 {
-    if(SDriveEngine::inst()->elStates[DriveEngine::EAddViewFocused])
+    if(SDriveEngine::inst()->elStates[DriveEngine::EAViewFocused])
     {
         CommonTools::msg("To upload a file please select a folder in \"Drive\" view");
         return;
@@ -51,7 +51,7 @@ void FilesTransferUI::upload(void)
     if(!fileName.isEmpty())
     {
         ItemInfo item = *SDriveEngine::inst()->foldersMngr->getParser()->getXMLHandler()->getItemInfo();
-        int index = SDriveEngine::inst()->foldersUI->getCurrentFolderItemIndex();
+        int index = SDriveEngine::inst()->foldersUI->getCurrFolderItemId();
 
         QString uploadLink(item[index].uploadLink + "/?convert=false");
 
@@ -66,7 +66,7 @@ void FilesTransferUI::upload(void)
 
 void FilesTransferUI::slotDownload(void)
 {
-    if(SDriveEngine::inst()->elStates[DriveEngine::EAddViewFocused]) download(SDriveEngine::inst()->addlFilesMngr.data());
+    if(SDriveEngine::inst()->elStates[DriveEngine::EAViewFocused]) download(SDriveEngine::inst()->aFoldersMngr.data());
     else download(SDriveEngine::inst()->filesMngr.data());
 }
 

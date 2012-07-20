@@ -3,7 +3,7 @@
 
 #include "filesmanager.h"
 
-class AdditionalFoldersManager : public FilesManager//ContentManager
+class AdditionalFoldersManager : public FilesManager
 {
     Q_OBJECT
 public:
@@ -14,7 +14,7 @@ public:
     void create(const QString& name, QString iconName = "");
 
 private:
-    QList<QTreeWidgetItem*> additionalFolders;
+    QList<QTreeWidgetItem*> aFolders;
 };
 
 #endif // ADDITIONALFOLDESMANAGER_H

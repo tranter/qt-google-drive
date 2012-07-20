@@ -9,13 +9,13 @@ AdditionalFoldersManager::AdditionalFoldersManager(QObject *parent) :
 
 AdditionalFoldersManager::~AdditionalFoldersManager()
 {
- for(int i = 0; i < additionalFolders.count(); ++i) delete additionalFolders[i];
- additionalFolders.clear();
+ for(int i = 0; i < aFolders.count(); ++i) delete aFolders[i];
+ aFolders.clear();
 }
 
 void AdditionalFoldersManager::create(const QString& name, QString iconName)
 {
-  additionalFolders.push_back(new QTreeWidgetItem(SUi::inst()->additionalFoldersView));
-  additionalFolders.last()->setText(0, name);
-  additionalFolders.last()->setIcon(0, QPixmap(iconName));
+  aFolders.push_back(new QTreeWidgetItem(SUi::inst()->additionalFoldersView));
+  aFolders.last()->setText(0, name);
+  aFolders.last()->setIcon(0, QPixmap(iconName));
 }

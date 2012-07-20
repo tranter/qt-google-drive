@@ -6,7 +6,7 @@ FilesUI::FilesUI(QObject *parent) :
 {
 }
 
-int FilesUI::getCurrentFileItemIndex(FilesManager* manager) const
+int FilesUI::getCurrFileItemId(FilesManager* manager) const
 {
     QList<ItemInfo::Data> item = manager->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
     int count = item.count();
@@ -29,13 +29,13 @@ int FilesUI::getCurrentFileItemIndex(FilesManager* manager) const
 void FilesUI::showFiles(void)
 {
     ItemInfo item = *SDriveEngine::inst()->foldersMngr->getParser()->getXMLHandler()->getItemInfo();
-    int treeItemsIndex = SDriveEngine::inst()->foldersUI->getCurrentFolderItemIndex();
+    int itemsIndex = SDriveEngine::inst()->foldersUI->getCurrFolderItemId();
 
     if (item.getItems().size() > 0)
     {
-        if(item[treeItemsIndex].type == FOLDER_TYPE_STR)
+        if(item[itemsIndex].type == FOLDER_TYPE_STR)
         {
-            QString query(item[treeItemsIndex].self);
+            QString query(item[itemsIndex].self);
             query += QString(CONTENTS + MAX_RESULTS);
 
             SDriveEngine::inst()->filesMngr->get(query);
@@ -59,16 +59,16 @@ void FilesUI::showFilesFromFolder(void)
     }
 }
 
-void FilesUI::slotAdditionalShowFiles(const QModelIndex& index)
+void FilesUI::slotAShowFiles(const QModelIndex& index)
 {
     if(index.model()->data(index).toString() == TRASH_TITLE) SDriveEngine::inst()->elStates[DriveEngine::ETrashFocused] = true;
     else SDriveEngine::inst()->elStates[DriveEngine::ETrashFocused] = false;
 
     QString query;
-    SDriveEngine::inst()->getFoldersUI()->currAddFolderId = index;
+    SDriveEngine::inst()->getFoldersUI()->currAFolderId = index;
 
     SDriveEngine::inst()->elStates[DriveEngine::EFolderViewFocused] = false;
-    SDriveEngine::inst()->elStates[DriveEngine::EAddViewFocused] = true;
+    SDriveEngine::inst()->elStates[DriveEngine::EAViewFocused] = true;
     SDriveEngine::inst()->elStates[DriveEngine::EFilesViewFocused] = false;
 
     SDriveEngine::inst()->filesMngr->clear();
@@ -81,7 +81,7 @@ void FilesUI::slotAdditionalShowFiles(const QModelIndex& index)
     if(index.model()->data(index).toString() == GET_STARRED_TITLE)  query = GET_STARRED;
     if(index.model()->data(index).toString() == TRASH_TITLE) query = GET_TRASH;
 
-    SDriveEngine::inst()->addlFilesMngr->get(query);
+    SDriveEngine::inst()->aFoldersMngr->get(query);
 }
 
 void FilesUI::slotFilesSortIndicatorChanged(int logicalIndex, Qt::SortOrder order)
@@ -94,7 +94,7 @@ void FilesUI::slotFilesViewClicked(const QModelIndex&)
     SDriveEngine::inst()->elStates[DriveEngine::EFolderViewFocused] = false;
     SDriveEngine::inst()->elStates[DriveEngine::EFilesViewFocused] = true;
 
-    if(!SDriveEngine::inst()->elStates[DriveEngine::EAddViewFocused]) showFilesFromFolder();
+    if(!SDriveEngine::inst()->elStates[DriveEngine::EAViewFocused]) showFilesFromFolder();
 }
 
 void FilesUI::slotUpdateFileList()

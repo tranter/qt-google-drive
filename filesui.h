@@ -16,13 +16,13 @@ public:
     friend class OperationsUI;
 
 private slots:
-    void slotAdditionalShowFiles(const QModelIndex& index);
+    void slotAShowFiles(const QModelIndex& index);
     void slotFilesSortIndicatorChanged(int logicalIndex, Qt::SortOrder order);
     void slotFilesViewClicked(const QModelIndex&);
     void slotUpdateFileList();
 
 private:
-    int getCurrentFileItemIndex(FilesManager* manager) const;
+    int getCurrFileItemId(FilesManager* manager) const;
     void showFiles(void);
     void showFilesFromFolder(void);
 };

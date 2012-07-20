@@ -19,12 +19,12 @@ private slots:
 
 private:
     bool folderInFilesView(QString &resourceID);
-    int getCurrentFolderItemIndex(void) const;
-    void showAdditionalFolders(void);
+    int getCurrFolderItemId(void) const;
+    void showAFolders(void);
     void showFolders(void);
 
 private:
-    QModelIndex currAddFolderId;
+    QModelIndex currAFolderId;
     //int currentFolderIndex;
 };
 

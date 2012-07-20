@@ -20,12 +20,12 @@ void DriveEngine::init(void)
     setKeyActions();
 
     foldersUI->showFolders();
-    foldersUI->showAdditionalFolders();
+    foldersUI->showAFolders();
 }
 
 void DriveEngine::reset(void)
 {
-    addlFilesMngr.reset(new AdditionalFoldersManager);
+    aFoldersMngr.reset(new AdditionalFoldersManager);
     checkUI.reset(new CheckUI);
     filesMngr.reset(new FilesManager);
     filesTransferUI.reset(new FilesTransferUI);
@@ -72,7 +72,7 @@ FilesTransferUI* DriveEngine::getfilesTransferUI(void) const
     return filesTransferUI.data();
 }
 
-FoldersManager* DriveEngine::getFoldersManager(void) const
+FoldersManager* DriveEngine::getFoldersMngr(void) const
 {
     return foldersMngr.data();
 }
@@ -87,7 +87,7 @@ OAuth2* DriveEngine::getOAuth2(void) const
     return oAuth2.data();
 }
 
-OperationsUI* DriveEngine::getOperationsUI(void) const
+OperationsUI* DriveEngine::getOpUI(void) const
 {
     return opUI.data();
 }
