@@ -7,7 +7,7 @@ DriveEngine::DriveEngine(QObject *parent) :
     QObject(parent)
 {
     this->parent = static_cast<QWidget*>(parent);
-    for(int i = 0; i < EElementsStatesCount; ++i) elementsStates[i] = false;
+    for(int i = 0; i < EElStatesCount; ++i) elStates[i] = false;
 }
 
 DriveEngine::~DriveEngine()
@@ -25,21 +25,21 @@ void DriveEngine::init(void)
 
 void DriveEngine::reset(void)
 {
-    additionalFilesManager.reset(new AdditionalFoldersManager);
-    checkUI.reset(new CheckUI);   
-    filesManager.reset(new FilesManager);
-    filesTransfer.reset(new FilesTransferUI);
+    addlFilesMngr.reset(new AdditionalFoldersManager);
+    checkUI.reset(new CheckUI);
+    filesMngr.reset(new FilesManager);
+    filesTransferUI.reset(new FilesTransferUI);
     filesUI.reset(new FilesUI);
-    foldersManager.reset(new FoldersManager);
+    foldersMngr.reset(new FoldersManager);
     foldersUI.reset(new FoldersUI);
     oAuth2.reset(new OAuth2(parent));
-    operationsUI.reset(new OperationsUI);
-    opEventHandler.reset(new EventHandler<OperationsUI>(operationsUI.data()));
+    opUI.reset(new OperationsUI);
+    opEventHandler.reset(new EventHandler<OperationsUI>(opUI.data()));
 }
 
 void DriveEngine::setKeyActions(void)
 {
- opEventHandler->setKeyAction(Qt::Key_Delete, &OperationsUI::del);
+    opEventHandler->setKeyAction(Qt::Key_Delete, &OperationsUI::del);
 }
 
 void DriveEngine::slotStartLogin()
@@ -69,12 +69,12 @@ FilesUI* DriveEngine::getfilesUI(void) const
 
 FilesTransferUI* DriveEngine::getfilesTransferUI(void) const
 {
-    return filesTransfer.data();
+    return filesTransferUI.data();
 }
 
 FoldersManager* DriveEngine::getFoldersManager(void) const
 {
-    return foldersManager.data();
+    return foldersMngr.data();
 }
 
 FoldersUI* DriveEngine::getFoldersUI(void) const
@@ -89,7 +89,7 @@ OAuth2* DriveEngine::getOAuth2(void) const
 
 OperationsUI* DriveEngine::getOperationsUI(void) const
 {
-    return operationsUI.data();
+    return opUI.data();
 }
 
 QWidget* DriveEngine::getParent(void) const

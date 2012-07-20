@@ -3,7 +3,7 @@
 #include <QDebug>
 
 XMLHandler::XMLHandler(int type):
-    itemInfo(new TreeItemInfo),
+    itemInfo(new ItemInfo),
     queryType(type), 
     resDownloadedCount(0),
     isResDownloding(false)
@@ -81,7 +81,7 @@ void XMLHandler::handleUpdatedTag(const QString &str)
     tags[EUpdated] = false;
 }
 
-TreeItemInfo* XMLHandler::getTreeItemInfo(void) const
+ItemInfo* XMLHandler::getItemInfo(void) const
 {
     return itemInfo.data();
 }

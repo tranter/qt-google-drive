@@ -8,7 +8,7 @@ FilesUI::FilesUI(QObject *parent) :
 
 int FilesUI::getCurrentFileItemIndex(FilesManager* manager) const
 {
-    QList<TreeItemInfo::Data> item = manager->getParser()->getXMLHandler()->getTreeItemInfo()->getFileItems();
+    QList<ItemInfo::Data> item = manager->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
     int count = item.count();
     QString fileName(SUi::inst()->filesView->currentIndex().data().toString());
 
@@ -28,21 +28,22 @@ int FilesUI::getCurrentFileItemIndex(FilesManager* manager) const
 
 void FilesUI::showFiles(void)
 {
-    TreeItemInfo item = *SDriveEngine::inst()->foldersManager->getParser()->getXMLHandler()->getTreeItemInfo();
+    ItemInfo item = *SDriveEngine::inst()->foldersMngr->getParser()->getXMLHandler()->getItemInfo();
     int treeItemsIndex = SDriveEngine::inst()->foldersUI->getCurrentFolderItemIndex();
 
-    if (item.getItems().size() > 0) {
+    if (item.getItems().size() > 0)
+    {
         if(item[treeItemsIndex].type == FOLDER_TYPE_STR)
         {
             QString query(item[treeItemsIndex].self);
             query += QString(CONTENTS + MAX_RESULTS);
 
-            SDriveEngine::inst()->filesManager->get(query);
+            SDriveEngine::inst()->filesMngr->get(query);
         }
     }
 }
 
-void FilesUI::showFilesFromFolderInFilesView(void)
+void FilesUI::showFilesFromFolder(void)
 {
     QString str;
 
@@ -52,23 +53,25 @@ void FilesUI::showFilesFromFolderInFilesView(void)
         query += str;
         query += QString(CONTENTS + MAX_RESULTS);
 
-        SDriveEngine::inst()->filesManager->get(query);
+        qDebug() << "FilesUI::showFilesFromFolderInFilesView query:" << query;
+
+        SDriveEngine::inst()->filesMngr->get(query);
     }
 }
 
 void FilesUI::slotAdditionalShowFiles(const QModelIndex& index)
 {
-    if(index.model()->data(index).toString() == TRASH_TITLE) SDriveEngine::inst()->elementsStates[DriveEngine::ETrashFocused] = true;
-    else SDriveEngine::inst()->elementsStates[DriveEngine::ETrashFocused] = false;
+    if(index.model()->data(index).toString() == TRASH_TITLE) SDriveEngine::inst()->elStates[DriveEngine::ETrashFocused] = true;
+    else SDriveEngine::inst()->elStates[DriveEngine::ETrashFocused] = false;
 
     QString query;
-    SDriveEngine::inst()->getFoldersUI()->currentAdditionalFolderIndex = index;
+    SDriveEngine::inst()->getFoldersUI()->currAddFolderId = index;
 
-    SDriveEngine::inst()->elementsStates[DriveEngine::EFolderViewFocused] = false;
-    SDriveEngine::inst()->elementsStates[DriveEngine::EAdditionalViewFocused] = true;
-    SDriveEngine::inst()->elementsStates[DriveEngine::EFilesViewFocused] = false;
+    SDriveEngine::inst()->elStates[DriveEngine::EFolderViewFocused] = false;
+    SDriveEngine::inst()->elStates[DriveEngine::EAddViewFocused] = true;
+    SDriveEngine::inst()->elStates[DriveEngine::EFilesViewFocused] = false;
 
-    SDriveEngine::inst()->filesManager->clear();
+    SDriveEngine::inst()->filesMngr->clear();
 
     if(index.model()->data(index).toString() == ALL_ITEMS_TITLE) query = GET_ALL_ITEMS + MAX_RESULTS;
     if(index.model()->data(index).toString() == GET_USER_DOCUMENTS_TITLE) query = GET_USER_DOCUMENTS + MAX_RESULTS;
@@ -78,7 +81,7 @@ void FilesUI::slotAdditionalShowFiles(const QModelIndex& index)
     if(index.model()->data(index).toString() == GET_STARRED_TITLE)  query = GET_STARRED;
     if(index.model()->data(index).toString() == TRASH_TITLE) query = GET_TRASH;
 
-    SDriveEngine::inst()->additionalFilesManager->get(query);
+    SDriveEngine::inst()->addlFilesMngr->get(query);
 }
 
 void FilesUI::slotFilesSortIndicatorChanged(int logicalIndex, Qt::SortOrder order)
@@ -88,10 +91,10 @@ void FilesUI::slotFilesSortIndicatorChanged(int logicalIndex, Qt::SortOrder orde
 
 void FilesUI::slotFilesViewClicked(const QModelIndex&)
 {
-    SDriveEngine::inst()->elementsStates[DriveEngine::EFolderViewFocused] = false;
-    SDriveEngine::inst()->elementsStates[DriveEngine::EFilesViewFocused] = true;
+    SDriveEngine::inst()->elStates[DriveEngine::EFolderViewFocused] = false;
+    SDriveEngine::inst()->elStates[DriveEngine::EFilesViewFocused] = true;
 
-    if(!SDriveEngine::inst()->elementsStates[DriveEngine::EAdditionalViewFocused]) showFilesFromFolderInFilesView();
+    if(!SDriveEngine::inst()->elStates[DriveEngine::EAddViewFocused]) showFilesFromFolder();
 }
 
 void FilesUI::slotUpdateFileList()

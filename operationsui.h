@@ -26,7 +26,7 @@ private slots:
 
 private:
     void createFolder(const QString& name);
-    void delItemInTree(TreeItemInfo item);
+    void delItemInTree(ItemInfo item);
 
 private:
     CreateFolderDialog* createFolderDialog;

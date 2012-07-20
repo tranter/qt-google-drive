@@ -24,7 +24,7 @@ private:
     virtual void show(void);
 
 private:
-    QList<TreeItemInfo::Data> folderItems;
+    QList<ItemInfo::Data> folderItems;
 };
 
 #endif // FOLDERSMANAGER_H

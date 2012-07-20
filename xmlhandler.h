@@ -31,7 +31,7 @@ public:
     bool characters(const QString &str);
     bool fatalError(const QXmlParseException &exception);
 
-    TreeItemInfo* getTreeItemInfo(void) const;
+    ItemInfo* getItemInfo(void) const;
     void setType(int type);
     bool resDownloadingNow(void) const;
 
@@ -53,8 +53,8 @@ private:
     void saveResData(const QXmlAttributes& attribs);
 
 private:
-    QScopedPointer<TreeItemInfo> itemInfo;
-    TreeItemInfo::Data itemData;
+    QScopedPointer<ItemInfo> itemInfo;
+    ItemInfo::Data itemData;
     QList<ResManager*> resManagers;
     QLocale locale;
 

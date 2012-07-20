@@ -5,10 +5,10 @@
 #include <QTreeWidgetItem>
 #include "Def.h"
 
-class TreeItemInfo
+class ItemInfo
 {
 public:
-    TreeItemInfo();
+    ItemInfo();
 
     struct Data
     {

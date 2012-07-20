@@ -35,10 +35,10 @@ public:
     enum EElementsStates
     {
         EFolderViewFocused = 0,
-        EAdditionalViewFocused,
+        EAddViewFocused,
         EFilesViewFocused,
         ETrashFocused,
-        EElementsStatesCount
+        EElStatesCount
     };
 
     explicit DriveEngine(QObject *parent = 0);
@@ -72,20 +72,20 @@ public slots:
 private:
     QWidget* parent;
 
-    bool elementsStates[EElementsStatesCount];
+    bool elStates[EElStatesCount];
 
-    QScopedPointer<AdditionalFoldersManager> additionalFilesManager;
+    QScopedPointer<AdditionalFoldersManager> addlFilesMngr;
     QScopedPointer<CheckUI> checkUI;
-    QScopedPointer<DownloadFileManager> downloadManager;
+    QScopedPointer<DownloadFileManager> downloadMngr;
     QScopedPointer<EventHandler <OperationsUI> > opEventHandler;
-    QScopedPointer<FilesManager> filesManager;
-    QScopedPointer<FilesTransferUI> filesTransfer;
+    QScopedPointer<FilesManager> filesMngr;
+    QScopedPointer<FilesTransferUI> filesTransferUI;
     QScopedPointer<FilesUI> filesUI;
-    QScopedPointer<FoldersManager> foldersManager;
+    QScopedPointer<FoldersManager> foldersMngr;
     QScopedPointer<FoldersUI> foldersUI;
     QScopedPointer<OAuth2> oAuth2;
-    QScopedPointer<OperationsUI> operationsUI;
-    QScopedPointer<UploadFileManager> uploadFileManager;   
+    QScopedPointer<OperationsUI> opUI;
+    QScopedPointer<UploadFileManager> uploadFileMngr;
 };
 
 #endif // DRIVEENGINE_H

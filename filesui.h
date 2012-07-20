@@ -24,7 +24,7 @@ private slots:
 private:
     int getCurrentFileItemIndex(FilesManager* manager) const;
     void showFiles(void);
-    void showFilesFromFolderInFilesView(void);
+    void showFilesFromFolder(void);
 };
 
 #endif // FILESUI_H

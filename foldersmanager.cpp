@@ -46,7 +46,7 @@ void FoldersManager::buildTree(const QString& searchStr, QTreeWidgetItem* parent
     QList<QString> selfs;
     QList<int> indexes;
 
-    folderItems = parser->getXMLHandler()->getTreeItemInfo()->getItems();
+    folderItems = parser->getXMLHandler()->getItemInfo()->getItems();
 
     int count = 0;
 
@@ -76,7 +76,7 @@ void FoldersManager::fillTree(QList<QString> names, QList<QString> iconPathes, Q
         items.push_back(new QTreeWidgetItem(parent));
         items.last()->setText(0, names[i]);
         items.last()->setIcon(0, QPixmap(iconPathes[i]));
-        parser->getXMLHandler()->getTreeItemInfo()->setPointer(indexes[i], items.last());
+        parser->getXMLHandler()->getItemInfo()->setPointer(indexes[i], items.last());
     }
 }
 

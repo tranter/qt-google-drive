@@ -1,30 +1,30 @@
 #include "treeiteminfo.h"
 
-TreeItemInfo::TreeItemInfo()
+ItemInfo::ItemInfo()
 {
 }
 
-void TreeItemInfo::setPointer(int index, QTreeWidgetItem* pointer)
+void ItemInfo::setPointer(int index, QTreeWidgetItem* pointer)
 {
     items[index].pointer = pointer;
 }
 
-void TreeItemInfo::setFileSize(const QString& size, int index)
+void ItemInfo::setFileSize(const QString& size, int index)
 {
     fileItems[index].fileSize = size;
 }
 
-const QList<TreeItemInfo::Data>& TreeItemInfo::getItems(void) const
+const QList<ItemInfo::Data>& ItemInfo::getItems(void) const
 {
     return items;
 }
 
-const QList<TreeItemInfo::Data>& TreeItemInfo::getFileItems(void) const
+const QList<ItemInfo::Data>& ItemInfo::getFileItems(void) const
 {
     return fileItems;
 }
 
-void TreeItemInfo::push_back(TreeItemInfo::Data& data, int type)
+void ItemInfo::push_back(ItemInfo::Data& data, int type)
 {
     switch(type)
     {
@@ -35,28 +35,28 @@ void TreeItemInfo::push_back(TreeItemInfo::Data& data, int type)
     }
 }
 
-void TreeItemInfo::normalize(void)
+void ItemInfo::normalize(void)
 {
     for(int i =  1; i < fileItems.count(); ++i)
         items.push_back(fileItems[i]);
 }
 
-TreeItemInfo::Data& TreeItemInfo::operator [] (int index)
+ItemInfo::Data& ItemInfo::operator [] (int index)
 {
     return items[index];
 }
 
-void TreeItemInfo::setAccountOwner(const QString& name)
+void ItemInfo::setAccountOwner(const QString& name)
 {
  accountOwner = name;
 }
 
-QString TreeItemInfo::getAccountOwner(void) const
+QString ItemInfo::getAccountOwner(void) const
 {
   return accountOwner;
 }
 
-void TreeItemInfo::setDataOwner(const QString& name, int index, int type)
+void ItemInfo::setDataOwner(const QString& name, int index, int type)
 {
     switch(type)
     {

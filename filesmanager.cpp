@@ -14,7 +14,7 @@ FilesManager::~FilesManager()
 
 void FilesManager::show(void)
 {
-    QList<TreeItemInfo::Data> fileItems = parser->getXMLHandler()->getTreeItemInfo()->getFileItems();
+    QList<ItemInfo::Data> fileItems = parser->getXMLHandler()->getItemInfo()->getFileItems();
 
     clear();
     SUi::inst()->filesView->clear();
