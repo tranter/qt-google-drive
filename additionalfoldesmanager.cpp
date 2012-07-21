@@ -15,7 +15,7 @@ AdditionalFoldersManager::~AdditionalFoldersManager()
 
 void AdditionalFoldersManager::create(const QString& name, QString iconName)
 {
-  aFolders.push_back(new QTreeWidgetItem(SUi::inst()->additionalFoldersView));
+  aFolders.push_back(new QTreeWidgetItem(SUi::inst()->aFoldersView));
   aFolders.last()->setText(0, name);
   aFolders.last()->setIcon(0, QPixmap(iconName));
 }

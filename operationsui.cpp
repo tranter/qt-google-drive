@@ -11,7 +11,7 @@ void OperationsUI::del(QObject* object)
 {
     qDebug() << "OperationsUI::del()";
 
-    if (object == SUi::inst()->foldersView)
+    if (object == SUi::inst()->treeFoldersView)
     {
         if(!SDriveEngine::inst()->elStates[DriveEngine::EAViewFocused])
         {
@@ -26,7 +26,7 @@ void OperationsUI::del(QObject* object)
         }
     }
 
-    if (object == SUi::inst()->filesView)
+    if (object == SUi::inst()->filesViewRight)
     {
         FilesManager* manager;
 
@@ -47,13 +47,13 @@ void OperationsUI::delItemInTree(ItemInfo item)
 
     if (parent)
     {
-        index = parent->indexOfChild(SUi::inst()->foldersView->currentItem());
+        index = parent->indexOfChild(SUi::inst()->treeFoldersView->currentItem());
         delete parent->takeChild(index);
     }
     else
     {
-        index = SUi::inst()->foldersView->indexOfTopLevelItem(SUi::inst()->foldersView->currentItem());
-        delete SUi::inst()->foldersView->takeTopLevelItem(index);
+        index = SUi::inst()->treeFoldersView->indexOfTopLevelItem(SUi::inst()->treeFoldersView->currentItem());
+        delete SUi::inst()->treeFoldersView->takeTopLevelItem(index);
     }
 }
 
@@ -64,8 +64,8 @@ void OperationsUI::slotTriggeredDel()
 
     QObject* object;
 
-    if(SDriveEngine::inst()->elStates[DriveEngine::EFolderViewFocused]) object = SUi::inst()->foldersView;
-    else object = SUi::inst()->filesView;
+    if(SDriveEngine::inst()->elStates[DriveEngine::EFolderViewFocused]) object = SUi::inst()->treeFoldersView;
+    else object = SUi::inst()->filesViewRight;
 
     del(object);
 }

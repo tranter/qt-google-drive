@@ -9,7 +9,7 @@ FilesManager::FilesManager(QObject *parent):
 
 FilesManager::~FilesManager()
 {
-    SUi::inst()->filesView->clear();
+    SUi::inst()->filesViewRight->clear();
 }
 
 void FilesManager::show(void)
@@ -17,11 +17,11 @@ void FilesManager::show(void)
     QList<ItemInfo::Data> fileItems = parser->getXMLHandler()->getItemInfo()->getFileItems();
 
     clear();
-    SUi::inst()->filesView->clear();
+    SUi::inst()->filesViewRight->clear();
 
     for(int i = 1; i < fileItems.count(); ++i)
     {
-        items.push_back(new QTreeWidgetItem(SUi::inst()->filesView));
+        items.push_back(new QTreeWidgetItem(SUi::inst()->filesViewRight));
         items.last()->setText(0, fileItems[i].name);
         items.last()->setIcon(0, QPixmap(fileItems[i].iconPath));
         items.last()->setText(1, fileItems[i].dataOwner);

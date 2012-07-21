@@ -3,6 +3,7 @@
 #include "driveengine.h"
 #include <QTextCodec>
 #include <QKeyEvent>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -29,13 +30,18 @@ void MainWindow::init(void)
 
     setConnections();
 
-    SUi::inst()->foldersView->installEventFilter(this);
-    SUi::inst()->filesView->installEventFilter(this);
+    SUi::inst()->treeFoldersView->installEventFilter(this);
+    SUi::inst()->filesViewRight->installEventFilter(this);
 
     QTextCodec::setCodecForCStrings(QTextCodec::codecForLocale());
     QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
 
-    SUi::inst()->filesView->header()->resizeSection(0, 380);
+    //SUi::inst()->filesViewRight->header()->resizeSection(0, 360);
+    //SUi::inst()->treeFoldersView->setVisible(false);
+    //SUi::inst()->aFoldersView->setVisible(false);
+    //SUi::inst()->filesViewRight->header()->setCursor(Qt::SizeHorCursor);
+
+    SUi::inst()->filesViewLeft->setVisible(false);
 }
 
 void MainWindow::setConnections(void)
@@ -52,10 +58,10 @@ void MainWindow::setConnections(void)
     connect(SUi::inst()->actionDelete, SIGNAL(triggered()), SDriveEngine::inst()->getOpUI(), SLOT(slotTriggeredDel()));
     connect(SUi::inst()->actionMenuCreateFolder, SIGNAL(triggered()), SDriveEngine::inst()->getOpUI(), SLOT(slotCreateFolder()));
     connect(SUi::inst()->actionCreateFolder, SIGNAL(triggered()), SDriveEngine::inst()->getOpUI(), SLOT(slotCreateFolder()));
-    connect(SUi::inst()->foldersView, SIGNAL(clicked (const QModelIndex&)), SDriveEngine::inst()->getFoldersUI(), SLOT(slotFoldersViewClicked(const QModelIndex&)));
-    connect(SUi::inst()->filesView, SIGNAL(clicked (const QModelIndex&)), SDriveEngine::inst()->getfilesUI(), SLOT(slotFilesViewClicked(const QModelIndex&)));
-    connect(SUi::inst()->additionalFoldersView, SIGNAL(clicked (const QModelIndex&)), SDriveEngine::inst()->getfilesUI(), SLOT(slotAShowFiles(const QModelIndex&)));
-    connect(SUi::inst()->filesView->header(), SIGNAL(sortIndicatorChanged(int, Qt::SortOrder)), SDriveEngine::inst()->getfilesUI(), SLOT(slotFilesSortIndicatorChanged(int, Qt::SortOrder)));
+    connect(SUi::inst()->treeFoldersView, SIGNAL(clicked (const QModelIndex&)), SDriveEngine::inst()->getFoldersUI(), SLOT(slotFoldersViewClicked(const QModelIndex&)));
+    connect(SUi::inst()->filesViewRight, SIGNAL(clicked (const QModelIndex&)), SDriveEngine::inst()->getfilesUI(), SLOT(slotFilesViewClicked(const QModelIndex&)));
+    connect(SUi::inst()->aFoldersView, SIGNAL(clicked (const QModelIndex&)), SDriveEngine::inst()->getfilesUI(), SLOT(slotAShowFiles(const QModelIndex&)));
+    connect(SUi::inst()->filesViewRight->header(), SIGNAL(sortIndicatorChanged(int, Qt::SortOrder)), SDriveEngine::inst()->getfilesUI(), SLOT(slotFilesSortIndicatorChanged(int, Qt::SortOrder)));
     connect(SDriveEngine::inst()->getFoldersMngr(), SIGNAL(signalAccessTokenRequired()), SDriveEngine::inst(), SLOT(slotStartLogin()));
     connect(SDriveEngine::inst()->getOAuth2(), SIGNAL(loginDone()), this, SLOT(slotloginDone()));
     connect(SDriveEngine::inst()->getFoldersMngr(), SIGNAL(signalAccessTokenRequired()), SDriveEngine::inst(), SLOT(slotStartLogin()));
@@ -70,3 +76,5 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event)
 {
     return SDriveEngine::inst()->getEventHandler()->event(object, event);
 }
+
+

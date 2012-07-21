@@ -10,7 +10,7 @@ int FilesUI::getCurrFileItemId(FilesManager* manager) const
 {
     QList<ItemInfo::Data> item = manager->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
     int count = item.count();
-    QString fileName(SUi::inst()->filesView->currentIndex().data().toString());
+    QString fileName(SUi::inst()->filesViewRight->currentIndex().data().toString());
 
     int currentFileIndex = 0;
 

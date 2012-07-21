@@ -1,10 +1,15 @@
 #include <QtGui/QApplication>
 #include "mainwindow.h"
+#include <QDesktopWidget>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainWindow w;
+
+    QRect r(w.geometry());
+    r.moveCenter(a.desktop()->availableGeometry().center());
+    w.setGeometry(r);
 
     w.show();
     w.init();

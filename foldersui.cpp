@@ -27,7 +27,7 @@ bool FoldersUI::folderInFilesView(QString& resourceID)
 
 int FoldersUI::getCurrFolderItemId(void) const
 {
-    QTreeWidgetItem* pointer = static_cast<QTreeWidgetItem*>(SUi::inst()->foldersView->currentIndex().internalPointer());
+    QTreeWidgetItem* pointer = static_cast<QTreeWidgetItem*>(SUi::inst()->treeFoldersView->currentIndex().internalPointer());
     ItemInfo item = *SDriveEngine::inst()->foldersMngr->getParser()->getXMLHandler()->getItemInfo();
     int count = item.getItems().count();
 
@@ -65,7 +65,7 @@ void FoldersUI::showFolders(void)
 
 void FoldersUI::slotFoldersViewClicked(const QModelIndex& index)
 {
-    qDebug() << "FoldersUI::slotFoldersViewClicked";
+    qDebug() << "FoldersUI::slottreeFoldersViewClicked";
     //SDriveEngine::inst()->getFoldersUI()->currentFolderIndex = index.row();
 
     SDriveEngine::inst()->elStates[DriveEngine::EFolderViewFocused] = true;
