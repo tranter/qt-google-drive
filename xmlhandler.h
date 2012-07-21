@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QXmlAttributes>
-#include "treeiteminfo.h"
+#include "iteminfo.h"
 #include "Def.h"
 #include "resmanager.h"
 #include "commontools.h"
