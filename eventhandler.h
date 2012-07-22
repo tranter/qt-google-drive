@@ -2,6 +2,7 @@
 #define EVENTHANDLER_H
 
 #include <QKeyEvent>
+#include <QDebug>
 
 template <typename T>
 class EventHandler
@@ -29,6 +30,7 @@ bool EventHandler<T>::event(QObject *object, QEvent *event)
 {
     bool ret = false;
     if (event->type() == QEvent::KeyPress) ret = keyPressEvent(object, event);
+    if (event->type() == QEvent::GrabMouse) qDebug() << "---->" << object->objectName();
     return ret;
 }
 
@@ -52,7 +54,5 @@ void EventHandler<T>::setKeyAction(Qt::Key key, KeyActionFunc keyActionFunc)
 {
  keyActions[key] = keyActionFunc;
 }
-
-
 
 #endif // EVENTHANDLER_H

@@ -17,7 +17,7 @@ void OperationsManager::del(const QString& resUrl)
 
 void OperationsManager::createFolder(const QString& folderUrl, const QString& name)
 {
-    QString url(folderUrl + "/contents");
+    QString url(folderUrl + CONTENTS);
 
 //    CommonTools::setHeader(request);
 //    request.setRawHeader("If-Match", "*");

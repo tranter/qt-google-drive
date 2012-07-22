@@ -36,7 +36,7 @@ void FilesUI::showFiles(void)
         if(item[itemsIndex].type == FOLDER_TYPE_STR)
         {
             QString query(item[itemsIndex].self);
-            query += QString(CONTENTS + MAX_RESULTS);
+            query += (CONTENTS + MAX_RESULTS);
 
             SDriveEngine::inst()->filesMngr->get(query);
         }
@@ -47,13 +47,11 @@ void FilesUI::showFilesFromFolder(void)
 {
     QString str;
 
-    if(SDriveEngine::inst()->foldersUI->folderInFilesView(str))
+    if(SDriveEngine::inst()->foldersUI->getFolderContent(str))
     {
         QString query(GET_FILES_IN_FOLDER);
         query += str;
-        query += QString(CONTENTS + MAX_RESULTS);
-
-        qDebug() << "FilesUI::showFilesFromFolderInFilesView query:" << query;
+        query += (CONTENTS + MAX_RESULTS);
 
         SDriveEngine::inst()->filesMngr->get(query);
     }
@@ -67,8 +65,8 @@ void FilesUI::slotAShowFiles(const QModelIndex& index)
     QString query;
     SDriveEngine::inst()->getFoldersUI()->currAFolderId = index;
 
-    SDriveEngine::inst()->elStates[DriveEngine::EFolderViewFocused] = false;
-    SDriveEngine::inst()->elStates[DriveEngine::EAViewFocused] = true;
+    SDriveEngine::inst()->elStates[DriveEngine::EFoldersTreeViewFocused] = false;
+    SDriveEngine::inst()->elStates[DriveEngine::EAFoldersViewFocused] = true;
     SDriveEngine::inst()->elStates[DriveEngine::EFilesViewFocused] = false;
 
     SDriveEngine::inst()->filesMngr->clear();
@@ -84,17 +82,22 @@ void FilesUI::slotAShowFiles(const QModelIndex& index)
     SDriveEngine::inst()->aFoldersMngr->get(query);
 }
 
-void FilesUI::slotFilesSortIndicatorChanged(int logicalIndex, Qt::SortOrder order)
+void FilesUI::slotLeftSortIndicatorChanged(int logicalIndex, Qt::SortOrder order)
 {
-    qDebug() << "index:" << QString::number(logicalIndex) << " order:" << order;
+    qDebug() << "FilesUI::slotLeftSortIndicatorChanged index:" << QString::number(logicalIndex) << " order:" << order;
+}
+
+void FilesUI::slotRightSortIndicatorChanged(int logicalIndex, Qt::SortOrder order)
+{
+    qDebug() << "FilesUI::slotRightSortIndicatorChanged index:" << QString::number(logicalIndex) << " order:" << order;
 }
 
 void FilesUI::slotFilesViewClicked(const QModelIndex&)
 {
-    SDriveEngine::inst()->elStates[DriveEngine::EFolderViewFocused] = false;
+    SDriveEngine::inst()->elStates[DriveEngine::EFoldersTreeViewFocused] = false;
     SDriveEngine::inst()->elStates[DriveEngine::EFilesViewFocused] = true;
 
-    if(!SDriveEngine::inst()->elStates[DriveEngine::EAViewFocused]) showFilesFromFolder();
+    if(!SDriveEngine::inst()->elStates[DriveEngine::EAFoldersViewFocused]) showFilesFromFolder();
 }
 
 void FilesUI::slotUpdateFileList()

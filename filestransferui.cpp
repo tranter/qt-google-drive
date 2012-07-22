@@ -35,7 +35,7 @@ void FilesTransferUI::download(FilesManager* manager)
 
 void FilesTransferUI::upload(void)
 {
-    if(SDriveEngine::inst()->elStates[DriveEngine::EAViewFocused])
+    if(SDriveEngine::inst()->elStates[DriveEngine::EAFoldersViewFocused])
     {
         CommonTools::msg("To upload a file please select a folder in \"Drive\" view");
         return;
@@ -66,7 +66,7 @@ void FilesTransferUI::upload(void)
 
 void FilesTransferUI::slotDownload(void)
 {
-    if(SDriveEngine::inst()->elStates[DriveEngine::EAViewFocused]) download(SDriveEngine::inst()->aFoldersMngr.data());
+    if(SDriveEngine::inst()->elStates[DriveEngine::EAFoldersViewFocused]) download(SDriveEngine::inst()->aFoldersMngr.data());
     else download(SDriveEngine::inst()->filesMngr.data());
 }
 

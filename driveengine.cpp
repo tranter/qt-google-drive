@@ -19,8 +19,8 @@ void DriveEngine::init(void)
     reset();
     setKeyActions();
 
-    foldersUI->showFolders();
-    foldersUI->showAFolders();
+    foldersUI->showFoldersTree();
+    foldersUI->createAFolders();
 }
 
 void DriveEngine::reset(void)

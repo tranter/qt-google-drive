@@ -23,9 +23,9 @@ void ContentManager::get(const QString& url)
     QApplication::setOverrideCursor(Qt::WaitCursor);
 }
 
-void ContentManager::slotReplyFinished(QNetworkReply* reply)
+void ContentManager::slotReplyFinished(QNetworkReply*)
 {
-    //CommonTools::logToFile(QString::number(type) + ".txt", replyStr.toAscii());
+    CommonTools::logToFile(QString::number(type) + ".txt", replyStr.toAscii());
 
     if(parseReply(replyStr)) qDebug() << "parse OK";
     else qDebug() << "parse not OK";

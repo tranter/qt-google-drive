@@ -164,6 +164,8 @@ void NetworkManager::putRequest(const QString & url,const QByteArray& data)
 
 void NetworkManager::getRequest(const QString & url)
 {
+    qDebug() << "NetworkManager::getRequest url:" << url;
+
     init();
     request.setUrl(QUrl(url));
 

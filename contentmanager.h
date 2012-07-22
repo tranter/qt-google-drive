@@ -22,7 +22,7 @@ public:
     OperationsManager* getOpMngr(void) const;
 
 public slots:
-    virtual void slotReplyFinished(QNetworkReply* reply);
+    virtual void slotReplyFinished(QNetworkReply*);
     void slotResDownloaded(int queryType);
 
 protected:
@@ -33,7 +33,6 @@ protected:
     QScopedPointer<OperationsManager> opMngr;
     QScopedPointer<XMLParser> parser;
     QList<QTreeWidgetItem*> items;
-
     int type;
 };
 

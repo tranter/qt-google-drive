@@ -1,12 +1,11 @@
 #include "foldersui.h"
-#include <QDebug>
 
 FoldersUI::FoldersUI(QObject *parent) :
     QObject(parent)
 {
 }
 
-bool FoldersUI::folderInFilesView(QString& resourceID)
+bool FoldersUI::getFolderContent(QString &folderID)
 {
     QList<ItemInfo::Data> item = SDriveEngine::inst()->filesMngr->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
     int index = SDriveEngine::inst()->filesUI->getCurrFileItemId(SDriveEngine::inst()->filesMngr.data());
@@ -18,7 +17,7 @@ bool FoldersUI::folderInFilesView(QString& resourceID)
 
     if(str.indexOf(FOLDER_TYPE_STR) != -1)
     {
-        resourceID = str;
+        folderID = str;
         isFolder = true;
     }
 
@@ -45,7 +44,7 @@ int FoldersUI::getCurrFolderItemId(void) const
     return currentModelIndex;
 }
 
-void FoldersUI::showAFolders(void)
+void FoldersUI::createAFolders(void)
 {
     QString generalImage(":ico/allitems");
 
@@ -58,18 +57,15 @@ void FoldersUI::showAFolders(void)
     SDriveEngine::inst()->aFoldersMngr->create(TRASH_TITLE, ":ico/trash");
 }
 
-void FoldersUI::showFolders(void)
+void FoldersUI::showFoldersTree(void)
 {
     SDriveEngine::inst()->foldersMngr->get(GET_FOLDERS);
 }
 
 void FoldersUI::slotFoldersViewClicked(const QModelIndex& index)
 {
-    qDebug() << "FoldersUI::slottreeFoldersViewClicked";
-    //SDriveEngine::inst()->getFoldersUI()->currentFolderIndex = index.row();
-
-    SDriveEngine::inst()->elStates[DriveEngine::EFolderViewFocused] = true;
-    SDriveEngine::inst()->elStates[DriveEngine::EAViewFocused] = false;
+    SDriveEngine::inst()->elStates[DriveEngine::EFoldersTreeViewFocused] = true;
+    SDriveEngine::inst()->elStates[DriveEngine::EAFoldersViewFocused] = false;
     SDriveEngine::inst()->elStates[DriveEngine::EFilesViewFocused] = false;
     SDriveEngine::inst()->elStates[DriveEngine::ETrashFocused] = false;
 

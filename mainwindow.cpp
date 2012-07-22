@@ -36,12 +36,15 @@ void MainWindow::init(void)
     QTextCodec::setCodecForCStrings(QTextCodec::codecForLocale());
     QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
 
-    //SUi::inst()->filesViewRight->header()->resizeSection(0, 360);
+    //SUi::inst()->filesViewRight->header()->resizeSection(0, 300);
     //SUi::inst()->treeFoldersView->setVisible(false);
     //SUi::inst()->aFoldersView->setVisible(false);
-    //SUi::inst()->filesViewRight->header()->setCursor(Qt::SizeHorCursor);
+    //SUi::inst()->filesViewRight->header()->setCursor(Qt::IBeamCursor);
+    SUi::inst()->filesViewLeft->header()->setClickable(true);
+    SUi::inst()->filesViewRight->header()->setClickable(true);
 
-    SUi::inst()->filesViewLeft->setVisible(false);
+    //SUi::inst()->filesViewLeft->setVisible(false);
+    qDebug() << "-------------" << SUi::inst()->filesViewRight->header()->resizeMode(0);
 }
 
 void MainWindow::setConnections(void)
@@ -61,7 +64,8 @@ void MainWindow::setConnections(void)
     connect(SUi::inst()->treeFoldersView, SIGNAL(clicked (const QModelIndex&)), SDriveEngine::inst()->getFoldersUI(), SLOT(slotFoldersViewClicked(const QModelIndex&)));
     connect(SUi::inst()->filesViewRight, SIGNAL(clicked (const QModelIndex&)), SDriveEngine::inst()->getfilesUI(), SLOT(slotFilesViewClicked(const QModelIndex&)));
     connect(SUi::inst()->aFoldersView, SIGNAL(clicked (const QModelIndex&)), SDriveEngine::inst()->getfilesUI(), SLOT(slotAShowFiles(const QModelIndex&)));
-    connect(SUi::inst()->filesViewRight->header(), SIGNAL(sortIndicatorChanged(int, Qt::SortOrder)), SDriveEngine::inst()->getfilesUI(), SLOT(slotFilesSortIndicatorChanged(int, Qt::SortOrder)));
+    connect(SUi::inst()->filesViewLeft->header(), SIGNAL(sortIndicatorChanged(int, Qt::SortOrder)), SDriveEngine::inst()->getfilesUI(), SLOT(slotLeftSortIndicatorChanged(int, Qt::SortOrder)));
+    connect(SUi::inst()->filesViewRight->header(), SIGNAL(sortIndicatorChanged(int, Qt::SortOrder)), SDriveEngine::inst()->getfilesUI(), SLOT(slotRightSortIndicatorChanged(int, Qt::SortOrder)));
     connect(SDriveEngine::inst()->getFoldersMngr(), SIGNAL(signalAccessTokenRequired()), SDriveEngine::inst(), SLOT(slotStartLogin()));
     connect(SDriveEngine::inst()->getOAuth2(), SIGNAL(loginDone()), this, SLOT(slotloginDone()));
     connect(SDriveEngine::inst()->getFoldersMngr(), SIGNAL(signalAccessTokenRequired()), SDriveEngine::inst(), SLOT(slotStartLogin()));

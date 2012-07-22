@@ -13,7 +13,7 @@ void OperationsUI::del(QObject* object)
 
     if (object == SUi::inst()->treeFoldersView)
     {
-        if(!SDriveEngine::inst()->elStates[DriveEngine::EAViewFocused])
+        if(!SDriveEngine::inst()->elStates[DriveEngine::EAFoldersViewFocused])
         {
             ItemInfo item = *SDriveEngine::inst()->foldersMngr->getParser()->getXMLHandler()->getItemInfo();
 
@@ -30,7 +30,7 @@ void OperationsUI::del(QObject* object)
     {
         FilesManager* manager;
 
-        if(SDriveEngine::inst()->elStates[DriveEngine::EAViewFocused]) manager = SDriveEngine::inst()->aFoldersMngr.data();
+        if(SDriveEngine::inst()->elStates[DriveEngine::EAFoldersViewFocused]) manager = SDriveEngine::inst()->aFoldersMngr.data();
         else manager = SDriveEngine::inst()->filesMngr.data();
 
         QList<ItemInfo::Data> itemData = manager->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
@@ -60,11 +60,11 @@ void OperationsUI::delItemInTree(ItemInfo item)
 void OperationsUI::slotTriggeredDel()
 {
     if(SDriveEngine::inst()->elStates[DriveEngine::ETrashFocused]) return;
-    if(SDriveEngine::inst()->elStates[DriveEngine::EAViewFocused] && !SDriveEngine::inst()->elStates[DriveEngine::EFilesViewFocused]) return;
+    if(SDriveEngine::inst()->elStates[DriveEngine::EAFoldersViewFocused] && !SDriveEngine::inst()->elStates[DriveEngine::EFilesViewFocused]) return;
 
     QObject* object;
 
-    if(SDriveEngine::inst()->elStates[DriveEngine::EFolderViewFocused]) object = SUi::inst()->treeFoldersView;
+    if(SDriveEngine::inst()->elStates[DriveEngine::EFoldersTreeViewFocused]) object = SUi::inst()->treeFoldersView;
     else object = SUi::inst()->filesViewRight;
 
     del(object);
@@ -72,7 +72,7 @@ void OperationsUI::slotTriggeredDel()
 
 void OperationsUI::slotDelFinished()
 {
-    if(SDriveEngine::inst()->elStates[DriveEngine::EAViewFocused]) SDriveEngine::inst()->filesUI->slotAShowFiles(SDriveEngine::inst()->getFoldersUI()->currAFolderId);
+    if(SDriveEngine::inst()->elStates[DriveEngine::EAFoldersViewFocused]) SDriveEngine::inst()->filesUI->slotAShowFiles(SDriveEngine::inst()->getFoldersUI()->currAFolderId);
     else SDriveEngine::inst()->filesUI->showFiles();
 }
 

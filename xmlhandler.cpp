@@ -99,6 +99,12 @@ bool XMLHandler::handleReply(const QString& qName, const QXmlAttributes &attribs
     setItemType(itemType);
     setTag(qName, true);
 
+    if(qName == CONTENT)
+    {
+       QString selfStr = FYLE_TYPE_SRC_ATTRIBUTE_TAG(attribs.value);
+       itemData.self = selfStr.remove(CONTENTS);
+    }
+
     if(qName == CONTENT && itemType == FILE_TYPE_STR)
     {
         itemData.fileType = FYLE_TYPE_ATTRIBUTE_TAG(attribs.value);
@@ -111,7 +117,7 @@ bool XMLHandler::handleReply(const QString& qName, const QXmlAttributes &attribs
 
     if(HIERARCHY_ATTRIBUTE_TAG(attribs.value) == SELF_TAG)
     {
-        itemData.self = HIERARCHY_VALUE_TAG(attribs.value);
+        //itemData.self = HIERARCHY_VALUE_TAG(attribs.value);
         itemData.type = itemType;
         itemInfo->push_back(itemData, queryType);
         setDefaults();

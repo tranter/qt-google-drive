@@ -18,10 +18,10 @@ private slots:
     void slotFoldersViewClicked(const QModelIndex& index);
 
 private:
-    bool folderInFilesView(QString &resourceID);
+    bool getFolderContent(QString &folderID);
     int getCurrFolderItemId(void) const;
-    void showAFolders(void);
-    void showFolders(void);
+    void createAFolders(void);
+    void showFoldersTree(void);
 
 private:
     QModelIndex currAFolderId;

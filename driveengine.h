@@ -34,8 +34,8 @@ class DriveEngine : public QObject
 public:
     enum EElementsStates
     {
-        EFolderViewFocused = 0,
-        EAViewFocused,
+        EFoldersTreeViewFocused = 0,
+        EAFoldersViewFocused,
         EFilesViewFocused,
         ETrashFocused,
         EElStatesCount

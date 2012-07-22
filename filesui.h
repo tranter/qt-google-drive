@@ -17,8 +17,9 @@ public:
 
 private slots:
     void slotAShowFiles(const QModelIndex& index);
-    void slotFilesSortIndicatorChanged(int logicalIndex, Qt::SortOrder order);
     void slotFilesViewClicked(const QModelIndex&);
+    void slotLeftSortIndicatorChanged(int logicalIndex, Qt::SortOrder order);
+    void slotRightSortIndicatorChanged(int logicalIndex, Qt::SortOrder order);
     void slotUpdateFileList();
 
 private:
