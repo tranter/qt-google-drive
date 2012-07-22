@@ -70,7 +70,7 @@ void MainWindow::setConnections(void)
     connect(SDriveEngine::inst()->getFoldersMngr(), SIGNAL(signalAccessTokenRequired()), SDriveEngine::inst(), SLOT(slotStartLogin()));
     connect(SDriveEngine::inst()->getOAuth2(), SIGNAL(loginDone()), this, SLOT(slotloginDone()));
     connect(SDriveEngine::inst()->getFoldersMngr(), SIGNAL(signalAccessTokenRequired()), SDriveEngine::inst(), SLOT(slotStartLogin()));
-    //connect(SDriveEngine::inst()->getCurrFilesMngr(), SIGNAL(signalShowFilesDone()), SDriveEngine::inst(), SLOT(slotShowFilesDone()));
+    connect(SDriveEngine::inst()->getCurrFilesMngr(), SIGNAL(signalFirstPanelIsLoaded()), SDriveEngine::inst(), SLOT(slotFirstPanelIsLoaded()));
 }
 
 void MainWindow::slotloginDone()

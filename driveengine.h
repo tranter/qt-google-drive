@@ -69,6 +69,9 @@ public:
     QWidget* getParent(void) const;
     void init(void);
 
+private slots:
+    void slotFirstPanelIsLoaded();
+
 private:
     void setKeyActions(void);
     void reset();

@@ -27,7 +27,6 @@ void DriveEngine::init(void)
 
     settings.setValue("CurrPanel", RIGHT_PANEL);
     SDriveEngine::inst()->filesMngr[ERight]->get(GET_FULL_ROOT_CONTENT);
-    SDriveEngine::inst()->filesMngr[ELeft]->get(GET_FULL_ROOT_CONTENT);
 
     //foldersUI->createAFolders();
 }
@@ -116,4 +115,16 @@ FilesManager* DriveEngine::getCurrFilesMngr(void) const
     else fm = filesMngr[ERight].data();
 
     return fm;
+}
+
+void DriveEngine::slotFirstPanelIsLoaded()
+{
+    qDebug() << "DriveEngine::slotFirstPanelIsLoaded";
+
+    QSettings settings(COMPANY_NAME, APP_NAME);
+
+    settings.setValue("CurrPanel", LEFT_PANEL);
+    settings.setValue(INIT_LOAD, false);
+
+    SDriveEngine::inst()->filesMngr[ELeft]->get(GET_FULL_ROOT_CONTENT);
 }

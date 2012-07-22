@@ -16,8 +16,8 @@ public:
     explicit FilesManager(QObject *parent = 0);
     virtual ~FilesManager();
 
-//signals:
-//    void signalShowFilesDone();
+signals:
+    void signalFirstPanelIsLoaded();
 
 public:
     void sort(int column, Qt::SortOrder order);
