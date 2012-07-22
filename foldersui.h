@@ -21,7 +21,7 @@ private:
     bool getFolderContent(QString &folderID);
     int getCurrFolderItemId(void) const;
     void createAFolders(void);
-    void showFoldersTree(void);
+    void showFolders(const QString &url);
 
 private:
     QModelIndex currAFolderId;

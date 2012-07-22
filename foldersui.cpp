@@ -57,9 +57,9 @@ void FoldersUI::createAFolders(void)
     SDriveEngine::inst()->aFoldersMngr->create(TRASH_TITLE, ":ico/trash");
 }
 
-void FoldersUI::showFoldersTree(void)
+void FoldersUI::showFolders(const QString& url)
 {
-    SDriveEngine::inst()->foldersMngr->get(GET_FOLDERS);
+    SDriveEngine::inst()->foldersMngr->get(url);
 }
 
 void FoldersUI::slotFoldersViewClicked(const QModelIndex& index)

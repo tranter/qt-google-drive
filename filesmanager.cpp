@@ -31,6 +31,8 @@ void FilesManager::show(void)
 
 //    SUi::inst()->filesView->setSortingEnabled(true);
 //    SUi::inst()->filesView->sortItems(0, Qt::AscendingOrder);
+
+    QApplication::restoreOverrideCursor();
 }
 
 void FilesManager::sort(int column, Qt::SortOrder order)

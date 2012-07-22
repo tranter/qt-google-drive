@@ -1,9 +1,8 @@
 #ifndef DEF_H
 #define DEF_H
 
-#define GET_FOLDERS QString("https://docs.google.com/feeds/default/private/full/-/folder?showroot=true")
-//#define GET_FOLDERS QString("https://docs.google.com/feeds/default/private/full/folder%3Aroot/contents")
-//#define GET_FULL_ROOT_CONTENT QString("https://docs.google.com/feeds/default/private/full/folder%3Aroot/contents")
+#define GET_FOLDERS_TREE QString("https://docs.google.com/feeds/default/private/full/-/folder?showroot=true")
+#define GET_FULL_ROOT_CONTENT QString("https://docs.google.com/feeds/default/private/full/folder%3Aroot/contents")
 //#define GET_FOLDERS_ONLY_ROOT_CONTENT  QString("https://docs.google.com/feeds/default/private/full/folder%3Aroot/contents/-/folder")
 #define GET_FILES_IN_FOLDER QString("https://docs.google.com/feeds/default/private/full/")
 #define GET_ALL_ITEMS QString("https://docs.google.com/feeds/default/private/full")

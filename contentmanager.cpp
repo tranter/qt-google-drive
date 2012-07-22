@@ -15,17 +15,15 @@ ContentManager::~ContentManager()
 
 void ContentManager::get(const QString& url)
 {
-    QApplication::setOverrideCursor(Qt::ArrowCursor);
+    QApplication::setOverrideCursor(Qt::WaitCursor);
 
     CommonTools::setHeader(request);
-    getRequest(url);
-
-    QApplication::setOverrideCursor(Qt::WaitCursor);
+    getRequest(url);    
 }
 
 void ContentManager::slotReplyFinished(QNetworkReply*)
 {
-    CommonTools::logToFile(QString::number(type) + ".txt", replyStr.toAscii());
+    //CommonTools::logToFile(QString::number(type) + ".txt", replyStr.toAscii());
 
     if(parseReply(replyStr)) qDebug() << "parse OK";
     else qDebug() << "parse not OK";
@@ -69,8 +67,6 @@ void ContentManager::clear(void)
     if(items.empty()) return;
 
     for(int i = 0; i < items.count(); ++i) delete items[i];
-
-    QApplication::setOverrideCursor(Qt::ArrowCursor);
 }
 
 void ContentManager::del(const QString &url)
