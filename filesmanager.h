@@ -9,8 +9,8 @@ class FilesManager : public ContentManager
 public:
     enum ECustomSort
     {
-      EByDate = 0,
-      EBySize
+        EByDate = 0,
+        EBySize
     };
 
     explicit FilesManager(QObject *parent = 0);

@@ -21,7 +21,6 @@ void DriveEngine::init(void)
 
     foldersUI->showFolders(GET_FOLDERS_TREE);
     SDriveEngine::inst()->filesMngr->get(GET_FULL_ROOT_CONTENT);
-    //foldersUI->showFolders(GET_FULL_ROOT_CONTENT);
     foldersUI->createAFolders();
 }
 

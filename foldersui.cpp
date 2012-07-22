@@ -66,7 +66,7 @@ void FoldersUI::slotFoldersViewClicked(const QModelIndex& index)
 {
     SDriveEngine::inst()->elStates[DriveEngine::EFoldersTreeViewFocused] = true;
     SDriveEngine::inst()->elStates[DriveEngine::EAFoldersViewFocused] = false;
-    SDriveEngine::inst()->elStates[DriveEngine::EFilesViewFocused] = false;
+    SDriveEngine::inst()->elStates[DriveEngine::ERightViewFocused] = false;
     SDriveEngine::inst()->elStates[DriveEngine::ETrashFocused] = false;
 
     SDriveEngine::inst()->aFoldersMngr->clear();

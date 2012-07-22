@@ -16,8 +16,9 @@ public:
     friend class OperationsUI;
 
 private slots:
-    void slotAShowFiles(const QModelIndex& index);
-    void slotFilesViewClicked(const QModelIndex&);
+    void slotAShowFiles(const QModelIndex &index);
+    void slotLeftViewClicked(const QModelIndex&);
+    void slotRightViewClicked(const QModelIndex&);
     void slotLeftSortIndicatorChanged(int logicalIndex, Qt::SortOrder order);
     void slotRightSortIndicatorChanged(int logicalIndex, Qt::SortOrder order);
     void slotUpdateFileList();

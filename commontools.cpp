@@ -1,5 +1,13 @@
 #include "commontools.h"
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+#include "AppRegData.h"
 #include <QLocale>
+#include <QSettings>
+#include <QMessageBox>
+#include <QList>
+#include <QFile>
+#include <QFileInfo>
 
 void CommonTools::setHeader(QNetworkRequest& request)
 {
@@ -103,4 +111,15 @@ QString CommonTools::getFileNameFromURL(const QString& url)
 {
   QFileInfo fi(url);
   return fi.fileName();
+}
+
+QTreeWidget* CommonTools::getCurrFileView(void)
+{
+    QSettings settings(COMPANY_NAME, APP_NAME);
+    QTreeWidget *panel;
+
+    if(settings.value("CurrPanel", "left").toString() == "left") panel = SUi::inst()->filesViewLeft;
+    else panel = SUi::inst()->filesViewRight;
+
+    return panel;
 }

@@ -10,7 +10,8 @@ int FilesUI::getCurrFileItemId(FilesManager* manager) const
 {
     QList<ItemInfo::Data> item = manager->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
     int count = item.count();
-    QString fileName(SUi::inst()->filesViewRight->currentIndex().data().toString());
+    //QString fileName(SUi::inst()->filesViewRight->currentIndex().data().toString());
+    QString fileName(CommonTools::getCurrFileView()->currentIndex().data().toString());
 
     int currentFileIndex = 0;
 
@@ -67,7 +68,7 @@ void FilesUI::slotAShowFiles(const QModelIndex& index)
 
     SDriveEngine::inst()->elStates[DriveEngine::EFoldersTreeViewFocused] = false;
     SDriveEngine::inst()->elStates[DriveEngine::EAFoldersViewFocused] = true;
-    SDriveEngine::inst()->elStates[DriveEngine::EFilesViewFocused] = false;
+    SDriveEngine::inst()->elStates[DriveEngine::ERightViewFocused] = false;
 
     SDriveEngine::inst()->filesMngr->clear();
 
@@ -92,10 +93,22 @@ void FilesUI::slotRightSortIndicatorChanged(int logicalIndex, Qt::SortOrder orde
     qDebug() << "FilesUI::slotRightSortIndicatorChanged index:" << QString::number(logicalIndex) << " order:" << order;
 }
 
-void FilesUI::slotFilesViewClicked(const QModelIndex&)
+void FilesUI::slotLeftViewClicked(const QModelIndex&)
 {
+    qDebug() << "FilesUI::slotLeftViewClicked";
+
     SDriveEngine::inst()->elStates[DriveEngine::EFoldersTreeViewFocused] = false;
-    SDriveEngine::inst()->elStates[DriveEngine::EFilesViewFocused] = true;
+    SDriveEngine::inst()->elStates[DriveEngine::ELeftViewFocused] = true;
+
+    if(!SDriveEngine::inst()->elStates[DriveEngine::EAFoldersViewFocused]) showFilesFromFolder();
+}
+
+void FilesUI::slotRightViewClicked(const QModelIndex&)
+{
+    qDebug() << "FilesUI::slotRightViewClicked";
+
+    SDriveEngine::inst()->elStates[DriveEngine::EFoldersTreeViewFocused] = false;
+    SDriveEngine::inst()->elStates[DriveEngine::ERightViewFocused] = true;
 
     if(!SDriveEngine::inst()->elStates[DriveEngine::EAFoldersViewFocused]) showFilesFromFolder();
 }

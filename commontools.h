@@ -2,13 +2,8 @@
 #define COMMONTOOLS_H
 
 #include <QNetworkRequest>
-#include <QSettings>
-#include <QMessageBox>
-#include "AppRegData.h"
 #include <QDateTime>
-#include <QList>
-#include <QFile>
-#include <QFileInfo>
+#include <QTreeWidget>
 
 class CommonTools
 {
@@ -22,6 +17,7 @@ public:
     static QByteArray loadFromFile(const QString& fileName);
     static bool fileFromURLExists(const QString& url);
     static QString getFileNameFromURL(const QString& url);
+    static QTreeWidget* getCurrFileView(void);
 };
 
 #endif // COMMONTOOLS_H

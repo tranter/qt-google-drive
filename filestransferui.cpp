@@ -1,4 +1,6 @@
 #include "filestransferui.h"
+#include "AppRegData.h"
+#include <QSettings>
 
 FilesTransferUI::FilesTransferUI(QObject *parent) :
     QObject(parent)

@@ -26,7 +26,8 @@ void OperationsUI::del(QObject* object)
         }
     }
 
-    if (object == SUi::inst()->filesViewRight)
+    //if (object == SUi::inst()->filesViewRight)
+    if (object == CommonTools::getCurrFileView())
     {
         FilesManager* manager;
 
@@ -60,12 +61,13 @@ void OperationsUI::delItemInTree(ItemInfo item)
 void OperationsUI::slotTriggeredDel()
 {
     if(SDriveEngine::inst()->elStates[DriveEngine::ETrashFocused]) return;
-    if(SDriveEngine::inst()->elStates[DriveEngine::EAFoldersViewFocused] && !SDriveEngine::inst()->elStates[DriveEngine::EFilesViewFocused]) return;
+    if(SDriveEngine::inst()->elStates[DriveEngine::EAFoldersViewFocused] && !SDriveEngine::inst()->elStates[DriveEngine::ERightViewFocused]) return;
 
     QObject* object;
 
     if(SDriveEngine::inst()->elStates[DriveEngine::EFoldersTreeViewFocused]) object = SUi::inst()->treeFoldersView;
-    else object = SUi::inst()->filesViewRight;
+    //else object = SUi::inst()->filesViewRight;
+    else object = CommonTools::getCurrFileView();
 
     del(object);
 }

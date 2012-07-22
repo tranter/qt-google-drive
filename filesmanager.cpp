@@ -9,19 +9,20 @@ FilesManager::FilesManager(QObject *parent):
 
 FilesManager::~FilesManager()
 {
-    SUi::inst()->filesViewRight->clear();
+    CommonTools::getCurrFileView()->clear();
 }
 
 void FilesManager::show(void)
 {
     QList<ItemInfo::Data> fileItems = parser->getXMLHandler()->getItemInfo()->getFileItems();
+    QTreeWidget *panel = CommonTools::getCurrFileView();
 
     clear();
-    SUi::inst()->filesViewRight->clear();
+    panel->clear();
 
     for(int i = 1; i < fileItems.count(); ++i)
     {
-        items.push_back(new QTreeWidgetItem(SUi::inst()->filesViewRight));
+        items.push_back(new QTreeWidgetItem(panel));
         items.last()->setText(0, fileItems[i].name);
         items.last()->setIcon(0, QPixmap(fileItems[i].iconPath));
         items.last()->setText(1, fileItems[i].dataOwner);
@@ -29,8 +30,8 @@ void FilesManager::show(void)
         items.last()->setText(3, fileItems[i].fileSize);
     }
 
-//    SUi::inst()->filesView->setSortingEnabled(true);
-//    SUi::inst()->filesView->sortItems(0, Qt::AscendingOrder);
+    //    SUi::inst()->filesView->setSortingEnabled(true);
+    //    SUi::inst()->filesView->sortItems(0, Qt::AscendingOrder);
 
     QApplication::restoreOverrideCursor();
 }

@@ -31,20 +31,21 @@ void MainWindow::init(void)
     setConnections();
 
     SUi::inst()->treeFoldersView->installEventFilter(this);
+    SUi::inst()->filesViewLeft->installEventFilter(this);
     SUi::inst()->filesViewRight->installEventFilter(this);
 
     QTextCodec::setCodecForCStrings(QTextCodec::codecForLocale());
     QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
 
+    SUi::inst()->filesViewLeft->header()->setClickable(true);
+    SUi::inst()->filesViewRight->header()->setClickable(true);
+
     //SUi::inst()->filesViewRight->header()->resizeSection(0, 300);
     //SUi::inst()->treeFoldersView->setVisible(false);
     //SUi::inst()->aFoldersView->setVisible(false);
     //SUi::inst()->filesViewRight->header()->setCursor(Qt::IBeamCursor);
-    SUi::inst()->filesViewLeft->header()->setClickable(true);
-    SUi::inst()->filesViewRight->header()->setClickable(true);
-
     //SUi::inst()->filesViewLeft->setVisible(false);
-    qDebug() << "-------------" << SUi::inst()->filesViewRight->header()->resizeMode(0);
+    //qDebug() << "-------------" << SUi::inst()->filesViewRight->header()->resizeMode(0);
 }
 
 void MainWindow::setConnections(void)
@@ -62,7 +63,8 @@ void MainWindow::setConnections(void)
     connect(SUi::inst()->actionMenuCreateFolder, SIGNAL(triggered()), SDriveEngine::inst()->getOpUI(), SLOT(slotCreateFolder()));
     connect(SUi::inst()->actionCreateFolder, SIGNAL(triggered()), SDriveEngine::inst()->getOpUI(), SLOT(slotCreateFolder()));
     connect(SUi::inst()->treeFoldersView, SIGNAL(clicked (const QModelIndex&)), SDriveEngine::inst()->getFoldersUI(), SLOT(slotFoldersViewClicked(const QModelIndex&)));
-    connect(SUi::inst()->filesViewRight, SIGNAL(clicked (const QModelIndex&)), SDriveEngine::inst()->getfilesUI(), SLOT(slotFilesViewClicked(const QModelIndex&)));
+    connect(SUi::inst()->filesViewLeft, SIGNAL(clicked(const QModelIndex&)), SDriveEngine::inst()->getfilesUI(), SLOT(slotLeftViewClicked(const QModelIndex&)));
+    connect(SUi::inst()->filesViewRight, SIGNAL(clicked(const QModelIndex&)), SDriveEngine::inst()->getfilesUI(), SLOT(slotRightViewClicked(const QModelIndex&)));
     connect(SUi::inst()->aFoldersView, SIGNAL(clicked (const QModelIndex&)), SDriveEngine::inst()->getfilesUI(), SLOT(slotAShowFiles(const QModelIndex&)));
     connect(SUi::inst()->filesViewLeft->header(), SIGNAL(sortIndicatorChanged(int, Qt::SortOrder)), SDriveEngine::inst()->getfilesUI(), SLOT(slotLeftSortIndicatorChanged(int, Qt::SortOrder)));
     connect(SUi::inst()->filesViewRight->header(), SIGNAL(sortIndicatorChanged(int, Qt::SortOrder)), SDriveEngine::inst()->getfilesUI(), SLOT(slotRightSortIndicatorChanged(int, Qt::SortOrder)));

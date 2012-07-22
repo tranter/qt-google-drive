@@ -36,7 +36,8 @@ public:
     {
         EFoldersTreeViewFocused = 0,
         EAFoldersViewFocused,
-        EFilesViewFocused,
+        ELeftViewFocused,
+        ERightViewFocused,
         ETrashFocused,
         EElStatesCount
     };
