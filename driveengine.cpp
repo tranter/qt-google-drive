@@ -23,13 +23,13 @@ void DriveEngine::init(void)
     QSettings settings(COMPANY_NAME, APP_NAME);
     settings.setValue(INIT_LOAD, true);
 
-    foldersUI->showFolders(GET_FOLDERS_TREE);
+    //foldersUI->showFolders(GET_FOLDERS_TREE);
 
     settings.setValue("CurrPanel", RIGHT_PANEL);
     SDriveEngine::inst()->filesMngr[ERight]->get(GET_FULL_ROOT_CONTENT);
     SDriveEngine::inst()->filesMngr[ELeft]->get(GET_FULL_ROOT_CONTENT);
 
-    foldersUI->createAFolders();
+    //foldersUI->createAFolders();
 }
 
 void DriveEngine::reset(void)

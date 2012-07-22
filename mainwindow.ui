@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1096</width>
+    <width>1138</width>
     <height>681</height>
    </rect>
   </property>
@@ -27,60 +27,6 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <widget class="QTreeWidget" name="treeFoldersView">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-        <horstretch>0</horstretch>
-        <verstretch>25</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="cursor" stdset="0">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="acceptDrops">
-       <bool>true</bool>
-      </property>
-      <property name="dragEnabled">
-       <bool>false</bool>
-      </property>
-      <property name="dragDropMode">
-       <enum>QAbstractItemView::DropOnly</enum>
-      </property>
-      <property name="defaultDropAction">
-       <enum>Qt::MoveAction</enum>
-      </property>
-      <property name="animated">
-       <bool>true</bool>
-      </property>
-      <column>
-       <property name="text">
-        <string>Drive</string>
-       </property>
-      </column>
-     </widget>
-    </item>
-    <item row="1" column="0">
-     <widget class="QTreeWidget" name="aFoldersView">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="cursor" stdset="0">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="animated">
-       <bool>true</bool>
-      </property>
-      <column>
-       <property name="text">
-        <string>Additional</string>
-       </property>
-      </column>
-     </widget>
-    </item>
     <item row="0" column="2" rowspan="2">
      <widget class="QTreeWidget" name="filesViewRight">
       <property name="sizePolicy">
@@ -144,6 +90,60 @@
       </column>
      </widget>
     </item>
+    <item row="0" column="0">
+     <widget class="QTreeWidget" name="treeFoldersView">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>25</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="cursor" stdset="0">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="acceptDrops">
+       <bool>true</bool>
+      </property>
+      <property name="dragEnabled">
+       <bool>false</bool>
+      </property>
+      <property name="dragDropMode">
+       <enum>QAbstractItemView::DropOnly</enum>
+      </property>
+      <property name="defaultDropAction">
+       <enum>Qt::MoveAction</enum>
+      </property>
+      <property name="animated">
+       <bool>true</bool>
+      </property>
+      <column>
+       <property name="text">
+        <string>Drive</string>
+       </property>
+      </column>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QTreeWidget" name="aFoldersView">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="cursor" stdset="0">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="animated">
+       <bool>true</bool>
+      </property>
+      <column>
+       <property name="text">
+        <string>Additional</string>
+       </property>
+      </column>
+     </widget>
+    </item>
     <item row="0" column="1" rowspan="2">
      <widget class="QTreeWidget" name="filesViewLeft">
       <property name="sizePolicy">
@@ -199,10 +199,7 @@
      </widget>
     </item>
    </layout>
-   <zorder>verticalLayoutWidget</zorder>
    <zorder>filesViewRight</zorder>
-   <zorder>treeFoldersView</zorder>
-   <zorder>aFoldersView</zorder>
    <zorder>treeFoldersView</zorder>
    <zorder>aFoldersView</zorder>
    <zorder>filesViewLeft</zorder>
@@ -212,7 +209,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1096</width>
+     <width>1138</width>
      <height>21</height>
     </rect>
    </property>

@@ -40,12 +40,11 @@ void MainWindow::init(void)
     SUi::inst()->filesViewLeft->header()->setClickable(true);
     SUi::inst()->filesViewRight->header()->setClickable(true);
 
-    //SUi::inst()->filesViewRight->header()->resizeSection(0, 300);
-    //SUi::inst()->treeFoldersView->setVisible(false);
-    //SUi::inst()->aFoldersView->setVisible(false);
-    //SUi::inst()->filesViewRight->header()->setCursor(Qt::IBeamCursor);
-    //SUi::inst()->filesViewLeft->setVisible(false);
-    //qDebug() << "-------------" << SUi::inst()->filesViewRight->header()->resizeMode(0);
+    SUi::inst()->filesViewLeft->header()->resizeSection(0, 250);
+    SUi::inst()->filesViewRight->header()->resizeSection(0, 250);
+
+    SUi::inst()->treeFoldersView->setVisible(false);
+    SUi::inst()->aFoldersView->setVisible(false);
 }
 
 void MainWindow::setConnections(void)

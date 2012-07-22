@@ -3,6 +3,7 @@
 #include "ui_mainwindow.h"
 #include "AppRegData.h"
 #include <QSettings>
+#include <QDebug>
 
 FilesManager::FilesManager(QObject *parent):
     ContentManager(FILE_TYPE, parent)
@@ -27,6 +28,7 @@ void FilesManager::show(void)
     {
         items.push_back(new QTreeWidgetItem(panel));
         items.last()->setText(0, fileItems[i].name);
+        qDebug() << "name:" << fileItems[i].name;
         items.last()->setIcon(0, QPixmap(fileItems[i].iconPath));
         items.last()->setText(1, fileItems[i].dataOwner);
         items.last()->setText(2, fileItems[i].fileUpdated);
