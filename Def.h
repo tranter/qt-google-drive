@@ -53,6 +53,9 @@
 #define CONTENT QString("content")
 
 #define WORK_DIR QString("WorkDir")
+#define INIT_LOAD QString("InitLoad")
+#define LEFT_PANEL QString("left")
+#define RIGHT_PANEL QString("right")
 
 #define MAIN_TITLE QString("My drive")
 #define ALL_ITEMS_TITLE QString("All items")

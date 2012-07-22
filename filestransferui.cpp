@@ -1,6 +1,7 @@
 #include "filestransferui.h"
 #include "AppRegData.h"
 #include <QSettings>
+#include <QFileDialog>
 
 FilesTransferUI::FilesTransferUI(QObject *parent) :
     QObject(parent)
@@ -69,7 +70,7 @@ void FilesTransferUI::upload(void)
 void FilesTransferUI::slotDownload(void)
 {
     if(SDriveEngine::inst()->elStates[DriveEngine::EAFoldersViewFocused]) download(SDriveEngine::inst()->aFoldersMngr.data());
-    else download(SDriveEngine::inst()->filesMngr.data());
+    else download(SDriveEngine::inst()->getCurrFilesMngr());
 }
 
 void FilesTransferUI::slotUpload(void)

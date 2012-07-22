@@ -7,18 +7,24 @@ FoldersUI::FoldersUI(QObject *parent) :
 
 bool FoldersUI::getFolderContent(QString &folderID)
 {
-    QList<ItemInfo::Data> item = SDriveEngine::inst()->filesMngr->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
-    int index = SDriveEngine::inst()->filesUI->getCurrFileItemId(SDriveEngine::inst()->filesMngr.data());
+    //QList<ItemInfo::Data> item = SDriveEngine::inst()->filesMngr->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
+    QList<ItemInfo::Data> item = SDriveEngine::inst()->getCurrFilesMngr()->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
+
+    //int index = SDriveEngine::inst()->filesUI->getCurrFileItemId(SDriveEngine::inst()->filesMngr.data());
+    int index = SDriveEngine::inst()->filesUI->getCurrFileItemId(SDriveEngine::inst()->getCurrFilesMngr());
     bool isFolder = false;
 
     QString str(item[index].self);
     QStringList strList = str.split("/");
     str = strList[strList.count() - 1];
 
+    qDebug() << "FoldersUI::getFolderContent folderID:" << str;
+
     if(str.indexOf(FOLDER_TYPE_STR) != -1)
     {
         folderID = str;
         isFolder = true;
+        qDebug() << "FoldersUI::getFolderContent this is a folder";
     }
 
     return isFolder;
@@ -69,6 +75,6 @@ void FoldersUI::slotFoldersViewClicked(const QModelIndex& index)
     SDriveEngine::inst()->elStates[DriveEngine::ERightViewFocused] = false;
     SDriveEngine::inst()->elStates[DriveEngine::ETrashFocused] = false;
 
-    SDriveEngine::inst()->aFoldersMngr->clear();
+    //SDriveEngine::inst()->aFoldersMngr->clear();
     SDriveEngine::inst()->filesUI->showFiles();
 }

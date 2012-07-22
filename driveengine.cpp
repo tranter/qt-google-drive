@@ -2,6 +2,7 @@
 #include <QDebug>
 #include "AppRegData.h"
 #include <QMessageBox>
+#include <QSettings>
 
 DriveEngine::DriveEngine(QObject *parent) :
     QObject(parent)
@@ -19,8 +20,15 @@ void DriveEngine::init(void)
     reset();
     setKeyActions();
 
+    QSettings settings(COMPANY_NAME, APP_NAME);
+    settings.setValue(INIT_LOAD, true);
+
     foldersUI->showFolders(GET_FOLDERS_TREE);
-    SDriveEngine::inst()->filesMngr->get(GET_FULL_ROOT_CONTENT);
+
+    settings.setValue("CurrPanel", RIGHT_PANEL);
+    SDriveEngine::inst()->filesMngr[ERight]->get(GET_FULL_ROOT_CONTENT);
+    SDriveEngine::inst()->filesMngr[ELeft]->get(GET_FULL_ROOT_CONTENT);
+
     foldersUI->createAFolders();
 }
 
@@ -28,7 +36,8 @@ void DriveEngine::reset(void)
 {
     aFoldersMngr.reset(new AdditionalFoldersManager);
     checkUI.reset(new CheckUI);
-    filesMngr.reset(new FilesManager);
+    filesMngr[ELeft].reset(new FilesManager);
+    filesMngr[ERight].reset(new FilesManager);
     filesTransferUI.reset(new FilesTransferUI);
     filesUI.reset(new FilesUI);
     foldersMngr.reset(new FoldersManager);
@@ -96,4 +105,15 @@ OperationsUI* DriveEngine::getOpUI(void) const
 QWidget* DriveEngine::getParent(void) const
 {
     return parent;
+}
+
+FilesManager* DriveEngine::getCurrFilesMngr(void) const
+{
+    QSettings settings(COMPANY_NAME, APP_NAME);
+    FilesManager* fm;
+
+    if(settings.value("CurrPanel", LEFT_PANEL).toString() == LEFT_PANEL) fm = filesMngr[ELeft].data();
+    else fm = filesMngr[ERight].data();
+
+    return fm;
 }

@@ -1,6 +1,8 @@
 #include "filesmanager.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "AppRegData.h"
+#include <QSettings>
 
 FilesManager::FilesManager(QObject *parent):
     ContentManager(FILE_TYPE, parent)
@@ -9,13 +11,14 @@ FilesManager::FilesManager(QObject *parent):
 
 FilesManager::~FilesManager()
 {
-    CommonTools::getCurrFileView()->clear();
+    CommonTools::getCurrFilePanel()->clear();
 }
 
 void FilesManager::show(void)
 {
     QList<ItemInfo::Data> fileItems = parser->getXMLHandler()->getItemInfo()->getFileItems();
-    QTreeWidget *panel = CommonTools::getCurrFileView();
+    QTreeWidget *panel = CommonTools::getCurrFilePanel();
+    QSettings settings(COMPANY_NAME, APP_NAME);
 
     clear();
     panel->clear();
@@ -30,10 +33,18 @@ void FilesManager::show(void)
         items.last()->setText(3, fileItems[i].fileSize);
     }
 
+    if(settings.value(INIT_LOAD).toBool())
+    {
+        settings.setValue("CurrPanel", LEFT_PANEL);
+        settings.setValue(INIT_LOAD, false);
+    }
+
+    //signalShowFilesDone();
+
     //    SUi::inst()->filesView->setSortingEnabled(true);
     //    SUi::inst()->filesView->sortItems(0, Qt::AscendingOrder);
 
-    QApplication::restoreOverrideCursor();
+    //QApplication::restoreOverrideCursor();
 }
 
 void FilesManager::sort(int column, Qt::SortOrder order)

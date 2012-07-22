@@ -1,10 +1,8 @@
 #ifndef DRIVEENGINE_H
 #define DRIVEENGINE_H
 
-#include "oauth2.h"
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QFileDialog>
 #include <QTreeWidgetItem>
 #include "downloadmanager.h"
 #include "uploadmanager.h"
@@ -16,6 +14,7 @@
 #include "foldersui.h"
 #include "operationsui.h"
 #include "checkui.h"
+#include "oauth2.h"
 #include "eventhandler.h"
 
 class AdditionalFoldersManager;
@@ -42,6 +41,13 @@ public:
         EElStatesCount
     };
 
+    enum EPanels
+    {
+        ELeft = 0,
+        ERight,
+        EPanelsCount
+    };
+
     explicit DriveEngine(QObject *parent = 0);
     ~DriveEngine();
 
@@ -52,6 +58,7 @@ public:
 
 public:   
     CheckUI* getCheckUI(void) const;
+    FilesManager* getCurrFilesMngr(void) const;
     EventHandler<OperationsUI>* getEventHandler(void) const;
     FilesTransferUI* getfilesTransferUI(void) const;
     FilesUI* getfilesUI(void) const;
@@ -79,7 +86,7 @@ private:
     QScopedPointer<CheckUI> checkUI;
     QScopedPointer<DownloadFileManager> downloadMngr;
     QScopedPointer<EventHandler <OperationsUI> > opEventHandler;
-    QScopedPointer<FilesManager> filesMngr;
+    QScopedPointer<FilesManager> filesMngr[EPanelsCount];
     QScopedPointer<FilesTransferUI> filesTransferUI;
     QScopedPointer<FilesUI> filesUI;
     QScopedPointer<FoldersManager> foldersMngr;
