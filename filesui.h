@@ -17,8 +17,8 @@ public:
 
 private slots:
     void slotAShowFiles(const QModelIndex &index);
-    void slotLeftViewClicked(const QModelIndex&);
-    void slotRightViewClicked(const QModelIndex&);
+    void slotLeftViewClicked(const QModelIndex& Id);
+    void slotRightViewClicked(const QModelIndex& Id);
     void slotLeftSortIndicatorChanged(int logicalIndex, Qt::SortOrder order);
     void slotRightSortIndicatorChanged(int logicalIndex, Qt::SortOrder order);
     void slotUpdateFileList();
@@ -27,6 +27,7 @@ private:
     int getCurrFileItemId(FilesManager* manager) const;
     void showFiles(void);
     void showFilesFromFolder(void);
+    void showFilesOnPanel(const QModelIndex& Id);
 };
 
 #endif // FILESUI_H

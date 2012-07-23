@@ -114,28 +114,3 @@ QString CommonTools::getFileNameFromURL(const QString& url)
   QFileInfo fi(url);
   return fi.fileName();
 }
-
-QTreeWidget* CommonTools::getCurrFilePanel(void)
-{
-    QSettings settings(COMPANY_NAME, APP_NAME);
-    QTreeWidget *panel;
-
-    if(settings.value("CurrPanel", LEFT_PANEL).toString() == LEFT_PANEL)
-    {
-        panel = SUi::inst()->filesViewLeft;
-        qDebug() << "CurrPanel left";
-    }
-    else
-    {
-        panel = SUi::inst()->filesViewRight;
-        qDebug() << "CurrPanel right";
-    }
-
-    return panel;
-}
-
-//QString CommonTools::getCurrFilePanelName(void)
-//{
-//   QSettings settings(COMPANY_NAME, APP_NAME);
-//   return settings.value("CurrPanel", LEFT_PANEL).toString();
-//}

@@ -26,6 +26,7 @@ void DriveEngine::init(void)
     //foldersUI->showFolders(GET_FOLDERS_TREE);
 
     settings.setValue("CurrPanel", RIGHT_PANEL);
+    SDriveEngine::inst()->filesMngr[ERight]->setPanel(SUi::inst()->filesViewRight);
     SDriveEngine::inst()->filesMngr[ERight]->get(GET_FULL_ROOT_CONTENT);
 
     //foldersUI->createAFolders();
@@ -53,6 +54,8 @@ void DriveEngine::setKeyActions(void)
 
 void DriveEngine::slotStartLogin()
 {
+    qDebug() << "DriveEngine::slotStartLogin";
+
     oAuth2->startLogin(false);
 }
 
@@ -126,5 +129,6 @@ void DriveEngine::slotFirstPanelIsLoaded()
     settings.setValue("CurrPanel", LEFT_PANEL);
     settings.setValue(INIT_LOAD, false);
 
+    SDriveEngine::inst()->filesMngr[ELeft]->setPanel(SUi::inst()->filesViewLeft);
     SDriveEngine::inst()->filesMngr[ELeft]->get(GET_FULL_ROOT_CONTENT);
 }

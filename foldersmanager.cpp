@@ -8,20 +8,6 @@ FoldersManager::FoldersManager(QObject *parent) :
 {
 }
 
-void FoldersManager::slotError(QNetworkReply::NetworkError error)
-{
-    qDebug() << "FoldersManager::slotError error:" << error;
-
-    if(error == QNetworkReply::UnknownNetworkError)
-        qDebug() << "\n*******************\nIf this error occur, please make sure that you have openssl installed (also you can try just copy libeay32.dll and ssleay32.dll files from Qt SDK QtCreator/bin folder into your folder where your program .exe file located (tested on non-static compilation only))\n*******************\n";
-
-    if(error == QNetworkReply::AuthenticationRequiredError)
-    {
-        reply->abort();
-        emit signalAccessTokenRequired();
-    }
-}
-
 void FoldersManager::show(void)
 {
     clear();

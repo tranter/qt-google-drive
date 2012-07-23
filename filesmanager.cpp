@@ -12,17 +12,23 @@ FilesManager::FilesManager(QObject *parent):
 
 FilesManager::~FilesManager()
 {
-    CommonTools::getCurrFilePanel()->clear();
+    panel->clear();
 }
 
 void FilesManager::show(void)
 {
     QList<ItemInfo::Data> fileItems = parser->getXMLHandler()->getItemInfo()->getFileItems();
-    QTreeWidget *panel = CommonTools::getCurrFilePanel();
     QSettings settings(COMPANY_NAME, APP_NAME);
 
     clear();
     panel->clear();
+
+    if(getRequest().url() != GET_FULL_ROOT_CONTENT)
+    {
+        items.push_back(new QTreeWidgetItem(panel));
+        items.last()->setText(0, PARENT_FOLDER_SIGN);
+        qDebug() << "FilesManager::show getRequest().url:" << getRequest().url();
+    }
 
     for(int i = 1; i < fileItems.count(); ++i)
     {
@@ -38,8 +44,16 @@ void FilesManager::show(void)
 
     //    SUi::inst()->filesView->setSortingEnabled(true);
     //    SUi::inst()->filesView->sortItems(0, Qt::AscendingOrder);
+}
 
-    //QApplication::restoreOverrideCursor();
+void FilesManager::setPanel(QTreeWidget *p)
+{
+    panel = p;
+}
+
+QTreeWidget* FilesManager::getPanel(void) const
+{
+    return panel;
 }
 
 void FilesManager::sort(int column, Qt::SortOrder order)

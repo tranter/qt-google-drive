@@ -17,8 +17,6 @@ public:
     static QByteArray loadFromFile(const QString& fileName);
     static bool fileFromURLExists(const QString& url);
     static QString getFileNameFromURL(const QString& url);
-    static QTreeWidget* getCurrFilePanel(void);
-    //static QString getCurrFilePanelName(void);
 };
 
 #endif // COMMONTOOLS_H

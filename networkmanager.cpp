@@ -61,7 +61,16 @@ void NetworkManager::slotUploadFinished()
 
 void NetworkManager::slotError(QNetworkReply::NetworkError error)
 {
-    qDebug() << "NetworkManager::slotError error:" << error;
+    qDebug() << "NetworkManager::slotError error code:" << error;
+
+    if(error == QNetworkReply::AuthenticationRequiredError)
+    {
+        reply->abort();
+        emit signalAccessTokenRequired();
+    }
+
+    if(error == QNetworkReply::UnknownNetworkError)
+        qDebug() << "\n*******************\nIf this error occur, please make sure that you have openssl installed (also you can try just copy libeay32.dll and ssleay32.dll files from Qt SDK QtCreator/bin folder into your folder where your program .exe file located (tested on non-static compilation only))\n*******************\n";
 }
 
 void NetworkManager::slotSslErrors(const QList<QSslError>& errors)
@@ -162,7 +171,7 @@ void NetworkManager::putRequest(const QString & url,const QByteArray& data)
     connectErrorHandlers();
 }
 
-void NetworkManager::getRequest(const QString & url)
+void NetworkManager::sendRequest(const QString & url)
 {
     qDebug() << "NetworkManager::getRequest url:" << url;
 
@@ -190,6 +199,11 @@ void NetworkManager::delRes(const QString & url)
 const NetworkManager* NetworkManager::self(void) const
 {
     return this;
+}
+
+QNetworkRequest NetworkManager::getRequest(void) const
+{
+    return request;
 }
 
 void NetworkManager::setDownloadSettings(void) {}

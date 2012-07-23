@@ -57,6 +57,8 @@
 #define LEFT_PANEL QString("left")
 #define RIGHT_PANEL QString("right")
 
+#define PARENT_FOLDER_SIGN QString("[..]")
+
 #define MAIN_TITLE QString("My drive")
 #define ALL_ITEMS_TITLE QString("All items")
 #define OWNED_BY_ME_TITLE QString("Owned by me")

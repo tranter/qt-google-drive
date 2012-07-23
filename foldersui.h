@@ -25,7 +25,6 @@ private:
 
 private:
     QModelIndex currAFolderId;
-    //int currentFolderIndex;
 };
 
 #endif // FOLDERSUI_H

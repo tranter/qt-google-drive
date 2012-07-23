@@ -20,10 +20,15 @@ signals:
     void signalFirstPanelIsLoaded();
 
 public:
+    QTreeWidget* getPanel(void) const;
+    void setPanel(QTreeWidget *p);
     void sort(int column, Qt::SortOrder order);
 
 private:
     virtual void show(void);
+
+private:
+    QTreeWidget *panel;
 };
 
 #endif // FILESMANAGER_H

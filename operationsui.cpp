@@ -27,7 +27,8 @@ void OperationsUI::del(QObject* object)
     }
 
     //if (object == SUi::inst()->filesViewRight)
-    if (object == CommonTools::getCurrFilePanel())
+    //if (object == CommonTools::getCurrFilePanel())
+    if (object == SDriveEngine::inst()->getCurrFilesMngr()->getPanel())
     {
         FilesManager* manager;
 
@@ -68,7 +69,8 @@ void OperationsUI::slotTriggeredDel()
 
     if(SDriveEngine::inst()->elStates[DriveEngine::EFoldersTreeViewFocused]) object = SUi::inst()->treeFoldersView;
     //else object = SUi::inst()->filesViewRight;
-    else object = CommonTools::getCurrFilePanel();
+    //else object = CommonTools::getCurrFilePanel();
+    else object = SDriveEngine::inst()->getCurrFilesMngr()->getPanel();
 
     del(object);
 }

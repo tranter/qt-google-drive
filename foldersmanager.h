@@ -9,12 +9,6 @@ class FoldersManager : public ContentManager
 public:
     explicit FoldersManager(QObject *parent = 0);
 
-public slots:
-    virtual void slotError(QNetworkReply::NetworkError error);
-
-signals:
-    void signalAccessTokenRequired();
-
 public:
     void insertFolder(QString name, QTreeWidgetItem* parent);
 

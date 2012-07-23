@@ -7,10 +7,7 @@ FoldersUI::FoldersUI(QObject *parent) :
 
 bool FoldersUI::getFolderContent(QString &folderID)
 {
-    //QList<ItemInfo::Data> item = SDriveEngine::inst()->filesMngr->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
     QList<ItemInfo::Data> item = SDriveEngine::inst()->getCurrFilesMngr()->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
-
-    //int index = SDriveEngine::inst()->filesUI->getCurrFileItemId(SDriveEngine::inst()->filesMngr.data());
     int index = SDriveEngine::inst()->filesUI->getCurrFileItemId(SDriveEngine::inst()->getCurrFilesMngr());
     bool isFolder = false;
 
@@ -75,6 +72,6 @@ void FoldersUI::slotFoldersViewClicked(const QModelIndex& index)
     SDriveEngine::inst()->elStates[DriveEngine::ERightViewFocused] = false;
     SDriveEngine::inst()->elStates[DriveEngine::ETrashFocused] = false;
 
-    //SDriveEngine::inst()->aFoldersMngr->clear();
+    SDriveEngine::inst()->aFoldersMngr->clear();
     SDriveEngine::inst()->filesUI->showFiles();
 }

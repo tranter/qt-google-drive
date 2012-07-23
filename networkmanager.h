@@ -22,19 +22,23 @@ public:
     explicit NetworkManager(QObject *parent = 0);
     virtual ~NetworkManager();
     
+signals:
+    void signalAccessTokenRequired();
+
 public:
     virtual void setDownloadSettings(void);
     virtual void setUploadSettings(void);
     virtual void setPostFinishedSettings(QNetworkReply*);
 
 public:
-    void startDownload(QUrl url, QString& fileName, const QString& type = "text/html");
-    void startUpload(QUrl url, const QString& fileName);
-    void putRequest(const QString & url,const QByteArray& data);
-    void getRequest(const QString & url);
+    QNetworkAccessManager *getNetworkManager(void) const;
+    QNetworkRequest getRequest(void) const;
     void delRes(const QString & url);
     void init(void);
-    QNetworkAccessManager *getNetworkManager(void) const;
+    void putRequest(const QString & url,const QByteArray& data);
+    void sendRequest(const QString & url);
+    void startDownload(QUrl url, QString& fileName, const QString& type = "text/html");
+    void startUpload(QUrl url, const QString& fileName);
 
 public:
     virtual void setStartSettings(QUrl url, const QString& fileName, const QString& progressBarDialogInfoText);
