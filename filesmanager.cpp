@@ -58,7 +58,12 @@ QTreeWidget* FilesManager::getPanel(void) const
     return panel;
 }
 
-QString FilesManager::prevLink(void)
+QString FilesManager::getCurrLink(void) const
+{
+    return links.last();
+}
+
+QString FilesManager::back(void)
 {
     QString prevLink;
 

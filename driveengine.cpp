@@ -41,7 +41,7 @@ void DriveEngine::reset(void)
     filesMngr[ERight].reset(new FilesManager);
     filesTransferUI.reset(new FilesTransferUI);
     filesUI.reset(new FilesUI);
-    //foldersMngr.reset(new FoldersManager);
+    foldersMngr.reset(new FoldersManager);
     foldersUI.reset(new FoldersUI);
     oAuth2.reset(new OAuth2(parent));
     opUI.reset(new OperationsUI);

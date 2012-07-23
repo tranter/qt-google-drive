@@ -10,6 +10,8 @@ FoldersManager::FoldersManager(QObject *parent) :
 
 void FoldersManager::show(void)
 {
+    qDebug() << "FoldersManager::show";
+
     clear();
     SUi::inst()->treeFoldersView->clear();
 

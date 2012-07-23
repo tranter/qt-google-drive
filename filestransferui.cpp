@@ -51,12 +51,21 @@ void FilesTransferUI::upload(void)
 
     QString fileName = QFileDialog::getOpenFileName(SDriveEngine::inst()->parent, "Uploading file", QDir::homePath(), "All files(*)");
 
+    qDebug() << "FilesTransferUI::upload fileName:" << fileName;
+
     if(!fileName.isEmpty())
     {
-        ItemInfo item = *SDriveEngine::inst()->foldersMngr->getParser()->getXMLHandler()->getItemInfo();
-        int index = SDriveEngine::inst()->foldersUI->getCurrFolderItemId();
+        //        ItemInfo item = *SDriveEngine::inst()->foldersMngr->getParser()->getXMLHandler()->getItemInfo();
+        //        int index = SDriveEngine::inst()->foldersUI->getCurrFolderItemId();
+
+        QList<ItemInfo::Data> item = SDriveEngine::inst()->getCurrFilesMngr()->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
+        int index = SDriveEngine::inst()->filesUI->getCurrFileItemId(SDriveEngine::inst()->getCurrFilesMngr());
+
+        qDebug() << "FilesTransferUI::upload index:" << index;
 
         QString uploadLink(item[index].uploadLink + "/?convert=false");
+
+        qDebug() << "FilesTransferUI::upload uploadLink:" << uploadLink;
 
         if(!uploadLink.isEmpty())
         {

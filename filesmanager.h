@@ -20,8 +20,9 @@ signals:
     void signalFirstPanelIsLoaded();
 
 public:
+    QString getCurrLink(void) const;
     QTreeWidget* getPanel(void) const;
-    QString prevLink(void);
+    QString back(void);
     void setPanel(QTreeWidget *p);
     void sort(int column, Qt::SortOrder order);
 

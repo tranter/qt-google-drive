@@ -49,6 +49,8 @@ void FilesUI::showFilesFromFolder(void)
 {
     QString str;
 
+    qDebug() << "FilesUI::showFilesFromFolder";
+
     if(SDriveEngine::inst()->foldersUI->getFolderContent(str))
     {
         QString query(GET_FILES_IN_FOLDER);
@@ -99,6 +101,8 @@ void FilesUI::slotLeftViewClicked(const QModelIndex& Id)
     QSettings settings(COMPANY_NAME, APP_NAME);
     settings.setValue(CURRENT_PANEL, LEFT_PANEL);
 
+    qDebug() << "current panel left";
+
     showFilesOnPanel(Id);
 }
 
@@ -106,6 +110,8 @@ void FilesUI::slotRightViewClicked(const QModelIndex& Id)
 {
     QSettings settings(COMPANY_NAME, APP_NAME);
     settings.setValue(CURRENT_PANEL, RIGHT_PANEL);
+
+    qDebug() << "current panel right";
 
     showFilesOnPanel(Id);
 }
@@ -119,8 +125,7 @@ void FilesUI::showFilesOnPanel(const QModelIndex& Id)
 
     if(Id.data().toString() == PARENT_FOLDER_SIGN)
     {
-        qDebug() << "PARENT:" << SDriveEngine::inst()->getCurrFilesMngr()->getRequest().url().toString();
-        SDriveEngine::inst()->getCurrFilesMngr()->get(SDriveEngine::inst()->getCurrFilesMngr()->prevLink());
+        SDriveEngine::inst()->getCurrFilesMngr()->get(SDriveEngine::inst()->getCurrFilesMngr()->back());
     }
     else
     {
@@ -130,6 +135,7 @@ void FilesUI::showFilesOnPanel(const QModelIndex& Id)
 
 void FilesUI::slotUpdateFileList()
 {
-    showFiles();
+    //showFiles();
+    SDriveEngine::inst()->getCurrFilesMngr()->get(SDriveEngine::inst()->getCurrFilesMngr()->getCurrLink());
 }
 
