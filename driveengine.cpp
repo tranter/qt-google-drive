@@ -13,6 +13,7 @@ DriveEngine::DriveEngine(QObject *parent) :
 
 DriveEngine::~DriveEngine()
 {
+    qDebug() << "DriveEngine::~DriveEngine";
 }
 
 void DriveEngine::init(void)
@@ -34,13 +35,13 @@ void DriveEngine::init(void)
 
 void DriveEngine::reset(void)
 {
-    aFoldersMngr.reset(new AdditionalFoldersManager);
+    //aFoldersMngr.reset(new AdditionalFoldersManager);
     checkUI.reset(new CheckUI);
     filesMngr[ELeft].reset(new FilesManager);
     filesMngr[ERight].reset(new FilesManager);
     filesTransferUI.reset(new FilesTransferUI);
     filesUI.reset(new FilesUI);
-    foldersMngr.reset(new FoldersManager);
+    //foldersMngr.reset(new FoldersManager);
     foldersUI.reset(new FoldersUI);
     oAuth2.reset(new OAuth2(parent));
     opUI.reset(new OperationsUI);

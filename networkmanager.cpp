@@ -21,6 +21,7 @@ QNetworkAccessManager* NetworkManager::getNetworkManager(void) const
 
 NetworkManager::~NetworkManager()
 {
+    qDebug() << "NetworkManager::~NetworkManager()";
 }
 
 void NetworkManager::slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)

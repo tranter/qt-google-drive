@@ -98,46 +98,22 @@ void FilesUI::slotRightSortIndicatorChanged(int logicalIndex, Qt::SortOrder orde
 
 void FilesUI::slotLeftViewClicked(const QModelIndex& Id)
 {
-//    qDebug() << "FilesUI::slotLeftViewClicked" << Id.data().toString();
+    qDebug() << "FilesUI::slotLeftViewClicked" << Id.data().toString();
 
     QSettings settings(COMPANY_NAME, APP_NAME);
     settings.setValue("CurrPanel", LEFT_PANEL);
 
-//    SDriveEngine::inst()->elStates[DriveEngine::EFoldersTreeViewFocused] = false;
-//    SDriveEngine::inst()->elStates[DriveEngine::ELeftViewFocused] = true;
-
-//    if(Id.data().toString() == PARENT_FOLDER_SIGN)
-//    {
-//        qDebug() << "PARENT:" << SDriveEngine::inst()->getCurrFilesMngr()->getRequest().url().toString();
-//        SDriveEngine::inst()->getCurrFilesMngr()->get(SDriveEngine::inst()->getCurrFilesMngr()->getRequest().url().toString());
-//    }
-//    else
-//    {
-//        if(!SDriveEngine::inst()->elStates[DriveEngine::EAFoldersViewFocused]) showFilesFromFolder();
-//    }
     showFilesOnPanel(Id);
 }
 
 void FilesUI::slotRightViewClicked(const QModelIndex& Id)
 {
-//    qDebug() << "FilesUI::slotRightViewClicked" << Id.data().toString();
+    qDebug() << "FilesUI::slotRightViewClicked" << Id.data().toString();
 
     QSettings settings(COMPANY_NAME, APP_NAME);
     settings.setValue("CurrPanel", RIGHT_PANEL);
 
-//    SDriveEngine::inst()->elStates[DriveEngine::EFoldersTreeViewFocused] = false;
-//    SDriveEngine::inst()->elStates[DriveEngine::ERightViewFocused] = true;
-
-//    if(Id.data().toString() == PARENT_FOLDER_SIGN)
-//    {
-//        qDebug() << "PARENT:" << SDriveEngine::inst()->getCurrFilesMngr()->getRequest().url().toString();
-//        SDriveEngine::inst()->getCurrFilesMngr()->get(SDriveEngine::inst()->getCurrFilesMngr()->getRequest().url().toString());
-//    }
-//    else
-//    {
-//        if(!SDriveEngine::inst()->elStates[DriveEngine::EAFoldersViewFocused]) showFilesFromFolder();
-//    }
-     showFilesOnPanel(Id);
+    showFilesOnPanel(Id);
 }
 
 void FilesUI::showFilesOnPanel(const QModelIndex& Id)

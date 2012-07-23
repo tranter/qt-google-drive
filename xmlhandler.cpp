@@ -13,6 +13,7 @@ XMLHandler::XMLHandler(int type):
 
 XMLHandler::~XMLHandler()
 {
+    qDebug() << "XMLHandler::~XMLHandler()";
 }
 
 bool XMLHandler::startElement(const QString &namespaceURI, const QString &localName, const QString &qName, const QXmlAttributes &attribs)

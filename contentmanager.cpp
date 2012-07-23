@@ -11,6 +11,7 @@ ContentManager::ContentManager(int handleType, QObject *parent):
 
 ContentManager::~ContentManager()
 {
+    qDebug() << "ContentManager::~ContentManager()";
 }
 
 void ContentManager::get(const QString& url)
@@ -71,17 +72,17 @@ void ContentManager::clear(void)
 
 void ContentManager::del(const QString &url)
 {
-  opMngr->del(url);
+    opMngr->del(url);
 }
 
 void ContentManager::createFolder(const QString& folderUrl, const QString& name)
 {
-  opMngr->createFolder(folderUrl, name);
+    opMngr->createFolder(folderUrl, name);
 }
 
 OperationsManager* ContentManager::getOpMngr(void) const
 {
-  return opMngr.data();
+    return opMngr.data();
 }
 
 
