@@ -12,8 +12,8 @@ AdditionalFoldersManager::AdditionalFoldersManager(QObject *parent) :
 AdditionalFoldersManager::~AdditionalFoldersManager()
 {
  qDebug() << "AdditionalFoldersManager::~AdditionalFoldersManager()";
- //for(int i = 0; i < aFolders.count(); ++i) delete aFolders[i];
- //aFolders.clear();
+ for(int i = 0; i < aFolders.count(); ++i) delete aFolders[i];
+ aFolders.clear();
 }
 
 void AdditionalFoldersManager::create(const QString& name, QString iconName)
