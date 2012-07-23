@@ -21,6 +21,7 @@ signals:
 
 public:
     QTreeWidget* getPanel(void) const;
+    QString prevLink(void);
     void setPanel(QTreeWidget *p);
     void sort(int column, Qt::SortOrder order);
 
@@ -29,6 +30,7 @@ private:
 
 private:
     QTreeWidget *panel;
+    QList<QString> links;
 };
 
 #endif // FILESMANAGER_H

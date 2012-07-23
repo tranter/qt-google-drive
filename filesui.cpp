@@ -12,8 +12,6 @@ int FilesUI::getCurrFileItemId(FilesManager* manager) const
 {
     QList<ItemInfo::Data> item = manager->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
     int count = item.count();
-    //QString fileName(SUi::inst()->filesViewRight->currentIndex().data().toString());
-    //QString fileName(CommonTools::getCurrFilePanel()->currentIndex().data().toString());
     QString fileName(SDriveEngine::inst()->getCurrFilesMngr()->getPanel()->currentIndex().data().toString());
 
     int currentFileIndex = 0;
@@ -98,20 +96,16 @@ void FilesUI::slotRightSortIndicatorChanged(int logicalIndex, Qt::SortOrder orde
 
 void FilesUI::slotLeftViewClicked(const QModelIndex& Id)
 {
-    qDebug() << "FilesUI::slotLeftViewClicked" << Id.data().toString();
-
     QSettings settings(COMPANY_NAME, APP_NAME);
-    settings.setValue("CurrPanel", LEFT_PANEL);
+    settings.setValue(CURRENT_PANEL, LEFT_PANEL);
 
     showFilesOnPanel(Id);
 }
 
 void FilesUI::slotRightViewClicked(const QModelIndex& Id)
 {
-    qDebug() << "FilesUI::slotRightViewClicked" << Id.data().toString();
-
     QSettings settings(COMPANY_NAME, APP_NAME);
-    settings.setValue("CurrPanel", RIGHT_PANEL);
+    settings.setValue(CURRENT_PANEL, RIGHT_PANEL);
 
     showFilesOnPanel(Id);
 }
@@ -126,7 +120,7 @@ void FilesUI::showFilesOnPanel(const QModelIndex& Id)
     if(Id.data().toString() == PARENT_FOLDER_SIGN)
     {
         qDebug() << "PARENT:" << SDriveEngine::inst()->getCurrFilesMngr()->getRequest().url().toString();
-        SDriveEngine::inst()->getCurrFilesMngr()->get(SDriveEngine::inst()->getCurrFilesMngr()->getRequest().url().toString());
+        SDriveEngine::inst()->getCurrFilesMngr()->get(SDriveEngine::inst()->getCurrFilesMngr()->prevLink());
     }
     else
     {

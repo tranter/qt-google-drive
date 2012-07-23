@@ -13,6 +13,7 @@ FilesManager::FilesManager(QObject *parent):
 FilesManager::~FilesManager()
 {
     panel->clear();
+    links.clear();
 }
 
 void FilesManager::show(void)
@@ -23,11 +24,12 @@ void FilesManager::show(void)
     clear();
     panel->clear();
 
+    links.push_back(getRequest().url().toString());
+
     if(getRequest().url() != GET_FULL_ROOT_CONTENT)
     {
         items.push_back(new QTreeWidgetItem(panel));
         items.last()->setText(0, PARENT_FOLDER_SIGN);
-        qDebug() << "FilesManager::show getRequest().url:" << getRequest().url();
     }
 
     for(int i = 1; i < fileItems.count(); ++i)
@@ -54,6 +56,20 @@ void FilesManager::setPanel(QTreeWidget *p)
 QTreeWidget* FilesManager::getPanel(void) const
 {
     return panel;
+}
+
+QString FilesManager::prevLink(void)
+{
+    QString prevLink;
+
+    if(!links.isEmpty())
+    {
+        links.pop_back();
+        prevLink  = links.last();
+        links.pop_back();
+    }
+
+    return prevLink;
 }
 
 void FilesManager::sort(int column, Qt::SortOrder order)

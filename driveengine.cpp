@@ -26,7 +26,7 @@ void DriveEngine::init(void)
 
     //foldersUI->showFolders(GET_FOLDERS_TREE);
 
-    settings.setValue("CurrPanel", RIGHT_PANEL);
+    settings.setValue(CURRENT_PANEL, RIGHT_PANEL);
     SDriveEngine::inst()->filesMngr[ERight]->setPanel(SUi::inst()->filesViewRight);
     SDriveEngine::inst()->filesMngr[ERight]->get(GET_FULL_ROOT_CONTENT);
 
@@ -115,7 +115,7 @@ FilesManager* DriveEngine::getCurrFilesMngr(void) const
     QSettings settings(COMPANY_NAME, APP_NAME);
     FilesManager* fm;
 
-    if(settings.value("CurrPanel", LEFT_PANEL).toString() == LEFT_PANEL) fm = filesMngr[ELeft].data();
+    if(settings.value(CURRENT_PANEL, LEFT_PANEL).toString() == LEFT_PANEL) fm = filesMngr[ELeft].data();
     else fm = filesMngr[ERight].data();
 
     return fm;
@@ -127,7 +127,7 @@ void DriveEngine::slotFirstPanelIsLoaded()
 
     QSettings settings(COMPANY_NAME, APP_NAME);
 
-    settings.setValue("CurrPanel", LEFT_PANEL);
+    settings.setValue(CURRENT_PANEL, LEFT_PANEL);
     settings.setValue(INIT_LOAD, false);
 
     SDriveEngine::inst()->filesMngr[ELeft]->setPanel(SUi::inst()->filesViewLeft);
