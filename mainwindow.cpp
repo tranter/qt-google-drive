@@ -43,8 +43,8 @@ void MainWindow::init(void)
     SUi::inst()->filesViewLeft->header()->resizeSection(0, 250);
     SUi::inst()->filesViewRight->header()->resizeSection(0, 250);
 
-//    SUi::inst()->treeFoldersView->setVisible(false);
-//    SUi::inst()->aFoldersView->setVisible(false);
+    SUi::inst()->treeFoldersView->setVisible(false);
+    SUi::inst()->aFoldersView->setVisible(false);
 }
 
 void MainWindow::setConnections(void)

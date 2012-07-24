@@ -69,12 +69,12 @@
      </widget>
     </item>
     <item row="0" column="1" rowspan="2">
-     <layout class="QVBoxLayout" name="verticalLayoutLeftPanel" stretch="0,0">
+     <layout class="QVBoxLayout" name="LeftPanelVLayout" stretch="0,0">
       <property name="spacing">
        <number>6</number>
       </property>
       <item>
-       <widget class="QLabel" name="label">
+       <widget class="QLabel" name="PathLabelLeft">
         <property name="text">
          <string>TextLabel</string>
         </property>
@@ -145,12 +145,12 @@
      </layout>
     </item>
     <item row="0" column="2" rowspan="2">
-     <layout class="QVBoxLayout" name="verticalLayoutRightPanel">
+     <layout class="QVBoxLayout" name="RightPanelVLayout">
       <property name="spacing">
        <number>6</number>
       </property>
       <item>
-       <widget class="QLabel" name="label_2">
+       <widget class="QLabel" name="PathLabelRight">
         <property name="text">
          <string>TextLabel</string>
         </property>
