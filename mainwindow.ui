@@ -26,7 +26,7 @@
    <bool>false</bool>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QGridLayout" name="gridLayout_2">
+   <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
      <widget class="QTreeWidget" name="treeFoldersView">
       <property name="sizePolicy">
@@ -69,87 +69,83 @@
      </widget>
     </item>
     <item row="0" column="1" rowspan="2">
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0">
-       <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0">
-        <property name="spacing">
-         <number>6</number>
+     <layout class="QVBoxLayout" name="verticalLayoutLeftPanel" stretch="0,0">
+      <property name="spacing">
+       <number>6</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>TextLabel</string>
         </property>
-        <item>
-         <widget class="QLabel" name="label">
-          <property name="text">
-           <string>TextLabel</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QTreeWidget" name="filesViewLeft">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="font">
-           <font>
-            <family>Times New Roman</family>
-            <pointsize>10</pointsize>
-            <weight>75</weight>
-            <bold>true</bold>
-           </font>
-          </property>
-          <property name="cursor" stdset="0">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="dragEnabled">
-           <bool>false</bool>
-          </property>
-          <property name="dragDropMode">
-           <enum>QAbstractItemView::DragOnly</enum>
-          </property>
-          <property name="sortingEnabled">
-           <bool>false</bool>
-          </property>
-          <property name="animated">
-           <bool>true</bool>
-          </property>
-          <attribute name="headerDefaultSectionSize">
-           <number>100</number>
-          </attribute>
-          <attribute name="headerHighlightSections">
-           <bool>true</bool>
-          </attribute>
-          <attribute name="headerShowSortIndicator" stdset="0">
-           <bool>true</bool>
-          </attribute>
-          <column>
-           <property name="text">
-            <string>Title</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Owner</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Last Modified</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Size</string>
-           </property>
-          </column>
-         </widget>
-        </item>
-       </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QTreeWidget" name="filesViewLeft">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <family>Times New Roman</family>
+          <pointsize>10</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="cursor" stdset="0">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="dragEnabled">
+         <bool>false</bool>
+        </property>
+        <property name="dragDropMode">
+         <enum>QAbstractItemView::DragOnly</enum>
+        </property>
+        <property name="sortingEnabled">
+         <bool>false</bool>
+        </property>
+        <property name="animated">
+         <bool>true</bool>
+        </property>
+        <attribute name="headerDefaultSectionSize">
+         <number>100</number>
+        </attribute>
+        <attribute name="headerHighlightSections">
+         <bool>true</bool>
+        </attribute>
+        <attribute name="headerShowSortIndicator" stdset="0">
+         <bool>true</bool>
+        </attribute>
+        <column>
+         <property name="text">
+          <string>Title</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Owner</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Last Modified</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Size</string>
+         </property>
+        </column>
+       </widget>
       </item>
      </layout>
     </item>
     <item row="0" column="2" rowspan="2">
-     <layout class="QVBoxLayout" name="verticalLayout">
+     <layout class="QVBoxLayout" name="verticalLayoutRightPanel">
       <property name="spacing">
        <number>6</number>
       </property>
@@ -266,15 +262,6 @@
      </widget>
     </item>
    </layout>
-   <zorder>verticalLayoutWidget</zorder>
-   <zorder>verticalLayoutWidget_2</zorder>
-   <zorder>filesViewRight</zorder>
-   <zorder>filesViewLeft</zorder>
-   <zorder>filesViewLeft</zorder>
-   <zorder>verticalLayoutWidget</zorder>
-   <zorder>label_2</zorder>
-   <zorder>treeFoldersView</zorder>
-   <zorder>aFoldersView</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
