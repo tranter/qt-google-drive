@@ -1,5 +1,4 @@
 #include "xmlhandler.h"
-#include "mainwindow.h"
 #include <QDebug>
 
 XMLHandler::XMLHandler(int type):

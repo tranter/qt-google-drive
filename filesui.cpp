@@ -112,7 +112,7 @@ void FilesUI::slotRightViewClicked(const QModelIndex& Id)
     showFilesOnPanel(Id, ERight);
 }
 
-void FilesUI::showFilesOnPanel(const QModelIndex& Id, EPanels panel)
+void FilesUI::showFilesOnPanel(const QModelIndex &Id, EPanels panel)
 {
     qDebug() << "showFilesOnPanel:" << Id.data().toString();
 
@@ -121,12 +121,12 @@ void FilesUI::showFilesOnPanel(const QModelIndex& Id, EPanels panel)
 
     if(Id.data().toString() == PARENT_FOLDER_SIGN)
     {
-        setPath(EBackward, panel);
+        setPath(Id.data().toString(), EBackward, panel);
         SDriveEngine::inst()->getCurrFilesMngr()->get(SDriveEngine::inst()->getCurrFilesMngr()->back());
     }
     else
     {
-        setPath(EForward, panel);
+        if(SDriveEngine::inst()->foldersUI->isFolder()) setPath(Id.data().toString(), EForward, panel);
         if(!SDriveEngine::inst()->elStates[EAFoldersViewFocused]) showFilesFromFolder();
     }
 }
@@ -137,26 +137,43 @@ void FilesUI::slotUpdateFileList()
     SDriveEngine::inst()->getCurrFilesMngr()->get(SDriveEngine::inst()->getCurrFilesMngr()->getCurrLink());
 }
 
-void FilesUI::setPath(EPath path, EPanels panel)
+void FilesUI::setPath(const QString &name, EPath path, EPanels panel)
 {
     QLabel* label = getPanelLabel(panel);
+    QString pathDividerSign("\\");
+    int labelTextlength = label->text().length();
+    int discStrLength = getDisc(panel).length();
+
+    qDebug() << "panel:" << panel << "label->text():" << label->text();
 
     switch(path)
     {
     case EForward:
-        //SUi::inst()->PathLabelLeft->setText(SUi::inst()->PathLabelLeft->text() += "\\" + Id.data().toString());
+    {
+        QString divider((labelTextlength == discStrLength) ? "" : pathDividerSign);
+        label->setText(label->text() += divider + name);
+    }
         break;
     case EBackward:
-        //int pos = label->text().lastIndexOf("\\");
-        //qDebug() << "!!!!!!!!!!!!!!!" << SUi::inst()->PathLabelLeft->text().lastIndexOf("\\");
-        //SUi::inst()->PathLabelLeft->setText(SUi::inst()->PathLabelLeft->text().remove(pos, SUi::inst()->PathLabelLeft->text().length() - (SUi::inst()->PathLabelLeft->text().length() - pos)));
+    {
+        int pos = label->text().lastIndexOf(pathDividerSign);
+        int removeCount = labelTextlength - (pos + 1) + 1;
+
+        if(pos == (discStrLength - 1)) ++pos;
+
+        label->setText(label->text().remove(pos,  removeCount));
+    }
         break;
     }
 }
 
 QString FilesUI::getDisc(EPanels panel) const
 {
-    return QString("a:\\");
+    QString disc;
+
+    disc = "a:\\";
+
+    return disc;
 }
 
 void FilesUI::setDisc(EPanels panel)

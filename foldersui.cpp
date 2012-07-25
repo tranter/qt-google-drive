@@ -5,29 +5,33 @@ FoldersUI::FoldersUI(QObject *parent) :
 {
 }
 
-bool FoldersUI::getFolderContent(QString &folderID)
+bool FoldersUI::getFolderContent(QString &ID)
+{
+    bool is = isFolder();
+
+    if(is)
+    {
+        QString str(item().self);
+        QStringList strList = str.split("/");
+        ID = strList[strList.count() - 1];
+    }
+
+    return is;
+}
+
+bool FoldersUI::isFolder(void)
+{
+    bool is = false;
+    if(item().self.indexOf(FOLDER_TYPE_STR) != -1) is = true;
+    return is;
+}
+
+ItemInfo::Data FoldersUI::item(void)
 {
     QList<ItemInfo::Data> item = SDriveEngine::inst()->getCurrFilesMngr()->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
     int index = SDriveEngine::inst()->filesUI->getCurrFileItemId(SDriveEngine::inst()->getCurrFilesMngr());
-    bool isFolder = false;
 
-    QString str(item[index].self);
-    QStringList strList = str.split("/");
-    str = strList[strList.count() - 1];
-
-    qDebug() << "FoldersUI::getFolderContent folderID:" << str;
-
-    if(str.indexOf(FOLDER_TYPE_STR) != -1)
-    {
-        folderID = str;
-        isFolder = true;
-
-        //SUi::inst()->PathLabelLeft->setText(item[index].name);
-
-        qDebug() << "FoldersUI::getFolderContent this is a folder name:" << item[index].name;
-    }
-
-    return isFolder;
+    return item[index];
 }
 
 int FoldersUI::getCurrFolderItemId(void) const

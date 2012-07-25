@@ -42,10 +42,7 @@ void FilesManager::show(void)
 
     if(settings.value(INIT_LOAD).toBool()) emit signalFirstPanelIsLoaded();
 
-    //qDebug() << "----------------------------->" << getRequest().url().toString(); << "name:" << currFolderName;
-
     links.push_back(getRequest().url().toString());
-    //folders[getRequest().url().toString()] = currFolderName;
 
     //    SUi::inst()->filesView->setSortingEnabled(true);
     //    SUi::inst()->filesView->sortItems(0, Qt::AscendingOrder);
@@ -60,18 +57,6 @@ QTreeWidget* FilesManager::getPanel(void) const
 {
     return panel;
 }
-
-//QString FilesManager::getPath(void)
-//{
-//    QString path("");
-
-//    for(int i = 0; i < links.count(); ++i)
-//    {
-//        path +=  links[i] + "\\";
-//    }
-
-//    return path;
-//}
 
 QString FilesManager::getCurrLink(void) const
 {
@@ -91,11 +76,6 @@ QString FilesManager::back(void)
 
     return prevLink;
 }
-
-//void setCurrFolderName(const QString &name)
-//{
-//  currFolderName = name;
-//}
 
 void FilesManager::sort(int column, Qt::SortOrder order)
 {

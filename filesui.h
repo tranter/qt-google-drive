@@ -36,10 +36,10 @@ private:
     QString getDisc(EPanels panel) const;
     QLabel* getPanelLabel(EPanels panel) const;
     void setDisc(EPanels panel);
-    void setPath(EPath path, EPanels panel);
+    void setPath(const QString &name, EPath path, EPanels panel);
     void showFiles(void);
     void showFilesFromFolder(void);
-    void showFilesOnPanel(const QModelIndex& Id, EPanels panel);
+    void showFilesOnPanel(const QModelIndex &Id, EPanels panel);
 };
 
 #endif // FILESUI_H

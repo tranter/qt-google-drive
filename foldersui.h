@@ -2,6 +2,8 @@
 #define FOLDERSUI_H
 
 #include "driveengine.h"
+//#include "enums.h"
+#include "iteminfo.h"
 
 class FoldersUI: public QObject
 {
@@ -18,9 +20,11 @@ private slots:
     void slotFoldersViewClicked(const QModelIndex& index);
 
 private:
-    bool getFolderContent(QString &folderID);
-    int getCurrFolderItemId(void) const;
     void createAFolders(void);
+    bool getFolderContent(QString &ID);
+    int getCurrFolderItemId(void) const;
+    bool isFolder(void);
+    ItemInfo::Data item(void);
     void showFolders(const QString &url);
 
 private:
