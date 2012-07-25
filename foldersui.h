@@ -21,7 +21,7 @@ private slots:
 
 private:
     void createAFolders(void);
-    bool getFolderContent(QString &ID);
+    QString getFolderID(void);
     int getCurrFolderItemId(void) const;
     bool isFolder(void);
     ItemInfo::Data item(void);

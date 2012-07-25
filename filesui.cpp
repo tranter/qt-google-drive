@@ -47,14 +47,12 @@ void FilesUI::showFiles(void)
 
 void FilesUI::showFilesFromFolder(void)
 {
-    QString str;
-
     qDebug() << "FilesUI::showFilesFromFolder";
 
-    if(SDriveEngine::inst()->foldersUI->getFolderContent(str))
+    if(SDriveEngine::inst()->foldersUI->isFolder())
     {
         QString query(GET_FILES_IN_FOLDER);
-        query += str;
+        query += SDriveEngine::inst()->foldersUI->getFolderID();
         query += (CONTENTS + MAX_RESULTS);
 
         SDriveEngine::inst()->getCurrFilesMngr()->get(query);

@@ -5,18 +5,11 @@ FoldersUI::FoldersUI(QObject *parent) :
 {
 }
 
-bool FoldersUI::getFolderContent(QString &ID)
-{
-    bool is = isFolder();
-
-    if(is)
-    {
-        QString str(item().self);
-        QStringList strList = str.split("/");
-        ID = strList[strList.count() - 1];
-    }
-
-    return is;
+QString FoldersUI::getFolderID(void)
+{  
+    QString str(item().self);
+    QStringList strList = str.split("/");
+    return strList[strList.count() - 1];
 }
 
 bool FoldersUI::isFolder(void)
