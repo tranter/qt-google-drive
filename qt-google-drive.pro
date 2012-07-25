@@ -37,7 +37,8 @@ SOURCES += foldersui.cpp
 SOURCES += checkui.cpp
 SOURCES += jsonparser.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    enums.h
 HEADERS  += createfolderdialog.h
 HEADERS  += oauth2.h
 HEADERS  += logindialog.h

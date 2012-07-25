@@ -63,15 +63,15 @@ void FilesUI::showFilesFromFolder(void)
 
 void FilesUI::slotAShowFiles(const QModelIndex& index)
 {
-    if(index.model()->data(index).toString() == TRASH_TITLE) SDriveEngine::inst()->elStates[DriveEngine::ETrashFocused] = true;
-    else SDriveEngine::inst()->elStates[DriveEngine::ETrashFocused] = false;
+    if(index.model()->data(index).toString() == TRASH_TITLE) SDriveEngine::inst()->elStates[ETrashFocused] = true;
+    else SDriveEngine::inst()->elStates[ETrashFocused] = false;
 
     QString query;
     SDriveEngine::inst()->getFoldersUI()->currAFolderId = index;
 
-    SDriveEngine::inst()->elStates[DriveEngine::EFoldersTreeViewFocused] = false;
-    SDriveEngine::inst()->elStates[DriveEngine::EAFoldersViewFocused] = true;
-    SDriveEngine::inst()->elStates[DriveEngine::ERightViewFocused] = false;
+    SDriveEngine::inst()->elStates[EFoldersTreeViewFocused] = false;
+    SDriveEngine::inst()->elStates[EAFoldersViewFocused] = true;
+    SDriveEngine::inst()->elStates[ERightViewFocused] = false;
 
     SDriveEngine::inst()->getCurrFilesMngr()->clear();
 
@@ -101,9 +101,7 @@ void FilesUI::slotLeftViewClicked(const QModelIndex& Id)
     QSettings settings(COMPANY_NAME, APP_NAME);
     settings.setValue(CURRENT_PANEL, LEFT_PANEL);
 
-    qDebug() << "current panel left";
-
-    showFilesOnPanel(Id);
+    showFilesOnPanel(Id, ELeft);
 }
 
 void FilesUI::slotRightViewClicked(const QModelIndex& Id)
@@ -111,25 +109,25 @@ void FilesUI::slotRightViewClicked(const QModelIndex& Id)
     QSettings settings(COMPANY_NAME, APP_NAME);
     settings.setValue(CURRENT_PANEL, RIGHT_PANEL);
 
-    qDebug() << "current panel right";
-
-    showFilesOnPanel(Id);
+    showFilesOnPanel(Id, ERight);
 }
 
-void FilesUI::showFilesOnPanel(const QModelIndex& Id)
+void FilesUI::showFilesOnPanel(const QModelIndex& Id, EPanels panel)
 {
     qDebug() << "showFilesOnPanel:" << Id.data().toString();
 
-    SDriveEngine::inst()->elStates[DriveEngine::EFoldersTreeViewFocused] = false;
-    SDriveEngine::inst()->elStates[DriveEngine::ERightViewFocused] = true;
+    SDriveEngine::inst()->elStates[EFoldersTreeViewFocused] = false;
+    SDriveEngine::inst()->elStates[ERightViewFocused] = true;
 
     if(Id.data().toString() == PARENT_FOLDER_SIGN)
     {
+        setPath(EBackward, panel);
         SDriveEngine::inst()->getCurrFilesMngr()->get(SDriveEngine::inst()->getCurrFilesMngr()->back());
     }
     else
     {
-        if(!SDriveEngine::inst()->elStates[DriveEngine::EAFoldersViewFocused]) showFilesFromFolder();
+        setPath(EForward, panel);
+        if(!SDriveEngine::inst()->elStates[EAFoldersViewFocused]) showFilesFromFolder();
     }
 }
 
@@ -138,4 +136,47 @@ void FilesUI::slotUpdateFileList()
     //showFiles();
     SDriveEngine::inst()->getCurrFilesMngr()->get(SDriveEngine::inst()->getCurrFilesMngr()->getCurrLink());
 }
+
+void FilesUI::setPath(EPath path, EPanels panel)
+{
+    QLabel* label = getPanelLabel(panel);
+
+    switch(path)
+    {
+    case EForward:
+        //SUi::inst()->PathLabelLeft->setText(SUi::inst()->PathLabelLeft->text() += "\\" + Id.data().toString());
+        break;
+    case EBackward:
+        //int pos = label->text().lastIndexOf("\\");
+        //qDebug() << "!!!!!!!!!!!!!!!" << SUi::inst()->PathLabelLeft->text().lastIndexOf("\\");
+        //SUi::inst()->PathLabelLeft->setText(SUi::inst()->PathLabelLeft->text().remove(pos, SUi::inst()->PathLabelLeft->text().length() - (SUi::inst()->PathLabelLeft->text().length() - pos)));
+        break;
+    }
+}
+
+QString FilesUI::getDisc(EPanels panel) const
+{
+    return QString("a:\\");
+}
+
+void FilesUI::setDisc(EPanels panel)
+{
+    getPanelLabel(panel)->setText(getDisc(panel));
+}
+
+QLabel* FilesUI::getPanelLabel(EPanels panel) const
+{
+    QLabel* label;
+
+    switch(panel)
+    {
+    case ELeft: label = SUi::inst()->PathLabelLeft;
+        break;
+    case ERight: label = SUi::inst()->PathLabelRight;
+        break;
+    }
+
+    return label;
+}
+
 

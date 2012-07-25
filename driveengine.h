@@ -1,12 +1,11 @@
 #ifndef DRIVEENGINE_H
 #define DRIVEENGINE_H
 
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
 #include <QTreeWidgetItem>
 #include "downloadmanager.h"
 #include "uploadmanager.h"
-#include "filesmanager.h"
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
 #include "foldersmanager.h"
 #include "additionalfoldesmanager.h"
 #include "filestransferui.h"
@@ -16,6 +15,7 @@
 #include "checkui.h"
 #include "oauth2.h"
 #include "eventhandler.h"
+#include "enums.h"
 
 class AdditionalFoldersManager;
 class CheckUI;
@@ -31,23 +31,6 @@ class DriveEngine : public QObject
 {
     Q_OBJECT
 public:
-    enum EElementsStates
-    {
-        EFoldersTreeViewFocused = 0,
-        EAFoldersViewFocused,
-        ELeftViewFocused,
-        ERightViewFocused,
-        ETrashFocused,
-        EElStatesCount
-    };
-
-    enum EPanels
-    {
-        ELeft = 0,
-        ERight,
-        EPanelsCount
-    };
-
     explicit DriveEngine(QObject *parent = 0);
     ~DriveEngine();
 

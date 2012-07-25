@@ -21,7 +21,10 @@ bool FoldersUI::getFolderContent(QString &folderID)
     {
         folderID = str;
         isFolder = true;
-        qDebug() << "FoldersUI::getFolderContent this is a folder";
+
+        //SUi::inst()->PathLabelLeft->setText(item[index].name);
+
+        qDebug() << "FoldersUI::getFolderContent this is a folder name:" << item[index].name;
     }
 
     return isFolder;
@@ -67,10 +70,10 @@ void FoldersUI::showFolders(const QString& url)
 
 void FoldersUI::slotFoldersViewClicked(const QModelIndex& index)
 {
-    SDriveEngine::inst()->elStates[DriveEngine::EFoldersTreeViewFocused] = true;
-    SDriveEngine::inst()->elStates[DriveEngine::EAFoldersViewFocused] = false;
-    SDriveEngine::inst()->elStates[DriveEngine::ERightViewFocused] = false;
-    SDriveEngine::inst()->elStates[DriveEngine::ETrashFocused] = false;
+    SDriveEngine::inst()->elStates[EFoldersTreeViewFocused] = true;
+    SDriveEngine::inst()->elStates[EAFoldersViewFocused] = false;
+    SDriveEngine::inst()->elStates[ERightViewFocused] = false;
+    SDriveEngine::inst()->elStates[ETrashFocused] = false;
 
     SDriveEngine::inst()->aFoldersMngr->clear();
     SDriveEngine::inst()->filesUI->showFiles();

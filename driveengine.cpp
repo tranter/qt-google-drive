@@ -1,8 +1,9 @@
 #include "driveengine.h"
-#include <QDebug>
 #include "AppRegData.h"
 #include <QMessageBox>
 #include <QSettings>
+#include <QDebug>
+
 
 DriveEngine::DriveEngine(QObject *parent) :
     QObject(parent)
@@ -30,6 +31,9 @@ void DriveEngine::init(void)
     SDriveEngine::inst()->filesMngr[ERight]->setPanel(SUi::inst()->filesViewRight);
     SDriveEngine::inst()->filesMngr[ERight]->get(GET_FULL_ROOT_CONTENT);
 
+    filesUI->setDisc(ERight);
+    filesUI->setDisc(ELeft);
+
     //foldersUI->createAFolders();
 }
 
@@ -37,8 +41,7 @@ void DriveEngine::reset(void)
 {
     //aFoldersMngr.reset(new AdditionalFoldersManager);
     checkUI.reset(new CheckUI);
-    filesMngr[ELeft].reset(new FilesManager);
-    filesMngr[ERight].reset(new FilesManager);
+    for(int i = 0; i < EPanelsCount; ++i) filesMngr[i].reset(new FilesManager);
     filesTransferUI.reset(new FilesTransferUI);
     filesUI.reset(new FilesUI);
     foldersMngr.reset(new FoldersManager);
@@ -116,7 +119,7 @@ FilesManager* DriveEngine::getCurrFilesMngr(void) const
     FilesManager* fm;
 
     if(settings.value(CURRENT_PANEL, LEFT_PANEL).toString() == LEFT_PANEL) fm = filesMngr[ELeft].data();
-    else fm = filesMngr[ERight].data();
+    if(settings.value(CURRENT_PANEL, LEFT_PANEL).toString() == RIGHT_PANEL) fm = filesMngr[ERight].data();
 
     return fm;
 }

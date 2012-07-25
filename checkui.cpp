@@ -4,6 +4,8 @@
 #include "settingsdialog.h"
 #include "Def.h"
 #include "AppRegData.h"
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
 #include "driveengine.h"
 
 CheckUI::CheckUI(QObject *parent) :

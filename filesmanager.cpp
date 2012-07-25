@@ -1,7 +1,6 @@
 #include "filesmanager.h"
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
 #include "AppRegData.h"
+#include "driveengine.h"
 #include <QSettings>
 #include <QDebug>
 
@@ -12,6 +11,7 @@ FilesManager::FilesManager(QObject *parent):
 
 FilesManager::~FilesManager()
 {
+    qDebug() << "FilesManager::~FilesManager()";
     panel->clear();
     links.clear();
 }
@@ -23,8 +23,6 @@ void FilesManager::show(void)
 
     clear();
     panel->clear();
-
-    links.push_back(getRequest().url().toString());
 
     if(getRequest().url() != GET_FULL_ROOT_CONTENT)
     {
@@ -44,6 +42,11 @@ void FilesManager::show(void)
 
     if(settings.value(INIT_LOAD).toBool()) emit signalFirstPanelIsLoaded();
 
+    //qDebug() << "----------------------------->" << getRequest().url().toString(); << "name:" << currFolderName;
+
+    links.push_back(getRequest().url().toString());
+    //folders[getRequest().url().toString()] = currFolderName;
+
     //    SUi::inst()->filesView->setSortingEnabled(true);
     //    SUi::inst()->filesView->sortItems(0, Qt::AscendingOrder);
 }
@@ -57,6 +60,18 @@ QTreeWidget* FilesManager::getPanel(void) const
 {
     return panel;
 }
+
+//QString FilesManager::getPath(void)
+//{
+//    QString path("");
+
+//    for(int i = 0; i < links.count(); ++i)
+//    {
+//        path +=  links[i] + "\\";
+//    }
+
+//    return path;
+//}
 
 QString FilesManager::getCurrLink(void) const
 {
@@ -76,6 +91,11 @@ QString FilesManager::back(void)
 
     return prevLink;
 }
+
+//void setCurrFolderName(const QString &name)
+//{
+//  currFolderName = name;
+//}
 
 void FilesManager::sort(int column, Qt::SortOrder order)
 {

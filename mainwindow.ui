@@ -37,8 +37,8 @@
       </property>
       <property name="font">
        <font>
-        <family>Times New Roman</family>
-        <pointsize>10</pointsize>
+        <family>Arial</family>
+        <pointsize>9</pointsize>
         <weight>75</weight>
         <bold>true</bold>
        </font>
@@ -71,12 +71,65 @@
     <item row="0" column="1" rowspan="2">
      <layout class="QVBoxLayout" name="LeftPanelVLayout" stretch="0,0">
       <property name="spacing">
-       <number>6</number>
+       <number>0</number>
       </property>
       <item>
        <widget class="QLabel" name="PathLabelLeft">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>17</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Arial</family>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color:rgb(133, 192, 255)</string>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
         <property name="text">
-         <string>TextLabel</string>
+         <string/>
+        </property>
+        <property name="textFormat">
+         <enum>Qt::AutoText</enum>
+        </property>
+        <property name="scaledContents">
+         <bool>false</bool>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+        <property name="wordWrap">
+         <bool>false</bool>
+        </property>
+        <property name="margin">
+         <number>1</number>
+        </property>
+        <property name="indent">
+         <number>-1</number>
+        </property>
+        <property name="textInteractionFlags">
+         <set>Qt::NoTextInteraction</set>
         </property>
        </widget>
       </item>
@@ -90,8 +143,8 @@
         </property>
         <property name="font">
          <font>
-          <family>Times New Roman</family>
-          <pointsize>10</pointsize>
+          <family>Arial</family>
+          <pointsize>9</pointsize>
           <weight>75</weight>
           <bold>true</bold>
          </font>
@@ -147,12 +200,47 @@
     <item row="0" column="2" rowspan="2">
      <layout class="QVBoxLayout" name="RightPanelVLayout">
       <property name="spacing">
-       <number>6</number>
+       <number>0</number>
       </property>
       <item>
        <widget class="QLabel" name="PathLabelRight">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>17</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="baseSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Arial</family>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color:rgb(133, 192, 255)</string>
+        </property>
         <property name="text">
-         <string>TextLabel</string>
+         <string/>
+        </property>
+        <property name="textFormat">
+         <enum>Qt::AutoText</enum>
+        </property>
+        <property name="margin">
+         <number>1</number>
         </property>
        </widget>
       </item>
@@ -166,8 +254,8 @@
         </property>
         <property name="font">
          <font>
-          <family>Times New Roman</family>
-          <pointsize>10</pointsize>
+          <family>Arial</family>
+          <pointsize>9</pointsize>
           <weight>75</weight>
           <bold>true</bold>
          </font>
@@ -242,8 +330,8 @@
       </property>
       <property name="font">
        <font>
-        <family>Times New Roman</family>
-        <pointsize>10</pointsize>
+        <family>Arial</family>
+        <pointsize>9</pointsize>
         <weight>75</weight>
         <bold>true</bold>
        </font>

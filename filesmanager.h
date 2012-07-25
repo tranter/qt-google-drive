@@ -2,6 +2,7 @@
 #define FILESMANAGER_H
 
 #include "contentmanager.h"
+//#include <QMap>
 
 class FilesManager : public ContentManager
 {
@@ -21,8 +22,10 @@ signals:
 
 public:
     QString getCurrLink(void) const;
+    //QString getPath(void);
     QTreeWidget* getPanel(void) const;
     QString back(void);
+    //void setCurrFolderName(const QString &name);
     void setPanel(QTreeWidget *p);
     void sort(int column, Qt::SortOrder order);
 
@@ -32,6 +35,9 @@ private:
 private:
     QTreeWidget *panel;
     QList<QString> links;
+
+    QMap<QString, QString> folders;
+    //QString currFolderName;
 };
 
 #endif // FILESMANAGER_H

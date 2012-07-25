@@ -83,4 +83,11 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event)
     return SDriveEngine::inst()->getEventHandler()->event(object, event);
 }
 
+void MainWindow::paintEvent(QPaintEvent*)
+{
+  SUi::inst()->PathLabelLeft->setMaximumWidth(SUi::inst()->filesViewLeft->width());
+  SUi::inst()->PathLabelRight->setMaximumWidth(SUi::inst()->filesViewLeft->width());
+}
+
+
 
