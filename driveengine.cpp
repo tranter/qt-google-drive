@@ -118,8 +118,16 @@ FilesManager* DriveEngine::getCurrFilesMngr(void) const
     QSettings settings(COMPANY_NAME, APP_NAME);
     FilesManager* fm;
 
-    if(settings.value(CURRENT_PANEL, LEFT_PANEL).toString() == LEFT_PANEL) fm = filesMngr[ELeft].data();
-    if(settings.value(CURRENT_PANEL, LEFT_PANEL).toString() == RIGHT_PANEL) fm = filesMngr[ERight].data();
+    if(settings.value(CURRENT_PANEL, LEFT_PANEL).toString() == LEFT_PANEL)
+    {
+        fm = filesMngr[ELeft].data();
+        //qDebug() << "DriveEngine::getCurrFilesMngr CURRENT_PANEL IS LEFT_PANEL";
+    }
+    if(settings.value(CURRENT_PANEL, RIGHT_PANEL).toString() == RIGHT_PANEL)
+    {
+        fm = filesMngr[ERight].data();
+        //qDebug() << "DriveEngine::getCurrFilesMngr CURRENT_PANEL IS RIGHT_PANEL";
+    }
 
     return fm;
 }

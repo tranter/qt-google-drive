@@ -11,7 +11,7 @@ public:
     OperationsManager(QObject *parent = 0);
 
 public:
-    void del(const QString& resUrl);
+    void del(const QString& url);
     void createFolder(const QString& folderUrl, const QString& name);
 
 public slots:

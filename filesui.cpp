@@ -110,7 +110,7 @@ void FilesUI::slotRightViewClicked(const QModelIndex& Id)
 
 void FilesUI::showFilesOnPanel(const QModelIndex &Id, EPanels panel)
 {
-    qDebug() << "showFilesOnPanel:" << Id.data().toString();
+    qDebug() << "showFilesOnPanel panel:" << panel << " name:" << SDriveEngine::inst()->getFoldersUI()->item().name << "item().self;" << SDriveEngine::inst()->getFoldersUI()->item().self;
 
     SDriveEngine::inst()->elStates[EFoldersTreeViewFocused] = false;
     SDriveEngine::inst()->elStates[ERightViewFocused] = true;
@@ -129,6 +129,7 @@ void FilesUI::showFilesOnPanel(const QModelIndex &Id, EPanels panel)
 
 void FilesUI::slotUpdateFileList()
 {
+    qDebug() << "FilesUI::slotUpdateFileList";
     //showFiles();
     SDriveEngine::inst()->getCurrFilesMngr()->get(SDriveEngine::inst()->getCurrFilesMngr()->getCurrLink());
 }

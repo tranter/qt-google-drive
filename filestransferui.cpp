@@ -20,6 +20,9 @@ void FilesTransferUI::download(FilesManager* manager)
     QList<ItemInfo::Data> item = manager->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
     int index = SDriveEngine::inst()->filesUI->getCurrFileItemId(manager);
 
+    qDebug() << "FilesTransferUI::download item[index].downloadLink:" << item[index].downloadLink;
+    qDebug() << "FilesTransferUI::download item[index].self:" << item[index].self;
+
     QString downloadLink(item[index].downloadLink);
 
     if(!downloadLink.isEmpty())

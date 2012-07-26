@@ -186,8 +186,10 @@ void NetworkManager::sendRequest(const QString & url)
     connectErrorHandlers();
 }
 
-void NetworkManager::delRes(const QString & url)
+void NetworkManager::delRes(const QString& url)
 {
+    qDebug() << " NetworkManager::delRes url:" << url;
+
     init();
     request.setUrl(QUrl(url));
 

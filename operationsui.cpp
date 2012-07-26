@@ -9,7 +9,7 @@ OperationsUI::OperationsUI(QObject *parent) :
 
 void OperationsUI::del(QObject* object)
 {
-    qDebug() << "OperationsUI::del()";
+    qDebug() << "OperationsUI::del() objectName:" << object->objectName();
 
     if (object == SUi::inst()->treeFoldersView)
     {
@@ -26,19 +26,21 @@ void OperationsUI::del(QObject* object)
         }
     }
 
-    //if (object == SUi::inst()->filesViewRight)
-    //if (object == CommonTools::getCurrFilePanel())
     if (object == SDriveEngine::inst()->getCurrFilesMngr()->getPanel())
     {
+        qDebug() << "object == SDriveEngine::inst()->getCurrFilesMngr()->getPanel():" << object->objectName();
+
         FilesManager* manager;
 
         if(SDriveEngine::inst()->elStates[EAFoldersViewFocused]) manager = SDriveEngine::inst()->aFoldersMngr.data();
-        //else manager = SDriveEngine::inst()->filesMngr.data();
         else manager = SDriveEngine::inst()->getCurrFilesMngr();
 
         QList<ItemInfo::Data> itemData = manager->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
 
         connect(manager->getOpMngr(), SIGNAL(signalDelFinished()), this, SLOT(slotDelFinished()));
+
+        qDebug() << "OperationsUI::del itemData[SDriveEngine::inst()->filesUI->getCurrFileItemId(manager)].self:" << itemData[SDriveEngine::inst()->filesUI->getCurrFileItemId(manager)].self;
+
         manager->del(itemData[SDriveEngine::inst()->filesUI->getCurrFileItemId(manager)].self);
     }
 }
@@ -75,8 +77,12 @@ void OperationsUI::slotTriggeredDel()
 
 void OperationsUI::slotDelFinished()
 {
+    qDebug() << "OperationsUI::slotDelFinished";
+
     if(SDriveEngine::inst()->elStates[EAFoldersViewFocused]) SDriveEngine::inst()->filesUI->slotAShowFiles(SDriveEngine::inst()->getFoldersUI()->currAFolderId);
-    else SDriveEngine::inst()->filesUI->showFiles();
+    if(SDriveEngine::inst()->elStates[EFoldersTreeViewFocused]) SDriveEngine::inst()->filesUI->showFiles();
+
+    SDriveEngine::inst()->filesUI.data()->slotUpdateFileList();
 }
 
 void OperationsUI::slotCreateFolder()
