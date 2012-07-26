@@ -47,8 +47,6 @@ void FilesUI::showFiles(void)
 
 void FilesUI::showFilesFromFolder(void)
 {
-    qDebug() << "FilesUI::showFilesFromFolder";
-
     if(SDriveEngine::inst()->foldersUI->isFolder())
     {
         QString query(GET_FILES_IN_FOLDER);
@@ -185,9 +183,9 @@ QLabel* FilesUI::getPanelLabel(EPanels panel) const
 
     switch(panel)
     {
-    case ELeft: label = SUi::inst()->PathLabelLeft;
+    case ELeft: label = SUi::inst()->pathLabelLeft;
         break;
-    case ERight: label = SUi::inst()->PathLabelRight;
+    case ERight: label = SUi::inst()->pathLabelRight;
         break;
     }
 

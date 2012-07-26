@@ -45,6 +45,10 @@ void MainWindow::init(void)
 
     SUi::inst()->treeFoldersView->setVisible(false);
     SUi::inst()->aFoldersView->setVisible(false);
+
+    //SUi::inst()->statusBar->showMessage("");
+
+    //SUi::inst()->mainToolBar->setIconSize(QSize(48,48));
 }
 
 void MainWindow::setConnections(void)
@@ -85,8 +89,8 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event)
 
 void MainWindow::paintEvent(QPaintEvent*)
 {
-  SUi::inst()->PathLabelLeft->setMaximumWidth(SUi::inst()->filesViewLeft->width());
-  SUi::inst()->PathLabelRight->setMaximumWidth(SUi::inst()->filesViewLeft->width());
+  SUi::inst()->pathLabelLeft->setMaximumWidth(SUi::inst()->filesViewLeft->width());
+  SUi::inst()->pathLabelRight->setMaximumWidth(SUi::inst()->filesViewRight->width());
 }
 
 
