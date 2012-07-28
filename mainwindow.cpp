@@ -3,6 +3,7 @@
 #include "driveengine.h"
 #include <QTextCodec>
 #include <QKeyEvent>
+#include <QToolButton>
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -46,25 +47,31 @@ void MainWindow::init(void)
     SUi::inst()->treeFoldersView->setVisible(false);
     SUi::inst()->aFoldersView->setVisible(false);
 
-    //SUi::inst()->statusBar->showMessage("");
+//    QToolButton* tb = new QToolButton();
+//    tb->setText("a");
+//    tb->setMinimumWidth(32);
+//    tb->setMinimumHeight(32);
+//    SUi::inst()->discsToolBar->addWidget(tb);
 
-    //SUi::inst()->mainToolBar->setIconSize(QSize(48,48));
+//    SUi::inst()->statusBar->showMessage("");
+//    SUi::inst()->mainToolBar->setIconSize(QSize(48,48));
 }
 
 void MainWindow::setConnections(void)
 {
-    connect(SUi::inst()->actionMenuLogin, SIGNAL(triggered()), SDriveEngine::inst(), SLOT(slotStartLoginFromMenu()));
-    connect(SUi::inst()->actionMenuQuit, SIGNAL(triggered()), this, SLOT(close()));
-    connect(SUi::inst()->actionMenuDownload, SIGNAL(triggered()), SDriveEngine::inst()->getfilesTransferUI(), SLOT(slotDownload()));
+    connect(SUi::inst()->actionLogin, SIGNAL(triggered()), SDriveEngine::inst(), SLOT(slotStartLoginFromMenu()));
+    connect(SUi::inst()->actionQuit, SIGNAL(triggered()), this, SLOT(close()));
     connect(SUi::inst()->actionDownload, SIGNAL(triggered()), SDriveEngine::inst()->getfilesTransferUI(), SLOT(slotDownload()));
-    connect(SUi::inst()->actionMenuUpload, SIGNAL(triggered()), SDriveEngine::inst()->getfilesTransferUI(), SLOT(slotUpload()));
     connect(SUi::inst()->actionUpload, SIGNAL(triggered()), SDriveEngine::inst()->getfilesTransferUI(), SLOT(slotUpload()));
-    connect(SUi::inst()->actionMenuSettings, SIGNAL(triggered()), SDriveEngine::inst()->getCheckUI(), SLOT(slotCheckWorkDir()));
     connect(SUi::inst()->actionSettings, SIGNAL(triggered()), SDriveEngine::inst()->getCheckUI(), SLOT(slotCheckWorkDir()));
-    connect(SUi::inst()->actionMenuDelete, SIGNAL(triggered()), SDriveEngine::inst()->getOpUI(), SLOT(slotTriggeredDel()));
     connect(SUi::inst()->actionDelete, SIGNAL(triggered()), SDriveEngine::inst()->getOpUI(), SLOT(slotTriggeredDel()));
-    connect(SUi::inst()->actionMenuCreateFolder, SIGNAL(triggered()), SDriveEngine::inst()->getOpUI(), SLOT(slotCreateFolder()));
-    connect(SUi::inst()->actionCreateFolder, SIGNAL(triggered()), SDriveEngine::inst()->getOpUI(), SLOT(slotCreateFolder()));
+    connect(SUi::inst()->actionNewFolder, SIGNAL(triggered()), SDriveEngine::inst()->getOpUI(), SLOT(slotNewFolder()));
+    connect(SUi::inst()->copyButton, SIGNAL(clicked()), this, SLOT(slotStub()));
+    connect(SUi::inst()->moveButton, SIGNAL(clicked()), this, SLOT(slotStub()));
+    connect(SUi::inst()->newFolderButton, SIGNAL(clicked()), SDriveEngine::inst()->getOpUI(), SLOT(slotNewFolder()));
+    connect(SUi::inst()->deleteButton, SIGNAL(clicked()), SDriveEngine::inst()->getOpUI(), SLOT(slotTriggeredDel()));
+    connect(SUi::inst()->renameButton, SIGNAL(clicked()), this, SLOT(slotStub()));
+    connect(SUi::inst()->shareButton, SIGNAL(clicked()), this, SLOT(slotStub()));
     connect(SUi::inst()->treeFoldersView, SIGNAL(clicked (const QModelIndex&)), SDriveEngine::inst()->getFoldersUI(), SLOT(slotFoldersViewClicked(const QModelIndex&)));
     connect(SUi::inst()->filesViewLeft, SIGNAL(clicked(const QModelIndex&)), SDriveEngine::inst()->getfilesUI(), SLOT(slotLeftViewClicked(const QModelIndex&)));
     connect(SUi::inst()->filesViewRight, SIGNAL(clicked(const QModelIndex&)), SDriveEngine::inst()->getfilesUI(), SLOT(slotRightViewClicked(const QModelIndex&)));
@@ -91,6 +98,11 @@ void MainWindow::paintEvent(QPaintEvent*)
 {
   SUi::inst()->pathLabelLeft->setMaximumWidth(SUi::inst()->filesViewLeft->width());
   SUi::inst()->pathLabelRight->setMaximumWidth(SUi::inst()->filesViewRight->width());
+}
+
+void MainWindow::slotStub(void)
+{
+    CommonTools::msg("Not implemented yet");
 }
 
 

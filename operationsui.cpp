@@ -85,7 +85,7 @@ void OperationsUI::slotDelFinished()
     SDriveEngine::inst()->filesUI.data()->slotUpdateFileList();
 }
 
-void OperationsUI::slotCreateFolder()
+void OperationsUI::slotNewFolder()
 {
     createFolderDialog = new CreateFolderDialog(SDriveEngine::inst()->parent);
 

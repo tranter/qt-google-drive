@@ -352,7 +352,7 @@
     <item row="2" column="1" colspan="2">
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
-       <widget class="QPushButton" name="CopyButton">
+       <widget class="QPushButton" name="copyButton">
         <property name="font">
          <font>
           <family>Arial</family>
@@ -360,6 +360,9 @@
           <weight>75</weight>
           <bold>true</bold>
          </font>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
         </property>
         <property name="text">
          <string>F5 Copy</string>
@@ -367,7 +370,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="MoveButton">
+       <widget class="QPushButton" name="moveButton">
         <property name="font">
          <font>
           <family>Arial</family>
@@ -375,6 +378,9 @@
           <weight>75</weight>
           <bold>true</bold>
          </font>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
         </property>
         <property name="text">
          <string>F6 Move</string>
@@ -382,7 +388,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="NewFolderButton">
+       <widget class="QPushButton" name="newFolderButton">
         <property name="font">
          <font>
           <family>Arial</family>
@@ -390,6 +396,9 @@
           <weight>75</weight>
           <bold>true</bold>
          </font>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
         </property>
         <property name="text">
          <string>F7 New Folder</string>
@@ -397,7 +406,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="DeleteButton">
+       <widget class="QPushButton" name="deleteButton">
         <property name="font">
          <font>
           <family>Arial</family>
@@ -405,6 +414,9 @@
           <weight>75</weight>
           <bold>true</bold>
          </font>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
         </property>
         <property name="text">
          <string>F8 Delete</string>
@@ -412,7 +424,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="RenameButton">
+       <widget class="QPushButton" name="renameButton">
         <property name="font">
          <font>
           <family>Arial</family>
@@ -420,6 +432,9 @@
           <weight>75</weight>
           <bold>true</bold>
          </font>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
         </property>
         <property name="text">
          <string>F9 Rename</string>
@@ -427,7 +442,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="ShareButton">
+       <widget class="QPushButton" name="shareButton">
         <property name="font">
          <font>
           <family>Arial</family>
@@ -435,6 +450,9 @@
           <weight>75</weight>
           <bold>true</bold>
          </font>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
         </property>
         <property name="text">
          <string>F10 Share</string>
@@ -458,23 +476,23 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionMenuLogin"/>
-    <addaction name="actionMenuQuit"/>
+    <addaction name="actionLogin"/>
+    <addaction name="actionQuit"/>
    </widget>
    <widget class="QMenu" name="menuOptions">
     <property name="title">
      <string>Options</string>
     </property>
-    <addaction name="actionMenuSettings"/>
+    <addaction name="actionSettings"/>
    </widget>
    <widget class="QMenu" name="menuActions">
     <property name="title">
      <string>Actions</string>
     </property>
-    <addaction name="actionMenuDownload"/>
-    <addaction name="actionMenuUpload"/>
-    <addaction name="actionMenuCreateFolder"/>
-    <addaction name="actionMenuDelete"/>
+    <addaction name="actionDownload"/>
+    <addaction name="actionUpload"/>
+    <addaction name="actionNewFolder"/>
+    <addaction name="actionDelete"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuActions"/>
@@ -494,8 +512,6 @@
    <addaction name="actionDownload"/>
    <addaction name="actionUpload"/>
    <addaction name="separator"/>
-   <addaction name="actionCreateFolder"/>
-   <addaction name="actionDelete"/>
    <addaction name="separator"/>
    <addaction name="actionSettings"/>
    <addaction name="separator"/>
@@ -504,6 +520,17 @@
    <property name="sizeGripEnabled">
     <bool>true</bool>
    </property>
+  </widget>
+  <widget class="QToolBar" name="discsToolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>true</bool>
+   </attribute>
   </widget>
   <action name="actionSettings">
    <property name="icon">
@@ -535,7 +562,7 @@
     <string>Upload</string>
    </property>
   </action>
-  <action name="actionMenuLogin">
+  <action name="actionLogin">
    <property name="icon">
     <iconset resource="resource.qrc">
      <normaloff>:/ico/login</normaloff>:/ico/login</iconset>
@@ -544,34 +571,7 @@
     <string>Login</string>
    </property>
   </action>
-  <action name="actionMenuDownload">
-   <property name="icon">
-    <iconset resource="resource.qrc">
-     <normaloff>:/ico/download</normaloff>:/ico/download</iconset>
-   </property>
-   <property name="text">
-    <string>Download</string>
-   </property>
-  </action>
-  <action name="actionMenuUpload">
-   <property name="icon">
-    <iconset resource="resource.qrc">
-     <normaloff>:/ico/upload</normaloff>:/ico/upload</iconset>
-   </property>
-   <property name="text">
-    <string>Upload</string>
-   </property>
-  </action>
-  <action name="actionMenuSettings">
-   <property name="icon">
-    <iconset resource="resource.qrc">
-     <normaloff>:/ico/settings</normaloff>:/ico/settings</iconset>
-   </property>
-   <property name="text">
-    <string>Settings</string>
-   </property>
-  </action>
-  <action name="actionMenuQuit">
+  <action name="actionQuit">
    <property name="icon">
     <iconset resource="resource.qrc">
      <normaloff>:/ico/quit</normaloff>:/ico/quit</iconset>
@@ -589,31 +589,7 @@
     <string>Delete</string>
    </property>
   </action>
-  <action name="actionMenuDelete">
-   <property name="icon">
-    <iconset resource="resource.qrc">
-     <normaloff>:/ico/delete</normaloff>:/ico/delete</iconset>
-   </property>
-   <property name="text">
-    <string>Delete</string>
-   </property>
-  </action>
-  <action name="actionCreateFolder">
-   <property name="icon">
-    <iconset resource="resource.qrc">
-     <normaloff>:/ico/allitems</normaloff>:/ico/allitems</iconset>
-   </property>
-   <property name="text">
-    <string>Create collection</string>
-   </property>
-   <property name="visible">
-    <bool>true</bool>
-   </property>
-   <property name="iconVisibleInMenu">
-    <bool>true</bool>
-   </property>
-  </action>
-  <action name="actionMenuCreateFolder">
+  <action name="actionNewFolder">
    <property name="icon">
     <iconset resource="resource.qrc">
      <normaloff>:/ico/allitems</normaloff>:/ico/allitems</iconset>

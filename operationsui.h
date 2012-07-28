@@ -14,7 +14,7 @@ public:
    void del(QObject* object);
 
 private slots:
-    void slotCreateFolder();
+    void slotNewFolder();
     void slotAcceptCreateFolder(const QString &name);
     void slotRejectCreateFolder();
     void slotFinishedCreateFolder(int result);

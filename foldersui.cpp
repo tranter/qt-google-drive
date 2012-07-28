@@ -14,8 +14,14 @@ QString FoldersUI::getFolderID(void)
 
 bool FoldersUI::isFolder(void)
 {
-    bool is = false;
-    if(item().self.indexOf(FOLDER_TYPE_STR) != -1) is = true;
+    bool is = false;       
+    QString str(item().self);
+    QStringList strList = str.split("/");
+
+    str = strList[strList.count() - 1];
+
+    if(str.indexOf(FOLDER_TYPE_STR) != -1) is = true;
+
     return is;
 }
 

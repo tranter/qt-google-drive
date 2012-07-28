@@ -14,6 +14,7 @@ void OperationsManager::del(const QString& url)
 
     CommonTools::setHeader(request);
     request.setRawHeader("If-Match", "*");
+
     delRes(getFileQuery(url));
 }
 
