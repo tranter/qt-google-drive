@@ -48,13 +48,18 @@ void MainWindow::init(void)
     SUi::inst()->aFoldersView->setVisible(false);
 
 //    QToolButton* tb = new QToolButton();
-//    tb->setText("a");
-//    tb->setMinimumWidth(32);
-//    tb->setMinimumHeight(32);
 //    SUi::inst()->discsToolBar->addWidget(tb);
 
-//    SUi::inst()->statusBar->showMessage("");
-//    SUi::inst()->mainToolBar->setIconSize(QSize(48,48));
+//    tb->setText("a");
+//    tb->setAutoRaise(false);
+//    tb->setMinimumWidth(32);
+//    tb->setMinimumHeight(32);
+//    tb->setCheckable(true);
+//    tb->setChecked(true);
+//    tb->setCursor(Qt::PointingHandCursor);
+
+    /*SUi::inst()->statusBar->showMessage("");
+    SUi::inst()->mainToolBar->setIconSize(QSize(48,48))*/;
 }
 
 void MainWindow::setConnections(void)

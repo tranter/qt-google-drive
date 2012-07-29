@@ -141,8 +141,6 @@ void FilesUI::setPath(const QString &name, EPath path, EPanels panel)
     int labelTextlength = label->text().length();
     int discStrLength = getDisc(panel).length();
 
-    qDebug() << "panel:" << panel << "label->text():" << label->text();
-
     switch(path)
     {
     case EForward:

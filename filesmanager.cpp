@@ -20,6 +20,7 @@ void FilesManager::show(void)
 {
     QList<ItemInfo::Data> fileItems = parser->getXMLHandler()->getItemInfo()->getFileItems();
     QSettings settings(COMPANY_NAME, APP_NAME);
+    int columnCount = SUi::inst()->filesViewLeft->columnCount();
 
     clear();
     panel->clear();
@@ -37,7 +38,7 @@ void FilesManager::show(void)
         items.last()->setIcon(0, QPixmap(fileItems[i].iconPath));
         items.last()->setText(1, fileItems[i].dataOwner);
         items.last()->setText(2, fileItems[i].fileUpdated);
-        items.last()->setText(3, fileItems[i].fileSize);
+        items.last()->setText(3, fileItems[i].fileSize);       
     }
 
     if(settings.value(INIT_LOAD).toBool()) emit signalFirstPanelIsLoaded();
