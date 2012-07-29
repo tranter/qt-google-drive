@@ -152,9 +152,11 @@ void NetworkManager::slotProgressCanceled()
 
 void NetworkManager::slotPostFinished(QNetworkReply* reply)
 {
+    qDebug() << "slotPostFinished";
+
     if (reply->error())
     {
-        qDebug() << "postFinished. Reply with the error";
+        qDebug() << "slotPostFinished. Reply with the error";
         return;
     }
 
@@ -174,7 +176,7 @@ void NetworkManager::putRequest(const QString & url,const QByteArray& data)
 
 void NetworkManager::sendRequest(const QString & url)
 {
-    qDebug() << "NetworkManager::getRequest url:" << url;
+    qDebug() << "NetworkManager::sendRequest url:" << url;
 
     init();
     request.setUrl(QUrl(url));

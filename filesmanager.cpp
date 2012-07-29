@@ -20,7 +20,6 @@ void FilesManager::show(void)
 {
     QList<ItemInfo::Data> fileItems = parser->getXMLHandler()->getItemInfo()->getFileItems();
     QSettings settings(COMPANY_NAME, APP_NAME);
-    int columnCount = SUi::inst()->filesViewLeft->columnCount();
 
     clear();
     panel->clear();
