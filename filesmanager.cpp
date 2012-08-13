@@ -30,6 +30,9 @@ void FilesManager::show(void)
         items.last()->setText(0, PARENT_FOLDER_SIGN);
     }
 
+    static int folders = 0;
+    static int files = 0;
+
     for(int i = 1; i < fileItems.count(); ++i)
     {
         items.push_back(new QTreeWidgetItem(panel));
@@ -37,7 +40,9 @@ void FilesManager::show(void)
         items.last()->setIcon(0, QPixmap(fileItems[i].iconPath));
         items.last()->setText(1, fileItems[i].dataOwner);
         items.last()->setText(2, fileItems[i].fileUpdated);
-        items.last()->setText(3, fileItems[i].fileSize);       
+        items.last()->setText(3, fileItems[i].fileSize);
+
+        qDebug() << "-------------->" << fileItems[i].name << " type:" << fileItems[i].type;
     }
 
     if(settings.value(INIT_LOAD).toBool()) emit signalFirstPanelIsLoaded();

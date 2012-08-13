@@ -43,9 +43,15 @@ void XMLHandler::handleAuthorTag(const QString &str, bool entryTag)
     {
         switch(queryType)
         {
-        case FOLDER_TYPE: index = itemInfo->getItems().count() - 1;
+        case FOLDER_TYPE:
+        {
+            index = itemInfo->getItems().count() - 1;
+        }
             break;
-        case FILE_TYPE: index = itemInfo->getFileItems().count()  -1;
+        case FILE_TYPE:
+        {
+            index = itemInfo->getFileItems().count() - 1;
+        }
             break;
         }
 
@@ -119,6 +125,7 @@ bool XMLHandler::handleReply(const QString& qName, const QXmlAttributes &attribs
     {
         itemData.self = HIERARCHY_VALUE_TAG(attribs.value);
         itemData.type = itemType;
+        qDebug() << "!!!!!!!!!!!!!!name:" << itemData.name << " type:" << itemData.type;
         itemInfo->push_back(itemData, queryType);
         setDefaults();
     }
