@@ -1,10 +1,10 @@
 #include "checkui.h"
 #include <QSettings>
 #include <QMessageBox>
-#include "settingsdialog.h"
+#include "gui/forms/settingsdialog.h"
 #include "Def.h"
 #include "AppRegData.h"
-#include "mainwindow.h"
+#include "gui/forms/mainwindow.h"
 #include "ui_mainwindow.h"
 #include "driveengine.h"
 

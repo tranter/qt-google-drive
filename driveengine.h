@@ -4,7 +4,7 @@
 #include <QTreeWidgetItem>
 #include "downloadmanager.h"
 #include "uploadmanager.h"
-#include "mainwindow.h"
+#include "gui/forms/mainwindow.h"
 #include "ui_mainwindow.h"
 #include "foldersmanager.h"
 #include "additionalfoldesmanager.h"

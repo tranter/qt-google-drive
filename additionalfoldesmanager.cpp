@@ -1,5 +1,5 @@
 #include "additionalfoldesmanager.h"
-#include "mainwindow.h"
+#include "gui/forms/mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QDebug>
 

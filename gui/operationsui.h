@@ -2,7 +2,7 @@
 #define OPERATIONSUI_H
 
 #include "driveengine.h"
-#include "createfolderdialog.h"
+#include "gui/forms/createfolderdialog.h"
 
 class OperationsUI: public QObject
 {

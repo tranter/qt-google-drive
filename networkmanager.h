@@ -6,7 +6,7 @@
 #include <QNetworkReply>
 #include <QFile>
 #include <QSslError>
-#include "progressbardialog.h"
+#include "gui/forms/progressbardialog.h"
 #include <QFileInfo>
 
 class NetworkManager : public QObject

@@ -1,6 +1,6 @@
 #include "oauth2.h"
 #include <QApplication>
-#include "logindialog.h"
+#include "gui/forms/logindialog.h"
 #include <QSettings>
 #include "AppRegData.h"
 #include "Def.h"
