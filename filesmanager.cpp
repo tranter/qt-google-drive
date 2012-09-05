@@ -30,9 +30,6 @@ void FilesManager::show(void)
         items.last()->setText(0, PARENT_FOLDER_SIGN);
     }
 
-    static int folders = 0;
-    static int files = 0;
-
     for(int i = 1; i < fileItems.count(); ++i)
     {
         items.push_back(new QTreeWidgetItem(panel));
