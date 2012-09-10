@@ -6,7 +6,7 @@
 #include "AppRegData.h"
 #include "gui/forms/mainwindow.h"
 #include "ui_mainwindow.h"
-#include "driveengine.h"
+#include "core/driveengine.h"
 
 CheckUI::CheckUI(QObject *parent) :
     QObject(parent)

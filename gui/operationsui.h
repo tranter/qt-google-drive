@@ -1,7 +1,7 @@
 #ifndef OPERATIONSUI_H
 #define OPERATIONSUI_H
 
-#include "driveengine.h"
+#include "core/driveengine.h"
 #include "gui/forms/createfolderdialog.h"
 
 class OperationsUI: public QObject
@@ -18,8 +18,6 @@ private slots:
     void slotAcceptCreateFolder(const QString &name);
     void slotRejectCreateFolder();
     void slotFinishedCreateFolder(int result);
-
-    //void slotDel(QObject* object);
 
     void slotTriggeredDel();
     void slotDelFinished();

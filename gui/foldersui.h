@@ -1,8 +1,7 @@
 #ifndef FOLDERSUI_H
 #define FOLDERSUI_H
 
-#include "driveengine.h"
-//#include "enums.h"
+#include "core/driveengine.h"
 #include "iteminfo.h"
 
 class FoldersUI: public QObject

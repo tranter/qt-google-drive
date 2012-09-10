@@ -7,7 +7,7 @@
 #include "gui/forms/mainwindow.h"
 #include "ui_mainwindow.h"
 #include "network/foldersmanager.h"
-#include "additionalfoldesmanager.h"
+#include "gui/additionalfoldesmanager.h"
 #include "gui/filestransferui.h"
 #include "gui/filesui.h"
 #include "gui/foldersui.h"
