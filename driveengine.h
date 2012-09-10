@@ -2,11 +2,11 @@
 #define DRIVEENGINE_H
 
 #include <QTreeWidgetItem>
-#include "downloadmanager.h"
-#include "uploadmanager.h"
+#include "network/downloadmanager.h"
+#include "network/uploadmanager.h"
 #include "gui/forms/mainwindow.h"
 #include "ui_mainwindow.h"
-#include "foldersmanager.h"
+#include "network/foldersmanager.h"
 #include "additionalfoldesmanager.h"
 #include "gui/filestransferui.h"
 #include "gui/filesui.h"

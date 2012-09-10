@@ -1,7 +1,7 @@
 #ifndef OPERATIONSMANAGER_H
 #define OPERATIONSMANAGER_H
 
-#include "networkmanager.h"
+#include "network/networkmanager.h"
 #include "Def.h"
 
 class OperationsManager : public NetworkManager

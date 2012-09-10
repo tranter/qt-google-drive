@@ -1,7 +1,7 @@
 #ifndef ADDITIONALFOLDESMANAGER_H
 #define ADDITIONALFOLDESMANAGER_H
 
-#include "filesmanager.h"
+#include "network/filesmanager.h"
 
 class AdditionalFoldersManager : public FilesManager
 {

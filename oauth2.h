@@ -1,12 +1,12 @@
 #ifndef OAUTH2_H
 #define OAUTH2_H
 
-#include "networkmanager.h"
+#include "network/networkmanager.h"
 #include <QTimer>
 
 class LoginDialog;
 
-class OAuth2 :  public NetworkManager
+class OAuth2 : public NetworkManager
 {
     Q_OBJECT
 public:

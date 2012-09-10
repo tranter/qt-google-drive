@@ -2,7 +2,7 @@
 #define RESMANAGER_H
 
 #include "Def.h"
-#include "networkmanager.h"
+#include "network/networkmanager.h"
 #include "commontools.h"
 
 class ResManager: public NetworkManager
