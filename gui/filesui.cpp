@@ -1,5 +1,5 @@
 #include "filesui.h"
-#include "share/AppRegData.h"
+#include "share/appregdata.h"
 #include <QSettings>
 #include <QDebug>
 

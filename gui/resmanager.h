@@ -1,7 +1,7 @@
 #ifndef RESMANAGER_H
 #define RESMANAGER_H
 
-#include "share/Def.h"
+#include "share/def.h"
 #include "network/networkmanager.h"
 #include "share/commontools.h"
 

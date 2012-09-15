@@ -1,5 +1,5 @@
 #include "filesmanager.h"
-#include "share/AppRegData.h"
+#include "share/appregdata.h"
 #include "core/driveengine.h"
 #include <QSettings>
 #include <QDebug>

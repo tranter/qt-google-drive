@@ -3,7 +3,7 @@
 
 #include <QVariant>
 #include <QTreeWidgetItem>
-#include "share/Def.h"
+#include "share/def.h"
 
 class ItemInfo
 {

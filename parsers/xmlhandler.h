@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QXmlAttributes>
 #include "gui/iteminfo.h"
-#include "share/Def.h"
+#include "share/def.h"
 #include "gui/resmanager.h"
 #include "share/commontools.h"
 
