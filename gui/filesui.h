@@ -2,7 +2,7 @@
 #define FILESUI_H
 
 #include "core/driveengine.h"
-#include "enums.h"
+#include "share/enums.h"
 
 class FilesManager;
 

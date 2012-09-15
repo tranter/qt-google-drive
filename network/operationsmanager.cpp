@@ -1,5 +1,5 @@
-#include "operationsmanager.h"
-#include "commontools.h"
+#include "network/operationsmanager.h"
+#include "share/commontools.h"
 #include <QDebug>
 #include <QStringList>
 

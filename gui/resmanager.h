@@ -1,9 +1,9 @@
 #ifndef RESMANAGER_H
 #define RESMANAGER_H
 
-#include "Def.h"
+#include "share/Def.h"
 #include "network/networkmanager.h"
-#include "commontools.h"
+#include "share/commontools.h"
 
 class ResManager: public NetworkManager
 {

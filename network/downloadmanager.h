@@ -1,7 +1,7 @@
 #ifndef DOWNLOADMANAGER_H
 #define DOWNLOADMANAGER_H
 
-#include "commontools.h"
+#include "share/commontools.h"
 #include "networkmanager.h"
 
 class DownloadFileManager : public NetworkManager

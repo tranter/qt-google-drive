@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "singleton.h"
+#include "share/singleton.h"
 
 namespace Ui
 {

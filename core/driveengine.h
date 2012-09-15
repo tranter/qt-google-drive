@@ -13,9 +13,9 @@
 #include "gui/foldersui.h"
 #include "gui/operationsui.h"
 #include "gui/checkui.h"
-#include "oauth2.h"
-#include "eventhandler.h"
-#include "enums.h"
+#include "network/oauth2.h"
+#include "core/eventhandler.h"
+#include "share/enums.h"
 
 class AdditionalFoldersManager;
 class CheckUI;

@@ -2,9 +2,9 @@
 #include <QApplication>
 #include "gui/forms/logindialog.h"
 #include <QSettings>
-#include "AppRegData.h"
-#include "Def.h"
-#include "jsonparser.h"
+#include "share/AppRegData.h"
+#include "share/Def.h"
+#include "parsers/jsonparser.h"
 
 OAuth2::OAuth2(QWidget* parent) :
     NetworkManager(parent),

@@ -3,10 +3,10 @@
 
 #include <QObject>
 #include <QXmlAttributes>
-#include "iteminfo.h"
-#include "Def.h"
-#include "resmanager.h"
-#include "commontools.h"
+#include "gui/iteminfo.h"
+#include "share/Def.h"
+#include "gui/resmanager.h"
+#include "share/commontools.h"
 
 class XMLHandler : public QObject
 {

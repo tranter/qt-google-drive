@@ -2,8 +2,8 @@
 #include <QSettings>
 #include <QMessageBox>
 #include "gui/forms/settingsdialog.h"
-#include "Def.h"
-#include "AppRegData.h"
+#include "share/Def.h"
+#include "share/AppRegData.h"
 #include "gui/forms/mainwindow.h"
 #include "ui_mainwindow.h"
 #include "core/driveengine.h"

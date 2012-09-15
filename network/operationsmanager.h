@@ -2,7 +2,7 @@
 #define OPERATIONSMANAGER_H
 
 #include "network/networkmanager.h"
-#include "Def.h"
+#include "share/Def.h"
 
 class OperationsManager : public NetworkManager
 {

@@ -1,7 +1,7 @@
 #ifndef UPLOADMANAGER_H
 #define UPLOADMANAGER_H
 
-#include "commontools.h"
+#include "share/commontools.h"
 #include "networkmanager.h"
 #include <QFileInfo>
 
