@@ -4,7 +4,7 @@
 #include <QStringList>
 
 OperationsManager::OperationsManager(QObject *parent):
-     NetworkManager(parent)
+    NetworkManager(parent)
 {
 }
 
@@ -15,16 +15,23 @@ void OperationsManager::del(const QString& url)
     CommonTools::setHeader(request);
     request.setRawHeader("If-Match", "*");
 
-    delRes(getFileQuery(url));
+    init();
+    request.setUrl(getFileQuery(url));
+
+    reply = networkManager->deleteResource(request);
+
+    connect(networkManager.data(), SIGNAL(finished(QNetworkReply*)),this, SLOT(slotReplyFinished(QNetworkReply*)));
+    connectErrorHandlers();
 }
 
 void OperationsManager::createFolder(const QString& folderUrl, const QString& name)
 {
+
     QString url(folderUrl + CONTENTS);
     qDebug() << "OperationsManager::createFolder" << url;
 }
 
-QString OperationsManager::getFileQuery(const QString& url)
+QUrl OperationsManager::getFileQuery(const QString& url)
 {
     QString query(DELETE_FILE);
     QStringList queryStrs(url.split("/"));
@@ -33,11 +40,12 @@ QString OperationsManager::getFileQuery(const QString& url)
     queryStrs = lastParam.split("%3A");
     query += queryStrs[queryStrs.count()  - 1];
 
-    return query;
+    return QUrl(query);
 }
 
 void OperationsManager::slotReplyFinished(QNetworkReply* reply)
 {
-  emit signalDelFinished();
+    Q_UNUSED(reply);
+    emit signalDelFinished();
 }
 

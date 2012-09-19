@@ -21,8 +21,7 @@ signals:
     void signalDelFinished(void);
 
 private:
-    QString getFileQuery(const QString& url);
-
+    QUrl getFileQuery(const QString& url);
 };
 
 #endif // OPERATIONSMANAGER_H

@@ -33,7 +33,6 @@ public:
 public:
     QNetworkAccessManager *getNetworkManager(void) const;
     QNetworkRequest getRequest(void) const;
-    void delRes(const QString & url);
     void init(void);
     void putRequest(const QString & url,const QByteArray& data);
     void sendRequest(const QString & url);
@@ -47,6 +46,7 @@ public:
     EStates getState(void) const;
     void setState(EStates currentState);
     const NetworkManager* self(void) const;
+    void connectErrorHandlers(void);
 
 public slots:
     virtual void slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
@@ -60,9 +60,6 @@ public slots:
     virtual void slotReplyFinished(QNetworkReply*);
     virtual void slotReplyReadyRead();
     virtual void slotProgressCanceled();
-
-private:
-    void connectErrorHandlers(void);
 
 protected:
     QObject* parent;

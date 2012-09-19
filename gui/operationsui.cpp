@@ -108,6 +108,7 @@ void OperationsUI::slotRejectCreateFolder()
 
 void OperationsUI::slotFinishedCreateFolder(int result)
 {
+    Q_UNUSED(result);
     delete createFolderDialog;
 }
 

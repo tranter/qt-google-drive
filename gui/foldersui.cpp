@@ -73,6 +73,8 @@ void FoldersUI::showFolders(const QString& url)
 
 void FoldersUI::slotFoldersViewClicked(const QModelIndex& index)
 {
+    Q_UNUSED(index);
+
     SDriveEngine::inst()->elStates[EFoldersTreeViewFocused] = true;
     SDriveEngine::inst()->elStates[EAFoldersViewFocused] = false;
     SDriveEngine::inst()->elStates[ERightViewFocused] = false;
