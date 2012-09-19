@@ -183,8 +183,11 @@ void NetworkManager::sendRequest(const QString & url)
 
     reply = networkManager->get(request);
 
+    qDebug() << "NetworkManager::sendRequest reply->Text:" << reply->Text;
+
     connect(networkManager.data(), SIGNAL(finished(QNetworkReply*)),this, SLOT(slotReplyFinished(QNetworkReply*)));
     connect(reply, SIGNAL(readyRead()), this, SLOT(slotReplyReadyRead()));
+
     connectErrorHandlers();
 }
 

@@ -99,7 +99,6 @@ void OperationsUI::slotNewFolder()
 void OperationsUI::slotAcceptCreateFolder(const QString& name)
 {
     createFolder(name);
-    delete createFolderDialog;
 }
 
 void OperationsUI::slotRejectCreateFolder()
@@ -114,15 +113,31 @@ void OperationsUI::slotFinishedCreateFolder(int result)
 
 void OperationsUI::createFolder(const QString& name)
 {   
+    qDebug() << "OperationsUI::createFolder" << name;
+
     if(name == "" || name.contains(QRegExp("[/\\\".<>]")))
     {
         CommonTools::msg("Please enter a valid name");
         return;
     }
 
+    qDebug() << "OperationsUI::createFolder currentIndex().row()" << SDriveEngine::inst()->getCurrFilesMngr()->getPanel()->currentIndex().row();
+
+    // no folder is selected in the file panel
+    if(SDriveEngine::inst()->getCurrFilesMngr()->getPanel()->currentIndex().row() == -1)
+    {
+        // todo: create folder in current panel on current level
+        delete createFolderDialog;
+        return;
+    }
+
     ItemInfo item = *SDriveEngine::inst()->foldersMngr->getParser()->getXMLHandler()->getItemInfo();
     int itemIndex = SDriveEngine::inst()->foldersUI->getCurrFolderItemId();
 
+    qDebug() << "OperationsUI::createFolder itemIndex" << itemIndex;
+
     SDriveEngine::inst()->foldersMngr->createFolder(item[itemIndex].self, name);
     SDriveEngine::inst()->foldersMngr->insertFolder(name, item[itemIndex].pointer);
+
+    delete createFolderDialog;
 }

@@ -10,7 +10,7 @@ OperationsManager::OperationsManager(QObject *parent):
 
 void OperationsManager::del(const QString& url)
 {
-    qDebug() << "OperationsManager::del url:" << url;
+    qDebug() << "OperationsManager::del url" << url;
 
     CommonTools::setHeader(request);
     request.setRawHeader("If-Match", "*");
@@ -21,6 +21,7 @@ void OperationsManager::del(const QString& url)
 void OperationsManager::createFolder(const QString& folderUrl, const QString& name)
 {
     QString url(folderUrl + CONTENTS);
+    qDebug() << "OperationsManager::createFolder" << url;
 }
 
 QString OperationsManager::getFileQuery(const QString& url)
