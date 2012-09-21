@@ -58,9 +58,6 @@ void FilesTransferUI::upload(void)
 
     if(!fileName.isEmpty())
     {
-        //        ItemInfo item = *SDriveEngine::inst()->foldersMngr->getParser()->getXMLHandler()->getItemInfo();
-        //        int index = SDriveEngine::inst()->foldersUI->getCurrFolderItemId();
-
         QList<ItemInfo::Data> item = SDriveEngine::inst()->getCurrFilesMngr()->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
         int index = SDriveEngine::inst()->filesUI->getCurrFileItemId(SDriveEngine::inst()->getCurrFilesMngr());
 

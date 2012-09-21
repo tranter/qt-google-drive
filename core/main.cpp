@@ -8,6 +8,7 @@ int main(int argc, char *argv[])
     MainWindow w;
 
     QRect r(w.geometry());
+
     r.moveCenter(a.desktop()->availableGeometry().center());
     w.setGeometry(r);
 

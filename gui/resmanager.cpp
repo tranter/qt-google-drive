@@ -9,6 +9,7 @@ void ResManager::cashRes(const QString& url)
 {
   QFileInfo fi(url);
   QString fileNameToSave(fi.fileName());
+
   NetworkManager::startDownload(url, fileNameToSave, "image/png");
 }
 

@@ -11,7 +11,6 @@ FilesManager::FilesManager(QObject *parent):
 
 FilesManager::~FilesManager()
 {
-    qDebug() << "FilesManager::~FilesManager()";
     panel->clear();
     links.clear();
 }
@@ -38,8 +37,6 @@ void FilesManager::show(void)
         items.last()->setText(1, fileItems[i].dataOwner);
         items.last()->setText(2, fileItems[i].fileUpdated);
         items.last()->setText(3, fileItems[i].fileSize);
-
-        qDebug() << "-------------->" << fileItems[i].name << " type:" << fileItems[i].type;
     }
 
     if(settings.value(INIT_LOAD).toBool()) emit signalFirstPanelIsLoaded();

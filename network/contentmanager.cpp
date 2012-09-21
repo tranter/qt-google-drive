@@ -11,7 +11,6 @@ ContentManager::ContentManager(int handleType, QObject *parent):
 
 ContentManager::~ContentManager()
 {
-    qDebug() << "ContentManager::~ContentManager()";
 }
 
 void ContentManager::get(const QString& url)
@@ -26,8 +25,14 @@ void ContentManager::slotReplyFinished(QNetworkReply*)
 {
     CommonTools::logToFile(QString::number(type) + ".txt", replyStr.toAscii());
 
-    if(parseReply(replyStr)) qDebug() << "parse OK";
-    else qDebug() << "parse not OK";
+    if(parseReply(replyStr))
+    {
+        qDebug() << "parse OK";
+    }
+    else
+    {
+        qDebug() << "parse not OK";
+    }
 
     replyStr.clear();
     if(!parser->getXMLHandler()->resDownloadingNow()) show();

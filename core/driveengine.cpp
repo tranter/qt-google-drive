@@ -57,8 +57,6 @@ void DriveEngine::setKeyActions(void)
 
 void DriveEngine::slotStartLogin()
 {
-    qDebug() << "DriveEngine::slotStartLogin";
-
     oAuth2->startLogin(false);
 }
 
