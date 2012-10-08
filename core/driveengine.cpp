@@ -30,8 +30,8 @@ void DriveEngine::init(void)
     SDriveEngine::inst()->filesMngr[ERight]->setPanel(SUi::inst()->filesViewRight);
     SDriveEngine::inst()->filesMngr[ERight]->get(GET_FULL_ROOT_CONTENT);
 
-    filesUI->setDisc(ERight);
-    filesUI->setDisc(ELeft);
+    filesUI->setDisplayingDisc(ERight);
+    filesUI->setDisplayingDisc(ELeft);
 
     //foldersUI->createAFolders();
 }

@@ -114,8 +114,6 @@ void OperationsUI::slotFinishedCreateFolder(int result)
 
 void OperationsUI::createFolder(const QString& name)
 {   
-    qDebug() << "OperationsUI::createFolder" << name;
-
     if(name == "" || name.contains(QRegExp("[/\\\".<>]")))
     {
         CommonTools::msg("Please enter a valid name");
@@ -129,7 +127,7 @@ void OperationsUI::createFolder(const QString& name)
     {
         // todo: create folder in current panel on current level
         delete createFolderDialog;
-        return;
+        //return;
     }
 
     ItemInfo item = *SDriveEngine::inst()->foldersMngr->getParser()->getXMLHandler()->getItemInfo();

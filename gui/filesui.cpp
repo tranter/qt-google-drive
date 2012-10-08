@@ -117,13 +117,20 @@ void FilesUI::showFilesOnPanel(const QModelIndex &Id, EPanels panel)
 
     if(Id.data().toString() == PARENT_FOLDER_SIGN)
     {
-        setPath(Id.data().toString(), EBackward, panel);
+        setPanelDisplayingPath(Id.data().toString(), EBackward, panel);
         SDriveEngine::inst()->getCurrFilesMngr()->get(SDriveEngine::inst()->getCurrFilesMngr()->back());
     }
     else
     {
-        if(SDriveEngine::inst()->foldersUI->isFolder()) setPath(Id.data().toString(), EForward, panel);
-        if(!SDriveEngine::inst()->elStates[EAFoldersViewFocused]) showFilesFromFolder();
+        if(SDriveEngine::inst()->foldersUI->isFolder())
+        {
+            setPanelDisplayingPath(Id.data().toString(), EForward, panel);
+        }
+
+        if(!SDriveEngine::inst()->elStates[EAFoldersViewFocused])
+        {
+            showFilesFromFolder();
+        }
     }
 }
 
@@ -134,7 +141,7 @@ void FilesUI::slotUpdateFileList()
     SDriveEngine::inst()->getCurrFilesMngr()->get(SDriveEngine::inst()->getCurrFilesMngr()->getCurrLink());
 }
 
-void FilesUI::setPath(const QString &name, EPath path, EPanels panel)
+void FilesUI::setPanelDisplayingPath(const QString &name, EPath path, EPanels panel)
 {
     QLabel* label = getPanelLabel(panel);
     QString pathDividerSign("\\");
@@ -171,7 +178,7 @@ QString FilesUI::getDisc(EPanels panel) const
     return disc;
 }
 
-void FilesUI::setDisc(EPanels panel)
+void FilesUI::setDisplayingDisc(EPanels panel)
 {
     getPanelLabel(panel)->setText(getDisc(panel));
 }

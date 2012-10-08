@@ -50,6 +50,8 @@ int FoldersUI::getCurrFolderItemId(void) const
         }
     }
 
+    qDebug() << "FoldersUI::getCurrFolderItemId currentModelIndex" << currentModelIndex;
+
     return currentModelIndex;
 }
 

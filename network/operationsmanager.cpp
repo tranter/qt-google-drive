@@ -26,7 +26,6 @@ void OperationsManager::del(const QString& url)
 
 void OperationsManager::createFolder(const QString& folderUrl, const QString& name)
 {
-
     QString url(folderUrl + CONTENTS);
     qDebug() << "OperationsManager::createFolder" << url;
 }
