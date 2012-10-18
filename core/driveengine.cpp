@@ -1,5 +1,5 @@
 #include "driveengine.h"
-#include "share/appregdata.h"
+#include "share/AppRegData.h"
 #include <QMessageBox>
 #include <QSettings>
 #include <QDebug>
