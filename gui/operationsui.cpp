@@ -32,8 +32,14 @@ void OperationsUI::del(QObject* object)
 
         FilesManager* manager;
 
-        if(SDriveEngine::inst()->elStates[EAFoldersViewFocused]) manager = SDriveEngine::inst()->aFoldersMngr.data();
-        else manager = SDriveEngine::inst()->getCurrFilesMngr();
+        if(SDriveEngine::inst()->elStates[EAFoldersViewFocused])
+        {
+            manager = SDriveEngine::inst()->aFoldersMngr.data();
+        }
+        else
+        {
+            manager = SDriveEngine::inst()->getCurrFilesMngr();
+        }
 
         QList<ItemInfo::Data> itemData = manager->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
 
@@ -69,8 +75,14 @@ void OperationsUI::slotTriggeredDel()
 
     QObject* object;
 
-    if(SDriveEngine::inst()->elStates[EFoldersTreeViewFocused]) object = SUi::inst()->treeFoldersView;
-    else object = SDriveEngine::inst()->getCurrFilesMngr()->getPanel();
+    if(SDriveEngine::inst()->elStates[EFoldersTreeViewFocused])
+    {
+        object = SUi::inst()->treeFoldersView;
+    }
+    else
+    {
+        object = SDriveEngine::inst()->getCurrFilesMngr()->getPanel();
+    }
 
     del(object);
 }
@@ -79,8 +91,15 @@ void OperationsUI::slotDelFinished()
 {
     qDebug() << "OperationsUI::slotDelFinished";
 
-    if(SDriveEngine::inst()->elStates[EAFoldersViewFocused]) SDriveEngine::inst()->filesUI->slotAShowFiles(SDriveEngine::inst()->getFoldersUI()->currAFolderId);
-    if(SDriveEngine::inst()->elStates[EFoldersTreeViewFocused]) SDriveEngine::inst()->filesUI->showFiles();
+    if(SDriveEngine::inst()->elStates[EAFoldersViewFocused])
+    {
+        SDriveEngine::inst()->filesUI->slotAShowFiles(SDriveEngine::inst()->getFoldersUI()->currAFolderId);
+    }
+
+    if(SDriveEngine::inst()->elStates[EFoldersTreeViewFocused])
+    {
+        SDriveEngine::inst()->filesUI->showFiles();
+    }
 
     SDriveEngine::inst()->filesUI.data()->slotUpdateFileList();
 }

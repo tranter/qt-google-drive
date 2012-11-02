@@ -38,7 +38,9 @@ void ItemInfo::push_back(ItemInfo::Data& data, int type)
 void ItemInfo::normalize(void)
 {
     for(int i =  1; i < fileItems.count(); ++i)
+    {
         items.push_back(fileItems[i]);
+    }
 }
 
 ItemInfo::Data& ItemInfo::operator [] (int index)

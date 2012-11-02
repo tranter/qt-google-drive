@@ -10,7 +10,11 @@ AdditionalFoldersManager::AdditionalFoldersManager(QObject *parent) :
 
 AdditionalFoldersManager::~AdditionalFoldersManager()
 {
- for(int i = 0; i < aFolders.count(); ++i) delete aFolders[i];
+ for(int i = 0; i < aFolders.count(); ++i)
+ {
+     delete aFolders[i];
+ }
+
  aFolders.clear();
 }
 

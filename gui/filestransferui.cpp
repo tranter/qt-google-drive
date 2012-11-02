@@ -35,7 +35,10 @@ void FilesTransferUI::download(FilesManager* manager)
             SDriveEngine::inst()->downloadMngr.reset(new DownloadFileManager(SDriveEngine::inst()->parent));
             SDriveEngine::inst()->downloadMngr->startDownload(QUrl(downloadLink), fileName, fileType);
         }
-        else CommonTools::msg(SET_DIR_REMINDER_MSG);
+        else
+        {
+            CommonTools::msg(SET_DIR_REMINDER_MSG);
+        }
     }
 }
 
@@ -78,8 +81,14 @@ void FilesTransferUI::upload(void)
 
 void FilesTransferUI::slotDownload(void)
 {
-    if(SDriveEngine::inst()->elStates[EAFoldersViewFocused]) download(SDriveEngine::inst()->aFoldersMngr.data());
-    else download(SDriveEngine::inst()->getCurrFilesMngr());
+    if(SDriveEngine::inst()->elStates[EAFoldersViewFocused])
+    {
+        download(SDriveEngine::inst()->aFoldersMngr.data());
+    }
+    else
+    {
+        download(SDriveEngine::inst()->getCurrFilesMngr());
+    }
 }
 
 void FilesTransferUI::slotUpload(void)
