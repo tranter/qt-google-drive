@@ -6,6 +6,8 @@
 
 QT       += core gui webkit network xml
 
+CONFIG(release, debug|release):DEFINES += QT_NO_DEBUG_OUTPUT
+
 TARGET = qtdrive
 TEMPLATE = app
 
