@@ -32,6 +32,7 @@ void FilesManager::show(void)
     for(int i = 1; i < fileItems.count(); ++i)
     {
         items.push_back(new QTreeWidgetItem(panel));
+
         items.last()->setText(0, fileItems[i].name);
         items.last()->setIcon(0, QPixmap(fileItems[i].iconPath));
         items.last()->setText(1, fileItems[i].dataOwner);

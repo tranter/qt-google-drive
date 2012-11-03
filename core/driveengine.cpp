@@ -27,6 +27,7 @@ void DriveEngine::init(void)
     //foldersUI->showFolders(GET_FOLDERS_TREE);
 
     settings.setValue(CURRENT_PANEL, RIGHT_PANEL);
+
     SDriveEngine::inst()->filesMngr[ERight]->setPanel(SUi::inst()->filesViewRight);
     SDriveEngine::inst()->filesMngr[ERight]->get(GET_FULL_ROOT_CONTENT);
 

@@ -14,11 +14,11 @@ public:
     virtual ~ContentManager();
 
 public:
-    virtual void get(const QString& url);
+    virtual void get(const QString &url);
     XMLParser* getParser(void) const;
     void clear(void);
-    void del(const QString& url);
-    void createFolder(const QString& folderUrl, const QString& name);
+    void del(const QString &url);
+    void createFolder(const QString &folderUrl, const QString &name);
     OperationsManager* getOpMngr(void) const;
 
 public slots:
@@ -26,7 +26,7 @@ public slots:
     void slotResDownloaded(int queryType);
 
 protected:
-    virtual bool parseReply(const QString& str);
+    virtual bool parseReply(const QString &str);
     virtual void show(void) = 0;
 
 protected:

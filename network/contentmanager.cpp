@@ -13,7 +13,7 @@ ContentManager::~ContentManager()
 {
 }
 
-void ContentManager::get(const QString& url)
+void ContentManager::get(const QString &url)
 {
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
@@ -35,12 +35,15 @@ void ContentManager::slotReplyFinished(QNetworkReply*)
     }
 
     replyStr.clear();
-    if(!parser->getXMLHandler()->resDownloadingNow()) show();
+    if(!parser->getXMLHandler()->resDownloadingNow())
+    {
+        show();
+    }
 
     QApplication::restoreOverrideCursor();
 }
 
-bool ContentManager::parseReply(const QString& str)
+bool ContentManager::parseReply(const QString &str)
 {
     QXmlSimpleReader reader;
     QXmlInputSource source;
@@ -80,7 +83,7 @@ void ContentManager::del(const QString &url)
     opMngr->del(url);
 }
 
-void ContentManager::createFolder(const QString& folderUrl, const QString& name)
+void ContentManager::createFolder(const QString &folderUrl, const QString &name)
 {
     opMngr->createFolder(folderUrl, name);
 }

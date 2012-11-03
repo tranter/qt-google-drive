@@ -1,6 +1,7 @@
 #include "filesui.h"
 #include "share/appregdata.h"
 #include <QSettings>
+#include "share/debug.h"
 #include <QDebug>
 
 FilesUI::FilesUI(QObject *parent) :
@@ -94,18 +95,19 @@ void FilesUI::slotRightSortIndicatorChanged(int logicalIndex, Qt::SortOrder orde
 
 void FilesUI::slotLeftViewClicked(const QModelIndex& Id)
 {
-    QSettings settings(COMPANY_NAME, APP_NAME);
-    settings.setValue(CURRENT_PANEL, LEFT_PANEL);
-
+    QSettings (COMPANY_NAME, APP_NAME).setValue(CURRENT_PANEL, RIGHT_PANEL);
     showFilesOnPanel(Id, ELeft);
 }
 
 void FilesUI::slotRightViewClicked(const QModelIndex& Id)
 {
-    QSettings settings(COMPANY_NAME, APP_NAME);
-    settings.setValue(CURRENT_PANEL, RIGHT_PANEL);
-
+    QSettings (COMPANY_NAME, APP_NAME).setValue(CURRENT_PANEL, RIGHT_PANEL);
     showFilesOnPanel(Id, ERight);
+    DEBUG;
+}
+
+void FilesUI::slotItemDoubleClicked(QTreeWidgetItem *item, int column)
+{
 }
 
 void FilesUI::showFilesOnPanel(const QModelIndex &Id, EPanels panel)

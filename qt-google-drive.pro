@@ -38,6 +38,7 @@ SOURCES += gui/foldersui.cpp
 SOURCES += gui/checkui.cpp
 
 HEADERS  += gui/forms/mainwindow.h
+HEADERS  += share/debug.h
 HEADERS  += share/enums.h
 HEADERS  += gui/forms/createfolderdialog.h
 HEADERS  += network/oauth2.h

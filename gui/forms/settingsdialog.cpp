@@ -17,7 +17,7 @@ SettingsDialog::~SettingsDialog()
 
 void SettingsDialog::browseDir()
 {
-    QString dir = QFileDialog::getExistingDirectory (this, "Set Directory", ui->directoryLineEdit->text());
+    QString dir = QFileDialog::getExistingDirectory (this, "Set Directory", ui->directoryLineEdit->text());   
     if(dir.isEmpty()) return;
     ui->directoryLineEdit->setText(dir);
 }
@@ -25,7 +25,7 @@ void SettingsDialog::browseDir()
 QString SettingsDialog::directoryPath() const
 {
     QString str = ui->directoryLineEdit->text();
-    str.replace("\\", "/");
+    str.replace("\\", "/");   
     return str;
 }
 
