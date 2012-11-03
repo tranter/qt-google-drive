@@ -1,8 +1,6 @@
 #ifndef DEBUG_H
 #define DEBUG_H
 
-#include <QDebug>
-
 #ifndef QT_NO_DEBUG_OUTPUT
 
  char buffer[512];

@@ -59,8 +59,14 @@ void FilesUI::showFilesFromFolder(void)
 
 void FilesUI::slotAShowFiles(const QModelIndex& index)
 {
-    if(index.model()->data(index).toString() == TRASH_TITLE) SDriveEngine::inst()->elStates[ETrashFocused] = true;
-    else SDriveEngine::inst()->elStates[ETrashFocused] = false;
+    if(index.model()->data(index).toString() == TRASH_TITLE)
+    {
+        SDriveEngine::inst()->elStates[ETrashFocused] = true;
+    }
+    else
+    {
+        SDriveEngine::inst()->elStates[ETrashFocused] = false;
+    }
 
     QString query;
     SDriveEngine::inst()->getFoldersUI()->currAFolderId = index;
@@ -84,12 +90,10 @@ void FilesUI::slotAShowFiles(const QModelIndex& index)
 
 void FilesUI::slotLeftSortIndicatorChanged(int logicalIndex, Qt::SortOrder order)
 {
-    DEBUG("index: %d order: %d",  QString::number(logicalIndex), order);
 }
 
 void FilesUI::slotRightSortIndicatorChanged(int logicalIndex, Qt::SortOrder order)
 {
-    DEBUG("index: %d order: %d",  QString::number(logicalIndex), order);
 }
 
 void FilesUI::slotLeftViewClicked(const QModelIndex& Id)
@@ -113,7 +117,7 @@ void FilesUI::slotItemDoubleClicked(QTreeWidgetItem *item, int column)
 
 void FilesUI::showFilesOnPanel(const QModelIndex &Id, EPanels panel)
 {
-    DEBUG("panel: %d name: %s item().self: %s", panel, SDriveEngine::inst()->getFoldersUI()->item().name, SDriveEngine::inst()->getFoldersUI()->item().self);
+    DEBUG("panel: %d name: %s item().self: %s", static_cast<int> (panel), SDriveEngine::inst()->getFoldersUI()->item().name.toAscii().data(), SDriveEngine::inst()->getFoldersUI()->item().self.toAscii().data());
 
     SDriveEngine::inst()->elStates[EFoldersTreeViewFocused] = false;
     SDriveEngine::inst()->elStates[ERightViewFocused] = true;
