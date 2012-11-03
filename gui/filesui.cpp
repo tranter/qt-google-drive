@@ -101,9 +101,9 @@ void FilesUI::slotLeftViewClicked(const QModelIndex& Id)
 
 void FilesUI::slotRightViewClicked(const QModelIndex& Id)
 {
+    DEBUG_INFO;
     QSettings (COMPANY_NAME, APP_NAME).setValue(CURRENT_PANEL, RIGHT_PANEL);
-    showFilesOnPanel(Id, ERight);
-    DEBUG;
+    showFilesOnPanel(Id, ERight);    
 }
 
 void FilesUI::slotItemDoubleClicked(QTreeWidgetItem *item, int column)
