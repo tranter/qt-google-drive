@@ -96,23 +96,28 @@ void FilesUI::slotRightSortIndicatorChanged(int logicalIndex, Qt::SortOrder orde
 {
 }
 
-void FilesUI::slotLeftViewClicked(const QModelIndex& Id)
+void FilesUI::slotLeftViewClicked(const QModelIndex &Id)
 {
     DEBUG_INFO;
-    QSettings (COMPANY_NAME, APP_NAME).setValue(CURRENT_PANEL, LEFT_PANEL);
-    showFilesOnPanel(Id, ELeft);
+    //    QSettings (COMPANY_NAME, APP_NAME).setValue(CURRENT_PANEL, LEFT_PANEL);
+    //    showFilesOnPanel(Id, ELeft);
 }
 
-void FilesUI::slotRightViewClicked(const QModelIndex& Id)
+void FilesUI::slotRightViewClicked(const QModelIndex &Id)
 {
     DEBUG_INFO;
-    QSettings (COMPANY_NAME, APP_NAME).setValue(CURRENT_PANEL, RIGHT_PANEL);
-    showFilesOnPanel(Id, ERight);
+    //    QSettings (COMPANY_NAME, APP_NAME).setValue(CURRENT_PANEL, RIGHT_PANEL);
+    //    showFilesOnPanel(Id, ERight);
 }
 
-void FilesUI::slotItemDoubleClicked(QTreeWidgetItem *item, int column)
+void FilesUI::slotLeftPanelItemDoubleClicked(QTreeWidgetItem *item, int column)
 {
-    DEBUG_INFO;
+   DEBUG("item %s", item->data(column, Qt::DisplayRole).toString().toAscii().data());
+}
+
+void FilesUI::slotRightPanelItemDoubleClicked(QTreeWidgetItem *item, int column)
+{
+   DEBUG("item %s", item->data(column, Qt::DisplayRole).toString().toAscii().data());
 }
 
 void FilesUI::showFilesOnPanel(const QModelIndex &Id, EPanels panel)
