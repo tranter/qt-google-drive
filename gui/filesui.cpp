@@ -2,7 +2,6 @@
 #include "share/appregdata.h"
 #include <QSettings>
 #include "share/debug.h"
-#include <QDebug>
 
 FilesUI::FilesUI(QObject *parent) :
     QObject(parent)
@@ -85,12 +84,12 @@ void FilesUI::slotAShowFiles(const QModelIndex& index)
 
 void FilesUI::slotLeftSortIndicatorChanged(int logicalIndex, Qt::SortOrder order)
 {
-    qDebug() << "FilesUI::slotLeftSortIndicatorChanged index:" << QString::number(logicalIndex) << " order:" << order;
+    DEBUG("index: %d order: %d",  QString::number(logicalIndex), order);
 }
 
 void FilesUI::slotRightSortIndicatorChanged(int logicalIndex, Qt::SortOrder order)
 {
-    qDebug() << "FilesUI::slotRightSortIndicatorChanged index:" << QString::number(logicalIndex) << " order:" << order;
+    DEBUG("index: %d order: %d",  QString::number(logicalIndex), order);
 }
 
 void FilesUI::slotLeftViewClicked(const QModelIndex& Id)
@@ -114,7 +113,7 @@ void FilesUI::slotItemDoubleClicked(QTreeWidgetItem *item, int column)
 
 void FilesUI::showFilesOnPanel(const QModelIndex &Id, EPanels panel)
 {
-    qDebug() << "showFilesOnPanel panel:" << panel << " name:" << SDriveEngine::inst()->getFoldersUI()->item().name << "item().self;" << SDriveEngine::inst()->getFoldersUI()->item().self;
+    DEBUG("panel: %d name: %s item().self: %s", panel, SDriveEngine::inst()->getFoldersUI()->item().name, SDriveEngine::inst()->getFoldersUI()->item().self);
 
     SDriveEngine::inst()->elStates[EFoldersTreeViewFocused] = false;
     SDriveEngine::inst()->elStates[ERightViewFocused] = true;
@@ -140,7 +139,7 @@ void FilesUI::showFilesOnPanel(const QModelIndex &Id, EPanels panel)
 
 void FilesUI::slotUpdateFileList()
 {
-    qDebug() << "FilesUI::slotUpdateFileList";
+    DEBUG_INFO;
     //showFiles();
     SDriveEngine::inst()->getCurrFilesMngr()->get(SDriveEngine::inst()->getCurrFilesMngr()->getCurrLink());
 }
