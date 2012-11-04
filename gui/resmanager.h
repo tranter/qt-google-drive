@@ -3,7 +3,6 @@
 
 #include "share/def.h"
 #include "network/networkmanager.h"
-#include "share/commontools.h"
 
 class ResManager: public NetworkManager
 {

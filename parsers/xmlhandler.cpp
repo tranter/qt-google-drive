@@ -1,13 +1,17 @@
 #include "xmlhandler.h"
-#include <QDebug>
+#include "share/commontools.h"
+#include "share/debug.h"
 
 XMLHandler::XMLHandler(int type):
     itemInfo(new ItemInfo),
-    queryType(type), 
+    queryType(type),
     resDownloadedCount(0),
     isResDownloding(false)
 {
-    for(int i = ETitle; i < ETagsCount; ++i) tags[i] = false;
+    for(int i = ETitle; i < ETagsCount; ++i)
+    {
+        tags[i] = false;
+    }
 }
 
 XMLHandler::~XMLHandler()
@@ -93,11 +97,11 @@ ItemInfo* XMLHandler::getItemInfo(void) const
 
 bool XMLHandler::fatalError(const QXmlParseException &exception)
 {
-    qDebug() << "XMLHandler::fatalError:" << exception.message();
+    DEBUG << "fatalError:" << exception.message();
     return true;
 }
 
-bool XMLHandler::handleReply(const QString& qName, const QXmlAttributes &attribs)
+bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs)
 {
     QString itemType;
 
@@ -108,7 +112,7 @@ bool XMLHandler::handleReply(const QString& qName, const QXmlAttributes &attribs
     {
         itemData.fileType = FYLE_TYPE_ATTRIBUTE_TAG(attribs.value);
         itemData.downloadLink = FYLE_TYPE_SRC_ATTRIBUTE_TAG(attribs.value);
-    }   
+    }
 
     if(HIERARCHY_ATTRIBUTE_TAG(attribs.value) == PARENT_TAG) itemData.parent = HIERARCHY_VALUE_TAG(attribs.value);
     if(HIERARCHY_ATTRIBUTE_TAG(attribs.value) == UPLOAD_TAG) itemData.uploadLink = HIERARCHY_VALUE_TAG(attribs.value);
@@ -119,6 +123,7 @@ bool XMLHandler::handleReply(const QString& qName, const QXmlAttributes &attribs
         itemData.self = HIERARCHY_VALUE_TAG(attribs.value);
         itemData.type = itemType;
         itemInfo->push_back(itemData, queryType);
+
         setDefaults();
     }
 
@@ -159,7 +164,7 @@ void XMLHandler::slotResDownloaded()
     }
 }
 
-void XMLHandler::saveResData(const QXmlAttributes& attribs)
+void XMLHandler::saveResData(const QXmlAttributes &attribs)
 {
     if(!CommonTools::fileFromURLExists(HIERARCHY_VALUE_TAG(attribs.value)))
     {

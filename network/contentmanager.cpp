@@ -1,6 +1,7 @@
 #include "contentmanager.h"
+#include "share/commontools.h"
+#include "share/debug.h"
 #include <QApplication>
-#include <QDebug>
 
 ContentManager::ContentManager(int handleType, QObject *parent):
     NetworkManager(parent),
@@ -27,14 +28,15 @@ void ContentManager::slotReplyFinished(QNetworkReply*)
 
     if(parseReply(replyStr))
     {
-        qDebug() << "parse OK";
+        DEBUG << "parse OK";
     }
     else
     {
-        qDebug() << "parse not OK";
+        DEBUG << "parse not OK";
     }
 
     replyStr.clear();
+
     if(!parser->getXMLHandler()->resDownloadingNow())
     {
         show();
@@ -75,7 +77,10 @@ void ContentManager::clear(void)
     items.clear();
     if(items.empty()) return;
 
-    for(int i = 0; i < items.count(); ++i) delete items[i];
+    for(int i = 0; i < items.count(); ++i)
+    {
+        delete items[i];
+    }
 }
 
 void ContentManager::del(const QString &url)

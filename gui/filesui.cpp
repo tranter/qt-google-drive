@@ -110,18 +110,18 @@ void FilesUI::slotRightViewClicked(const QModelIndex &Id)
 
 void FilesUI::slotLeftPanelItemDoubleClicked(QTreeWidgetItem *item, int column)
 {
-   DEBUG << "item" << item->data(0, Qt::DisplayRole).toString();
+    DEBUG << "item" << item->data(0, Qt::DisplayRole).toString();
 
-   QSettings(COMPANY_NAME, APP_NAME).setValue(CURRENT_PANEL, LEFT_PANEL);
-   showFilesOnPanel(item->data(0, Qt::DisplayRole).toString(), ELeft);
+    QSettings(COMPANY_NAME, APP_NAME).setValue(CURRENT_PANEL, LEFT_PANEL);
+    showFilesOnPanel(item->data(0, Qt::DisplayRole).toString(), ELeft);
 }
 
 void FilesUI::slotRightPanelItemDoubleClicked(QTreeWidgetItem *item, int column)
 {
-   DEBUG << "item %s" << item->data(0, Qt::DisplayRole).toString().toAscii();
+    DEBUG << "item %s" << item->data(0, Qt::DisplayRole).toString().toAscii();
 
-   QSettings(COMPANY_NAME, APP_NAME).setValue(CURRENT_PANEL, RIGHT_PANEL);
-   showFilesOnPanel(item->data(0, Qt::DisplayRole).toString(), ERight);
+    QSettings(COMPANY_NAME, APP_NAME).setValue(CURRENT_PANEL, RIGHT_PANEL);
+    showFilesOnPanel(item->data(0, Qt::DisplayRole).toString(), ERight);
 }
 
 void FilesUI::showFilesOnPanel(const QString &Id, EPanels panel)
@@ -208,6 +208,8 @@ QLabel* FilesUI::getPanelLabel(EPanels panel) const
     case ELeft: label = SUi::inst()->pathLabelLeft;
         break;
     case ERight: label = SUi::inst()->pathLabelRight;
+        break;
+    case EPanelsCount:
         break;
     }
 
