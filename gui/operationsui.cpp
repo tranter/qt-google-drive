@@ -9,7 +9,7 @@ OperationsUI::OperationsUI(QObject *parent) :
 
 void OperationsUI::del(QObject* object)
 {
-    DEBUG("objectName: %s", object->objectName().toAscii().data());
+    DEBUG << "objectName:" << object->objectName();
 
     if (object == SUi::inst()->treeFoldersView)
     {
@@ -42,9 +42,6 @@ void OperationsUI::del(QObject* object)
         QList<ItemInfo::Data> itemData = manager->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
 
         connect(manager->getOpMngr(), SIGNAL(signalDelFinished()), this, SLOT(slotDelFinished()));
-
-        DEBUG("self: %s", itemData[SDriveEngine::inst()->filesUI->getCurrFileItemId(manager)].self.toAscii().data());
-
         manager->del(itemData[SDriveEngine::inst()->filesUI->getCurrFileItemId(manager)].self);
     }
 }
@@ -87,8 +84,6 @@ void OperationsUI::slotTriggeredDel(void)
 
 void OperationsUI::slotDelFinished(void)
 {
-    DEBUG_INFO;
-
     if(SDriveEngine::inst()->elStates[EAFoldersViewFocused])
     {
         SDriveEngine::inst()->filesUI->slotAShowFiles(SDriveEngine::inst()->getFoldersUI()->currAFolderId);
@@ -137,7 +132,7 @@ void OperationsUI::createFolder(const QString &name)
         return;
     }
 
-    DEBUG("currentIndex().row() %d", SDriveEngine::inst()->getCurrFilesMngr()->getPanel()->currentIndex().row());
+    DEBUG << "currentIndex().row()" << SDriveEngine::inst()->getCurrFilesMngr()->getPanel()->currentIndex().row();
 
     // no folder is selected in the file panel
     if(SDriveEngine::inst()->getCurrFilesMngr()->getPanel()->currentIndex().row() == -1)
@@ -150,7 +145,7 @@ void OperationsUI::createFolder(const QString &name)
     ItemInfo item = *SDriveEngine::inst()->foldersMngr->getParser()->getXMLHandler()->getItemInfo();
     int itemIndex = SDriveEngine::inst()->foldersUI->getCurrFolderItemId();
 
-    DEBUG("itemIndex %d", itemIndex);
+    DEBUG << "itemIndex" << itemIndex;
 
     SDriveEngine::inst()->foldersMngr->createFolder(item[itemIndex].self, name);
     SDriveEngine::inst()->foldersMngr->insertFolder(name, item[itemIndex].pointer);
