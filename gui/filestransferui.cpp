@@ -22,7 +22,7 @@ void FilesTransferUI::download(FilesManager* manager)
     int index = SDriveEngine::inst()->filesUI->getCurrFileItemId(manager);
 
     DEBUG << "item[index].downloadLink:" << item[index].downloadLink;
-    DEBUG << "item[index].self:" << item[index].item[index].self;
+    DEBUG << "item[index].self:" << item[index].self;
 
     QString downloadLink(item[index].downloadLink);
 
