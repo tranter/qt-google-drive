@@ -14,7 +14,7 @@ int FilesUI::getCurrFileItemId(FilesManager* manager) const
     int count = item.count();
     QString fileName(SDriveEngine::inst()->getCurrFilesMngr()->getPanel()->currentIndex().data().toString());
 
-    DEBUG("fileName %s", fileName.toAscii().data());
+    DEBUG << "!!!!!!!!!---->" << fileName;
 
     int currentFileIndex = 0;
 
@@ -49,7 +49,7 @@ void FilesUI::showFiles(void)
 
 void FilesUI::showFilesFromFolder(void)
 {
-    DEBUG_INFO;
+    DEBUG;
 
     if(SDriveEngine::inst()->foldersUI->isFolder())
     {
@@ -110,7 +110,7 @@ void FilesUI::slotRightViewClicked(const QModelIndex &Id)
 
 void FilesUI::slotLeftPanelItemDoubleClicked(QTreeWidgetItem *item, int column)
 {
-   DEBUG("item %s", item->data(0, Qt::DisplayRole).toString().toAscii().data());
+   DEBUG << "item" << item->data(0, Qt::DisplayRole).toString();
 
    QSettings(COMPANY_NAME, APP_NAME).setValue(CURRENT_PANEL, LEFT_PANEL);
    showFilesOnPanel(item->data(0, Qt::DisplayRole).toString(), ELeft);
@@ -118,7 +118,7 @@ void FilesUI::slotLeftPanelItemDoubleClicked(QTreeWidgetItem *item, int column)
 
 void FilesUI::slotRightPanelItemDoubleClicked(QTreeWidgetItem *item, int column)
 {
-   DEBUG("item %s", item->data(0, Qt::DisplayRole).toString().toAscii().data());
+   DEBUG << "item %s" << item->data(0, Qt::DisplayRole).toString().toAscii();
 
    QSettings(COMPANY_NAME, APP_NAME).setValue(CURRENT_PANEL, RIGHT_PANEL);
    showFilesOnPanel(item->data(0, Qt::DisplayRole).toString(), ERight);
@@ -126,7 +126,7 @@ void FilesUI::slotRightPanelItemDoubleClicked(QTreeWidgetItem *item, int column)
 
 void FilesUI::showFilesOnPanel(const QString &Id, EPanels panel)
 {
-    DEBUG("panel: %d name: %s item().self: %s", static_cast<int> (panel), SDriveEngine::inst()->getFoldersUI()->item().name.toAscii().data(), SDriveEngine::inst()->getFoldersUI()->item().self.toAscii().data());
+    DEBUG << "panel:" << panel << "name:" << SDriveEngine::inst()->getFoldersUI()->item().name << "item().self:" << SDriveEngine::inst()->getFoldersUI()->item().self;
 
     SDriveEngine::inst()->elStates[EFoldersTreeViewFocused] = false;
     SDriveEngine::inst()->elStates[ERightViewFocused] = true;
@@ -152,7 +152,7 @@ void FilesUI::showFilesOnPanel(const QString &Id, EPanels panel)
 
 void FilesUI::slotUpdateFileList()
 {
-    DEBUG_INFO;
+    DEBUG;
     //showFiles();
     SDriveEngine::inst()->getCurrFilesMngr()->get(SDriveEngine::inst()->getCurrFilesMngr()->getCurrLink());
 }
