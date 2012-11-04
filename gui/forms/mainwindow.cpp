@@ -4,7 +4,6 @@
 #include <QTextCodec>
 #include <QKeyEvent>
 #include <QToolButton>
-#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)

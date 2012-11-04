@@ -1,5 +1,6 @@
 #include "filestransferui.h"
 #include "share/appregdata.h"
+#include "share/debug.h"
 #include <QSettings>
 #include <QFileDialog>
 
@@ -20,8 +21,8 @@ void FilesTransferUI::download(FilesManager* manager)
     QList<ItemInfo::Data> item = manager->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
     int index = SDriveEngine::inst()->filesUI->getCurrFileItemId(manager);
 
-    qDebug() << "FilesTransferUI::download item[index].downloadLink:" << item[index].downloadLink;
-    qDebug() << "FilesTransferUI::download item[index].self:" << item[index].self;
+    DEBUG << "item[index].downloadLink:" << item[index].downloadLink;
+    DEBUG << "item[index].self:" << item[index].item[index].self;
 
     QString downloadLink(item[index].downloadLink);
 
@@ -57,18 +58,12 @@ void FilesTransferUI::upload(void)
 
     QString fileName = QFileDialog::getOpenFileName(SDriveEngine::inst()->parent, "Uploading file", QDir::homePath(), "All files(*)");
 
-    qDebug() << "FilesTransferUI::upload fileName:" << fileName;
-
     if(!fileName.isEmpty())
     {
         QList<ItemInfo::Data> item = SDriveEngine::inst()->getCurrFilesMngr()->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
         int index = SDriveEngine::inst()->filesUI->getCurrFileItemId(SDriveEngine::inst()->getCurrFilesMngr());
 
-        qDebug() << "FilesTransferUI::upload index:" << index;
-
         QString uploadLink(item[index].uploadLink + "/?convert=false");
-
-        qDebug() << "FilesTransferUI::upload uploadLink:" << uploadLink;
 
         if(!uploadLink.isEmpty())
         {

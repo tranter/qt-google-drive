@@ -1,7 +1,6 @@
 #include "additionalfoldesmanager.h"
 #include "gui/forms/mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QDebug>
 
 AdditionalFoldersManager::AdditionalFoldersManager(QObject *parent) :
      FilesManager(parent)

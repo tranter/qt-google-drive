@@ -2,8 +2,6 @@
 #include "share/appregdata.h"
 #include <QMessageBox>
 #include <QSettings>
-#include <QDebug>
-
 
 DriveEngine::DriveEngine(QObject *parent) :
     QObject(parent)
