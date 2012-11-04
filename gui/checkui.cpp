@@ -23,8 +23,7 @@ bool CheckUI::checkReg(void)
 
         // TODO: change link to wiki page
         QMessageBox::warning(SDriveEngine::inst()->getParent(), "Warning",
-                             "To work with application you need to register your own application in <b>Google</b>.\n"
-                             "Learn more from <a href='http://code.google.com/p/qt-google-drive/'>here</a>");
+                             "To work with application you need to register your own application in <b>Google</b>.\n");
     }
 
     return regState;

@@ -1,4 +1,5 @@
 #include "foldersui.h"
+#include "share/debug.h"
 
 FoldersUI::FoldersUI(QObject *parent) :
     QObject(parent)
@@ -21,6 +22,8 @@ bool FoldersUI::isFolder(void)
     str = strList[strList.count() - 1];
 
     if(str.indexOf(FOLDER_TYPE_STR) != -1) is = true;
+
+    DEBUG("is: %d", is);
 
     return is;
 }

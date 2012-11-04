@@ -14,6 +14,8 @@ int FilesUI::getCurrFileItemId(FilesManager* manager) const
     int count = item.count();
     QString fileName(SDriveEngine::inst()->getCurrFilesMngr()->getPanel()->currentIndex().data().toString());
 
+    DEBUG("fileName %s", fileName.toAscii().data());
+
     int currentFileIndex = 0;
 
     for(int i = 1; i < count; ++i)
@@ -47,6 +49,8 @@ void FilesUI::showFiles(void)
 
 void FilesUI::showFilesFromFolder(void)
 {
+    DEBUG_INFO;
+
     if(SDriveEngine::inst()->foldersUI->isFolder())
     {
         QString query(GET_FILES_IN_FOLDER);
@@ -98,45 +102,45 @@ void FilesUI::slotRightSortIndicatorChanged(int logicalIndex, Qt::SortOrder orde
 
 void FilesUI::slotLeftViewClicked(const QModelIndex &Id)
 {
-    DEBUG_INFO;
-    //    QSettings (COMPANY_NAME, APP_NAME).setValue(CURRENT_PANEL, LEFT_PANEL);
-    //    showFilesOnPanel(Id, ELeft);
 }
 
 void FilesUI::slotRightViewClicked(const QModelIndex &Id)
 {
-    DEBUG_INFO;
-    //    QSettings (COMPANY_NAME, APP_NAME).setValue(CURRENT_PANEL, RIGHT_PANEL);
-    //    showFilesOnPanel(Id, ERight);
 }
 
 void FilesUI::slotLeftPanelItemDoubleClicked(QTreeWidgetItem *item, int column)
 {
-   DEBUG("item %s", item->data(column, Qt::DisplayRole).toString().toAscii().data());
+   DEBUG("item %s", item->data(0, Qt::DisplayRole).toString().toAscii().data());
+
+   QSettings(COMPANY_NAME, APP_NAME).setValue(CURRENT_PANEL, LEFT_PANEL);
+   showFilesOnPanel(item->data(0, Qt::DisplayRole).toString(), ELeft);
 }
 
 void FilesUI::slotRightPanelItemDoubleClicked(QTreeWidgetItem *item, int column)
 {
-   DEBUG("item %s", item->data(column, Qt::DisplayRole).toString().toAscii().data());
+   DEBUG("item %s", item->data(0, Qt::DisplayRole).toString().toAscii().data());
+
+   QSettings(COMPANY_NAME, APP_NAME).setValue(CURRENT_PANEL, RIGHT_PANEL);
+   showFilesOnPanel(item->data(0, Qt::DisplayRole).toString(), ERight);
 }
 
-void FilesUI::showFilesOnPanel(const QModelIndex &Id, EPanels panel)
+void FilesUI::showFilesOnPanel(const QString &Id, EPanels panel)
 {
     DEBUG("panel: %d name: %s item().self: %s", static_cast<int> (panel), SDriveEngine::inst()->getFoldersUI()->item().name.toAscii().data(), SDriveEngine::inst()->getFoldersUI()->item().self.toAscii().data());
 
     SDriveEngine::inst()->elStates[EFoldersTreeViewFocused] = false;
     SDriveEngine::inst()->elStates[ERightViewFocused] = true;
 
-    if(Id.data().toString() == PARENT_FOLDER_SIGN)
+    if(Id == PARENT_FOLDER_SIGN)
     {
-        setPanelDisplayingPath(Id.data().toString(), EBackward, panel);
+        setPanelDisplayingPath(Id, EBackward, panel);
         SDriveEngine::inst()->getCurrFilesMngr()->get(SDriveEngine::inst()->getCurrFilesMngr()->back());
     }
     else
     {
         if(SDriveEngine::inst()->foldersUI->isFolder())
         {
-            setPanelDisplayingPath(Id.data().toString(), EForward, panel);
+            setPanelDisplayingPath(Id, EForward, panel);
         }
 
         if(!SDriveEngine::inst()->elStates[EAFoldersViewFocused])

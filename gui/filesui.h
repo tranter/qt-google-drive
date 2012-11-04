@@ -41,7 +41,7 @@ private:
     void setPanelDisplayingPath(const QString &name, EPath path, EPanels panel);
     void showFiles(void);
     void showFilesFromFolder(void);
-    void showFilesOnPanel(const QModelIndex &Id, EPanels panel);
+    void showFilesOnPanel(const QString &Id, EPanels panel);
 };
 
 #endif // FILESUI_H

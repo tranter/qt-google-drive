@@ -3,7 +3,7 @@
 
 #ifndef QT_NO_DEBUG_OUTPUT
 
- char buffer[512];
+ static char buffer[512];
 
  #define DEBUG_STR "[DEBUG %s, line: %u] ", __PRETTY_FUNCTION__, __LINE__
  #define DEBUG_BUFFER sprintf(buffer, DEBUG_STR)
