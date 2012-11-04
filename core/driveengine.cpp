@@ -123,19 +123,19 @@ QWidget* DriveEngine::getParent(void) const
 FilesManager* DriveEngine::getCurrFilesMngr(void) const
 {
     QSettings settings(COMPANY_NAME, APP_NAME);
-    FilesManager* fm;
+    FilesManager* filesManager;
 
     if(settings.value(CURRENT_PANEL, LEFT_PANEL).toString() == LEFT_PANEL)
     {
-        fm = filesMngr[ELeft].data();
+        filesManager = filesMngr[ELeft].data();
     }
 
     if(settings.value(CURRENT_PANEL, RIGHT_PANEL).toString() == RIGHT_PANEL)
     {
-        fm = filesMngr[ERight].data();
+        filesManager = filesMngr[ERight].data();
     }
 
-    return fm;
+    return filesManager;
 }
 
 void DriveEngine::slotFirstPanelIsLoaded()
