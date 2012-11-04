@@ -15,7 +15,7 @@ QString FoldersUI::getFolderID(void)
 
 bool FoldersUI::isFolder(void)
 {
-    bool is = false;       
+    bool is = false;
     QString str(item().self);
     QStringList strList = str.split("/");
 
@@ -23,7 +23,7 @@ bool FoldersUI::isFolder(void)
 
     if(str.indexOf(FOLDER_TYPE_STR) != -1) is = true;
 
-    DEBUG("is: %d", is);
+    DEBUG << "is:" << is;
 
     return is;
 }
@@ -52,8 +52,6 @@ int FoldersUI::getCurrFolderItemId(void) const
             break;
         }
     }
-
-    qDebug() << "FoldersUI::getCurrFolderItemId currentModelIndex" << currentModelIndex;
 
     return currentModelIndex;
 }
