@@ -9,7 +9,11 @@ DriveEngine::DriveEngine(QObject *parent) :
     QObject(parent)
 {
     this->parent = static_cast<QWidget*>(parent);
-    for(int i = 0; i < EElStatesCount; ++i) elStates[i] = false;
+
+    for(int i = 0; i < EElStatesCount; ++i)
+    {
+        elStates[i] = false;
+    }
 }
 
 DriveEngine::~DriveEngine()
@@ -41,7 +45,12 @@ void DriveEngine::reset(void)
 {
     //aFoldersMngr.reset(new AdditionalFoldersManager);
     checkUI.reset(new CheckUI);
-    for(int i = 0; i < EPanelsCount; ++i) filesMngr[i].reset(new FilesManager);
+
+    for(int i = 0; i < EPanelsCount; ++i)
+    {
+        filesMngr[i].reset(new FilesManager);
+    }
+
     filesTransferUI.reset(new FilesTransferUI);
     filesUI.reset(new FilesUI);
     foldersMngr.reset(new FoldersManager);
@@ -120,6 +129,7 @@ FilesManager* DriveEngine::getCurrFilesMngr(void) const
     {
         fm = filesMngr[ELeft].data();
     }
+
     if(settings.value(CURRENT_PANEL, RIGHT_PANEL).toString() == RIGHT_PANEL)
     {
         fm = filesMngr[ERight].data();
