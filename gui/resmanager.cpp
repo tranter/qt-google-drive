@@ -5,7 +5,7 @@ ResManager::ResManager(QObject *parent):
 {
 }
 
-void ResManager::cashRes(const QString& url)
+void ResManager::cash(const QString &url)
 {
   QFileInfo fi(url);
   QString fileNameToSave(fi.fileName());
@@ -18,7 +18,7 @@ void ResManager::setDownloadSettings(void)
     CommonTools::setHeader(request);
 }
 
-void ResManager::setStartSettings(QUrl url, const QString& fileName, const QString& progressBarDialogInfoText)
+void ResManager::setStartSettings(QUrl url, const QString &fileName, const QString &progressBarDialogInfoText)
 {
     state = EBusy;
     file.setFileName(fileName);

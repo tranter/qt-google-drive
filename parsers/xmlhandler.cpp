@@ -166,7 +166,7 @@ void XMLHandler::saveResData(const QXmlAttributes& attribs)
         isResDownloding = true;
 
         resManagers.push_back(new ResManager);
-        resManagers.last()->cashRes(HIERARCHY_VALUE_TAG(attribs.value));
+        resManagers.last()->cash(HIERARCHY_VALUE_TAG(attribs.value));
 
         connect(resManagers.last(), SIGNAL(signalResDownloaded()), this, SLOT(slotResDownloaded()));
     }

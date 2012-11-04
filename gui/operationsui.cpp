@@ -1,5 +1,5 @@
 #include "operationsui.h"
-#include <QDebug>
+#include "share/debug.h"
 
 OperationsUI::OperationsUI(QObject *parent) :
     QObject(parent),
@@ -9,7 +9,7 @@ OperationsUI::OperationsUI(QObject *parent) :
 
 void OperationsUI::del(QObject* object)
 {
-    qDebug() << "OperationsUI::del() objectName:" << object->objectName();
+    DEBUG("objectName: %s", object->objectName().toAscii().data());
 
     if (object == SUi::inst()->treeFoldersView)
     {
@@ -28,8 +28,6 @@ void OperationsUI::del(QObject* object)
 
     if (object == SDriveEngine::inst()->getCurrFilesMngr()->getPanel())
     {
-        qDebug() << "object == SDriveEngine::inst()->getCurrFilesMngr()->getPanel():" << object->objectName();
-
         FilesManager* manager;
 
         if(SDriveEngine::inst()->elStates[EAFoldersViewFocused])
@@ -45,7 +43,7 @@ void OperationsUI::del(QObject* object)
 
         connect(manager->getOpMngr(), SIGNAL(signalDelFinished()), this, SLOT(slotDelFinished()));
 
-        qDebug() << "OperationsUI::del itemData[SDriveEngine::inst()->filesUI->getCurrFileItemId(manager)].self:" << itemData[SDriveEngine::inst()->filesUI->getCurrFileItemId(manager)].self;
+        DEBUG("self: %s", itemData[SDriveEngine::inst()->filesUI->getCurrFileItemId(manager)].self.toAscii().data());
 
         manager->del(itemData[SDriveEngine::inst()->filesUI->getCurrFileItemId(manager)].self);
     }
@@ -68,7 +66,7 @@ void OperationsUI::delItemInTree(ItemInfo item)
     }
 }
 
-void OperationsUI::slotTriggeredDel()
+void OperationsUI::slotTriggeredDel(void)
 {
     if(SDriveEngine::inst()->elStates[ETrashFocused]) return;
     if(SDriveEngine::inst()->elStates[EAFoldersViewFocused] && !SDriveEngine::inst()->elStates[ERightViewFocused]) return;
@@ -87,9 +85,9 @@ void OperationsUI::slotTriggeredDel()
     del(object);
 }
 
-void OperationsUI::slotDelFinished()
+void OperationsUI::slotDelFinished(void)
 {
-    qDebug() << "OperationsUI::slotDelFinished";
+    DEBUG_INFO;
 
     if(SDriveEngine::inst()->elStates[EAFoldersViewFocused])
     {
@@ -104,7 +102,7 @@ void OperationsUI::slotDelFinished()
     SDriveEngine::inst()->filesUI.data()->slotUpdateFileList();
 }
 
-void OperationsUI::slotNewFolder()
+void OperationsUI::slotNewFolder(void)
 {
     createFolderDialog = new CreateFolderDialog(SDriveEngine::inst()->parent);
 
@@ -115,12 +113,12 @@ void OperationsUI::slotNewFolder()
     createFolderDialog->exec();
 }
 
-void OperationsUI::slotAcceptCreateFolder(const QString& name)
+void OperationsUI::slotAcceptCreateFolder(const QString &name)
 {
     createFolder(name);
 }
 
-void OperationsUI::slotRejectCreateFolder()
+void OperationsUI::slotRejectCreateFolder(void)
 {
     delete createFolderDialog;
 }
@@ -131,7 +129,7 @@ void OperationsUI::slotFinishedCreateFolder(int result)
     delete createFolderDialog;
 }
 
-void OperationsUI::createFolder(const QString& name)
+void OperationsUI::createFolder(const QString &name)
 {   
     if(name == "" || name.contains(QRegExp("[/\\\".<>]")))
     {
@@ -139,7 +137,7 @@ void OperationsUI::createFolder(const QString& name)
         return;
     }
 
-    qDebug() << "OperationsUI::createFolder currentIndex().row()" << SDriveEngine::inst()->getCurrFilesMngr()->getPanel()->currentIndex().row();
+    DEBUG("currentIndex().row() %d", SDriveEngine::inst()->getCurrFilesMngr()->getPanel()->currentIndex().row());
 
     // no folder is selected in the file panel
     if(SDriveEngine::inst()->getCurrFilesMngr()->getPanel()->currentIndex().row() == -1)
@@ -152,7 +150,7 @@ void OperationsUI::createFolder(const QString& name)
     ItemInfo item = *SDriveEngine::inst()->foldersMngr->getParser()->getXMLHandler()->getItemInfo();
     int itemIndex = SDriveEngine::inst()->foldersUI->getCurrFolderItemId();
 
-    qDebug() << "OperationsUI::createFolder itemIndex" << itemIndex;
+    DEBUG("itemIndex %d", itemIndex);
 
     SDriveEngine::inst()->foldersMngr->createFolder(item[itemIndex].self, name);
     SDriveEngine::inst()->foldersMngr->insertFolder(name, item[itemIndex].pointer);

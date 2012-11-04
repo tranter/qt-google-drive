@@ -12,11 +12,11 @@ public:
     explicit ResManager(QObject *parent = 0);
 
 public:
-    virtual void setStartSettings(QUrl url, const QString& fileName, const QString& progressBarDialogInfoText);
+    virtual void setStartSettings(QUrl url, const QString &fileName, const QString &progressBarDialogInfoText);
     virtual void setDownloadSettings(void);
 
 public:
-    void cashRes(const QString& url);
+    void cash(const QString &url);
 
 public slots:
     virtual void slotDownloadFinished();

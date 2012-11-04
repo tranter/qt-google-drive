@@ -14,16 +14,16 @@ public:
    void del(QObject* object);
 
 private slots:
-    void slotNewFolder();
+    void slotNewFolder(void);
     void slotAcceptCreateFolder(const QString &name);
-    void slotRejectCreateFolder();
+    void slotRejectCreateFolder(void);
     void slotFinishedCreateFolder(int result);
 
-    void slotTriggeredDel();
-    void slotDelFinished();
+    void slotTriggeredDel(void);
+    void slotDelFinished(void);
 
 private:
-    void createFolder(const QString& name);
+    void createFolder(const QString &name);
     void delItemInTree(ItemInfo item);
 
 private:
