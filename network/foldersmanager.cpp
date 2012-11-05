@@ -68,12 +68,10 @@ void FoldersManager::fillTree(QList<QString> names, QList<QString> iconPathes, Q
     }
 }
 
-void FoldersManager::insertTreeItemFolder(QString name, QTreeWidgetItem* parent)
+void FoldersManager::insertTreeItemFolder(const QString &name, QTreeWidget *parent)
 {    
     DEBUG << "name:" << name << "parent:" << parent;
 
     items.push_back(new QTreeWidgetItem(parent));
     items.last()->setText(0, name);
-
-    parent->setExpanded(true);
 }

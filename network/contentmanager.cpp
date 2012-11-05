@@ -8,6 +8,7 @@ ContentManager::ContentManager(int handleType, QObject *parent):
     opMngr(new OperationsManager(parent)),
     type(handleType)
 {
+    parser.reset(new XMLParser(type));
 }
 
 ContentManager::~ContentManager()
@@ -75,6 +76,7 @@ XMLParser* ContentManager::getParser(void) const
 void ContentManager::clear(void)
 {
     items.clear();
+
     if(items.empty()) return;
 
     for(int i = 0; i < items.count(); ++i)

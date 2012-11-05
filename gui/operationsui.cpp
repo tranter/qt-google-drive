@@ -126,8 +126,6 @@ void OperationsUI::slotFinishedCreateFolder(int result)
 
 void OperationsUI::createFolder(const QString &name)
 {   
-    DEBUG;
-
     if(name == "" || name.contains(QRegExp("[/\\\".<>]")))
     {
         CommonTools::msg("Please enter a valid name");
@@ -136,19 +134,16 @@ void OperationsUI::createFolder(const QString &name)
 
     DEBUG << "currentIndex().row()" << SDriveEngine::inst()->getCurrFilesMngr()->getPanel()->currentIndex().row();
 
-    // no folder is selected in the file panel
-    if(SDriveEngine::inst()->getCurrFilesMngr()->getPanel()->currentIndex().row() == -1)
-    {
-        // todo: create folder in current panel on current level
-        delete createFolderDialog;
-        //return;
-    }
+//    // no folder is selected in the file panel
+//    if(SDriveEngine::inst()->getCurrFilesMngr()->getPanel()->currentIndex().row() == -1)
+//    {
+//        // todo: create folder in current panel on current level
+//        delete createFolderDialog;
+//        return;
+//    }
 
-    ItemInfo item = *SDriveEngine::inst()->foldersMngr->getParser()->getXMLHandler()->getItemInfo();
-    int itemIndex = SDriveEngine::inst()->foldersUI->getCurrFolderItemId();
-
-    SDriveEngine::inst()->foldersMngr->createFolder(item[itemIndex].self, name);
-    //SDriveEngine::inst()->foldersMngr->insertTreeItemFolder(name, item[itemIndex].pointer);
+    //SDriveEngine::inst()->foldersMngr->createFolder(item[itemIndex].self, name);
+    SDriveEngine::inst()->foldersMngr->insertTreeItemFolder(QString("TEST"), SDriveEngine::inst()->getCurrFilesMngr()->getPanel());
 
     delete createFolderDialog;
 }

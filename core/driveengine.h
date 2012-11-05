@@ -57,7 +57,7 @@ private slots:
 
 private:
     void setKeyActions(void);
-    void reset();
+    void reset(void);
 
 public slots:
     void slotStartLogin();
