@@ -70,7 +70,12 @@ void NetworkManager::slotError(QNetworkReply::NetworkError error)
     }
 
     if(error == QNetworkReply::UnknownNetworkError)
-        qDebug() << "\n*******************\nIf this error occur, please make sure that you have openssl installed (also you can try just copy libeay32.dll and ssleay32.dll files from Qt SDK QtCreator/bin folder into your folder where your program .exe file located (tested on non-static compilation only))\n*******************\n";
+    {
+        qDebug() << "\nNOTE";
+        qDebug() << "**********************************************************************************************************\n";
+        qDebug() << "If this error occur, please make sure that you have openssl installed (also you can copy libeay32.dll and ssleay32.dll files from Qt SDK MSVC*/bin folder into folder where your program .exe file is located (tested on non-static compilation only))";
+        qDebug() << "\n**********************************************************************************************************\n";
+    }
 }
 
 void NetworkManager::slotSslErrors(const QList<QSslError> &errors)
