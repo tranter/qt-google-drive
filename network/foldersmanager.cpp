@@ -1,7 +1,7 @@
 #include "foldersmanager.h"
 #include "gui/forms/mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QDebug>
+#include "share/debug.h"
 
 FoldersManager::FoldersManager(QObject *parent) :
     ContentManager(FOLDER_TYPE, parent)
@@ -10,7 +10,7 @@ FoldersManager::FoldersManager(QObject *parent) :
 
 void FoldersManager::show(void)
 {
-    qDebug() << "FoldersManager::show";
+    DEBUG;
 
     clear();
     SUi::inst()->treeFoldersView->clear();
@@ -68,9 +68,9 @@ void FoldersManager::fillTree(QList<QString> names, QList<QString> iconPathes, Q
     }
 }
 
-void FoldersManager::insertFolder(QString name, QTreeWidgetItem* parent)
+void FoldersManager::insertTreeItemFolder(QString name, QTreeWidgetItem* parent)
 {    
-    qDebug() << "FoldersManager::insertFolder" << name << "parent" << parent;
+    DEBUG << "name:" << name << "parent:" << parent;
 
     items.push_back(new QTreeWidgetItem(parent));
     items.last()->setText(0, name);

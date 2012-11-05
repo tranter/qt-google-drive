@@ -37,7 +37,7 @@ ItemInfo::Data FoldersUI::item(void)
 }
 
 int FoldersUI::getCurrFolderItemId(void) const
-{
+{   
     QTreeWidgetItem* pointer = static_cast<QTreeWidgetItem*>(SUi::inst()->treeFoldersView->currentIndex().internalPointer());
     ItemInfo item = *SDriveEngine::inst()->foldersMngr->getParser()->getXMLHandler()->getItemInfo();
     int count = item.getItems().count();
@@ -52,6 +52,8 @@ int FoldersUI::getCurrFolderItemId(void) const
             break;
         }
     }
+
+    DEBUG << "currentModelIndex" << currentModelIndex;
 
     return currentModelIndex;
 }

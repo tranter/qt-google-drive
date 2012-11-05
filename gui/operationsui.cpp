@@ -126,6 +126,8 @@ void OperationsUI::slotFinishedCreateFolder(int result)
 
 void OperationsUI::createFolder(const QString &name)
 {   
+    DEBUG;
+
     if(name == "" || name.contains(QRegExp("[/\\\".<>]")))
     {
         CommonTools::msg("Please enter a valid name");
@@ -145,10 +147,8 @@ void OperationsUI::createFolder(const QString &name)
     ItemInfo item = *SDriveEngine::inst()->foldersMngr->getParser()->getXMLHandler()->getItemInfo();
     int itemIndex = SDriveEngine::inst()->foldersUI->getCurrFolderItemId();
 
-    DEBUG << "itemIndex" << itemIndex;
-
     SDriveEngine::inst()->foldersMngr->createFolder(item[itemIndex].self, name);
-    SDriveEngine::inst()->foldersMngr->insertFolder(name, item[itemIndex].pointer);
+    //SDriveEngine::inst()->foldersMngr->insertTreeItemFolder(name, item[itemIndex].pointer);
 
     delete createFolderDialog;
 }

@@ -188,9 +188,7 @@ void FilesUI::setPanelDisplayingPath(const QString &name, EPath path, EPanels pa
 QString FilesUI::getDisc(EPanels panel) const
 {
     QString disc;
-
     disc = "a:\\";
-
     return disc;
 }
 

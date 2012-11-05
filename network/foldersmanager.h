@@ -10,7 +10,7 @@ public:
     explicit FoldersManager(QObject *parent = 0);
 
 public:
-    void insertFolder(QString name, QTreeWidgetItem* parent);
+    void insertTreeItemFolder(QString name, QTreeWidgetItem* parent);
 
 private:
     void buildTree(const QString& searchStr, QTreeWidgetItem* parent);

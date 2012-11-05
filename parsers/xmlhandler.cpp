@@ -92,6 +92,7 @@ void XMLHandler::handleUpdatedTag(const QString &str)
 
 ItemInfo* XMLHandler::getItemInfo(void) const
 {
+    DEBUG;
     return itemInfo.data();
 }
 
