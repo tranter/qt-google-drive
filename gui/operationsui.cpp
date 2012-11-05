@@ -132,18 +132,8 @@ void OperationsUI::createFolder(const QString &name)
         return;
     }
 
-    DEBUG << "currentIndex().row()" << SDriveEngine::inst()->getCurrFilesMngr()->getPanel()->currentIndex().row();
-
-//    // no folder is selected in the file panel
-//    if(SDriveEngine::inst()->getCurrFilesMngr()->getPanel()->currentIndex().row() == -1)
-//    {
-//        // todo: create folder in current panel on current level
-//        delete createFolderDialog;
-//        return;
-//    }
-
-    //SDriveEngine::inst()->foldersMngr->createFolder(item[itemIndex].self, name);
-    SDriveEngine::inst()->foldersMngr->insertTreeItemFolder(QString("TEST"), SDriveEngine::inst()->getCurrFilesMngr()->getPanel());
+    //SDriveEngine::inst()->foldersMngr->createFolder("FOLDER LINK", name);
+    //SDriveEngine::inst()->foldersMngr->insertTreeItemFolder(name, SDriveEngine::inst()->getCurrFilesMngr()->getPanel());
 
     delete createFolderDialog;
 }
