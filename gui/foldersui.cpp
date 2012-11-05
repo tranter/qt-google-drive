@@ -9,7 +9,10 @@ FoldersUI::FoldersUI(QObject *parent) :
 QString FoldersUI::getFolderID(void)
 {  
     QString str(item().self);
+    DEBUG << "!!!!!!!!!!!!!!!------------------->" << str;
     QStringList strList = str.split("/");
+    DEBUG << "!!!!!!!!!!!!!!!" << strList[strList.count() - 2];
+    DEBUG << "!!!!!!!!!!!!!!!" << strList;
     return strList[strList.count() - 1];
 }
 
@@ -30,10 +33,10 @@ bool FoldersUI::isFolder(void)
 
 ItemInfo::Data FoldersUI::item(void)
 {
-    QList<ItemInfo::Data> item = SDriveEngine::inst()->getCurrFilesMngr()->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
+    QList<ItemInfo::Data> items = SDriveEngine::inst()->getCurrFilesMngr()->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
     int index = SDriveEngine::inst()->filesUI->getCurrFileItemId(SDriveEngine::inst()->getCurrFilesMngr());
 
-    return item[index];
+    return items[index];
 }
 
 int FoldersUI::getCurrFolderItemId(void) const

@@ -132,6 +132,8 @@ void OperationsUI::createFolder(const QString &name)
         return;
     }
 
+    DEBUG << "-------------------------------->" << SDriveEngine::inst()->foldersUI->getFolderID();
+
     //SDriveEngine::inst()->foldersMngr->createFolder("FOLDER LINK", name);
     //SDriveEngine::inst()->foldersMngr->insertTreeItemFolder(name, SDriveEngine::inst()->getCurrFilesMngr()->getPanel());
 

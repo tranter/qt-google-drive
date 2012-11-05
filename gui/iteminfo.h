@@ -39,7 +39,6 @@ public:
     void setAccountOwner(const QString& name);
     QString getAccountOwner(void) const;
     void setDataOwner(const QString& name, int index, int type);
-    //void showFiles(void);
 
 private:
     QList<Data> items;

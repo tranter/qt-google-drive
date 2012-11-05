@@ -61,7 +61,7 @@ void NetworkManager::slotUploadFinished()
 
 void NetworkManager::slotError(QNetworkReply::NetworkError error)
 {
-     DEBUG << "error code:" << error;
+    DEBUG << "error code:" << error;
 
     if(error == QNetworkReply::AuthenticationRequiredError)
     {
@@ -77,7 +77,7 @@ void NetworkManager::slotSslErrors(const QList<QSslError> &errors)
 {
     foreach(const QSslError& e,errors)
     {
-         DEBUG << "error:" << e.error();
+        DEBUG << "error:" << e.error();
     }
 }
 
@@ -176,7 +176,7 @@ void NetworkManager::putRequest(const QString &url,const QByteArray &data)
 
 void NetworkManager::sendRequest(const QString &url)
 {
-     DEBUG << "URL:" << url;
+    DEBUG << "URL:" << url;
 
     init();
 
