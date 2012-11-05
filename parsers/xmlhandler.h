@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QXmlAttributes>
 #include "gui/iteminfo.h"
-#include "share/def.h"
+#include "share/Def.h"
 #include "gui/resmanager.h"
 
 class XMLHandler : public QObject
