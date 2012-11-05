@@ -1,5 +1,5 @@
 #include "networkmanager.h"
-#include <QDebug>
+#include "share/debug.h"
 
 NetworkManager::NetworkManager(QObject *parent) :
     QObject(parent),
@@ -21,7 +21,6 @@ QNetworkAccessManager* NetworkManager::getNetworkManager(void) const
 
 NetworkManager::~NetworkManager()
 {
-    qDebug() << "NetworkManager::~NetworkManager()";
 }
 
 void NetworkManager::slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
@@ -62,7 +61,7 @@ void NetworkManager::slotUploadFinished()
 
 void NetworkManager::slotError(QNetworkReply::NetworkError error)
 {
-    qDebug() << "NetworkManager::slotError error code:" << error;
+     DEBUG << "error code:" << error;
 
     if(error == QNetworkReply::AuthenticationRequiredError)
     {
@@ -74,11 +73,11 @@ void NetworkManager::slotError(QNetworkReply::NetworkError error)
         qDebug() << "\n*******************\nIf this error occur, please make sure that you have openssl installed (also you can try just copy libeay32.dll and ssleay32.dll files from Qt SDK QtCreator/bin folder into your folder where your program .exe file located (tested on non-static compilation only))\n*******************\n";
 }
 
-void NetworkManager::slotSslErrors(const QList<QSslError>& errors)
+void NetworkManager::slotSslErrors(const QList<QSslError> &errors)
 {
     foreach(const QSslError& e,errors)
     {
-        qDebug() << "error:" << e.error();
+         DEBUG << "error:" << e.error();
     }
 }
 
@@ -100,9 +99,10 @@ void NetworkManager::startDownload(QUrl url, QString& fileName, const QString& t
     connectErrorHandlers();
 }
 
-void NetworkManager::startUpload(QUrl url, const QString& fileName)
+void NetworkManager::startUpload(QUrl url, const QString &fileName)
 {    
     init();
+
     setStartSettings(url, fileName, "Uploading file: ");
     setUploadSettings();
 
@@ -127,7 +127,7 @@ void NetworkManager::connectErrorHandlers(void)
     connect(reply, SIGNAL(sslErrors(const QList<QSslError>&)),this, SLOT(slotSslErrors(const QList<QSslError>&)));
 }
 
-void NetworkManager::setStartSettings(QUrl url, const QString& fileName, const QString& progressBarDialogInfoText)
+void NetworkManager::setStartSettings(QUrl url, const QString &fileName, const QString &progressBarDialogInfoText)
 {
     state = EBusy;
 
@@ -152,18 +152,18 @@ void NetworkManager::slotProgressCanceled()
 
 void NetworkManager::slotPostFinished(QNetworkReply* reply)
 {
-    qDebug() << "slotPostFinished";
+    DEBUG;
 
     if (reply->error())
     {
-        qDebug() << "slotPostFinished. Reply with the error";
+        DEBUG << "Reply with the error";
         return;
     }
 
     setPostFinishedSettings(reply);
 }
 
-void NetworkManager::putRequest(const QString & url,const QByteArray& data)
+void NetworkManager::putRequest(const QString &url,const QByteArray &data)
 {
     request.setUrl(QUrl(url));
 
@@ -174,16 +174,17 @@ void NetworkManager::putRequest(const QString & url,const QByteArray& data)
     connectErrorHandlers();
 }
 
-void NetworkManager::sendRequest(const QString & url)
+void NetworkManager::sendRequest(const QString &url)
 {
-    qDebug() << "NetworkManager::sendRequest url:" << url;
+     DEBUG << "URL:" << url;
 
     init();
+
     request.setUrl(QUrl(url));
 
     reply = networkManager->get(request);
 
-    qDebug() << "NetworkManager::sendRequest reply->Text:" << reply->Text;
+    DEBUG << "reply->Text:" << reply->Text;
 
     connect(networkManager.data(), SIGNAL(finished(QNetworkReply*)),this, SLOT(slotReplyFinished(QNetworkReply*)));
     connect(reply, SIGNAL(readyRead()), this, SLOT(slotReplyReadyRead()));

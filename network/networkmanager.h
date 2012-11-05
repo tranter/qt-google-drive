@@ -34,13 +34,13 @@ public:
     QNetworkAccessManager *getNetworkManager(void) const;
     QNetworkRequest getRequest(void) const;
     void init(void);
-    void putRequest(const QString & url,const QByteArray& data);
-    void sendRequest(const QString & url);
-    void startDownload(QUrl url, QString& fileName, const QString& type = "text/html");
-    void startUpload(QUrl url, const QString& fileName);
+    void putRequest(const QString &url,const QByteArray &data);
+    void sendRequest(const QString &url);
+    void startDownload(QUrl url, QString &fileName, const QString &type = "text/html");
+    void startUpload(QUrl url, const QString &fileName);
 
 public:
-    virtual void setStartSettings(QUrl url, const QString& fileName, const QString& progressBarDialogInfoText);
+    virtual void setStartSettings(QUrl url, const QString &fileName, const QString &progressBarDialogInfoText);
 
 public:
     EStates getState(void) const;
@@ -56,7 +56,7 @@ public slots:
     virtual void slotUploadFinished();
     virtual void slotPostFinished(QNetworkReply* reply);
     virtual void slotError(QNetworkReply::NetworkError error);
-    virtual void slotSslErrors(const QList<QSslError>& errors);
+    virtual void slotSslErrors(const QList<QSslError> &errors);
     virtual void slotReplyFinished(QNetworkReply*);
     virtual void slotReplyReadyRead();
     virtual void slotProgressCanceled();
