@@ -1,8 +1,8 @@
 #include "commontools.h"
 #include "gui/forms/mainwindow.h"
 #include "ui_mainwindow.h"
-#include "share/AppRegData.h"
-#include "share/Def.h"
+#include "share/registration.h"
+#include "share/defs.h"
 #include <QLocale>
 #include <QSettings>
 #include <QMessageBox>

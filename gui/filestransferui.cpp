@@ -1,5 +1,5 @@
 #include "filestransferui.h"
-#include "share/appregdata.h"
+#include "share/registration.h"
 #include "share/debug.h"
 #include <QSettings>
 #include <QFileDialog>
