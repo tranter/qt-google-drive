@@ -1,4 +1,5 @@
 #include "networkmanager.h"
+#include "share/commontools.h"
 #include "share/debug.h"
 
 NetworkManager::NetworkManager(QObject *parent) :
@@ -71,10 +72,15 @@ void NetworkManager::slotError(QNetworkReply::NetworkError error)
 
     if(error == QNetworkReply::UnknownNetworkError)
     {
-        qDebug() << "\nNOTE";
-        qDebug() << "**********************************************************************************************************\n";
-        qDebug() << "If this error occur, please make sure that you have openssl installed (also you can copy libeay32.dll and ssleay32.dll files from Qt SDK MSVC*/bin folder into folder where your program .exe file is located (tested on non-static compilation only))";
-        qDebug() << "\n**********************************************************************************************************\n";
+        static bool msgOnScreen = false;
+        QString msgStr( "If this error occur, please make sure that you have openssl installed (also you can copy libeay32.dll and ssleay32.dll files from Qt SDK MSVC*/bin folder into folder where your program .exe file is located (tested on non-static compilation only))");
+
+        if(!msgOnScreen)
+        {
+            msgOnScreen = true;
+            CommonTools::errorMsg("QNetworkReply::UnknownNetworkError", msgStr);
+            msgOnScreen = false;
+        }
     }
 }
 

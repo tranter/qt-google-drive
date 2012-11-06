@@ -8,15 +8,16 @@
 class CommonTools
 {
 public:
-    static void setHeader(QNetworkRequest& request);
-    static void msg(const QString& str);
-    static QString convertDate(const QString& dtStr);
-    static QString getFormattedDate(QDateTime& dt);
-    static QString getFormattedFileSize(const QString& sizeStr);
-    static void logToFile(const QString& fileName, QByteArray bytes);
-    static QByteArray loadFromFile(const QString& fileName);
-    static bool fileFromURLExists(const QString& url);
-    static QString getFileNameFromURL(const QString& url);
+    static void setHeader(QNetworkRequest &request);
+    static void msg(const QString &str, QWidget *parent = 0);
+    static int errorMsg(const QString &caption, const QString &text, QWidget *parent = 0);
+    static QString convertDate(const QString &dateStr);
+    static QString getFormattedDate(QDateTime &dateTime);
+    static QString getFormattedFileSize(const QString &sizeStr);
+    static void logToFile(const QString &fileName, const QByteArray &bytes);
+    static QByteArray loadFromFile(const QString &fileName);
+    static bool fileFromURLExists(const QString &url);
+    static QString getFileNameFromURL(const QString &url);
 };
 
 #endif // COMMONTOOLS_H
