@@ -80,3 +80,8 @@ QString FilesManager::back(void)
 void FilesManager::sort(int column, Qt::SortOrder order)
 {
 }
+
+void FilesManager::deleteFile(const QString &url)
+{
+    opMngr->deleteFile(url);
+}

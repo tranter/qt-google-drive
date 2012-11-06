@@ -20,7 +20,7 @@ void OperationsUI::del(QObject* object)
             if(item[SDriveEngine::inst()->foldersUI->getCurrFolderItemId()].parent != "")
             {
                 connect(SDriveEngine::inst()->foldersMngr->getOpMngr(), SIGNAL(signalDelFinished()), this, SLOT(slotDelFinished()));
-                SDriveEngine::inst()->foldersMngr->del(item[SDriveEngine::inst()->foldersUI->getCurrFolderItemId()].self);
+                SDriveEngine::inst()->getCurrFilesMngr()->deleteFile(item[SDriveEngine::inst()->foldersUI->getCurrFolderItemId()].self);
                 delItemInTree(item);
             }
         }
@@ -42,7 +42,7 @@ void OperationsUI::del(QObject* object)
         QList<ItemInfo::Data> itemData = manager->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
 
         connect(manager->getOpMngr(), SIGNAL(signalDelFinished()), this, SLOT(slotDelFinished()));
-        manager->del(itemData[SDriveEngine::inst()->filesUI->getCurrFileItemId(manager)].self);
+        manager->deleteFile(itemData[SDriveEngine::inst()->filesUI->getCurrFileItemId(manager)].self);
     }
 }
 
@@ -108,6 +108,11 @@ void OperationsUI::slotNewFolder(void)
     createFolderDialog->exec();
 }
 
+void OperationsUI::slotCopyFile(void)
+{
+ DEBUG;
+}
+
 void OperationsUI::slotAcceptCreateFolder(const QString &name)
 {
     createFolder(name);
@@ -134,7 +139,7 @@ void OperationsUI::createFolder(const QString &name)
 
     DEBUG << "-------------------------------->" << SDriveEngine::inst()->foldersUI->getFolderID();
 
-    //SDriveEngine::inst()->foldersMngr->createFolder("FOLDER LINK", name);
+    SDriveEngine::inst()->foldersMngr->createFolder("FOLDER LINK", name);
     //SDriveEngine::inst()->foldersMngr->insertTreeItemFolder(name, SDriveEngine::inst()->getCurrFilesMngr()->getPanel());
 
     delete createFolderDialog;

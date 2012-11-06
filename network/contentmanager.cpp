@@ -85,16 +85,6 @@ void ContentManager::clear(void)
     }
 }
 
-void ContentManager::del(const QString &url)
-{
-    opMngr->deleteFile(url);
-}
-
-void ContentManager::createFolder(const QString &folderUrl, const QString &name)
-{
-    opMngr->createFolder(folderUrl, name);
-}
-
 OperationsManager* ContentManager::getOpMngr(void) const
 {
     return opMngr.data();

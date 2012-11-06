@@ -11,6 +11,7 @@ public:
 
 public:
     void insertTreeItemFolder(const QString &name, QTreeWidget *parent);
+    void createFolder(const QString &folderUrl, const QString &name);
 
 private:
     void buildTree(const QString& searchStr, QTreeWidgetItem* parent);

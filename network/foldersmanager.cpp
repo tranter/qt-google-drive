@@ -75,3 +75,8 @@ void FoldersManager::insertTreeItemFolder(const QString &name, QTreeWidget *pare
     items.push_back(new QTreeWidgetItem(parent));
     items.last()->setText(0, name);
 }
+
+void FoldersManager::createFolder(const QString &folderUrl, const QString &name)
+{
+    opMngr->createFolder(folderUrl, name);
+}

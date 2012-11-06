@@ -25,6 +25,7 @@ public:
     QString back(void);
     void setPanel(QTreeWidget *p);
     void sort(int column, Qt::SortOrder order);
+    void deleteFile(const QString &url);
 
 private:
     virtual void show(void);
