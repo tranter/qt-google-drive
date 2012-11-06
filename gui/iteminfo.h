@@ -31,14 +31,14 @@ public:
 
 public:
     void setPointer(int index, QTreeWidgetItem* pointer);
-    void setFileSize(const QString& size, int index);
-    void push_back(Data& data, int type);
+    void setFileSize(const QString &size, int index);
+    void push_back(Data &data, int type);
     const QList<Data>& getItems(void) const;
     const QList<Data>& getFileItems(void) const;
     void normalize(void);
-    void setAccountOwner(const QString& name);
+    void setAccountOwner(const QString &name);
     QString getAccountOwner(void) const;
-    void setDataOwner(const QString& name, int index, int type);
+    void setDataOwner(const QString &name, int index, int type);
 
 private:
     QList<Data> items;

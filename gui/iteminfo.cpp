@@ -9,7 +9,7 @@ void ItemInfo::setPointer(int index, QTreeWidgetItem* pointer)
     items[index].pointer = pointer;
 }
 
-void ItemInfo::setFileSize(const QString& size, int index)
+void ItemInfo::setFileSize(const QString &size, int index)
 {
     fileItems[index].fileSize = size;
 }
@@ -24,7 +24,7 @@ const QList<ItemInfo::Data>& ItemInfo::getFileItems(void) const
     return fileItems;
 }
 
-void ItemInfo::push_back(ItemInfo::Data& data, int type)
+void ItemInfo::push_back(ItemInfo::Data &data, int type)
 {
     switch(type)
     {
@@ -48,7 +48,7 @@ ItemInfo::Data& ItemInfo::operator [] (int index)
     return items[index];
 }
 
-void ItemInfo::setAccountOwner(const QString& name)
+void ItemInfo::setAccountOwner(const QString &name)
 {
  accountOwner = name;
 }
@@ -58,7 +58,7 @@ QString ItemInfo::getAccountOwner(void) const
   return accountOwner;
 }
 
-void ItemInfo::setDataOwner(const QString& name, int index, int type)
+void ItemInfo::setDataOwner(const QString &name, int index, int type)
 {
     switch(type)
     {

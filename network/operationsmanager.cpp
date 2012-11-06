@@ -8,7 +8,7 @@ OperationsManager::OperationsManager(QObject *parent):
 {
 }
 
-void OperationsManager::del(const QString& url)
+void OperationsManager::deleteFile(const QString &url)
 {
     DEBUG << "URL" << url;
 
@@ -24,13 +24,13 @@ void OperationsManager::del(const QString& url)
     connectErrorHandlers();
 }
 
-void OperationsManager::createFolder(const QString& folderUrl, const QString& name)
+void OperationsManager::createFolder(const QString &folderUrl, const QString &name)
 {
     QString url(folderUrl + CONTENTS);
     DEBUG << "name:"<< name << "URL" << url;
 }
 
-QUrl OperationsManager::getFileQuery(const QString& url)
+QUrl OperationsManager::getFileQuery(const QString &url)
 {
     QString query(DELETE_FILE);
     QStringList queryStrs(url.split("/"));
@@ -39,10 +39,12 @@ QUrl OperationsManager::getFileQuery(const QString& url)
     queryStrs = lastParam.split("%3A");
     query += queryStrs[queryStrs.count()  - 1];
 
+    DEBUG << "query" << query;
+
     return QUrl(query);
 }
 
-void OperationsManager::slotReplyFinished(QNetworkReply* reply)
+void OperationsManager::slotReplyFinished(QNetworkReply *reply)
 {
     Q_UNUSED(reply);
     emit signalDelFinished();

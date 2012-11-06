@@ -11,17 +11,17 @@ public:
     OperationsManager(QObject *parent = 0);
 
 public:
-    void del(const QString& url);
-    void createFolder(const QString& folderUrl, const QString& name);
+    void deleteFile(const QString &url);
+    void createFolder(const QString &folderUrl, const QString &name);
 
 public slots:
-    virtual void slotReplyFinished(QNetworkReply* reply);
+    virtual void slotReplyFinished(QNetworkReply *reply);
 
 signals:
     void signalDelFinished(void);
 
 private:
-    QUrl getFileQuery(const QString& url);
+    QUrl getFileQuery(const QString &url);
 };
 
 #endif // OPERATIONSMANAGER_H
