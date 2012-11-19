@@ -92,9 +92,8 @@ QString CommonTools::getFormattedFileSize(const QString &sizeStr)
 
 void CommonTools::logToFile(const QString &fileName, const QByteArray &bytes)
 {
-    QFile file;
+    QFile file(fileName);
 
-    file.setFileName(fileName);
     file.open(QIODevice::WriteOnly);
     file.write(bytes);
     file.close();
@@ -102,9 +101,8 @@ void CommonTools::logToFile(const QString &fileName, const QByteArray &bytes)
 
 QByteArray CommonTools::loadFromFile(const QString &fileName)
 {
-    QFile file;
+    QFile file(fileName);
 
-    file.setFileName(fileName);
     file.open(QIODevice::ReadOnly);
     QByteArray arr = file.readAll();
     file.close();
