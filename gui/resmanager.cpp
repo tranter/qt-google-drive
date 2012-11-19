@@ -29,6 +29,6 @@ void ResManager::setStartSettings(QUrl url, const QString &fileName, const QStri
 
 void ResManager::slotDownloadFinished()
 {
-    slotDownloadFinished();
+    DownloadFileManager::slotDownloadFinished();
     emit signalResDownloaded();
 }

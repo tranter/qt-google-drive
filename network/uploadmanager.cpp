@@ -8,8 +8,14 @@ UploadFileManager::UploadFileManager(QObject *parent) :
 
 void UploadFileManager::slotUploadFinished()
 {
-   NetworkManager::slotUploadFinished();
-   if (!operationCanceled) emit signalUpdateFileList();
+   progressBarDialog.hide();
+
+   state = EReady;
+
+   if (!operationCanceled)
+   {
+       emit signalUpdateFileList();
+   }
 }
 
 void UploadFileManager::setUploadSettings(void)
@@ -66,7 +72,27 @@ void UploadFileManager::setPostFinishedSettings(QNetworkReply* reply)
     }
 }
 
-QString UploadFileManager::getContentTypeByExtension(const QString& ext)
+void UploadFileManager::slotUploadProgress( qint64 bytesSent, qint64 bytesTotal )
+{
+    progressBarDialog.setMaximum(bytesTotal);
+    progressBarDialog.setValue(bytesSent);
+}
+
+void UploadFileManager::startUpload(QUrl url, const QString &fileName)
+{
+    init();
+
+    setStartSettings(url, fileName, "Uploading file: ");
+    setUploadSettings();
+
+    reply = networkManager->post(request, uploadContent);
+
+    connect(networkManager.data(), SIGNAL(finished(QNetworkReply*)), this, SLOT(slotPostFinished(QNetworkReply*)));
+
+    connectErrorHandlers();
+}
+
+QString UploadFileManager::getContentTypeByExtension(const QString &ext)
 {
     QString contentType;
 

@@ -16,17 +16,20 @@ public:
     virtual void setPostFinishedSettings(QNetworkReply* reply);
 
 public:
-    virtual void slotUploadFinished();
-
-private:
-    QString getContentTypeByExtension(const QString& ext);
+    void startUpload(QUrl url, const QString &fileName);
 
 signals:
     void signalUpdateFileList();
 
+public slots:
+    virtual void slotUploadFinished();
+    virtual void slotUploadProgress(qint64 bytesSent, qint64 bytesTotal);
+
+private:
+    QString getContentTypeByExtension(const QString &ext);
+
 private:
     bool allowPut;
-    
 };
 
 #endif // UPLOADMANAGER_H

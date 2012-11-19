@@ -50,17 +50,17 @@ void NetworkManager::slotReplyReadyRead()
     replyStr.append(reply->readAll());
 }
 
-void NetworkManager::slotUploadProgress( qint64 bytesSent, qint64 bytesTotal )
-{
-    progressBarDialog.setMaximum(bytesTotal);
-    progressBarDialog.setValue(bytesSent);
-}
+//void NetworkManager::slotUploadProgress( qint64 bytesSent, qint64 bytesTotal )
+//{
+//    progressBarDialog.setMaximum(bytesTotal);
+//    progressBarDialog.setValue(bytesSent);
+//}
 
-void NetworkManager::slotUploadFinished()
-{
-    progressBarDialog.hide();
-    state = EReady;
-}
+//void NetworkManager::slotUploadFinished()
+//{
+//    progressBarDialog.hide();
+//    state = EReady;
+//}
 
 void NetworkManager::slotError(QNetworkReply::NetworkError error)
 {
@@ -114,19 +114,19 @@ void NetworkManager::slotSslErrors(const QList<QSslError> &errors)
 //    connectErrorHandlers();
 //}
 
-void NetworkManager::startUpload(QUrl url, const QString &fileName)
-{    
-    init();
+//void NetworkManager::startUpload(QUrl url, const QString &fileName)
+//{
+//    init();
 
-    setStartSettings(url, fileName, "Uploading file: ");
-    setUploadSettings();
+//    setStartSettings(url, fileName, "Uploading file: ");
+//    setUploadSettings();
 
-    reply = networkManager->post(request, uploadContent);
+//    reply = networkManager->post(request, uploadContent);
 
-    connect(networkManager.data(), SIGNAL(finished(QNetworkReply*)), this, SLOT(slotPostFinished(QNetworkReply*)));
+//    connect(networkManager.data(), SIGNAL(finished(QNetworkReply*)), this, SLOT(slotPostFinished(QNetworkReply*)));
 
-    connectErrorHandlers();
-}
+//    connectErrorHandlers();
+//}
 
 NetworkManager::EStates NetworkManager::getState(void) const
 {
@@ -220,6 +220,6 @@ QNetworkRequest NetworkManager::getRequest(void) const
 }
 
 //void NetworkManager::setDownloadSettings(void) {}
-void NetworkManager::setUploadSettings(void) {}
+//void NetworkManager::setUploadSettings(void) {}
 void NetworkManager::setPostFinishedSettings(QNetworkReply*) {}
 void NetworkManager::slotReplyFinished(QNetworkReply*){}
