@@ -2,9 +2,9 @@
 #define RESMANAGER_H
 
 #include "share/defs.h"
-#include "network/networkmanager.h"
+#include "network/downloadmanager.h"
 
-class ResManager: public NetworkManager
+class ResManager: public DownloadFileManager
 {
      Q_OBJECT
 public:

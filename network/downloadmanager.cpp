@@ -12,7 +12,10 @@ void DownloadFileManager::setDownloadSettings(void)
     QFileInfo fi(file.fileName());
     QString ext = fi.suffix();
 
-    if(ext.isEmpty()) file.setFileName(file.fileName() + getExt());
+    if(ext.isEmpty())
+    {
+        file.setFileName(file.fileName() + getExt());
+    }
 
     CommonTools::setHeader(request);
 }
@@ -28,3 +31,43 @@ QString DownloadFileManager::getExt(void) const
     return ext;
 }
 
+void DownloadFileManager::startDownload(QUrl url, QString& fileName, const QString& type)
+{
+    init();
+
+    fileType = type;
+
+    setStartSettings(url, fileName, "Downloading file: ");
+    setDownloadSettings();
+
+    file.open(QIODevice::WriteOnly);
+
+    reply = networkManager->get(request);
+
+    connect(reply, SIGNAL(finished()), this, SLOT(slotDownloadFinished()));
+    connect(reply, SIGNAL(readyRead()), this, SLOT(slotDownloadReadyRead()));
+    connect(reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(slotDownloadProgress(qint64,qint64)));
+
+    connectErrorHandlers();
+}
+
+void DownloadFileManager::slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
+{
+    progressBarDialog.setMaximum(bytesTotal);
+    progressBarDialog.setValue(bytesReceived);
+}
+
+void DownloadFileManager::slotDownloadFinished()
+{
+    progressBarDialog.hide();
+
+    state = EReady;
+
+    file.flush();
+    file.close();
+}
+
+void DownloadFileManager::slotDownloadReadyRead()
+{
+    file.write(reply->readAll());
+}

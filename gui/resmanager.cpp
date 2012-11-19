@@ -2,7 +2,7 @@
 #include "share/commontools.h"
 
 ResManager::ResManager(QObject *parent):
-            NetworkManager(parent)
+            DownloadFileManager(parent)
 {
 }
 
@@ -11,7 +11,7 @@ void ResManager::cash(const QString &url)
   QFileInfo fi(url);
   QString fileNameToSave(fi.fileName());
 
-  NetworkManager::startDownload(url, fileNameToSave, "image/png");
+  startDownload(url, fileNameToSave, "image/png");
 }
 
 void ResManager::setDownloadSettings(void)
@@ -29,6 +29,6 @@ void ResManager::setStartSettings(QUrl url, const QString &fileName, const QStri
 
 void ResManager::slotDownloadFinished()
 {
-    NetworkManager::slotDownloadFinished();
+    slotDownloadFinished();
     emit signalResDownloaded();
 }

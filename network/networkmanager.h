@@ -26,7 +26,7 @@ signals:
     void signalAccessTokenRequired();
 
 public:
-    virtual void setDownloadSettings(void);
+    //virtual void setDownloadSettings(void);
     virtual void setUploadSettings(void);
     virtual void setPostFinishedSettings(QNetworkReply*);
 
@@ -36,7 +36,7 @@ public:
     void init(void);
     void putRequest(const QString &url,const QByteArray &data);
     void sendRequest(const QString &url);
-    void startDownload(QUrl url, QString &fileName, const QString &type = "text/html");
+    //void startDownload(QUrl url, QString &fileName, const QString &type = "text/html");
     void startUpload(QUrl url, const QString &fileName);
 
 public:
@@ -49,9 +49,9 @@ public:
     void connectErrorHandlers(void);
 
 public slots:
-    virtual void slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
-    virtual void slotDownloadFinished();
-    virtual void slotDownloadReadyRead();
+//    virtual void slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
+//    virtual void slotDownloadFinished();
+//    virtual void slotDownloadReadyRead();
     virtual void slotUploadProgress(qint64 bytesSent, qint64 bytesTotal);
     virtual void slotUploadFinished();
     virtual void slotPostFinished(QNetworkReply* reply);
