@@ -24,43 +24,10 @@ NetworkManager::~NetworkManager()
 {
 }
 
-//void NetworkManager::slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)
-//{
-//    progressBarDialog.setMaximum(bytesTotal);
-//    progressBarDialog.setValue(bytesReceived);
-//}
-
-//void NetworkManager::slotDownloadFinished()
-//{
-//    progressBarDialog.hide();
-
-//    state = EReady;
-
-//    file.flush();
-//    file.close();
-//}
-
-//void NetworkManager::slotDownloadReadyRead()
-//{
-//    file.write(reply->readAll());
-//}
-
 void NetworkManager::slotReplyReadyRead()
 {
     replyStr.append(reply->readAll());
 }
-
-//void NetworkManager::slotUploadProgress( qint64 bytesSent, qint64 bytesTotal )
-//{
-//    progressBarDialog.setMaximum(bytesTotal);
-//    progressBarDialog.setValue(bytesSent);
-//}
-
-//void NetworkManager::slotUploadFinished()
-//{
-//    progressBarDialog.hide();
-//    state = EReady;
-//}
 
 void NetworkManager::slotError(QNetworkReply::NetworkError error)
 {
@@ -93,40 +60,6 @@ void NetworkManager::slotSslErrors(const QList<QSslError> &errors)
         DEBUG << "error:" << e.error();
     }
 }
-
-//void NetworkManager::startDownload(QUrl url, QString& fileName, const QString& type)
-//{
-//    init();
-
-//    fileType = type;
-
-//    setStartSettings(url, fileName, "Downloading file: ");
-//    setDownloadSettings();
-
-//    file.open(QIODevice::WriteOnly);
-
-//    reply = networkManager->get(request);
-
-//    connect(reply, SIGNAL(finished()), this, SLOT(slotDownloadFinished()));
-//    connect(reply, SIGNAL(readyRead()), this, SLOT(slotDownloadReadyRead()));
-//    connect(reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(slotDownloadProgress(qint64,qint64)));
-
-//    connectErrorHandlers();
-//}
-
-//void NetworkManager::startUpload(QUrl url, const QString &fileName)
-//{
-//    init();
-
-//    setStartSettings(url, fileName, "Uploading file: ");
-//    setUploadSettings();
-
-//    reply = networkManager->post(request, uploadContent);
-
-//    connect(networkManager.data(), SIGNAL(finished(QNetworkReply*)), this, SLOT(slotPostFinished(QNetworkReply*)));
-
-//    connectErrorHandlers();
-//}
 
 NetworkManager::EStates NetworkManager::getState(void) const
 {
@@ -181,7 +114,7 @@ void NetworkManager::slotPostFinished(QNetworkReply* reply)
     setPostFinishedSettings(reply);
 }
 
-void NetworkManager::putRequest(const QString &url,const QByteArray &data)
+void NetworkManager::sendPutRequest(const QString &url,const QByteArray &data)
 {
     request.setUrl(QUrl(url));
 
@@ -193,7 +126,7 @@ void NetworkManager::putRequest(const QString &url,const QByteArray &data)
     connectErrorHandlers();
 }
 
-void NetworkManager::sendRequest(const QString &url)
+void NetworkManager::sendGetRequest(const QString &url)
 {
     DEBUG << "URL:" << url;
 
@@ -214,12 +147,10 @@ const NetworkManager* NetworkManager::self(void) const
     return this;
 }
 
-QNetworkRequest NetworkManager::getRequest(void) const
+QNetworkRequest NetworkManager::sendGetRequest(void) const
 {
     return request;
 }
 
-//void NetworkManager::setDownloadSettings(void) {}
-//void NetworkManager::setUploadSettings(void) {}
 void NetworkManager::setPostFinishedSettings(QNetworkReply*) {}
 void NetworkManager::slotReplyFinished(QNetworkReply*){}

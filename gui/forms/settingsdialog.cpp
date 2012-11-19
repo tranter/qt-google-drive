@@ -1,6 +1,7 @@
 #include "settingsdialog.h"
 #include "ui_settingsdialog.h"
 #include <QFileDialog>
+#include <QDir>
 
 SettingsDialog::SettingsDialog(QWidget *parent) :
     QDialog(parent),
@@ -17,21 +18,19 @@ SettingsDialog::~SettingsDialog()
 
 void SettingsDialog::browseDir()
 {
-    QString dir = QFileDialog::getExistingDirectory (this, "Set Directory", ui->directoryLineEdit->text());   
+    QString dir = QFileDialog::getExistingDirectory(this, "Set Directory", ui->directoryLineEdit->text());
+
     if(dir.isEmpty()) return;
+
     ui->directoryLineEdit->setText(dir);
 }
 
 QString SettingsDialog::directoryPath() const
 {
-    QString str = ui->directoryLineEdit->text();
-    str.replace("\\", "/");   
-    return str;
+    return QDir::toNativeSeparators(ui->directoryLineEdit->text());
 }
 
-void SettingsDialog::setDirectoryPath(const QString& dir)
+void SettingsDialog::setDirectoryPath(const QString &dir)
 {
-    QString str = dir;
-    str.replace("\\", "/");
-    ui->directoryLineEdit->setText(str);
+    ui->directoryLineEdit->setText(QDir::toNativeSeparators(dir));
 }

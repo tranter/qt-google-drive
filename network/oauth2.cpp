@@ -65,6 +65,7 @@ void OAuth2::slotReplyFinished(QNetworkReply* reply)
     settings.setValue(ACCESS_TOKEN, accessToken);
 
     QString newRefreshToken = jParser.getParam(replyStr, REFRESH_TOKEN);
+
     if(!newRefreshToken.isEmpty())
     {
         refreshToken = newRefreshToken;

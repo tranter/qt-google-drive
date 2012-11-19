@@ -38,7 +38,6 @@ void UploadFileManager::setUploadSettings(void)
 
     request.setRawHeader("Content-Type", "application/atom+xml");
     request.setRawHeader("Content-Length", QString::number(uploadContent.size()).toLatin1());
-
     request.setRawHeader("X-Upload-Content-Length", (QString("%1").arg(fi.size())).toLatin1());
     request.setRawHeader("X-Upload-Content-Type", contentType.toLatin1());
 }
@@ -58,7 +57,9 @@ void UploadFileManager::setPostFinishedSettings(QNetworkReply* reply)
             QString contentType = getContentTypeByExtension(ext);
 
             file.open(QIODevice::ReadOnly);
+
             QByteArray arr = file.readAll();
+
             file.close();
 
             qlonglong fileSize = arr.count();
@@ -67,7 +68,7 @@ void UploadFileManager::setPostFinishedSettings(QNetworkReply* reply)
             request.setRawHeader("Content-Length", (QString("%1").arg(fileSize)).toLatin1());
             request.setRawHeader("Content-Range", (QString("bytes 0-%1/%2").arg(fileSize-1).arg(fileSize)).toLatin1());
 
-            putRequest(location,arr);
+            sendPutRequest(location,arr);
         }
     }
 }

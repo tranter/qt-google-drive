@@ -23,7 +23,7 @@ void FilesManager::show(void)
     clear();
     panel->clear();
 
-    if(getRequest().url() != GET_FULL_ROOT_CONTENT)
+    if(sendGetRequest().url() != GET_FULL_ROOT_CONTENT)
     {
         items.push_back(new QTreeWidgetItem(panel));
         items.last()->setText(0, PARENT_FOLDER_SIGN);
@@ -40,9 +40,12 @@ void FilesManager::show(void)
         items.last()->setText(3, fileItems[i].fileSize);
     }
 
-    if(settings.value(INIT_LOAD).toBool()) emit signalFirstPanelIsLoaded();
+    if(settings.value(INIT_LOAD).toBool())
+    {
+        emit signalFirstPanelIsLoaded();
+    }
 
-    links.push_back(getRequest().url().toString());
+    links.push_back(sendGetRequest().url().toString());
 
     //    SUi::inst()->filesView->setSortingEnabled(true);
     //    SUi::inst()->filesView->sortItems(0, Qt::AscendingOrder);

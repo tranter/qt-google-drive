@@ -24,6 +24,7 @@ void CommonTools::setHeader(QNetworkRequest &request)
 void CommonTools::msg(const QString &text, QWidget *parent)
 {
     QMessageBox msgBox(parent);
+
     msgBox.setText(text);
     msgBox.exec();
 }
@@ -45,18 +46,9 @@ QString CommonTools::getFormattedDate(QDateTime &dateTime)
 
     dateTime.setTimeSpec(Qt::UTC);
 
-    if(dateTime.date() == QDate::currentDate())
-    {
-        formattedDateStr = dateTime.toLocalTime().toString("h:mm ap");
-    }
-    else if (dateTime.date().year() == QDate::currentDate().year())
-    {
-        formattedDateStr = dateTime.toLocalTime().toString("MMM d");
-    }
-    else if (dateTime.date().year() < QDate::currentDate().year())
-    {
-        formattedDateStr = dateTime.toLocalTime().toString("M/d/yy");
-    }
+    if(dateTime.date() == QDate::currentDate()) formattedDateStr = dateTime.toLocalTime().toString("h:mm ap");
+    else if(dateTime.date().year() == QDate::currentDate().year()) formattedDateStr = dateTime.toLocalTime().toString("MMM d");
+    else if(dateTime.date().year() < QDate::currentDate().year()) formattedDateStr = dateTime.toLocalTime().toString("M/d/yy");
 
     return formattedDateStr;
 }
@@ -114,6 +106,7 @@ bool CommonTools::fileFromURLExists(const QString &url)
 {
     QFileInfo fi(url);
     QFile file(fi.fileName());
+
     return file.exists();
 }
 

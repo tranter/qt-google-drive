@@ -20,7 +20,7 @@ void ContentManager::get(const QString &url)
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
     CommonTools::setHeader(request);
-    sendRequest(url);
+    sendGetRequest(url);
 }
 
 void ContentManager::slotReplyFinished(QNetworkReply*)
@@ -59,7 +59,10 @@ bool ContentManager::parseReply(const QString &str)
 
 void ContentManager::slotResDownloaded(int queryType)
 {
-    if(queryType == type) show();
+    if(queryType == type)
+    {
+        show();
+    }
 }
 
 XMLParser* ContentManager::getParser(void) const

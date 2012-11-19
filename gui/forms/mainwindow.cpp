@@ -88,8 +88,8 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event)
 
 void MainWindow::paintEvent(QPaintEvent*)
 {
-  SUi::inst()->pathLabelLeft->setMaximumWidth(SUi::inst()->filesViewLeft->width());
-  SUi::inst()->pathLabelRight->setMaximumWidth(SUi::inst()->filesViewRight->width());
+    SUi::inst()->pathLabelLeft->setMaximumWidth(SUi::inst()->filesViewLeft->width());
+    SUi::inst()->pathLabelRight->setMaximumWidth(SUi::inst()->filesViewRight->width());
 }
 
 void MainWindow::slotStub(void)

@@ -135,10 +135,16 @@ void XMLHandler::setItemType(QString &itemType)
 {
     switch(queryType)
     {
-    case FOLDER_TYPE: itemType = FOLDER_TYPE_STR;
+    case FOLDER_TYPE:
+    {
+        itemType = FOLDER_TYPE_STR;
+    }
         break;
 
-    case FILE_TYPE:itemType = FILE_TYPE_STR;
+    case FILE_TYPE:
+    {
+        itemType = FILE_TYPE_STR;
+    }
         break;
     }
 }
@@ -156,7 +162,10 @@ void XMLHandler::slotResDownloaded()
 {
     if(++resDownloadedCount == resManagers.count())
     {
-        for(int i = 0; i < resManagers.count();++i) delete resManagers[i];
+        for(int i = 0; i < resManagers.count();++i)
+        {
+            delete resManagers[i];
+        }
 
         resManagers.clear();
         resDownloadedCount = 0;
@@ -187,8 +196,8 @@ void XMLHandler::setType(int type)
 
 void XMLHandler::setDefaults(void)
 {
-    itemData.fileSize = "---";
-    itemData.fileUpdated = "";
+    itemData.fileSize = QString("---");
+    itemData.fileUpdated = QString();
     itemData.parent = ROOT_TAG;
 }
 

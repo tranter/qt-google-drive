@@ -16,6 +16,7 @@ void OperationsManager::deleteFile(const QString &url)
     request.setRawHeader("If-Match", "*");
 
     init();
+
     request.setUrl(getFileQuery(url));
 
     reply = networkManager->deleteResource(request);
