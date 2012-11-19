@@ -110,7 +110,7 @@ void OperationsUI::slotNewFolder(void)
 
 void OperationsUI::slotCopyFile(void)
 {
- DEBUG;
+    SDriveEngine::inst()->getCurrFilesMngr()->copyFile(QString(), QString());
 }
 
 void OperationsUI::slotAcceptCreateFolder(const QString &name)
@@ -139,7 +139,7 @@ void OperationsUI::createFolder(const QString &name)
 
     DEBUG << "-------------------------------->" << SDriveEngine::inst()->foldersUI->getFolderID();
 
-    SDriveEngine::inst()->foldersMngr->createFolder("FOLDER LINK", name);
+    //SDriveEngine::inst()->foldersMngr->createFolder("FOLDER LINK", name);
     //SDriveEngine::inst()->foldersMngr->insertTreeItemFolder(name, SDriveEngine::inst()->getCurrFilesMngr()->getPanel());
 
     delete createFolderDialog;

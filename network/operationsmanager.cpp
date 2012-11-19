@@ -24,6 +24,11 @@ void OperationsManager::deleteFile(const QString &url)
     connectErrorHandlers();
 }
 
+void OperationsManager::copyFile(const QString &source, const QString &dest)
+{
+    DEBUG << "source" << source << "dest" << dest;
+}
+
 void OperationsManager::createFolder(const QString &folderUrl, const QString &name)
 {
     QString url(folderUrl + CONTENTS);

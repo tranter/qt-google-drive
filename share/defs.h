@@ -20,6 +20,8 @@
 #define DELETE_FILE QString("https://docs.google.com/feeds/default/private/full/file:")
 #define DELETE_FOLDER QString("https://docs.google.com/feeds/default/private/full/folder%3A")
 #define CREATE_FOLDER QString("https://www.googleapis.com/drive/v2/files")
+#define COPY_FILE_FIRST_QUERY_PART QString("https://www.googleapis.com/drive/v2/files/")
+#define COPY_FILE_LAST_QUERY_PART QString("/copy")
 
 #define OAUTH2_TOKEN_URL QString("https://accounts.google.com/o/oauth2/token")
 

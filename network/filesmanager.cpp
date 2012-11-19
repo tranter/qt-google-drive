@@ -85,3 +85,8 @@ void FilesManager::deleteFile(const QString &url)
 {
     opMngr->deleteFile(url);
 }
+
+void FilesManager::copyFile(const QString &source, const QString &dest)
+{
+   opMngr->copyFile(source, dest);
+}
