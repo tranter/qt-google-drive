@@ -30,10 +30,10 @@ public:
 
 public:
     QNetworkAccessManager *getNetworkManager(void) const;
-    QNetworkRequest sendGetRequest(void) const;
+    QNetworkRequest getRequest(void) const;
     void init(void);
     void sendPutRequest(const QString &url,const QByteArray &data);
-    void sendGetRequest(const QString &url);
+    void getRequest(const QString &url);
 
 public:
     virtual void setStartSettings(QUrl url, const QString &fileName, const QString &progressBarDialogInfoText);

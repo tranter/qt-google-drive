@@ -154,7 +154,7 @@ void FilesUI::slotUpdateFileList()
 {
     DEBUG;
     //showFiles();
-    SDriveEngine::inst()->getCurrFilesMngr()->get(SDriveEngine::inst()->getCurrFilesMngr()->getCurrLink());
+    SDriveEngine::inst()->getCurrFilesMngr()->get(SDriveEngine::inst()->getCurrFilesMngr()->getCurrentFolderLink());
 }
 
 void FilesUI::setPanelDisplayingPath(const QString &name, EPath path, EPanels panel)

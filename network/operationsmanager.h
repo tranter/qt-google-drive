@@ -12,7 +12,7 @@ public:
 
 public:
     void deleteFile(const QString &url);
-    void copyFile(const QString &source, const QString &dest);
+    void copyWebFile(const QString &source, const QString &dest);
     void createFolder(const QString &folderUrl, const QString &name);
 
 public slots:

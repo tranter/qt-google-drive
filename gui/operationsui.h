@@ -15,7 +15,7 @@ public:
 
 private slots:
     void slotNewFolder(void);
-    void slotCopyFile(void);
+    void slotCopyWebFile(void);
     void slotAcceptCreateFolder(const QString &name);
     void slotRejectCreateFolder(void);
     void slotFinishedCreateFolder(int result);

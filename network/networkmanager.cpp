@@ -126,7 +126,7 @@ void NetworkManager::sendPutRequest(const QString &url,const QByteArray &data)
     connectErrorHandlers();
 }
 
-void NetworkManager::sendGetRequest(const QString &url)
+void NetworkManager::getRequest(const QString &url)
 {
     DEBUG << "URL:" << url;
 
@@ -147,7 +147,7 @@ const NetworkManager* NetworkManager::self(void) const
     return this;
 }
 
-QNetworkRequest NetworkManager::sendGetRequest(void) const
+QNetworkRequest NetworkManager::getRequest(void) const
 {
     return request;
 }

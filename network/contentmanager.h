@@ -31,6 +31,7 @@ protected:
     QScopedPointer<OperationsManager> opMngr;
     QScopedPointer<XMLParser> parser;
     QList<QTreeWidgetItem*> items;
+    QList<ItemInfo::Data> fileItems;
     int type;
 };
 

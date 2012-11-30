@@ -20,22 +20,20 @@ signals:
     void signalFirstPanelIsLoaded();
 
 public:
-    QString getCurrLink(void) const;
+    QString getCurrentFolderLink(void) const;
     QTreeWidget* getPanel(void) const;
     QString back(void);
     void setPanel(QTreeWidget *p);
     void sort(int column, Qt::SortOrder order);
     void deleteFile(const QString &url);
-    void copyFile(const QString &source, const QString &dest);
+    void copyWebFile(const QString &source, const QString &dest);
 
 private:
     virtual void show(void);
 
 private:
     QTreeWidget *panel;
-    QList<QString> links;
-
-    QMap<QString, QString> folders;
+    QStringList links;
 };
 
 #endif // FILESMANAGER_H

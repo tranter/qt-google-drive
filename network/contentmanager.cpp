@@ -20,7 +20,7 @@ void ContentManager::get(const QString &url)
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
     CommonTools::setHeader(request);
-    sendGetRequest(url);
+    getRequest(url);
 }
 
 void ContentManager::slotReplyFinished(QNetworkReply*)

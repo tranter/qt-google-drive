@@ -25,7 +25,7 @@ void OperationsManager::deleteFile(const QString &url)
     connectErrorHandlers();
 }
 
-void OperationsManager::copyFile(const QString &source, const QString &dest)
+void OperationsManager::copyWebFile(const QString &source, const QString &dest)
 {
     DEBUG << "source" << source << "dest" << dest;
 }

@@ -108,9 +108,11 @@ void OperationsUI::slotNewFolder(void)
     createFolderDialog->exec();
 }
 
-void OperationsUI::slotCopyFile(void)
+void OperationsUI::slotCopyWebFile(void)
 {
-    SDriveEngine::inst()->getCurrFilesMngr()->copyFile(QString(), QString());
+    //SDriveEngine::inst()->getCurrFilesMngr()->
+
+    SDriveEngine::inst()->getCurrFilesMngr()->copyWebFile(QString(), QString());
 }
 
 void OperationsUI::slotAcceptCreateFolder(const QString &name)

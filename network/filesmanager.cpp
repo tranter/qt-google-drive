@@ -17,13 +17,13 @@ FilesManager::~FilesManager()
 
 void FilesManager::show(void)
 {
-    QList<ItemInfo::Data> fileItems = parser->getXMLHandler()->getItemInfo()->getFileItems();
+    fileItems = parser->getXMLHandler()->getItemInfo()->getFileItems();
     QSettings settings(COMPANY_NAME, APP_NAME);
 
     clear();
     panel->clear();
 
-    if(sendGetRequest().url() != GET_FULL_ROOT_CONTENT)
+    if(getRequest().url() != GET_FULL_ROOT_CONTENT)
     {
         items.push_back(new QTreeWidgetItem(panel));
         items.last()->setText(0, PARENT_FOLDER_SIGN);
@@ -45,7 +45,7 @@ void FilesManager::show(void)
         emit signalFirstPanelIsLoaded();
     }
 
-    links.push_back(sendGetRequest().url().toString());
+    links.push_back(getRequest().url().toString());
 
     //    SUi::inst()->filesView->setSortingEnabled(true);
     //    SUi::inst()->filesView->sortItems(0, Qt::AscendingOrder);
@@ -61,7 +61,7 @@ QTreeWidget* FilesManager::getPanel(void) const
     return panel;
 }
 
-QString FilesManager::getCurrLink(void) const
+QString FilesManager::getCurrentFolderLink(void) const
 {
     return links.last();
 }
@@ -73,7 +73,7 @@ QString FilesManager::back(void)
     if(!links.isEmpty())
     {
         links.pop_back();
-        prevLink  = links.last();
+        prevLink = links.last();
         links.pop_back();
     }
 
@@ -89,7 +89,7 @@ void FilesManager::deleteFile(const QString &url)
     opMngr->deleteFile(url);
 }
 
-void FilesManager::copyFile(const QString &source, const QString &dest)
+void FilesManager::copyWebFile(const QString &source, const QString &dest)
 {
-   opMngr->copyFile(source, dest);
+   opMngr->copyWebFile(source, dest);
 }
