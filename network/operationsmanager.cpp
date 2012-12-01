@@ -10,14 +10,12 @@ OperationsManager::OperationsManager(QObject *parent):
 
 void OperationsManager::deleteFile(const QString &url)
 {
-    DEBUG << "URL" << url;
-
     CommonTools::setHeader(request);
     request.setRawHeader("If-Match", "*");
 
     init();
 
-    request.setUrl(getFileQuery(url));
+    request.setUrl(getDeleteFileQuery(url));
 
     reply = networkManager->deleteResource(request);
 
@@ -36,7 +34,7 @@ void OperationsManager::createFolder(const QString &folderUrl, const QString &na
     DEBUG << "name:"<< name << "URL" << url;
 }
 
-QUrl OperationsManager::getFileQuery(const QString &url)
+QUrl OperationsManager::getDeleteFileQuery(const QString &url)
 {
     QString query(DELETE_FILE);
     QStringList queryStrs(url.split("/"));
@@ -44,8 +42,6 @@ QUrl OperationsManager::getFileQuery(const QString &url)
 
     queryStrs = lastParam.split("%3A");
     query += queryStrs[queryStrs.count()  - 1];
-
-    DEBUG << "query" << query;
 
     return QUrl(query);
 }

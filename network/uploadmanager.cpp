@@ -68,7 +68,7 @@ void UploadFileManager::setPostFinishedSettings(QNetworkReply* reply)
             request.setRawHeader("Content-Length", (QString("%1").arg(fileSize)).toLatin1());
             request.setRawHeader("Content-Range", (QString("bytes 0-%1/%2").arg(fileSize-1).arg(fileSize)).toLatin1());
 
-            sendPutRequest(location,arr);
+            putRequest(location,arr);
         }
     }
 }
@@ -81,16 +81,15 @@ void UploadFileManager::slotUploadProgress( qint64 bytesSent, qint64 bytesTotal 
 
 void UploadFileManager::startUpload(QUrl url, const QString &fileName)
 {
-    init();
+    postRequest(url, fileName);
+}
 
-    setStartSettings(url, fileName, "Uploading file: ");
+void UploadFileManager::setStartSettings(QUrl url, const QString &fileName, const QString &progressBarDialogInfoText)
+{
+    Q_UNUSED(progressBarDialogInfoText);
+
+    NetworkManager::setStartSettings(url, fileName, QString("Uploading file: "));
     setUploadSettings();
-
-    reply = networkManager->post(request, uploadContent);
-
-    connect(networkManager.data(), SIGNAL(finished(QNetworkReply*)), this, SLOT(slotPostFinished(QNetworkReply*)));
-
-    connectErrorHandlers();
 }
 
 QString UploadFileManager::getContentTypeByExtension(const QString &ext)

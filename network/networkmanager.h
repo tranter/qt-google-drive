@@ -25,32 +25,29 @@ public:
 signals:
     void signalAccessTokenRequired();
 
-public:
-    virtual void setPostFinishedSettings(QNetworkReply*);
-
-public:
-    QNetworkAccessManager *getNetworkManager(void) const;
-    QNetworkRequest getRequest(void) const;
-    void init(void);
-    void sendPutRequest(const QString &url,const QByteArray &data);
-    void getRequest(const QString &url);
-
-public:
-    virtual void setStartSettings(QUrl url, const QString &fileName, const QString &progressBarDialogInfoText);
-
-public:
-    EStates getState(void) const;
-    void setState(EStates currentState);
-    const NetworkManager* self(void) const;
-    void connectErrorHandlers(void);
-
-public slots:
+protected slots:
     virtual void slotPostFinished(QNetworkReply* reply);
     virtual void slotError(QNetworkReply::NetworkError error);
     virtual void slotSslErrors(const QList<QSslError> &errors);
     virtual void slotReplyFinished(QNetworkReply*);
     virtual void slotReplyReadyRead();
     virtual void slotProgressCanceled();
+
+public:
+    void init(void);
+    QNetworkAccessManager *getNetworkManager(void) const;
+    QNetworkRequest getRequest(void) const;
+    void getRequest(const QString &url);
+    void postRequest(QUrl url, const QString &fileName);
+    void putRequest(const QString &url,const QByteArray &data);
+    EStates getState(void) const;
+    void setState(EStates currentState);
+    const NetworkManager* self(void) const;
+    void connectErrorHandlers(void);
+
+protected:
+    virtual void setPostFinishedSettings(QNetworkReply*);
+    virtual void setStartSettings(QUrl url, const QString &fileName, const QString &progressBarDialogInfoText);
 
 protected:
     QObject* parent;

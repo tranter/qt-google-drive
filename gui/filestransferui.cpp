@@ -60,8 +60,8 @@ void FilesTransferUI::upload(void)
 
     if(!fileName.isEmpty())
     {
-        QList<ItemInfo::Data> item = SDriveEngine::inst()->getCurrFilesMngr()->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
-        int index = SDriveEngine::inst()->filesUI->getCurrFileItemId(SDriveEngine::inst()->getCurrFilesMngr());
+        QList<ItemInfo::Data> item = SDriveEngine::inst()->getFilesMngr()->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
+        int index = SDriveEngine::inst()->filesUI->getCurrFileItemId(SDriveEngine::inst()->getFilesMngr());
 
         QString uploadLink(item[index].uploadLink + "/?convert=false");
 
@@ -82,7 +82,7 @@ void FilesTransferUI::slotDownload(void)
     }
     else
     {
-        download(SDriveEngine::inst()->getCurrFilesMngr());
+        download(SDriveEngine::inst()->getFilesMngr());
     }
 }
 

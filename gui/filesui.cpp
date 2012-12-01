@@ -12,7 +12,7 @@ int FilesUI::getCurrFileItemId(FilesManager* manager) const
 {
     QList<ItemInfo::Data> item = manager->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
     int count = item.count();
-    QString fileName(SDriveEngine::inst()->getCurrFilesMngr()->getPanel()->currentIndex().data().toString());
+    QString fileName(SDriveEngine::inst()->getFilesMngr()->getPanel()->currentIndex().data().toString());
 
     DEBUG << fileName;
 
@@ -42,7 +42,7 @@ void FilesUI::showFiles(void)
             QString query(item[itemsIndex].self);
             query += (CONTENTS + MAX_RESULTS);
 
-            SDriveEngine::inst()->getCurrFilesMngr()->get(query);
+            SDriveEngine::inst()->getFilesMngr()->get(query);
         }
     }
 }
@@ -57,7 +57,7 @@ void FilesUI::showFilesFromFolder(void)
         query += SDriveEngine::inst()->foldersUI->getFolderID();
         query += (CONTENTS + MAX_RESULTS);
 
-        SDriveEngine::inst()->getCurrFilesMngr()->get(query);
+        SDriveEngine::inst()->getFilesMngr()->get(query);
     }
 }
 
@@ -79,7 +79,7 @@ void FilesUI::slotAShowFiles(const QModelIndex& index)
     SDriveEngine::inst()->elStates[EAFoldersViewFocused] = true;
     SDriveEngine::inst()->elStates[ERightViewFocused] = false;
 
-    SDriveEngine::inst()->getCurrFilesMngr()->clear();
+    SDriveEngine::inst()->getFilesMngr()->clear();
 
     if(index.model()->data(index).toString() == ALL_ITEMS_TITLE) query = GET_ALL_ITEMS + MAX_RESULTS;
     if(index.model()->data(index).toString() == GET_USER_DOCUMENTS_TITLE) query = GET_USER_DOCUMENTS + MAX_RESULTS;
@@ -134,7 +134,7 @@ void FilesUI::showFilesOnPanel(const QString &Id, EPanels panel)
     if(Id == PARENT_FOLDER_SIGN)
     {
         setPanelDisplayingPath(Id, EBackward, panel);
-        SDriveEngine::inst()->getCurrFilesMngr()->get(SDriveEngine::inst()->getCurrFilesMngr()->back());
+        SDriveEngine::inst()->getFilesMngr()->get(SDriveEngine::inst()->getFilesMngr()->back());
     }
     else
     {
@@ -154,7 +154,7 @@ void FilesUI::slotUpdateFileList()
 {
     DEBUG;
     //showFiles();
-    SDriveEngine::inst()->getCurrFilesMngr()->get(SDriveEngine::inst()->getCurrFilesMngr()->getCurrentFolderLink());
+    SDriveEngine::inst()->getFilesMngr()->get(SDriveEngine::inst()->getFilesMngr()->getCurrentFolderLink());
 }
 
 void FilesUI::setPanelDisplayingPath(const QString &name, EPath path, EPanels panel)

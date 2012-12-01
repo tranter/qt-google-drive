@@ -118,19 +118,33 @@ QWidget* DriveEngine::getParent(void) const
     return parent;
 }
 
-FilesManager* DriveEngine::getCurrFilesMngr(void) const
+FilesManager* DriveEngine::getFilesMngr(bool opposite) const
 {
     QSettings settings(COMPANY_NAME, APP_NAME);
     FilesManager* filesManager;
 
     if(settings.value(CURRENT_PANEL, LEFT_PANEL).toString() == LEFT_PANEL)
     {
-        filesManager = filesMngr[ELeft].data();
+        if(opposite)
+        {
+            filesManager = filesMngr[ERight].data();
+        }
+        else
+        {
+            filesManager = filesMngr[ELeft].data();
+        }
     }
 
     if(settings.value(CURRENT_PANEL, RIGHT_PANEL).toString() == RIGHT_PANEL)
     {
-        filesManager = filesMngr[ERight].data();
+        if(opposite)
+        {
+            filesManager = filesMngr[ELeft].data();
+        }
+        else
+        {
+            filesManager = filesMngr[ERight].data();
+        }
     }
 
     return filesManager;

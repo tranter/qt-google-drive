@@ -33,8 +33,8 @@ bool FoldersUI::isFolder(void)
 
 ItemInfo::Data FoldersUI::item(void)
 {
-    QList<ItemInfo::Data> items = SDriveEngine::inst()->getCurrFilesMngr()->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
-    int index = SDriveEngine::inst()->filesUI->getCurrFileItemId(SDriveEngine::inst()->getCurrFilesMngr());
+    QList<ItemInfo::Data> items = SDriveEngine::inst()->getFilesMngr()->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
+    int index = SDriveEngine::inst()->filesUI->getCurrFileItemId(SDriveEngine::inst()->getFilesMngr());
 
     return items[index];
 }

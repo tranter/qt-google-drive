@@ -41,7 +41,7 @@ public:
 
 public:   
     CheckUI* getCheckUI(void) const;
-    FilesManager* getCurrFilesMngr(void) const;
+    FilesManager* getFilesMngr(bool opposite = false) const;
     EventHandler<OperationsUI>* getEventHandler(void) const;
     FilesTransferUI* getfilesTransferUI(void) const;
     FilesUI* getfilesUI(void) const;

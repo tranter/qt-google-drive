@@ -1,6 +1,7 @@
 #include "filesmanager.h"
 #include "share/registration.h"
 #include "core/driveengine.h"
+#include "share/debug.h"
 #include <QSettings>
 #include <QDebug>
 
@@ -25,8 +26,14 @@ void FilesManager::show(void)
 
     if(getRequest().url() != GET_FULL_ROOT_CONTENT)
     {
+        isRoot = false;
+
         items.push_back(new QTreeWidgetItem(panel));
         items.last()->setText(0, PARENT_FOLDER_SIGN);
+    }
+    else
+    {
+        isRoot = true;
     }
 
     for(int i = 1; i < fileItems.count(); ++i)
@@ -49,6 +56,7 @@ void FilesManager::show(void)
 
     //    SUi::inst()->filesView->setSortingEnabled(true);
     //    SUi::inst()->filesView->sortItems(0, Qt::AscendingOrder);
+    //connect(panel, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(slotItemClicked(QTreeWidgetItem*, int)));
 }
 
 void FilesManager::setPanel(QTreeWidget *p)
@@ -91,5 +99,26 @@ void FilesManager::deleteFile(const QString &url)
 
 void FilesManager::copyWebFile(const QString &source, const QString &dest)
 {
-   opMngr->copyWebFile(source, dest);
+    opMngr->copyWebFile(source, dest);
+}
+
+ItemInfo::Data FilesManager::getCurrentFileInfo(void)
+{    
+    int index;
+
+    if(isRoot)
+    {
+        index = panel->currentIndex().row() + 1;
+    }
+    else
+    {
+        index = panel->currentIndex().row();
+    }
+
+    return  fileItems[index];
+}
+
+QString FilesManager::getRootLink(void) const
+{
+    return  fileItems[0].self;
 }

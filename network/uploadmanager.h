@@ -11,11 +11,12 @@ class UploadFileManager : public NetworkManager
 public:  
     explicit UploadFileManager(QObject *parent = 0);
     
-public:
-    virtual void setUploadSettings(void);
+public:    
+    virtual void setStartSettings(QUrl url, const QString &fileName, const QString &progressBarDialogInfoText);
     virtual void setPostFinishedSettings(QNetworkReply* reply);
 
 public:
+    void setUploadSettings(void);
     void startUpload(QUrl url, const QString &fileName);
 
 signals:

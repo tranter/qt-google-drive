@@ -20,13 +20,13 @@ void OperationsUI::del(QObject* object)
             if(item[SDriveEngine::inst()->foldersUI->getCurrFolderItemId()].parent != "")
             {
                 connect(SDriveEngine::inst()->foldersMngr->getOpMngr(), SIGNAL(signalDelFinished()), this, SLOT(slotDelFinished()));
-                SDriveEngine::inst()->getCurrFilesMngr()->deleteFile(item[SDriveEngine::inst()->foldersUI->getCurrFolderItemId()].self);
+                SDriveEngine::inst()->getFilesMngr()->deleteFile(item[SDriveEngine::inst()->foldersUI->getCurrFolderItemId()].self);
                 delItemInTree(item);
             }
         }
     }
 
-    if (object == SDriveEngine::inst()->getCurrFilesMngr()->getPanel())
+    if (object == SDriveEngine::inst()->getFilesMngr()->getPanel())
     {
         FilesManager* manager;
 
@@ -36,7 +36,7 @@ void OperationsUI::del(QObject* object)
         }
         else
         {
-            manager = SDriveEngine::inst()->getCurrFilesMngr();
+            manager = SDriveEngine::inst()->getFilesMngr();
         }
 
         QList<ItemInfo::Data> itemData = manager->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
@@ -76,7 +76,7 @@ void OperationsUI::slotTriggeredDel(void)
     }
     else
     {
-        object = SDriveEngine::inst()->getCurrFilesMngr()->getPanel();
+        object = SDriveEngine::inst()->getFilesMngr()->getPanel();
     }
 
     del(object);
@@ -110,9 +110,8 @@ void OperationsUI::slotNewFolder(void)
 
 void OperationsUI::slotCopyWebFile(void)
 {
-    //SDriveEngine::inst()->getCurrFilesMngr()->
-
-    SDriveEngine::inst()->getCurrFilesMngr()->copyWebFile(QString(), QString());
+    ItemInfo::Data fileData = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
+    SDriveEngine::inst()->getFilesMngr()->copyWebFile(fileData.self, SDriveEngine::inst()->getFilesMngr(true)->getRootLink());
 }
 
 void OperationsUI::slotAcceptCreateFolder(const QString &name)

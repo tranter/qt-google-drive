@@ -27,6 +27,8 @@ public:
     void sort(int column, Qt::SortOrder order);
     void deleteFile(const QString &url);
     void copyWebFile(const QString &source, const QString &dest);
+    ItemInfo::Data getCurrentFileInfo(void);
+    QString getRootLink(void) const;
 
 private:
     virtual void show(void);
@@ -34,6 +36,8 @@ private:
 private:
     QTreeWidget *panel;
     QStringList links;
+    QList<ItemInfo::Data> fileItems;
+    bool isRoot;
 };
 
 #endif // FILESMANAGER_H
