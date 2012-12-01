@@ -8,37 +8,36 @@ UploadFileManager::UploadFileManager(QObject *parent) :
 
 void UploadFileManager::slotUploadFinished()
 {
-   progressBarDialog.hide();
+    progressBarDialog.hide();
 
-   state = EReady;
+    state = EReady;
 
-   if (!operationCanceled)
-   {
-       emit signalUpdateFileList();
-   }
+    if (!operationCanceled)
+    {
+        emit signalUpdateFileList();
+    }
 }
 
 void UploadFileManager::setUploadSettings(void)
 {
-    QFileInfo fi(file);
-    QString ext = fi.suffix();
-    QString title = fi.fileName();
+    QFileInfo fileInfo(file);
+    QString ext = fileInfo.suffix();
+    QString title = fileInfo.fileName();
     QString contentType = getContentTypeByExtension(ext);
 
-    QString metadata = QString(
-                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-                "<entry xmlns=\"http://www.w3.org/2005/Atom\" xmlns:docs=\"http://schemas.google.com/docs/2007\">"
-                "<title>%1</title>"
-                "</entry>"
-                ).arg(title);
 
-    uploadContent = metadata.toLatin1();
+    QString protocol = QString("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+                                   "<entry xmlns=\"http://www.w3.org/2005/Atom\">  xmlns:docs=\"http://schemas.google.com/docs/2007\">"
+                                   "<title>%1</title>"
+                                   "</entry>").arg(title);
+
+    postProtocol = protocol.toLatin1();
 
     CommonTools::setHeader(request);
 
+    request.setRawHeader("Content-Length", QString::number(postProtocol.size()).toLatin1());
     request.setRawHeader("Content-Type", "application/atom+xml");
-    request.setRawHeader("Content-Length", QString::number(uploadContent.size()).toLatin1());
-    request.setRawHeader("X-Upload-Content-Length", (QString("%1").arg(fi.size())).toLatin1());
+    request.setRawHeader("X-Upload-Content-Length", (QString("%1").arg(fileInfo.size())).toLatin1());
     request.setRawHeader("X-Upload-Content-Type", contentType.toLatin1());
 }
 

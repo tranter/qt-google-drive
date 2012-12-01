@@ -10,14 +10,6 @@ class UploadFileManager : public NetworkManager
     Q_OBJECT
 public:  
     explicit UploadFileManager(QObject *parent = 0);
-    
-public:    
-    virtual void setStartSettings(QUrl url, const QString &fileName, const QString &progressBarDialogInfoText);
-    virtual void setPostFinishedSettings(QNetworkReply* reply);
-
-public:
-    void setUploadSettings(void);
-    void startUpload(QUrl url, const QString &fileName);
 
 signals:
     void signalUpdateFileList();
@@ -25,6 +17,14 @@ signals:
 public slots:
     virtual void slotUploadFinished();
     virtual void slotUploadProgress(qint64 bytesSent, qint64 bytesTotal);
+
+public:
+    void setUploadSettings(void);
+    void startUpload(QUrl url, const QString &fileName);
+
+protected:
+    virtual void setStartSettings(QUrl url, const QString &fileName, const QString &progressBarDialogInfoText);
+    virtual void setPostFinishedSettings(QNetworkReply* reply);
 
 private:
     QString getContentTypeByExtension(const QString &ext);

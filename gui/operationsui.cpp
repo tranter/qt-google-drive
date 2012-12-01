@@ -111,7 +111,7 @@ void OperationsUI::slotNewFolder(void)
 void OperationsUI::slotCopyWebFile(void)
 {
     ItemInfo::Data fileData = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
-    SDriveEngine::inst()->getFilesMngr()->copyWebFile(fileData.self, SDriveEngine::inst()->getFilesMngr(true)->getRootLink());
+    SDriveEngine::inst()->getFilesMngr()->copyWebFile(fileData.name, fileData.self, SDriveEngine::inst()->getFilesMngr(true)->getUpLevelFolderLink());
 }
 
 void OperationsUI::slotAcceptCreateFolder(const QString &name)

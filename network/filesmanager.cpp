@@ -13,7 +13,7 @@ FilesManager::FilesManager(QObject *parent):
 FilesManager::~FilesManager()
 {
     panel->clear();
-    links.clear();
+    pathLinks.clear();
 }
 
 void FilesManager::show(void)
@@ -52,7 +52,7 @@ void FilesManager::show(void)
         emit signalFirstPanelIsLoaded();
     }
 
-    links.push_back(getRequest().url().toString());
+    pathLinks.push_back(getRequest().url().toString());
 
     //    SUi::inst()->filesView->setSortingEnabled(true);
     //    SUi::inst()->filesView->sortItems(0, Qt::AscendingOrder);
@@ -69,20 +69,20 @@ QTreeWidget* FilesManager::getPanel(void) const
     return panel;
 }
 
-QString FilesManager::getCurrentFolderLink(void) const
+QString FilesManager::getUpLevelFolderLink(void) const
 {
-    return links.last();
+    return pathLinks.last();
 }
 
 QString FilesManager::back(void)
 {
     QString prevLink;
 
-    if(!links.isEmpty())
+    if(!pathLinks.isEmpty())
     {
-        links.pop_back();
-        prevLink = links.last();
-        links.pop_back();
+        pathLinks.pop_back();
+        prevLink = pathLinks.last();
+        pathLinks.pop_back();
     }
 
     return prevLink;
@@ -97,9 +97,9 @@ void FilesManager::deleteFile(const QString &url)
     opMngr->deleteFile(url);
 }
 
-void FilesManager::copyWebFile(const QString &source, const QString &dest)
+void FilesManager::copyWebFile(const QString &fileName, const QString &source, const QString &dest)
 {
-    opMngr->copyWebFile(source, dest);
+    opMngr->copyWebFile(fileName, source, dest);
 }
 
 ItemInfo::Data FilesManager::getCurrentFileInfo(void)
@@ -118,7 +118,7 @@ ItemInfo::Data FilesManager::getCurrentFileInfo(void)
     return  fileItems[index];
 }
 
-QString FilesManager::getRootLink(void) const
-{
-    return  fileItems[0].self;
-}
+//QString FilesManager::getRootLink(void) const
+//{
+//    return  fileItems[0].self;
+//}

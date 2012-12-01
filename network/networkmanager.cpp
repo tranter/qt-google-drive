@@ -108,6 +108,7 @@ void NetworkManager::slotPostFinished(QNetworkReply* reply)
     if (reply->error())
     {
         DEBUG << "Reply with the error";
+        progressBarDialog.hide();
         return;
     }
 
@@ -132,11 +133,13 @@ void NetworkManager::getRequest(const QString &url)
 
 void NetworkManager::postRequest(QUrl url, const QString &fileName)
 {
+    DEBUG << "URL:" << url << "fileName" << fileName;
+
     init();
 
     setStartSettings(url, fileName, QString());
 
-    reply = networkManager->post(request, uploadContent);
+    reply = networkManager->post(request, postProtocol);
 
     connect(networkManager.data(), SIGNAL(finished(QNetworkReply*)), this, SLOT(slotPostFinished(QNetworkReply*)));
 

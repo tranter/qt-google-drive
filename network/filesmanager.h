@@ -20,22 +20,22 @@ signals:
     void signalFirstPanelIsLoaded();
 
 public:
-    QString getCurrentFolderLink(void) const;
+    QString getUpLevelFolderLink(void) const;
     QTreeWidget* getPanel(void) const;
     QString back(void);
     void setPanel(QTreeWidget *p);
     void sort(int column, Qt::SortOrder order);
     void deleteFile(const QString &url);
-    void copyWebFile(const QString &source, const QString &dest);
+    void copyWebFile(const QString &fileName, const QString &source, const QString &dest);
     ItemInfo::Data getCurrentFileInfo(void);
-    QString getRootLink(void) const;
+    //QString getRootLink(void) const;
 
 private:
     virtual void show(void);
 
 private:
     QTreeWidget *panel;
-    QStringList links;
+    QStringList pathLinks;
     QList<ItemInfo::Data> fileItems;
     bool isRoot;
 };
