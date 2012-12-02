@@ -37,7 +37,7 @@ void DownloadFileManager::startDownload(QUrl url, QString& fileName, const QStri
 
     fileType = type;
 
-    setStartSettings(url, fileName, "Downloading file: ");
+    setProgressBarSettings(url, fileName, "Downloading file: ");
     setDownloadSettings();
 
     file.open(QIODevice::WriteOnly);

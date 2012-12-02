@@ -12,7 +12,7 @@ public:
     explicit FilesTransferUI(QObject *parent = 0);
 
 public:
-    void upload(QString fileName = QString());
+    void upload(void);
     void download(FilesManager* manager);
 
 private slots:

@@ -28,30 +28,17 @@ void OperationsManager::deleteFile(const QString &url)
 
 void OperationsManager::copyWebFile(const ItemInfo::Data &source, const QString &destFolder)
 {    
-    init();
-
     QString data = QString("{\"kind\": \"drive#file\", \"title\": \"%1\",\"parents\": [{\"id\":\"%2\"}]}").arg(source.name).arg(getIDFromURL(destFolder));
 
     postData = data.toLatin1();
 
     CommonTools::setHeader(request);
-
     request.setRawHeader("Content-Type", "application/json");
-    request.setRawHeader("Content-Length", QByteArray::number(postData.size()));
 
-    QString copyLink(COPY_FILE_FIRST_QUERY_PART + getIDFromURL(source.self) + COPY_FILE_LAST_QUERY_PART);
-
-    DEBUG << "copyLink" << copyLink;
-
-    request.setUrl(QUrl(copyLink));
-
-    reply = networkManager->post(request, postData);
-
-    connect(networkManager.data(), SIGNAL(finished(QNetworkReply*)), this, SLOT(slotPostFinished(QNetworkReply*)));
-    connectErrorHandlers();
+    postRequest(COPY_FILE_FIRST_QUERY_PART + getIDFromURL(source.self) + COPY_FILE_LAST_QUERY_PART);
 }
 
-void OperationsManager::setStartSettings(QUrl url, const QString &fileName, const QString &progressBarDialogInfoText)
+void OperationsManager::setProgressBarSettings(QUrl url, const QString &fileName, const QString &progressBarDialogInfoText)
 {
     Q_UNUSED(url);
     Q_UNUSED(fileName);
@@ -60,23 +47,24 @@ void OperationsManager::setStartSettings(QUrl url, const QString &fileName, cons
 
 void OperationsManager::createFolder(const QString &folderUrl, const QString &name)
 {
-    init();
+    //init();
 
     QString data = QString("{\"title\": \"%1\",\"parents\": [{\"id\": \"%2\"}],\"mimeType\": \"application/vnd.google-apps.folder\"}").arg(name).arg(getIDFromURL(folderUrl));
 
     postData = data.toLatin1();
 
     CommonTools::setHeader(request);
-
     request.setRawHeader("Content-Type", "application/json");
     request.setRawHeader("Content-Length", QByteArray::number(postData.size()));
 
-    request.setUrl(QUrl("https://www.googleapis.com/drive/v2/files"));
+    postRequest(QUrl("https://www.googleapis.com/drive/v2/files"));
 
-    reply = networkManager->post(request, postData);
+//    request.setUrl(QUrl("https://www.googleapis.com/drive/v2/files"));
 
-    connect(networkManager.data(), SIGNAL(finished(QNetworkReply*)), this, SLOT(slotPostFinished(QNetworkReply*)));
-    connectErrorHandlers();
+//    reply = networkManager->post(request, postData);
+
+//    connect(networkManager.data(), SIGNAL(finished(QNetworkReply*)), this, SLOT(slotPostFinished(QNetworkReply*)));
+//    connectErrorHandlers();
 }
 
 QUrl OperationsManager::getDeleteFileQuery(const QString &url)
@@ -115,6 +103,7 @@ void OperationsManager::slotReplyFinished(QNetworkReply *reply)
 void OperationsManager::slotPostFinished(QNetworkReply* reply)
 {
     NetworkManager::slotPostFinished(reply);
+    progressBarDialog.hide();
     SDriveEngine::inst()->getFilesMngr()->get(SDriveEngine::inst()->getFilesMngr()->getUpLevelFolderLink());
 }
 

@@ -83,11 +83,11 @@ void UploadFileManager::startUpload(QUrl url, const QString &fileName)
     postRequest(url, fileName);
 }
 
-void UploadFileManager::setStartSettings(QUrl url, const QString &fileName, const QString &progressBarDialogInfoText)
+void UploadFileManager::setProgressBarSettings(QUrl url, const QString &fileName, const QString &progressBarDialogInfoText)
 {
     Q_UNUSED(progressBarDialogInfoText);
 
-    NetworkManager::setStartSettings(url, fileName, QString("Uploading file: "));
+    NetworkManager::setProgressBarSettings(url, fileName, QString("Uploading file: "));
     setUploadSettings();
 }
 

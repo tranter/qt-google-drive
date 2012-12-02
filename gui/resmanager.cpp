@@ -19,7 +19,7 @@ void ResManager::setDownloadSettings(void)
     CommonTools::setHeader(request);
 }
 
-void ResManager::setStartSettings(QUrl url, const QString &fileName, const QString &progressBarDialogInfoText)
+void ResManager::setProgressBarSettings(QUrl url, const QString &fileName, const QString &progressBarDialogInfoText)
 {
     Q_UNUSED(progressBarDialogInfoText);
     state = EBusy;

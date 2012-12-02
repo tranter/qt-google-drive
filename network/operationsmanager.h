@@ -24,7 +24,7 @@ protected slots:
     virtual void slotPostFinished(QNetworkReply* reply);
 
 protected:
-    virtual void setStartSettings(QUrl url, const QString &fileName, const QString &progressBarDialogInfoText);
+    virtual void setProgressBarSettings(QUrl url, const QString &fileName, const QString &progressBarDialogInfoText);
 
 private:
     QString getIDFromURL(const QString &url);

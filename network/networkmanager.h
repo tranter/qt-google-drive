@@ -38,7 +38,7 @@ public:
     QNetworkAccessManager *getNetworkManager(void) const;
     QNetworkRequest getRequest(void) const;
     void getRequest(const QString &url);
-    void postRequest(QUrl url, const QString &fileName);
+    void postRequest(QUrl url, const QString &fileName = QString());
     void putRequest(const QString &url,const QByteArray &data);
     EStates getState(void) const;
     void setState(EStates currentState);
@@ -47,7 +47,7 @@ public:
 
 protected:
     virtual void setPostFinishedSettings(QNetworkReply*);
-    virtual void setStartSettings(QUrl url, const QString &fileName, const QString &progressBarDialogInfoText);
+    virtual void setProgressBarSettings(QUrl url, const QString &fileName, const QString &progressBarDialogInfoText);
 
 protected:
     QObject* parent;

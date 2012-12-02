@@ -23,7 +23,7 @@ public:
     void startUpload(QUrl url, const QString &fileName);
 
 protected:
-    virtual void setStartSettings(QUrl url, const QString &fileName, const QString &progressBarDialogInfoText);
+    virtual void setProgressBarSettings(QUrl url, const QString &fileName, const QString &progressBarDialogInfoText);
     virtual void setPostFinishedSettings(QNetworkReply* reply);
 
 private:
