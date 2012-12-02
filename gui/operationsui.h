@@ -21,7 +21,7 @@ private slots:
     void slotFinishedCreateFolder(int result);
 
     void slotTriggeredDel(void);
-    void slotDelFinished(void);
+    //void slotDelFinished(void);
 
 private:
     void createFolder(const QString &name);

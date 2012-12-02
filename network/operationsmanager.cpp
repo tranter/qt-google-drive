@@ -12,6 +12,8 @@ OperationsManager::OperationsManager(QObject *parent):
 
 void OperationsManager::deleteFile(const QString &url)
 {
+    currentOperation = EDelete;
+
     CommonTools::setHeader(request);
     request.setRawHeader("If-Match", "*");
 
@@ -29,6 +31,8 @@ void OperationsManager::deleteFile(const QString &url)
 
 void OperationsManager::copyWebFile(const ItemInfo::Data &source, const QString &destFolder)
 {    
+    currentOperation = ECopy;
+
     QString data = QString("{\"kind\": \"drive#file\", \"title\": \"%1\",\"parents\": [{\"id\":\"%2\"}]}").arg(source.name).arg(getIDFromURL(destFolder));
 
     postData = data.toLatin1();
@@ -48,6 +52,8 @@ void OperationsManager::setProgressBarSettings(QUrl url, const QString &fileName
 
 void OperationsManager::createFolder(const QString &folderUrl, const QString &name)
 {
+    currentOperation = ECreateWebFolder;
+
     QString data = QString("{\"title\": \"%1\",\"parents\": [{\"id\": \"%2\"}],\"mimeType\": \"application/vnd.google-apps.folder\"}").arg(name).arg(getIDFromURL(folderUrl));
 
     postData = data.toLatin1();
@@ -89,7 +95,15 @@ QString OperationsManager::getIDFromURL(const QString &url)
 void OperationsManager::slotReplyFinished(QNetworkReply *reply)
 {
     Q_UNUSED(reply);
-    emit signalDelFinished();
+
+    switch(currentOperation)
+    {
+    case EDelete:
+    {
+        updatePanelContent(false);
+    }
+        break;
+    }
 }
 
 void OperationsManager::slotPostFinished(QNetworkReply* reply)
@@ -111,12 +125,10 @@ void OperationsManager::slotPostFinished(QNetworkReply* reply)
         updatePanelContent(false);
     }
         break;
-    case ECreateFolder:
+    case ECreateWebFolder:
     {
         updatePanelContent(false);
     }
-        break;
-    case EDelete:
         break;
     case ERename:
         break;

@@ -11,9 +11,10 @@ class OperationsManager : public NetworkManager
 public:
     enum EOperations
     {
-        ECopy = 0,
+        ENone = -1,
+        ECopy,
         EMove,
-        ECreateFolder,
+        ECreateWebFolder,
         EDelete,
         ERename,
         Eshare
@@ -26,9 +27,6 @@ public:
     void copyWebFile(const ItemInfo::Data &source, const QString &destFolder);
     void createFolder(const QString &folderUrl, const QString &name);
 
-signals:
-    void signalDelFinished(void);
-
 protected slots:
     virtual void slotReplyFinished(QNetworkReply *reply);
     virtual void slotPostFinished(QNetworkReply* reply);
@@ -40,6 +38,10 @@ private:
     QString getIDFromURL(const QString &url);
     QUrl getDeleteFileQuery(const QString &url);
     QUrl getCopyFileQuery(const QString &url);
+    void updatePanelContent(bool opposite);
+
+private:
+    EOperations currentOperation;
 };
 
 #endif // OPERATIONSMANAGER_H

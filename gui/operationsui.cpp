@@ -19,7 +19,7 @@ void OperationsUI::del(QObject* object)
 
             if(item[SDriveEngine::inst()->foldersUI->getCurrFolderItemId()].parent != "")
             {
-                connect(SDriveEngine::inst()->foldersMngr->getOpMngr(), SIGNAL(signalDelFinished()), this, SLOT(slotDelFinished()));
+                //connect(SDriveEngine::inst()->foldersMngr->getOpMngr(), SIGNAL(signalDelFinished()), this, SLOT(slotDelFinished()));
                 SDriveEngine::inst()->getFilesMngr()->deleteFile(item[SDriveEngine::inst()->foldersUI->getCurrFolderItemId()].self);
                 delItemInTree(item);
             }
@@ -41,7 +41,7 @@ void OperationsUI::del(QObject* object)
 
         QList<ItemInfo::Data> itemData = manager->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
 
-        connect(manager->getOpMngr(), SIGNAL(signalDelFinished()), this, SLOT(slotDelFinished()));
+        //connect(manager->getOpMngr(), SIGNAL(signalDelFinished()), this, SLOT(slotDelFinished()));
         manager->deleteFile(itemData[SDriveEngine::inst()->filesUI->getCurrFileItemId(manager)].self);
     }
 }
@@ -82,20 +82,20 @@ void OperationsUI::slotTriggeredDel(void)
     del(object);
 }
 
-void OperationsUI::slotDelFinished(void)
-{
-    if(SDriveEngine::inst()->elStates[EAFoldersViewFocused])
-    {
-        SDriveEngine::inst()->filesUI->slotAShowFiles(SDriveEngine::inst()->getFoldersUI()->currAFolderId);
-    }
+//void OperationsUI::slotDelFinished(void)
+//{
+//    if(SDriveEngine::inst()->elStates[EAFoldersViewFocused])
+//    {
+//        SDriveEngine::inst()->filesUI->slotAShowFiles(SDriveEngine::inst()->getFoldersUI()->currAFolderId);
+//    }
 
-    if(SDriveEngine::inst()->elStates[EFoldersTreeViewFocused])
-    {
-        SDriveEngine::inst()->filesUI->showFiles();
-    }
+//    if(SDriveEngine::inst()->elStates[EFoldersTreeViewFocused])
+//    {
+//        SDriveEngine::inst()->filesUI->showFiles();
+//    }
 
-    SDriveEngine::inst()->filesUI.data()->slotUpdateFileList();
-}
+//    SDriveEngine::inst()->filesUI.data()->slotUpdateFileList();
+//}
 
 void OperationsUI::slotNewFolder(void)
 {
