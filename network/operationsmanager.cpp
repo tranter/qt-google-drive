@@ -26,66 +26,29 @@ void OperationsManager::deleteFile(const QString &url)
     connectErrorHandlers();
 }
 
-void OperationsManager::copyWebFile(const QString &source, const QString &dest)
-{
-    DEBUG << "source" << source << "dest" << dest;
+void OperationsManager::copyWebFile(const ItemInfo::Data &source, const QString &destFolder)
+{    
+    init();
 
-    //SDriveEngine::inst()->getfilesTransferUI()->upload(source);
+    QString data = QString("{\"kind\": \"drive#file\", \"title\": \"%1\",\"parents\": [{\"id\":\"%2\"}]}").arg(source.name).arg(getIDFromURL(destFolder));
 
-    //    QString uploadLink(dest + "/?convert=false");
+    postData = data.toLatin1();
 
-    //    //SDriveEngine::inst()->uploadFileMngr.reset(new UploadFileManager(SDriveEngine::inst()->parent));
-    //  //  connect(SDriveEngine::inst()->uploadFileMngr.data(), SIGNAL(signalUpdateFileList()), SDriveEngine::inst()->filesUI.data(), SLOT(slotUpdateFileList()));
-    //    SDriveEngine::inst()->uploadFileMngr->startUpload(uploadLink, source);
+    CommonTools::setHeader(request);
 
+    request.setRawHeader("Content-Type", "application/json");
+    request.setRawHeader("Content-Length", QByteArray::number(postData.size()));
 
-    //    QString uploadLink(source + "/?convert=false");
+    QString copyLink(COPY_FILE_FIRST_QUERY_PART + getIDFromURL(source.self) + COPY_FILE_LAST_QUERY_PART);
 
-    //    SDriveEngine::inst()->uploadFileMngr.reset(new UploadFileManager(SDriveEngine::inst()->parent));
-    //    connect(SDriveEngine::inst()->uploadFileMngr.data(), SIGNAL(signalUpdateFileList()), SDriveEngine::inst()->filesUI.data(), SLOT(slotUpdateFileList()));
-    //    SDriveEngine::inst()->uploadFileMngr->startUpload(uploadLink, fileName);
+    DEBUG << "copyLink" << copyLink;
 
+    request.setUrl(QUrl(copyLink));
 
-    //    QUrl fileURL(getCopyFileQuery(source));
-    //    QString src(source+ "/?convert=false");
+    reply = networkManager->post(request, postData);
 
-
-
-    //    QString protocol = QString("<?xml version='1.0' encoding='UTF-8'?>"
-    //                               "<entry xmlns=\"http://www.w3.org/2005/Atom\">"
-    //                               "<id>%1</id>"
-    //                               "<title>%2</title>"
-    //                               "</entry>").arg(fileURL.toString()).arg("screenshot.jpg");
-
-    //    postProtocol = protocol.toLatin1();
-
-   // CommonTools::setHeader(request);
-
-    //    request.setRawHeader("Content-Length", QString::number(63102/*postProtocol.size()*/).toLatin1());
-    //    request.setRawHeader("Content-Type", "application/atom+xml");
-//    request.setRawHeader("Content-Type", "application/json");
-
-//    init();
-
-//    QString protocol = QString("\"kind\": \"drive#file\", \"id\": %1,\"selfLink\": %2").arg(getIDFromURL(source)).arg(source);
-
-//    postData = protocol.toLatin1();
-
-//    QString r(COPY_FILE_FIRST_QUERY_PART + getIDFromURL(source) + COPY_FILE_LAST_QUERY_PART);
-
-//    DEBUG << "r" << r;
-
-//    request.setUrl(QUrl("https://docs.google.com/feeds/default/private/full"));
-//    request.setUrl(QUrl(r));
-
-//    //postRequest(QUrl(""), QString(""));
-
-//    //reply = networkManager->post(request, postProtocol);
-//    reply = networkManager->post(request, postData);
-//    connect(networkManager.data(), SIGNAL(finished(QNetworkReply*)), this, SLOT(slotPostFinished(QNetworkReply*)));
-//    connectErrorHandlers();
-
-//    DEBUG << "postProtocol" << postData;
+    connect(networkManager.data(), SIGNAL(finished(QNetworkReply*)), this, SLOT(slotPostFinished(QNetworkReply*)));
+    connectErrorHandlers();
 }
 
 void OperationsManager::setStartSettings(QUrl url, const QString &fileName, const QString &progressBarDialogInfoText)
@@ -97,12 +60,9 @@ void OperationsManager::setStartSettings(QUrl url, const QString &fileName, cons
 
 void OperationsManager::createFolder(const QString &folderUrl, const QString &name)
 {
-    QString url(folderUrl + CONTENTS);
-    DEBUG << "name:"<< name << "URL" << url;
-
     init();
 
-    QString data = QString("{\"title\": \"%1\",\"parents\": [{\"id\":\"%2\"}],\"mimeType\": \"application/vnd.google-apps.folder\"}").arg(name).arg(getIDFromURL(folderUrl));
+    QString data = QString("{\"title\": \"%1\",\"parents\": [{\"id\": \"%2\"}],\"mimeType\": \"application/vnd.google-apps.folder\"}").arg(name).arg(getIDFromURL(folderUrl));
 
     postData = data.toLatin1();
 

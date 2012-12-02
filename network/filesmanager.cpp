@@ -97,9 +97,9 @@ void FilesManager::deleteFile(const QString &url)
     opMngr->deleteFile(url);
 }
 
-void FilesManager::copyWebFile(const QString &source, const QString &dest)
+void FilesManager::copyWebFile(const ItemInfo::Data &source, const QString &destFolder)
 {
-    opMngr->copyWebFile(source, dest);
+    opMngr->copyWebFile(source, destFolder);
 }
 
 ItemInfo::Data FilesManager::getCurrentFileInfo(void)

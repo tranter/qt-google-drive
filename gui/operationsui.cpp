@@ -115,7 +115,7 @@ void OperationsUI::slotCopyWebFile(void)
     //    SDriveEngine::inst()->uploadFileMngr.reset(new UploadFileManager(SDriveEngine::inst()->parent));
     //    connect(SDriveEngine::inst()->uploadFileMngr.data(), SIGNAL(signalUpdateFileList()), SDriveEngine::inst()->filesUI.data(), SLOT(slotUpdateFileList()));
 
-     SDriveEngine::inst()->getFilesMngr()->copyWebFile(fileData.self, SDriveEngine::inst()->getFilesMngr(true)->getUpLevelFolderLink());
+     SDriveEngine::inst()->getFilesMngr()->copyWebFile(fileData, SDriveEngine::inst()->getFilesMngr(true)->getUpLevelFolderLink());
 
      DEBUG << "name of copying file" << fileData.name;
 
