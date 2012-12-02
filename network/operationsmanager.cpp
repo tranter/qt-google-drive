@@ -47,8 +47,6 @@ void OperationsManager::setProgressBarSettings(QUrl url, const QString &fileName
 
 void OperationsManager::createFolder(const QString &folderUrl, const QString &name)
 {
-    //init();
-
     QString data = QString("{\"title\": \"%1\",\"parents\": [{\"id\": \"%2\"}],\"mimeType\": \"application/vnd.google-apps.folder\"}").arg(name).arg(getIDFromURL(folderUrl));
 
     postData = data.toLatin1();
@@ -58,13 +56,6 @@ void OperationsManager::createFolder(const QString &folderUrl, const QString &na
     request.setRawHeader("Content-Length", QByteArray::number(postData.size()));
 
     postRequest(QUrl("https://www.googleapis.com/drive/v2/files"));
-
-//    request.setUrl(QUrl("https://www.googleapis.com/drive/v2/files"));
-
-//    reply = networkManager->post(request, postData);
-
-//    connect(networkManager.data(), SIGNAL(finished(QNetworkReply*)), this, SLOT(slotPostFinished(QNetworkReply*)));
-//    connectErrorHandlers();
 }
 
 QUrl OperationsManager::getDeleteFileQuery(const QString &url)

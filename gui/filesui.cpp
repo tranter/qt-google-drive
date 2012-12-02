@@ -102,10 +102,12 @@ void FilesUI::slotRightSortIndicatorChanged(int logicalIndex, Qt::SortOrder orde
 
 void FilesUI::slotLeftViewClicked(const QModelIndex &Id)
 {
+    QSettings(COMPANY_NAME, APP_NAME).setValue(CURRENT_PANEL, LEFT_PANEL);
 }
 
 void FilesUI::slotRightViewClicked(const QModelIndex &Id)
 {
+    QSettings(COMPANY_NAME, APP_NAME).setValue(CURRENT_PANEL, RIGHT_PANEL);
 }
 
 void FilesUI::slotLeftPanelItemDoubleClicked(QTreeWidgetItem *item, int column)
