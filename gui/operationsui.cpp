@@ -111,7 +111,18 @@ void OperationsUI::slotNewFolder(void)
 void OperationsUI::slotCopyWebFile(void)
 {
     ItemInfo::Data fileData = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
-    SDriveEngine::inst()->getFilesMngr()->copyWebFile(fileData.name, fileData.self, SDriveEngine::inst()->getFilesMngr(true)->getUpLevelFolderLink());
+
+    //    SDriveEngine::inst()->uploadFileMngr.reset(new UploadFileManager(SDriveEngine::inst()->parent));
+    //    connect(SDriveEngine::inst()->uploadFileMngr.data(), SIGNAL(signalUpdateFileList()), SDriveEngine::inst()->filesUI.data(), SLOT(slotUpdateFileList()));
+
+     SDriveEngine::inst()->getFilesMngr()->copyWebFile(fileData.self, SDriveEngine::inst()->getFilesMngr(true)->getUpLevelFolderLink());
+
+     DEBUG << "name of copying file" << fileData.name;
+
+    //QString uploadLink(SDriveEngine::inst()->getFilesMngr(true)->getUpLevelFolderLink() + "/?convert=false");
+    // QString uploadLink("https://docs.google.com/feeds/default/private/full/folder%3A0B_pGaTf6anqmNnR1M3dZMnotYzQ/contents/?convert=false");
+
+    //  SDriveEngine::inst()->uploadFileMngr->startUpload(uploadLink, "3A0B_pGaTf6anqmNXpkZEl2ckFCZjA");
 }
 
 void OperationsUI::slotAcceptCreateFolder(const QString &name)
@@ -138,9 +149,9 @@ void OperationsUI::createFolder(const QString &name)
         return;
     }
 
-    DEBUG << "-------------------------------->" << SDriveEngine::inst()->foldersUI->getFolderID();
+    //DEBUG << "SDriveEngine::inst()->foldersUI->getFolderID()" << SDriveEngine::inst()->foldersUI->getFolderID();
 
-    //SDriveEngine::inst()->foldersMngr->createFolder("FOLDER LINK", name);
+    SDriveEngine::inst()->foldersMngr->createFolder(SDriveEngine::inst()->getFilesMngr()->getUpLevelFolderLink(), name);
     //SDriveEngine::inst()->foldersMngr->insertTreeItemFolder(name, SDriveEngine::inst()->getCurrFilesMngr()->getPanel());
 
     delete createFolderDialog;

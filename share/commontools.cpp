@@ -18,7 +18,7 @@ void CommonTools::setHeader(QNetworkRequest &request)
 
     request.setRawHeader("User-Agent", APP_NAME);
     request.setRawHeader("GData-Version", "3.0");
-    request.setRawHeader("Authorization",(QString("OAuth %1").arg(accessToken)).toLatin1());
+    request.setRawHeader("Authorization", QString("Bearer %1").arg(accessToken).toLatin1());
 }
 
 void CommonTools::msg(const QString &text, QWidget *parent)

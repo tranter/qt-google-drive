@@ -42,7 +42,7 @@ void NetworkManager::slotError(QNetworkReply::NetworkError error)
     if(error == QNetworkReply::UnknownNetworkError)
     {
         static bool msgOnScreen = false;
-        QString msgStr( "If this error occur, please make sure that you have openssl installed (also you can copy libeay32.dll and ssleay32.dll files from Qt SDK MSVC*/bin folder into folder where your program .exe file is located (tested on non-static compilation only))");
+        QString msgStr("If this error occur, please make sure that you have openssl installed (also you can copy libeay32.dll and ssleay32.dll files from Qt SDK MSVC*/bin folder into folder where your program .exe file is located (tested on non-static compilation only))");
 
         if(!msgOnScreen)
         {
@@ -103,7 +103,7 @@ void NetworkManager::slotProgressCanceled()
 
 void NetworkManager::slotPostFinished(QNetworkReply* reply)
 {
-    DEBUG;
+    DEBUG << "??????????????????????????????????????????????????????????????????? URL" << reply->url() << "request().url()" << reply->request().url();
 
     if (reply->error())
     {
@@ -137,9 +137,9 @@ void NetworkManager::postRequest(QUrl url, const QString &fileName)
 
     init();
 
-    setStartSettings(url, fileName, QString());
+    setStartSettings(url, fileName, fileName);
 
-    reply = networkManager->post(request, postProtocol);
+    reply = networkManager->post(request, postData);
 
     connect(networkManager.data(), SIGNAL(finished(QNetworkReply*)), this, SLOT(slotPostFinished(QNetworkReply*)));
 

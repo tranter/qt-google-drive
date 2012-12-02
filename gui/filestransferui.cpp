@@ -43,20 +43,19 @@ void FilesTransferUI::download(FilesManager* manager)
     }
 }
 
-void FilesTransferUI::upload(void)
+void FilesTransferUI::upload(QString fileName)
 {
-    if(SDriveEngine::inst()->elStates[EAFoldersViewFocused])
-    {
-        CommonTools::msg("To upload a file please select a folder in \"Drive\" view");
-        return;
-    }
+    if(SDriveEngine::inst()->elStates[EAFoldersViewFocused]) return;
 
     if(SDriveEngine::inst()->uploadFileMngr)
     {
         if(SDriveEngine::inst()->uploadFileMngr->getState() == NetworkManager::EBusy) return;
     }
 
-    QString fileName = QFileDialog::getOpenFileName(SDriveEngine::inst()->parent, "Uploading file", QDir::homePath(), "All files(*)");
+    if(fileName == QString())
+    {
+        fileName = QFileDialog::getOpenFileName(SDriveEngine::inst()->parent, "Uploading file", QDir::homePath(), "All files(*)");
+    }
 
     if(!fileName.isEmpty())
     {

@@ -14,7 +14,7 @@ int FilesUI::getCurrFileItemId(FilesManager* manager) const
     int count = item.count();
     QString fileName(SDriveEngine::inst()->getFilesMngr()->getPanel()->currentIndex().data().toString());
 
-    DEBUG << fileName;
+    DEBUG << "item name" << fileName;
 
     int currentFileIndex = 0;
 

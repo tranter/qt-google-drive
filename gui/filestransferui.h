@@ -11,13 +11,14 @@ class FilesTransferUI : public QObject
 public:
     explicit FilesTransferUI(QObject *parent = 0);
 
+public:
+    void upload(QString fileName = QString());
+    void download(FilesManager* manager);
+
 private slots:
     void slotDownload(void);
     void slotUpload(void);
 
-private:
-    void download(FilesManager* manager);
-    void upload(void);
 };
 
 #endif // FILIESTRANSFER_H

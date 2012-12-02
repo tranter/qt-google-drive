@@ -54,7 +54,7 @@ protected:
     QScopedPointer <QNetworkAccessManager> networkManager;
     QNetworkReply *reply;
     QNetworkRequest request;
-    QByteArray postProtocol;
+    QByteArray postData;
     EStates state;
     QFile file;
     QString fileType;

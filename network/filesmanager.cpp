@@ -97,9 +97,9 @@ void FilesManager::deleteFile(const QString &url)
     opMngr->deleteFile(url);
 }
 
-void FilesManager::copyWebFile(const QString &fileName, const QString &source, const QString &dest)
+void FilesManager::copyWebFile(const QString &source, const QString &dest)
 {
-    opMngr->copyWebFile(fileName, source, dest);
+    opMngr->copyWebFile(source, dest);
 }
 
 ItemInfo::Data FilesManager::getCurrentFileInfo(void)
@@ -114,6 +114,10 @@ ItemInfo::Data FilesManager::getCurrentFileInfo(void)
     {
         index = panel->currentIndex().row();
     }
+
+    if(index < 0) index = 0;
+
+    DEBUG << index;
 
     return  fileItems[index];
 }

@@ -12,7 +12,7 @@ public:
 
 public:
     void deleteFile(const QString &url);
-    void copyWebFile(const QString &fileName, const QString &source, const QString &dest);
+    void copyWebFile(const QString &source, const QString &dest);
     void createFolder(const QString &folderUrl, const QString &name);
 
 signals:
@@ -20,15 +20,15 @@ signals:
 
 protected slots:
     virtual void slotReplyFinished(QNetworkReply *reply);
+    virtual void slotPostFinished(QNetworkReply* reply);
 
 protected:
     virtual void setStartSettings(QUrl url, const QString &fileName, const QString &progressBarDialogInfoText);
 
 private:
-    QString getFileIDFromURL(const QString &url);
+    QString getIDFromURL(const QString &url);
     QUrl getDeleteFileQuery(const QString &url);
     QUrl getCopyFileQuery(const QString &url);
-    void setCopySettings(void);
 };
 
 #endif // OPERATIONSMANAGER_H

@@ -9,10 +9,10 @@ FoldersUI::FoldersUI(QObject *parent) :
 QString FoldersUI::getFolderID(void)
 {  
     QString str(item().self);
-    DEBUG << "!!!!!!!!!!!!!!!------------------->" << str;
+    DEBUG << "item().self" << str;
     QStringList strList = str.split("/");
-    DEBUG << "!!!!!!!!!!!!!!!" << strList[strList.count() - 2];
-    DEBUG << "!!!!!!!!!!!!!!!" << strList;
+    DEBUG << "list of values" << strList;
+    DEBUG << "FolderID" << strList[strList.count() - 1];
     return strList[strList.count() - 1];
 }
 

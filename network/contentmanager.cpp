@@ -27,6 +27,10 @@ void ContentManager::slotReplyFinished(QNetworkReply*)
 {
     CommonTools::logToFile(QString("ParserReply ") + QString::number(type) + ".txt", replyStr.toAscii());
 
+//    DEBUG << "<===============================================================================================================";
+//    DEBUG << "replyStr" << replyStr;
+//    DEBUG << "===============================================================================================================>";
+
     if(parseReply(replyStr)) DEBUG << "parse OK";
     else DEBUG << "parse not OK";
 

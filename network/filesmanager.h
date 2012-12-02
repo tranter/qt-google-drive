@@ -26,7 +26,7 @@ public:
     void setPanel(QTreeWidget *p);
     void sort(int column, Qt::SortOrder order);
     void deleteFile(const QString &url);
-    void copyWebFile(const QString &fileName, const QString &source, const QString &dest);
+    void copyWebFile(const QString &source, const QString &dest);
     ItemInfo::Data getCurrentFileInfo(void);
     //QString getRootLink(void) const;
 
