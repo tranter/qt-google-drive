@@ -5,7 +5,8 @@
 #include <QStringList>
 
 OperationsManager::OperationsManager(QObject *parent):
-    NetworkManager(parent)
+    NetworkManager(parent),
+    currentOperation(ENone)
 {
 }
 
@@ -94,7 +95,41 @@ void OperationsManager::slotReplyFinished(QNetworkReply *reply)
 void OperationsManager::slotPostFinished(QNetworkReply* reply)
 {
     NetworkManager::slotPostFinished(reply);
+
     progressBarDialog.hide();
-    SDriveEngine::inst()->getFilesMngr()->get(SDriveEngine::inst()->getFilesMngr()->getUpLevelFolderLink());
+
+    switch(currentOperation)
+    {
+    case ECopy:
+    {
+        updatePanelContent(true);
+    }
+        break;
+    case EMove:
+    {
+        updatePanelContent(true);
+        updatePanelContent(false);
+    }
+        break;
+    case ECreateFolder:
+    {
+        updatePanelContent(false);
+    }
+        break;
+    case EDelete:
+        break;
+    case ERename:
+        break;
+    case Eshare:
+        break;
+    }
 }
+
+void OperationsManager::updatePanelContent(bool opposite)
+{
+    SDriveEngine::inst()->getFilesMngr()->get(SDriveEngine::inst()->getFilesMngr(opposite)->getUpLevelFolderLink());
+
+}
+
+
 

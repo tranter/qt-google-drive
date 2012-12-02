@@ -7,8 +7,18 @@
 
 class OperationsManager : public NetworkManager
 {
-     Q_OBJECT
+    Q_OBJECT
 public:
+    enum EOperations
+    {
+        ECopy = 0,
+        EMove,
+        ECreateFolder,
+        EDelete,
+        ERename,
+        Eshare
+    };
+
     OperationsManager(QObject *parent = 0);
 
 public:
