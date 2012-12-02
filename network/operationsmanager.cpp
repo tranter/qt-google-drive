@@ -155,6 +155,6 @@ void OperationsManager::slotReplyFinished(QNetworkReply *reply)
 void OperationsManager::slotPostFinished(QNetworkReply* reply)
 {
     NetworkManager::slotPostFinished(reply);
-    DEBUG << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
+    SDriveEngine::inst()->getFilesMngr()->get(SDriveEngine::inst()->getFilesMngr()->getUpLevelFolderLink());
 }
 
