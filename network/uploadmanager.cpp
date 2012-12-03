@@ -87,7 +87,7 @@ void UploadFileManager::setProgressBarSettings(QUrl url, const QString &fileName
 {
     Q_UNUSED(progressBarDialogInfoText);
 
-    NetworkManager::setProgressBarSettings(url, fileName, QString("Uploading file: "));
+    NetworkManager::setProgressBarSettings(fileName, QString("Uploading file: "));
     setUploadSettings();
 }
 

@@ -77,7 +77,7 @@ void NetworkManager::connectErrorHandlers(void)
     connect(reply, SIGNAL(sslErrors(const QList<QSslError>&)),this, SLOT(slotSslErrors(const QList<QSslError>&)));
 }
 
-void NetworkManager::setProgressBarSettings(QUrl url, const QString &fileName, const QString &progressBarDialogInfoText)
+void NetworkManager::setProgressBarSettings(const QString &fileName, const QString &progressBarDialogInfoText)
 {
     state = EBusy;
     operationCanceled = false;
@@ -90,7 +90,7 @@ void NetworkManager::setProgressBarSettings(QUrl url, const QString &fileName, c
     progressBarDialog.setText(progressBarDialogInfoText + fi.fileName());
     progressBarDialog.show();
 
-    connect(&progressBarDialog, SIGNAL(signalProgressCanceled()), this, SLOT(slotProgressCanceled()));
+    connect(&progressBarDialog, SIGNAL(signalProgressCanceled()), this, SLOT(slotProgressCanceled()));  
 }
 
 void NetworkManager::slotProgressCanceled()
@@ -136,7 +136,7 @@ void NetworkManager::postRequest(QUrl url, const QString &fileName)
 
     request.setUrl(url);
 
-    setProgressBarSettings(url, fileName, fileName);
+    setProgressBarSettings(fileName, fileName);
 
     reply = networkManager->post(request, postData);
 

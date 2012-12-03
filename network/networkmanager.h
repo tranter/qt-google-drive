@@ -47,7 +47,7 @@ public:
 
 protected:
     virtual void setPostFinishedSettings(QNetworkReply*);
-    virtual void setProgressBarSettings(QUrl url, const QString &fileName, const QString &progressBarDialogInfoText);
+    virtual void setProgressBarSettings(const QString &fileName, const QString &progressBarDialogInfoText);
 
 protected:
     QObject* parent;

@@ -11,10 +11,9 @@ public:
     explicit DownloadFileManager(QObject *parent = 0);
 
 public:
-
     void startDownload(QUrl url, QString &fileName, const QString &type = "text/html");
 
-public slots:
+protected slots:
     virtual void slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
     virtual void slotDownloadFinished();
     virtual void slotDownloadReadyRead();

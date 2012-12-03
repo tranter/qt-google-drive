@@ -31,7 +31,7 @@ private slots:
     void slotRightPanelItemDoubleClicked(QTreeWidgetItem *item, int column);
     void slotLeftSortIndicatorChanged(int logicalIndex, Qt::SortOrder order);
     void slotRightSortIndicatorChanged(int logicalIndex, Qt::SortOrder order);
-    //void slotUpdateFileList();
+    void slotUpdateFileList();
 
 private:
     int getCurrFileItemId(FilesManager* manager) const;

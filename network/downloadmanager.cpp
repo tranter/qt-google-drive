@@ -1,5 +1,6 @@
 #include "downloadmanager.h"
 #include "gui/forms/mainwindow.h"
+#include "share/debug.h"
 #include "ui_mainwindow.h"
 
 DownloadFileManager::DownloadFileManager(QObject *parent) :
@@ -33,12 +34,16 @@ QString DownloadFileManager::getExt(void) const
 
 void DownloadFileManager::startDownload(QUrl url, QString& fileName, const QString& type)
 {
+    DEBUG;
+
     init();
 
     fileType = type;
 
-    setProgressBarSettings(url, fileName, "Downloading file: ");
+    setProgressBarSettings(fileName, "Downloading file: ");
     setDownloadSettings();
+
+    request.setUrl(url);
 
     file.open(QIODevice::WriteOnly);
 
