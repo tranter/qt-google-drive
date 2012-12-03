@@ -25,11 +25,15 @@ public:
     void deleteFile(const QString &sourceUrl);
     void copyWebFile(const ItemInfo::Data &source, const QString &destFolder);
     void moveWebFile(const ItemInfo::Data &source, const QString &destFolder);
+    void renameWebFile(const ItemInfo::Data &source, const QString &newName);
     void createFolder(const QString &folderUrl, const QString &name);
 
 protected slots:
     virtual void slotReplyFinished(QNetworkReply *reply);
     virtual void slotPostFinished(QNetworkReply* reply);
+
+private slots:
+    void slotPutFinished(void);
 
 protected:
     virtual void setProgressBarSettings(QUrl url, const QString &fileName, const QString &progressBarDialogInfoText);

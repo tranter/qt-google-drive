@@ -17,6 +17,7 @@ public slots:
     void slotNewFolder(void);
     void slotCopyWebFile(void);
     void slotMoveWebFile(void);
+    void slotRenameWebFile(void);
     void slotAcceptCreateFolder(const QString &name);
     void slotRejectCreateFolder(void);
     void slotFinishedCreateFolder(int result);

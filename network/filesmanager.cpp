@@ -114,6 +114,11 @@ void FilesManager::moveWebFile(const ItemInfo::Data &source, const QString &dest
     opMngr->moveWebFile(source, destFolder);
 }
 
+void FilesManager::renameWebFile(const ItemInfo::Data &source, const QString &newName)
+{
+   opMngr->renameWebFile(source, newName);
+}
+
 ItemInfo::Data FilesManager::getCurrentFileInfo(void)
 {    
     int index;

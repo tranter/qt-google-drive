@@ -101,6 +101,12 @@ void OperationsUI::slotMoveWebFile(void)
   SDriveEngine::inst()->getFilesMngr()->moveWebFile(source, SDriveEngine::inst()->getFilesMngr(true)->getUpLevelFolderLink());
 }
 
+void OperationsUI::slotRenameWebFile(void)
+{
+ ItemInfo::Data source = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
+ SDriveEngine::inst()->getFilesMngr()->renameWebFile(source, "Cool.col");
+}
+
 void OperationsUI::slotAcceptCreateFolder(const QString &name)
 {
     createFolder(name);

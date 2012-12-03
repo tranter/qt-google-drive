@@ -52,6 +52,27 @@ void OperationsManager::moveWebFile(const ItemInfo::Data &source, const QString 
     fileURLToDeleteForMoveOperation = source.self;
 }
 
+void OperationsManager::renameWebFile(const ItemInfo::Data &source, const QString &newName)
+{
+    DEBUG;
+
+    currentOperation = ERename;
+
+    QString data = QString("{\"title\": \"%1\"}").arg(newName);
+
+    CommonTools::setHeader(request);
+    request.setRawHeader("Content-Type", "application/json");
+
+    init();
+
+    request.setUrl(QUrl(QString("https://www.googleapis.com/drive/v2/files/") + getIDFromURL(source.self)));
+
+    reply = networkManager->put(request, data.toLatin1());
+
+    connect(reply, SIGNAL(finished()), this, SLOT(slotPutFinished()));
+    connectErrorHandlers();
+}
+
 void OperationsManager::setProgressBarSettings(QUrl url, const QString &fileName, const QString &progressBarDialogInfoText)
 {
     Q_UNUSED(url);
@@ -71,19 +92,17 @@ void OperationsManager::createFolder(const QString &folderUrl, const QString &na
     request.setRawHeader("Content-Type", "application/json");
     request.setRawHeader("Content-Length", QByteArray::number(postData.size()));
 
-    DEBUG << "folderUrl" << folderUrl << "getIDFromURL(folderUrl)" << getIDFromURL(folderUrl);
-
     postRequest(QUrl("https://www.googleapis.com/drive/v2/files"));
 }
 
 QUrl OperationsManager::getDeleteFileQuery(const QString &url)
 {
-    return QUrl(QString(DELETE_FILE += getIDFromURL(url)));
+    return QUrl(QString(DELETE_FILE + getIDFromURL(url)));
 }
 
 QUrl OperationsManager::getCopyFileQuery(const QString &url)
 {
-    return QUrl(QString(COPY_FILE += getIDFromURL(url)));
+    return QUrl(QString(COPY_FILE + getIDFromURL(url)));
 }
 
 QString OperationsManager::getIDFromURL(const QString &url)
@@ -122,33 +141,29 @@ void OperationsManager::slotPostFinished(QNetworkReply* reply)
 {
     NetworkManager::slotPostFinished(reply);
 
-//    if(progressBarDialog.isVisible())
-//    {
-//        progressBarDialog.hide();
-//    }
+     if(currentOperation == ECopy)
+     {
+         updatePanelContent(true);
 
-    switch(currentOperation)
-    {
-    case ECopy:
-    {
-        updatePanelContent(true);
+         if(isMove)
+         {
+             deleteFile(fileURLToDeleteForMoveOperation);
+             isMove = false;
+         }
+     }
 
-        if(isMove)
-        {
-            deleteFile(fileURLToDeleteForMoveOperation);
-            isMove = false;
-        }
-    }
-        break;
-    case ECreateWebFolder:
-    {
+     if(currentOperation == ECreateWebFolder)
+     {
         updatePanelContent(false);
-    }
-        break;
-    case ERename:
-        break;
-    case EShare:
-        break;
+     }
+}
+
+void OperationsManager::slotPutFinished(void)
+{
+    if(currentOperation == ERename)
+    {
+        DEBUG;
+        updatePanelContent(false);
     }
 }
 
