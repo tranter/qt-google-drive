@@ -97,14 +97,26 @@ void OperationsUI::slotCopyWebFile(void)
 
 void OperationsUI::slotMoveWebFile(void)
 {
-  ItemInfo::Data source = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
-  SDriveEngine::inst()->getFilesMngr()->moveWebFile(source, SDriveEngine::inst()->getFilesMngr(true)->getUpLevelFolderLink());
+    ItemInfo::Data source = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
+    SDriveEngine::inst()->getFilesMngr()->moveWebFile(source, SDriveEngine::inst()->getFilesMngr(true)->getUpLevelFolderLink());
 }
 
 void OperationsUI::slotRenameWebFile(void)
 {
- ItemInfo::Data source = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
- SDriveEngine::inst()->getFilesMngr()->renameWebFile(source, "Cool.col");
+    QTreeWidgetItem *item = SDriveEngine::inst()->getFilesMngr()->getPanel()->currentItem();
+
+    item->setFlags(item->flags() | Qt::ItemIsEditable);
+    SDriveEngine::inst()->getFilesMngr()->getPanel()->editItem(item, 0);
+
+    connect(SDriveEngine::inst()->getFilesMngr()->getPanel()->itemDelegate(), SIGNAL(closeEditor(QWidget*,QAbstractItemDelegate::EndEditHint)), this, SLOT(slotItemEditDone()));
+}
+
+void OperationsUI::slotItemEditDone(void)
+{
+    QTreeWidgetItem *item = SDriveEngine::inst()->getFilesMngr()->getPanel()->currentItem();
+    ItemInfo::Data source = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
+
+    SDriveEngine::inst()->getFilesMngr()->renameWebFile(source, item->text(0));
 }
 
 void OperationsUI::slotAcceptCreateFolder(const QString &name)

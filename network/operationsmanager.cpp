@@ -54,8 +54,6 @@ void OperationsManager::moveWebFile(const ItemInfo::Data &source, const QString 
 
 void OperationsManager::renameWebFile(const ItemInfo::Data &source, const QString &newName)
 {
-    DEBUG;
-
     currentOperation = ERename;
 
     QString data = QString("{\"title\": \"%1\"}").arg(newName);

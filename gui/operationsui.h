@@ -22,6 +22,7 @@ public slots:
     void slotRejectCreateFolder(void);
     void slotFinishedCreateFolder(int result);
     void slotTriggeredDel(void);
+    void slotItemEditDone(void);
 
 private:
     void createFolder(const QString &name);
