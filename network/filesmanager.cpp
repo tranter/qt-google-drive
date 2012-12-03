@@ -12,6 +12,8 @@ FilesManager::FilesManager(QObject *parent):
 
 FilesManager::~FilesManager()
 {
+    DEBUG;
+
     panel->clear();
     pathLinks.clear();
 }
@@ -52,7 +54,14 @@ void FilesManager::show(void)
         emit signalFirstPanelIsLoaded();
     }
 
-    pathLinks.push_back(getRequest().url().toString());
+    QString url(getRequest().url().toString());
+
+    if(!pathLinks.contains(url))
+    {
+        pathLinks.push_back(url);
+    }
+
+    DEBUG << "================================================" << pathLinks;
 
     //    SUi::inst()->filesView->setSortingEnabled(true);
     //    SUi::inst()->filesView->sortItems(0, Qt::AscendingOrder);
