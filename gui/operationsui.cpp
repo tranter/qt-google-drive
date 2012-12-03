@@ -82,21 +82,6 @@ void OperationsUI::slotTriggeredDel(void)
     del(object);
 }
 
-//void OperationsUI::slotDelFinished(void)
-//{
-//    if(SDriveEngine::inst()->elStates[EAFoldersViewFocused])
-//    {
-//        SDriveEngine::inst()->filesUI->slotAShowFiles(SDriveEngine::inst()->getFoldersUI()->currAFolderId);
-//    }
-
-//    if(SDriveEngine::inst()->elStates[EFoldersTreeViewFocused])
-//    {
-//        SDriveEngine::inst()->filesUI->showFiles();
-//    }
-
-//    SDriveEngine::inst()->filesUI.data()->slotUpdateFileList();
-//}
-
 void OperationsUI::slotNewFolder(void)
 {
     createFolderDialog = new CreateFolderDialog(SDriveEngine::inst()->parent);
@@ -111,18 +96,7 @@ void OperationsUI::slotNewFolder(void)
 void OperationsUI::slotCopyWebFile(void)
 {
     ItemInfo::Data fileData = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
-
-    //    SDriveEngine::inst()->uploadFileMngr.reset(new UploadFileManager(SDriveEngine::inst()->parent));
-    //    connect(SDriveEngine::inst()->uploadFileMngr.data(), SIGNAL(signalUpdateFileList()), SDriveEngine::inst()->filesUI.data(), SLOT(slotUpdateFileList()));
-
-     SDriveEngine::inst()->getFilesMngr()->copyWebFile(fileData, SDriveEngine::inst()->getFilesMngr(true)->getUpLevelFolderLink());
-
-     DEBUG << "name of copying file" << fileData.name;
-
-    //QString uploadLink(SDriveEngine::inst()->getFilesMngr(true)->getUpLevelFolderLink() + "/?convert=false");
-    // QString uploadLink("https://docs.google.com/feeds/default/private/full/folder%3A0B_pGaTf6anqmNnR1M3dZMnotYzQ/contents/?convert=false");
-
-    //  SDriveEngine::inst()->uploadFileMngr->startUpload(uploadLink, "3A0B_pGaTf6anqmNXpkZEl2ckFCZjA");
+    SDriveEngine::inst()->getFilesMngr()->copyWebFile(fileData, SDriveEngine::inst()->getFilesMngr(true)->getUpLevelFolderLink());
 }
 
 void OperationsUI::slotAcceptCreateFolder(const QString &name)
@@ -143,16 +117,13 @@ void OperationsUI::slotFinishedCreateFolder(int result)
 
 void OperationsUI::createFolder(const QString &name)
 {   
-    if(name == "" || name.contains(QRegExp("[/\\\".<>]")))
+    if(name == "" || name.contains(QRegExp("[/.<>]") || name.contains(QRegExp("\\\\") || name.contains(QRegExp("\"")))
     {
         CommonTools::msg("Please enter a valid name");
         return;
     }
 
-    //DEBUG << "SDriveEngine::inst()->foldersUI->getFolderID()" << SDriveEngine::inst()->foldersUI->getFolderID();
-
     SDriveEngine::inst()->foldersMngr->createFolder(SDriveEngine::inst()->getFilesMngr()->getUpLevelFolderLink(), name);
-    //SDriveEngine::inst()->foldersMngr->insertTreeItemFolder(name, SDriveEngine::inst()->getCurrFilesMngr()->getPanel());
 
     delete createFolderDialog;
 }
