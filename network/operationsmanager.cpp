@@ -139,7 +139,7 @@ void OperationsManager::slotPostFinished(QNetworkReply* reply)
 
 void OperationsManager::updatePanelContent(bool opposite)
 {
-    FilesManager* fileManager = SDriveEngine::inst()->getFilesMngr(getFilesMngr);
+    FilesManager* fileManager = SDriveEngine::inst()->getFilesMngr(opposite);
     fileManager->get(fileManager->getUpLevelFolderLink());
 }
 

@@ -9,8 +9,6 @@ OperationsUI::OperationsUI(QObject *parent) :
 
 void OperationsUI::del(QObject* object)
 {
-    DEBUG << "objectName:" << object->objectName();
-
     if (object == SUi::inst()->treeFoldersView)
     {
         if(!SDriveEngine::inst()->elStates[EAFoldersViewFocused])
@@ -19,7 +17,6 @@ void OperationsUI::del(QObject* object)
 
             if(item[SDriveEngine::inst()->foldersUI->getCurrFolderItemId()].parent != "")
             {
-                //connect(SDriveEngine::inst()->foldersMngr->getOpMngr(), SIGNAL(signalDelFinished()), this, SLOT(slotDelFinished()));
                 SDriveEngine::inst()->getFilesMngr()->deleteFile(item[SDriveEngine::inst()->foldersUI->getCurrFolderItemId()].self);
                 delItemInTree(item);
             }
@@ -41,7 +38,6 @@ void OperationsUI::del(QObject* object)
 
         QList<ItemInfo::Data> itemData = manager->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
 
-        //connect(manager->getOpMngr(), SIGNAL(signalDelFinished()), this, SLOT(slotDelFinished()));
         manager->deleteFile(itemData[SDriveEngine::inst()->filesUI->getCurrFileItemId(manager)].self);
     }
 }
@@ -117,7 +113,7 @@ void OperationsUI::slotFinishedCreateFolder(int result)
 
 void OperationsUI::createFolder(const QString &name)
 {   
-    if(name == "" || name.contains(QRegExp("[/.<>]") || name.contains(QRegExp("\\\\") || name.contains(QRegExp("\"")))
+    if(name == "" || name.contains(QRegExp("[/.<>]")) || name.contains(QRegExp("\\\\")) || name.contains(QRegExp("\"")))
     {
         CommonTools::msg("Please enter a valid name");
         return;
