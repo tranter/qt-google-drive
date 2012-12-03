@@ -90,13 +90,14 @@ QString OperationsManager::getIDFromURL(const QString &url)
 {
     int backParamNum = 1;
 
-    if(url.contains(QRegExp("max-results")))
+    QStringList queryStrs(url.split("/"));
+
+    if(queryStrs[queryStrs.count() - 1].contains(QRegExp("contents")))
     {
         backParamNum = 2;
     }
 
-    QStringList queryStrs(url.split("/"));
-    QString lastParam(queryStrs[queryStrs.count()  - backParamNum]);
+    QString lastParam(queryStrs[queryStrs.count() - backParamNum]);
 
     queryStrs = lastParam.split("%3A");
 
