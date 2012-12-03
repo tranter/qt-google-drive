@@ -13,18 +13,18 @@ public:
     {
         ENone = -1,
         ECopy,
-        EMove,
         ECreateWebFolder,
         EDelete,
         ERename,
-        Eshare
+        EShare
     };
 
     OperationsManager(QObject *parent = 0);
 
 public:
-    void deleteFile(const QString &url);
+    void deleteFile(const QString &sourceUrl);
     void copyWebFile(const ItemInfo::Data &source, const QString &destFolder);
+    void moveWebFile(const ItemInfo::Data &source, const QString &destFolder);
     void createFolder(const QString &folderUrl, const QString &name);
 
 protected slots:
@@ -42,6 +42,8 @@ private:
 
 private:
     EOperations currentOperation;
+    QString fileURLToDeleteForMoveOperation;
+    bool isMove;
 };
 
 #endif // OPERATIONSMANAGER_H

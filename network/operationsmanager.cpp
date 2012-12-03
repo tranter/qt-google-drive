@@ -6,11 +6,12 @@
 
 OperationsManager::OperationsManager(QObject *parent):
     NetworkManager(parent),
-    currentOperation(ENone)
+    currentOperation(ENone),
+    isMove(false)
 {
 }
 
-void OperationsManager::deleteFile(const QString &url)
+void OperationsManager::deleteFile(const QString &sourceUrl)
 {
     currentOperation = EDelete;
 
@@ -19,9 +20,9 @@ void OperationsManager::deleteFile(const QString &url)
 
     init();
 
-    request.setUrl(getDeleteFileQuery(url));
+    request.setUrl(getDeleteFileQuery(sourceUrl));
 
-    DEBUG << getDeleteFileQuery(url);
+    DEBUG << getDeleteFileQuery(sourceUrl);
 
     reply = networkManager->deleteResource(request);
 
@@ -43,6 +44,14 @@ void OperationsManager::copyWebFile(const ItemInfo::Data &source, const QString 
     postRequest(COPY_FILE_FIRST_QUERY_PART + getIDFromURL(source.self) + COPY_FILE_LAST_QUERY_PART);
 }
 
+void OperationsManager::moveWebFile(const ItemInfo::Data &source, const QString &destFolder)
+{
+    isMove = true;
+
+    copyWebFile(source, destFolder);
+    fileURLToDeleteForMoveOperation = source.self;
+}
+
 void OperationsManager::setProgressBarSettings(QUrl url, const QString &fileName, const QString &progressBarDialogInfoText)
 {
     Q_UNUSED(url);
@@ -61,6 +70,8 @@ void OperationsManager::createFolder(const QString &folderUrl, const QString &na
     CommonTools::setHeader(request);
     request.setRawHeader("Content-Type", "application/json");
     request.setRawHeader("Content-Length", QByteArray::number(postData.size()));
+
+    DEBUG << "folderUrl" << folderUrl << "getIDFromURL(folderUrl)" << getIDFromURL(folderUrl);
 
     postRequest(QUrl("https://www.googleapis.com/drive/v2/files"));
 }
@@ -110,19 +121,22 @@ void OperationsManager::slotPostFinished(QNetworkReply* reply)
 {
     NetworkManager::slotPostFinished(reply);
 
-    progressBarDialog.hide();
+//    if(progressBarDialog.isVisible())
+//    {
+//        progressBarDialog.hide();
+//    }
 
     switch(currentOperation)
     {
     case ECopy:
     {
         updatePanelContent(true);
-    }
-        break;
-    case EMove:
-    {
-        updatePanelContent(true);
-        updatePanelContent(false);
+
+        if(isMove)
+        {
+            deleteFile(fileURLToDeleteForMoveOperation);
+            isMove = false;
+        }
     }
         break;
     case ECreateWebFolder:
@@ -132,7 +146,7 @@ void OperationsManager::slotPostFinished(QNetworkReply* reply)
         break;
     case ERename:
         break;
-    case Eshare:
+    case EShare:
         break;
     }
 }

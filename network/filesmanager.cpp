@@ -61,8 +61,6 @@ void FilesManager::show(void)
         pathLinks.push_back(url);
     }
 
-    DEBUG << "================================================" << pathLinks;
-
     //    SUi::inst()->filesView->setSortingEnabled(true);
     //    SUi::inst()->filesView->sortItems(0, Qt::AscendingOrder);
     //connect(panel, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(slotItemClicked(QTreeWidgetItem*, int)));
@@ -111,6 +109,11 @@ void FilesManager::copyWebFile(const ItemInfo::Data &source, const QString &dest
     opMngr->copyWebFile(source, destFolder);
 }
 
+void FilesManager::moveWebFile(const ItemInfo::Data &source, const QString &destFolder)
+{
+    opMngr->moveWebFile(source, destFolder);
+}
+
 ItemInfo::Data FilesManager::getCurrentFileInfo(void)
 {    
     int index;
@@ -130,8 +133,3 @@ ItemInfo::Data FilesManager::getCurrentFileInfo(void)
 
     return  fileItems[index];
 }
-
-//QString FilesManager::getRootLink(void) const
-//{
-//    return  fileItems[0].self;
-//}
