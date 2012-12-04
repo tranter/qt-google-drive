@@ -105,10 +105,15 @@ void OperationsUI::slotRenameWebFile(void)
 {
     QTreeWidgetItem *item = SDriveEngine::inst()->getFilesMngr()->getPanel()->currentItem();
 
-    item->setFlags(item->flags() | Qt::ItemIsEditable);
-    SDriveEngine::inst()->getFilesMngr()->getPanel()->editItem(item, 0);
+    editingItemText = item->text(0);
 
-    connect(SDriveEngine::inst()->getFilesMngr()->getPanel()->itemDelegate(), SIGNAL(closeEditor(QWidget*,QAbstractItemDelegate::EndEditHint)), this, SLOT(slotItemEditDone()));
+    if(editingItemText != PARENT_FOLDER_SIGN)
+    {
+        item->setFlags(item->flags() | Qt::ItemIsEditable);
+        SDriveEngine::inst()->getFilesMngr()->getPanel()->editItem(item, 0);
+
+        connect(SDriveEngine::inst()->getFilesMngr()->getPanel()->itemDelegate(), SIGNAL(closeEditor(QWidget*,QAbstractItemDelegate::EndEditHint)), this, SLOT(slotItemEditDone()));
+    }
 }
 
 void OperationsUI::slotItemEditDone(void)
@@ -116,7 +121,13 @@ void OperationsUI::slotItemEditDone(void)
     QTreeWidgetItem *item = SDriveEngine::inst()->getFilesMngr()->getPanel()->currentItem();
     ItemInfo::Data source = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
 
-    SDriveEngine::inst()->getFilesMngr()->renameWebFile(source, item->text(0));
+    QString itemTextAfterEditing = item->text(0);
+
+    if(editingItemText != itemTextAfterEditing)
+    {
+        SDriveEngine::inst()->getFilesMngr()->renameWebFile(source, itemTextAfterEditing);
+        editingItemText.clear();
+    }
 }
 
 void OperationsUI::slotAcceptCreateFolder(const QString &name)

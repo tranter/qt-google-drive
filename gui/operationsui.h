@@ -30,6 +30,7 @@ private:
 
 private:
     CreateFolderDialog* createFolderDialog;
+    QString editingItemText;
 };
 
 #endif // OPERATIONSUI_H

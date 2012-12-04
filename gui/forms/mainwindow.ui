@@ -30,47 +30,12 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <widget class="QTreeWidget" name="treeFoldersView">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-        <horstretch>0</horstretch>
-        <verstretch>25</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="font">
-       <font>
-        <family>Arial</family>
-        <pointsize>9</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="cursor" stdset="0">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="acceptDrops">
-       <bool>true</bool>
-      </property>
-      <property name="dragEnabled">
-       <bool>false</bool>
-      </property>
-      <property name="dragDropMode">
-       <enum>QAbstractItemView::DropOnly</enum>
-      </property>
-      <property name="defaultDropAction">
-       <enum>Qt::MoveAction</enum>
-      </property>
-      <property name="animated">
-       <bool>true</bool>
-      </property>
-      <column>
-       <property name="text">
-        <string>Drive</string>
-       </property>
-      </column>
-     </widget>
-    </item>
+    <property name="margin">
+     <number>0</number>
+    </property>
+    <property name="spacing">
+     <number>1</number>
+    </property>
     <item row="0" column="1" rowspan="2">
      <layout class="QVBoxLayout" name="leftPanelVLayout" stretch="0,0">
       <property name="spacing">
@@ -79,21 +44,21 @@
       <item>
        <widget class="QLabel" name="pathLabelLeft">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
           <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
+          <verstretch>3</verstretch>
          </sizepolicy>
         </property>
         <property name="minimumSize">
          <size>
           <width>0</width>
-          <height>17</height>
+          <height>18</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
           <width>16777215</width>
-          <height>16777215</height>
+          <height>20</height>
          </size>
         </property>
         <property name="font">
@@ -105,7 +70,8 @@
          </font>
         </property>
         <property name="styleSheet">
-         <string notr="true">background-color: rgb(170, 170, 255);</string>
+         <string notr="true">background-color: qlineargradient(spread:pad, x1:1, y1:0.432, x2:1, y2:0, stop:0 rgba(72, 72, 72, 255), stop:1 rgba(154, 154, 154, 255));
+color: rgb(255, 255, 255);</string>
         </property>
         <property name="frameShape">
          <enum>QFrame::NoFrame</enum>
@@ -141,8 +107,14 @@
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
           <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
+          <verstretch>97</verstretch>
          </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
         </property>
         <property name="maximumSize">
          <size>
@@ -216,16 +188,22 @@
       </property>
       <item>
        <widget class="QLabel" name="pathLabelRight">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>3</verstretch>
+         </sizepolicy>
+        </property>
         <property name="minimumSize">
          <size>
           <width>0</width>
-          <height>17</height>
+          <height>18</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
           <width>16777215</width>
-          <height>16777215</height>
+          <height>20</height>
          </size>
         </property>
         <property name="baseSize">
@@ -243,7 +221,8 @@
          </font>
         </property>
         <property name="styleSheet">
-         <string notr="true">background-color: rgb(170, 170, 255);</string>
+         <string notr="true">background-color: qlineargradient(spread:pad, x1:1, y1:0.432, x2:1, y2:0, stop:0 rgba(72, 72, 72, 255), stop:1 rgba(154, 154, 154, 255));
+color: rgb(255, 255, 255);</string>
         </property>
         <property name="text">
          <string/>
@@ -261,8 +240,14 @@
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
           <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
+          <verstretch>97</verstretch>
          </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
         </property>
         <property name="font">
          <font>
@@ -363,6 +348,12 @@
     </item>
     <item row="2" column="1" colspan="2">
      <layout class="QHBoxLayout" name="buttonsHLayout">
+      <property name="spacing">
+       <number>1</number>
+      </property>
+      <property name="margin">
+       <number>4</number>
+      </property>
       <item>
        <widget class="QPushButton" name="copyButton">
         <property name="font">
@@ -377,7 +368,14 @@
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
         <property name="styleSheet">
-         <string notr="true"/>
+         <string notr="true">background-color: qlineargradient(spread:pad, x1:1, y1:0.432, x2:1, y2:0, stop:0 rgba(72, 72, 72, 255), stop:1 rgba(154, 154, 154, 255));
+color: rgb(255, 255, 255);
+border: 2px solid gray;
+border-top-right-radius: 6px;
+border-bottom-right-radius: 6px;
+border-top-left-radius: 6px;
+border-bottom-left-radius: 6px;
+width: 16px;</string>
         </property>
         <property name="text">
          <string>F5 Copy</string>
@@ -398,7 +396,14 @@
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
         <property name="styleSheet">
-         <string notr="true"/>
+         <string notr="true">background-color: qlineargradient(spread:pad, x1:1, y1:0.432, x2:1, y2:0, stop:0 rgba(72, 72, 72, 255), stop:1 rgba(154, 154, 154, 255));
+color: rgb(255, 255, 255);
+border: 2px solid gray;
+border-top-right-radius: 6px;
+border-bottom-right-radius: 6px;
+border-top-left-radius: 6px;
+border-bottom-left-radius: 6px;
+width: 16px;</string>
         </property>
         <property name="text">
          <string>F6 Move</string>
@@ -419,7 +424,14 @@
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
         <property name="styleSheet">
-         <string notr="true"/>
+         <string notr="true">background-color: qlineargradient(spread:pad, x1:1, y1:0.432, x2:1, y2:0, stop:0 rgba(72, 72, 72, 255), stop:1 rgba(154, 154, 154, 255));
+color: rgb(255, 255, 255);
+border: 2px solid gray;
+border-top-right-radius: 6px;
+border-bottom-right-radius: 6px;
+border-top-left-radius: 6px;
+border-bottom-left-radius: 6px;
+width: 16px;</string>
         </property>
         <property name="text">
          <string>F7 New Folder</string>
@@ -440,7 +452,14 @@
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
         <property name="styleSheet">
-         <string notr="true"/>
+         <string notr="true">background-color: qlineargradient(spread:pad, x1:1, y1:0.432, x2:1, y2:0, stop:0 rgba(72, 72, 72, 255), stop:1 rgba(154, 154, 154, 255));
+color: rgb(255, 255, 255);
+border: 2px solid gray;
+border-top-right-radius: 6px;
+border-bottom-right-radius: 6px;
+border-top-left-radius: 6px;
+border-bottom-left-radius: 6px;
+width: 16px;</string>
         </property>
         <property name="text">
          <string>F8 Delete</string>
@@ -461,7 +480,14 @@
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
         <property name="styleSheet">
-         <string notr="true"/>
+         <string notr="true">background-color: qlineargradient(spread:pad, x1:1, y1:0.432, x2:1, y2:0, stop:0 rgba(72, 72, 72, 255), stop:1 rgba(154, 154, 154, 255));
+color: rgb(255, 255, 255);
+border: 2px solid gray;
+border-top-right-radius: 6px;
+border-bottom-right-radius: 6px;
+border-top-left-radius: 6px;
+border-bottom-left-radius: 6px;
+width: 16px;</string>
         </property>
         <property name="text">
          <string>F9 Rename</string>
@@ -482,7 +508,14 @@
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
         <property name="styleSheet">
-         <string notr="true"/>
+         <string notr="true">background-color: qlineargradient(spread:pad, x1:1, y1:0.432, x2:1, y2:0, stop:0 rgba(72, 72, 72, 255), stop:1 rgba(154, 154, 154, 255));
+color: rgb(255, 255, 255);
+border: 2px solid gray;
+border-top-right-radius: 6px;
+border-bottom-right-radius: 6px;
+border-top-left-radius: 6px;
+border-bottom-left-radius: 6px;
+width: 16px;</string>
         </property>
         <property name="text">
          <string>F10 Share</string>
@@ -490,6 +523,47 @@
        </widget>
       </item>
      </layout>
+    </item>
+    <item row="0" column="0">
+     <widget class="QTreeWidget" name="treeFoldersView">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+        <horstretch>0</horstretch>
+        <verstretch>25</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>9</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="cursor" stdset="0">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="acceptDrops">
+       <bool>true</bool>
+      </property>
+      <property name="dragEnabled">
+       <bool>false</bool>
+      </property>
+      <property name="dragDropMode">
+       <enum>QAbstractItemView::DropOnly</enum>
+      </property>
+      <property name="defaultDropAction">
+       <enum>Qt::MoveAction</enum>
+      </property>
+      <property name="animated">
+       <bool>true</bool>
+      </property>
+      <column>
+       <property name="text">
+        <string>Drive</string>
+       </property>
+      </column>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -529,6 +603,9 @@
    <addaction name="menuOptions"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
+   <property name="styleSheet">
+    <string notr="true">background-color: qlineargradient(spread:pad, x1:1, y1:0.432, x2:1, y2:0, stop:0 rgba(72, 72, 72, 255), stop:1 rgba(154, 154, 154, 255));</string>
+   </property>
    <property name="movable">
     <bool>true</bool>
    </property>
@@ -538,6 +615,7 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionLogin"/>
    <addaction name="separator"/>
    <addaction name="actionDownload"/>
    <addaction name="actionUpload"/>
@@ -547,24 +625,17 @@
    <addaction name="separator"/>
   </widget>
   <widget class="QStatusBar" name="statusBar">
+   <property name="styleSheet">
+    <string notr="true">background-color: qlineargradient(spread:pad, x1:1, y1:0.432, x2:1, y2:0, stop:0 rgba(72, 72, 72, 255), stop:1 rgba(154, 154, 154, 255));
+color: rgb(255, 255, 255);</string>
+   </property>
    <property name="sizeGripEnabled">
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QToolBar" name="discsToolBar">
-   <property name="windowTitle">
-    <string>toolBar</string>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>true</bool>
-   </attribute>
-  </widget>
   <action name="actionSettings">
    <property name="icon">
-    <iconset resource="resource.qrc">
+    <iconset resource="../../resource.qrc">
      <normaloff>:/ico/settings</normaloff>:/ico/settings</iconset>
    </property>
    <property name="text">
@@ -576,7 +647,7 @@
   </action>
   <action name="actionDownload">
    <property name="icon">
-    <iconset resource="resource.qrc">
+    <iconset resource="../../resource.qrc">
      <normaloff>:/ico/download</normaloff>:/ico/download</iconset>
    </property>
    <property name="text">
@@ -585,7 +656,7 @@
   </action>
   <action name="actionUpload">
    <property name="icon">
-    <iconset resource="resource.qrc">
+    <iconset resource="../../resource.qrc">
      <normaloff>:/ico/upload</normaloff>:/ico/upload</iconset>
    </property>
    <property name="text">
@@ -594,7 +665,7 @@
   </action>
   <action name="actionLogin">
    <property name="icon">
-    <iconset resource="resource.qrc">
+    <iconset resource="../../resource.qrc">
      <normaloff>:/ico/login</normaloff>:/ico/login</iconset>
    </property>
    <property name="text">
@@ -603,7 +674,7 @@
   </action>
   <action name="actionQuit">
    <property name="icon">
-    <iconset resource="resource.qrc">
+    <iconset resource="../../resource.qrc">
      <normaloff>:/ico/quit</normaloff>:/ico/quit</iconset>
    </property>
    <property name="text">
@@ -612,7 +683,7 @@
   </action>
   <action name="actionDelete">
    <property name="icon">
-    <iconset resource="resource.qrc">
+    <iconset resource="../../resource.qrc">
      <normaloff>:/ico/delete</normaloff>:/ico/delete</iconset>
    </property>
    <property name="text">
@@ -621,7 +692,7 @@
   </action>
   <action name="actionNewFolder">
    <property name="icon">
-    <iconset resource="resource.qrc">
+    <iconset resource="../../resource.qrc">
      <normaloff>:/ico/allitems</normaloff>:/ico/allitems</iconset>
    </property>
    <property name="text">
@@ -637,7 +708,7 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
-  <include location="resource.qrc"/>
+  <include location="../../resource.qrc"/>
  </resources>
  <connections/>
 </ui>

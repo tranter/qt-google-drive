@@ -12,8 +12,8 @@ int main(int argc, char *argv[])
     r.moveCenter(a.desktop()->availableGeometry().center());
     w.setGeometry(r);
 
-    w.show();
     w.init();
+    w.show();
 
     return a.exec();
 }

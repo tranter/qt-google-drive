@@ -94,7 +94,7 @@ void MainWindow::paintEvent(QPaintEvent*)
 
 void MainWindow::slotStub(void)
 {
-    CommonTools::msg("Not implemented yet");
+    CommonTools::msg("Under development");
 }
 
 
