@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "core/driveengine.h"
+#include "share/debug.h"
 #include <QTextCodec>
 #include <QKeyEvent>
 #include <QToolButton>
@@ -19,32 +20,51 @@ MainWindow::~MainWindow()
 
 void MainWindow::init(void)
 {
+    DEBUG << "1";
     {
         CheckUI checkUI;
         if(!checkUI.checkReg()) return;
     }
+    DEBUG << "2";
 
     SDriveEngine::freeInst();
+
+    DEBUG << "2-1";
     SDriveEngine::inst(this)->init();
+    DEBUG << "2-2";
     SDriveEngine::inst()->getCheckUI()->slotCheckWorkDir(false);
 
+    DEBUG << "3";
+
     setConnections();
+
+    DEBUG << "4";
 
     SUi::inst()->treeFoldersView->installEventFilter(this);
     SUi::inst()->filesViewLeft->installEventFilter(this);
     SUi::inst()->filesViewRight->installEventFilter(this);
 
+    DEBUG << "5";
+
     QTextCodec::setCodecForCStrings(QTextCodec::codecForLocale());
     QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
+
+    DEBUG << "6";
 
     SUi::inst()->filesViewLeft->header()->setClickable(true);
     SUi::inst()->filesViewRight->header()->setClickable(true);
 
+    DEBUG << "7";
+
     SUi::inst()->filesViewLeft->header()->resizeSection(0, 250);
     SUi::inst()->filesViewRight->header()->resizeSection(0, 250);
 
+    DEBUG << "8";
+
     SUi::inst()->treeFoldersView->setVisible(false);
     SUi::inst()->aFoldersView->setVisible(false);
+
+    DEBUG << "9";
 }
 
 void MainWindow::setConnections(void)
@@ -78,6 +98,7 @@ void MainWindow::setConnections(void)
 
 void MainWindow::slotloginDone()
 {
+    DEBUG;
     init();
 }
 

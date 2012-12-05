@@ -5,30 +5,28 @@
 #include "share/registration.h"
 #include "share/defs.h"
 #include "parsers/jsonparser.h"
+#include "share/debug.h"
 
 OAuth2::OAuth2(QWidget* parent) :
     NetworkManager(parent),
     loginDialog(new LoginDialog(parent))
 { 
-    init();
-
-    networkManager = getNetworkManager();
+    DEBUG;
 
     scope = SCOPE;
     clientID = CLIENT_ID;
     redirectURI = REDIRECT_URI;
     endPoint = END_POINT;
 
-    setConnections();
-
     QSettings settings(COMPANY_NAME, APP_NAME);
 
-    accessToken = settings.value(ACCESS_TOKEN, "").toString();
+    accessToken = settings.value(ACCESS_TOKEN).toString();
     refreshToken = settings.value(REFRESH_TOKEN).toString();
 }
 
 OAuth2::~OAuth2()
 {
+    DEBUG;
 }
 
 void OAuth2::setConnections(void)
@@ -39,6 +37,8 @@ void OAuth2::setConnections(void)
 
 void OAuth2::slotCodeObtained()
 {
+    DEBUG;
+
     codeStr = loginDialog->code();
 
     QByteArray params = "client_id=" + QByteArray(CLIENT_ID);
@@ -50,11 +50,18 @@ void OAuth2::slotCodeObtained()
     params += "&grant_type=authorization_code";
     params += "&code=" + codeStr;
 
+    init();
+
+    networkManager = getNetworkManager();
+    setConnections();
+
     networkManager->post(setRequest(), params);
 }
 
 void OAuth2::slotReplyFinished(QNetworkReply* reply)
 {
+    DEBUG;
+
     QSettings settings(COMPANY_NAME, APP_NAME);
     QString replyStr = reply->readAll();
     JSONParser jParser;
@@ -72,28 +79,39 @@ void OAuth2::slotReplyFinished(QNetworkReply* reply)
         settings.setValue(REFRESH_TOKEN, refreshToken);
     }
 
-    if(!accessToken.isEmpty()) QTimer::singleShot((expires - 120) * 1000, this, SLOT(getAccessTokenFromRefreshToken()));
+    if(!accessToken.isEmpty())
+    {
+        QTimer::singleShot((expires - 120) * 1000/120, this, SLOT(getAccessTokenFromRefreshToken()));
+    }
 
     emit loginDone();
 }
 
 void OAuth2::setScope(const QString& scopeStr)
 {
+    DEBUG;
+
     scope = scopeStr;
 }
 
 void OAuth2::setClientID(const QString& clientIDStr)
 {
+    DEBUG;
+
     clientID = clientIDStr;
 }
 
 void OAuth2::setRedirectURI(const QString& redirectURIStr)
 {
+    DEBUG;
+
     redirectURI = redirectURIStr;
 }
 
 QString OAuth2::permanentLoginUrl()
 {
+    DEBUG;
+
     QString str = QString("%1?client_id=%2&redirect_uri=%3&response_type=code&scope=%4&approval_prompt=force&access_type=offline").
             arg(endPoint).arg(clientID).arg(redirectURI).arg(scope);
 
@@ -102,11 +120,15 @@ QString OAuth2::permanentLoginUrl()
 
 bool OAuth2::isAuthorized()
 {
+    DEBUG;
+
     return accessToken.isEmpty();
 }
 
 void OAuth2::startLogin(bool bForce)
 {
+    DEBUG;
+
     if(accessToken.isEmpty() || refreshToken.isEmpty() || bForce)
     {
         loginDialog->setLoginUrl(permanentLoginUrl());
@@ -120,6 +142,8 @@ void OAuth2::startLogin(bool bForce)
 
 void OAuth2::getAccessTokenFromRefreshToken()
 {
+    DEBUG;
+
     QByteArray params = "client_id=" + QByteArray(CLIENT_ID);
 
     params += "&client_secret=";
@@ -127,11 +151,18 @@ void OAuth2::getAccessTokenFromRefreshToken()
     params += "&grant_type=refresh_token";
     params += "&refresh_token=" + refreshToken;
 
+    init();
+
+    networkManager = getNetworkManager();
+    setConnections();
+
     networkManager->post(setRequest(), params);
 }
 
 QNetworkRequest OAuth2::setRequest(void)
 {
+    DEBUG;
+
     QUrl url(OAUTH2_TOKEN_URL);
     QNetworkRequest request;
 
