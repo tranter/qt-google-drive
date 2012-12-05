@@ -26,6 +26,7 @@ public:
     void copyWebFile(const ItemInfo::Data &source, const QString &destFolder);
     void moveWebFile(const ItemInfo::Data &source, const QString &destFolder);
     void renameWebFile(const ItemInfo::Data &source, const QString &newName);
+    void shareWebFile(const ItemInfo::Data &source);
     void createFolder(const QString &folderUrl, const QString &name);
 
 protected slots:

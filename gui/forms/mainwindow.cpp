@@ -20,51 +20,35 @@ MainWindow::~MainWindow()
 
 void MainWindow::init(void)
 {
-    DEBUG << "1";
+    DEBUG;
+
     {
         CheckUI checkUI;
         if(!checkUI.checkReg()) return;
     }
-    DEBUG << "2";
 
     SDriveEngine::freeInst();
 
-    DEBUG << "2-1";
     SDriveEngine::inst(this)->init();
-    DEBUG << "2-2";
     SDriveEngine::inst()->getCheckUI()->slotCheckWorkDir(false);
 
-    DEBUG << "3";
-
     setConnections();
-
-    DEBUG << "4";
 
     SUi::inst()->treeFoldersView->installEventFilter(this);
     SUi::inst()->filesViewLeft->installEventFilter(this);
     SUi::inst()->filesViewRight->installEventFilter(this);
 
-    DEBUG << "5";
-
     QTextCodec::setCodecForCStrings(QTextCodec::codecForLocale());
     QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
-
-    DEBUG << "6";
 
     SUi::inst()->filesViewLeft->header()->setClickable(true);
     SUi::inst()->filesViewRight->header()->setClickable(true);
 
-    DEBUG << "7";
-
     SUi::inst()->filesViewLeft->header()->resizeSection(0, 250);
     SUi::inst()->filesViewRight->header()->resizeSection(0, 250);
 
-    DEBUG << "8";
-
     SUi::inst()->treeFoldersView->setVisible(false);
     SUi::inst()->aFoldersView->setVisible(false);
-
-    DEBUG << "9";
 }
 
 void MainWindow::setConnections(void)
@@ -81,7 +65,7 @@ void MainWindow::setConnections(void)
     connect(SUi::inst()->newFolderButton, SIGNAL(clicked()), SDriveEngine::inst()->getOpUI(), SLOT(slotNewFolder()));
     connect(SUi::inst()->deleteButton, SIGNAL(clicked()), SDriveEngine::inst()->getOpUI(), SLOT(slotTriggeredDel()));
     connect(SUi::inst()->renameButton, SIGNAL(clicked()), SDriveEngine::inst()->getOpUI(), SLOT(slotRenameWebFile()));
-    connect(SUi::inst()->shareButton, SIGNAL(clicked()), this, SLOT(slotStub()));
+    connect(SUi::inst()->shareButton, SIGNAL(clicked()), SDriveEngine::inst()->getOpUI(), SLOT(slotShareWebFile()));
     connect(SUi::inst()->treeFoldersView, SIGNAL(clicked (const QModelIndex&)), SDriveEngine::inst()->getFoldersUI(), SLOT(slotFoldersViewClicked(const QModelIndex&)));
     connect(SUi::inst()->filesViewLeft, SIGNAL(clicked(const QModelIndex&)), SDriveEngine::inst()->getfilesUI(), SLOT(slotLeftViewClicked(const QModelIndex&)));
     connect(SUi::inst()->filesViewRight, SIGNAL(clicked(const QModelIndex&)), SDriveEngine::inst()->getfilesUI(), SLOT(slotRightViewClicked(const QModelIndex&)));

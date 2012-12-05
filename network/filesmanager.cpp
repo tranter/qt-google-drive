@@ -119,6 +119,11 @@ void FilesManager::renameWebFile(const ItemInfo::Data &source, const QString &ne
    opMngr->renameWebFile(source, newName);
 }
 
+void FilesManager::shareWebFile(const ItemInfo::Data &source)
+{
+ opMngr->shareWebFile(source);
+}
+
 ItemInfo::Data FilesManager::getCurrentFileInfo(void)
 {    
     int index;

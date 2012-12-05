@@ -71,6 +71,11 @@ void OperationsManager::renameWebFile(const ItemInfo::Data &source, const QStrin
     connectErrorHandlers();
 }
 
+void OperationsManager::shareWebFile(const ItemInfo::Data &source)
+{
+    DEBUG << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << source.name;
+}
+
 void OperationsManager::setProgressBarSettings(QUrl url, const QString &fileName, const QString &progressBarDialogInfoText)
 {
     Q_UNUSED(url);
