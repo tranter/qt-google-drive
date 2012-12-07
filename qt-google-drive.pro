@@ -12,6 +12,7 @@ TARGET = qtdrive
 TEMPLATE = app
 
 SOURCES += core/main.cpp
+SOURCES += gui/forms/sharedialog.cpp
 SOURCES += gui/forms/createfolderdialog.cpp
 SOURCES += gui/forms/mainwindow.cpp
 SOURCES += network/oauth2.cpp
@@ -40,6 +41,7 @@ SOURCES += gui/foldersui.cpp
 SOURCES += gui/checkui.cpp
 
 HEADERS  += gui/forms/mainwindow.h
+HEADERS  += gui/forms/sharedialog.h
 HEADERS  += share/registration.h
 HEADERS  += share/defs.h
 HEADERS  += share/debug.h
@@ -73,6 +75,7 @@ HEADERS  += gui/foldersui.h
 HEADERS  += gui/checkui.h
 
 FORMS    += gui/forms/mainwindow.ui
+FORMS    += gui/forms/sharedialog.ui
 FORMS    += gui/forms/createfolderdialog.ui
 FORMS    += gui/forms/logindialog.ui
 FORMS    += gui/forms/settingsdialog.ui

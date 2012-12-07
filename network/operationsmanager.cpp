@@ -2,6 +2,7 @@
 #include "share/commontools.h"
 #include "core/driveengine.h"
 #include "share/debug.h"
+#include "gui/forms/sharedialog.h"
 #include <QStringList>
 
 OperationsManager::OperationsManager(QObject *parent):
@@ -73,7 +74,8 @@ void OperationsManager::renameWebFile(const ItemInfo::Data &source, const QStrin
 
 void OperationsManager::shareWebFile(const ItemInfo::Data &source)
 {
-    DEBUG << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << source.name;
+    ShareDialog *shareDialog = new ShareDialog(SDriveEngine::inst()->getParent());
+    shareDialog->show();
 }
 
 void OperationsManager::setProgressBarSettings(QUrl url, const QString &fileName, const QString &progressBarDialogInfoText)
