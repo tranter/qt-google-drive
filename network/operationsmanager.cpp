@@ -74,13 +74,13 @@ void OperationsManager::renameWebFile(const ItemInfo::Data &source, const QStrin
 
 void OperationsManager::shareWebFile(const ItemInfo::Data &source)
 {
-    ShareDialog *shareDialog = new ShareDialog(SDriveEngine::inst()->getParent());
-    shareDialog->show();
+    CommonTools::msg("Not Implemented yet");
+//      ShareDialog *shareDialog = new ShareDialog(SDriveEngine::inst()->getParent());
+//      shareDialog->show();
 }
 
-void OperationsManager::setProgressBarSettings(QUrl url, const QString &fileName, const QString &progressBarDialogInfoText)
+void OperationsManager::setProgressBarSettings(const QString &fileName, const QString &progressBarDialogInfoText)
 {
-    Q_UNUSED(url);
     Q_UNUSED(fileName);
     Q_UNUSED(progressBarDialogInfoText);
 }

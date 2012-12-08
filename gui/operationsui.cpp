@@ -144,13 +144,10 @@ void OperationsUI::slotRenameWebFile(void)
 
     editingItemText = item->text(0);
 
-    if(editingItemText != PARENT_FOLDER_SIGN)
-    {
-        item->setFlags(item->flags() | Qt::ItemIsEditable);
-        SDriveEngine::inst()->getFilesMngr()->getPanel()->editItem(item, 0);
+    item->setFlags(item->flags() | Qt::ItemIsEditable);
+    SDriveEngine::inst()->getFilesMngr()->getPanel()->editItem(item, 0);
 
-        connect(SDriveEngine::inst()->getFilesMngr()->getPanel()->itemDelegate(), SIGNAL(closeEditor(QWidget*,QAbstractItemDelegate::EndEditHint)), this, SLOT(slotItemEditDone()));
-    }
+    connect(SDriveEngine::inst()->getFilesMngr()->getPanel()->itemDelegate(), SIGNAL(closeEditor(QWidget*,QAbstractItemDelegate::EndEditHint)), this, SLOT(slotItemEditDone()));
 }
 
 void OperationsUI::slotItemEditDone(void)
@@ -169,9 +166,8 @@ void OperationsUI::slotItemEditDone(void)
 
 void OperationsUI::slotShareWebFile(void)
 {
-    CommonTools::msg("Not Implemented yet");
-    //  ItemInfo::Data source = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
-    //  SDriveEngine::inst()->getFilesMngr()->shareWebFile(source);
+    ItemInfo::Data source = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
+    SDriveEngine::inst()->getFilesMngr()->shareWebFile(source);
 }
 
 void OperationsUI::slotAcceptCreateFolder(const QString &name)
@@ -200,5 +196,5 @@ void OperationsUI::createFolder(const QString &name)
 
     SDriveEngine::inst()->foldersMngr->createFolder(SDriveEngine::inst()->getFilesMngr()->getUpLevelFolderLink(), name);
 
-    delete createFolderDialog;
+    //delete createFolderDialog;
 }

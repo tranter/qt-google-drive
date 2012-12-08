@@ -37,7 +37,7 @@ private slots:
     void slotPutFinished(void);
 
 protected:
-    virtual void setProgressBarSettings(QUrl url, const QString &fileName, const QString &progressBarDialogInfoText);
+    void setProgressBarSettings(const QString &fileName, const QString &progressBarDialogInfoText);
 
 private:
     QString getIDFromURL(const QString &url);
