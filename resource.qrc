@@ -11,7 +11,4 @@
         <file alias="trash">res/trash.png</file>
         <file alias="delete">res/edit-delete.png</file>
     </qresource>
-    <qresource prefix="/web">
-        <file alias="share">res/share/share.html</file>
-    </qresource>
 </RCC>

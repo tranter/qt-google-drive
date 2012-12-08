@@ -132,8 +132,8 @@ void OperationsUI::slotItemEditDone(void)
 
 void OperationsUI::slotShareWebFile(void)
 {
-  ItemInfo::Data source = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
-  SDriveEngine::inst()->getFilesMngr()->shareWebFile(source);
+//  ItemInfo::Data source = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
+//  SDriveEngine::inst()->getFilesMngr()->shareWebFile(source);
 }
 
 void OperationsUI::slotAcceptCreateFolder(const QString &name)
