@@ -78,6 +78,25 @@ void OperationsUI::slotTriggeredDel(void)
     del(object);
 }
 
+bool OperationsUI::operationPossible(void)
+{
+    bool is = false;
+
+    int index = SDriveEngine::inst()->getFilesMngr()->getPanel()->currentIndex().row();
+
+    if(index >= 0)
+    {
+        QString itemText = SDriveEngine::inst()->getFilesMngr()->getPanel()->currentItem()->text(0);
+
+        if(itemText != PARENT_FOLDER_SIGN)
+        {
+            is = true;
+        }
+    }
+
+    return is;
+}
+
 void OperationsUI::slotNewFolder(void)
 {
     createFolderDialog = new CreateFolderDialog(SDriveEngine::inst()->parent);
@@ -91,18 +110,36 @@ void OperationsUI::slotNewFolder(void)
 
 void OperationsUI::slotCopyWebFile(void)
 {
+    if(!operationPossible())
+    {
+        CommonTools::msg(tr("No Files selected"));
+        return;
+    }
+
     ItemInfo::Data source = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
     SDriveEngine::inst()->getFilesMngr()->copyWebFile(source, SDriveEngine::inst()->getFilesMngr(true)->getUpLevelFolderLink());
 }
 
 void OperationsUI::slotMoveWebFile(void)
 {
+    if(!operationPossible())
+    {
+        CommonTools::msg(tr("No Files selected"));
+        return;
+    }
+
     ItemInfo::Data source = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
     SDriveEngine::inst()->getFilesMngr()->moveWebFile(source, SDriveEngine::inst()->getFilesMngr(true)->getUpLevelFolderLink());
 }
 
 void OperationsUI::slotRenameWebFile(void)
 {
+    if(!operationPossible())
+    {
+        CommonTools::msg(tr("No Files selected"));
+        return;
+    }
+
     QTreeWidgetItem *item = SDriveEngine::inst()->getFilesMngr()->getPanel()->currentItem();
 
     editingItemText = item->text(0);
@@ -132,8 +169,9 @@ void OperationsUI::slotItemEditDone(void)
 
 void OperationsUI::slotShareWebFile(void)
 {
-//  ItemInfo::Data source = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
-//  SDriveEngine::inst()->getFilesMngr()->shareWebFile(source);
+    CommonTools::msg("Not Implemented yet");
+    //  ItemInfo::Data source = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
+    //  SDriveEngine::inst()->getFilesMngr()->shareWebFile(source);
 }
 
 void OperationsUI::slotAcceptCreateFolder(const QString &name)
