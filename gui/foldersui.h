@@ -15,16 +15,16 @@ public:
    friend class FilesUI;
    friend class OperationsUI;
 
-private slots:
-    void slotFoldersViewClicked(const QModelIndex& index);
+//private slots:
+//    void slotFoldersViewClicked(const QModelIndex& index);
 
 private:
-    void createAFolders(void);
+    //void createAFolders(void);
     QString getFolderID(void);
-    int getCurrFolderItemId(void) const;
+    //int getCurrFolderItemId(void) const;
     bool isFolder(void);
     ItemInfo::Data item(void);
-    void showFolders(const QString &url);
+    //void showFolders(const QString &url);
 
 private:
     QModelIndex currAFolderId;

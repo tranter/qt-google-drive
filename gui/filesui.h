@@ -24,7 +24,7 @@ public:
     friend class DriveEngine;
 
 private slots:
-    void slotAShowFiles(const QModelIndex &index);
+    //void slotAShowFiles(const QModelIndex &index);
     void slotLeftViewClicked(const QModelIndex &Id);
     void slotRightViewClicked(const QModelIndex &Id);
     void slotLeftPanelItemDoubleClicked(QTreeWidgetItem *item, int column);
@@ -39,7 +39,7 @@ private:
     QLabel* getPanelLabel(EPanels panel) const;
     void setDisplayingDisc(EPanels panel);
     void setPanelDisplayingPath(const QString &name, EPath path, EPanels panel);
-    void showFiles(void);
+    //void showFiles(void);
     void showFilesFromFolder(void);
     void showFilesOnPanel(const QString &Id, EPanels panel);
 };

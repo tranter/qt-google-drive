@@ -1,6 +1,7 @@
+#include <QSettings>
+#include <QDir>
 #include "filesui.h"
 #include "share/registration.h"
-#include <QSettings>
 #include "share/debug.h"
 
 FilesUI::FilesUI(QObject *parent) :
@@ -30,22 +31,22 @@ int FilesUI::getCurrFileItemId(FilesManager* manager) const
     return currentFileIndex;
 }
 
-void FilesUI::showFiles(void)
-{
-    ItemInfo item = *SDriveEngine::inst()->foldersMngr->getParser()->getXMLHandler()->getItemInfo();
-    int itemsIndex = SDriveEngine::inst()->foldersUI->getCurrFolderItemId();
+//void FilesUI::showFiles(void)
+//{
+//    ItemInfo item = *SDriveEngine::inst()->foldersMngr->getParser()->getXMLHandler()->getItemInfo();
+//    int itemsIndex = SDriveEngine::inst()->foldersUI->getCurrFolderItemId();
 
-    if (item.getItems().size() > 0)
-    {
-        if(item[itemsIndex].type == FOLDER_TYPE_STR)
-        {
-            QString query(item[itemsIndex].self);
-            query += (CONTENTS + MAX_RESULTS);
+//    if (item.getItems().size() > 0)
+//    {
+//        if(item[itemsIndex].type == FOLDER_TYPE_STR)
+//        {
+//            QString query(item[itemsIndex].self);
+//            query += (CONTENTS + MAX_RESULTS);
 
-            SDriveEngine::inst()->getFilesMngr()->get(query);
-        }
-    }
-}
+//            SDriveEngine::inst()->getFilesMngr()->get(query);
+//        }
+//    }
+//}
 
 void FilesUI::showFilesFromFolder(void)
 {
@@ -61,36 +62,36 @@ void FilesUI::showFilesFromFolder(void)
     }
 }
 
-void FilesUI::slotAShowFiles(const QModelIndex& index)
-{
-    if(index.model()->data(index).toString() == TRASH_TITLE)
-    {
-        SDriveEngine::inst()->elStates[ETrashFocused] = true;
-    }
-    else
-    {
-        SDriveEngine::inst()->elStates[ETrashFocused] = false;
-    }
+//void FilesUI::slotAShowFiles(const QModelIndex& index)
+//{
+//    if(index.model()->data(index).toString() == TRASH_TITLE)
+//    {
+//        SDriveEngine::inst()->elStates[ETrashFocused] = true;
+//    }
+//    else
+//    {
+//        SDriveEngine::inst()->elStates[ETrashFocused] = false;
+//    }
 
-    QString query;
-    SDriveEngine::inst()->getFoldersUI()->currAFolderId = index;
+//    QString query;
+//    SDriveEngine::inst()->getFoldersUI()->currAFolderId = index;
 
-    SDriveEngine::inst()->elStates[EFoldersTreeViewFocused] = false;
-    SDriveEngine::inst()->elStates[EAFoldersViewFocused] = true;
-    SDriveEngine::inst()->elStates[ERightViewFocused] = false;
+//    SDriveEngine::inst()->elStates[EFoldersTreeViewFocused] = false;
+//    SDriveEngine::inst()->elStates[EAFoldersViewFocused] = true;
+//    SDriveEngine::inst()->elStates[ERightViewFocused] = false;
 
-    SDriveEngine::inst()->getFilesMngr()->clear();
+//    SDriveEngine::inst()->getFilesMngr()->clear();
 
-    if(index.model()->data(index).toString() == ALL_ITEMS_TITLE) query = GET_ALL_ITEMS + MAX_RESULTS;
-    if(index.model()->data(index).toString() == GET_USER_DOCUMENTS_TITLE) query = GET_USER_DOCUMENTS + MAX_RESULTS;
-    if(index.model()->data(index).toString() == GET_USER_PRESENTATIONS_TITLE) query = GET_USER_PRESENTATIONS + MAX_RESULTS;
-    if(index.model()->data(index).toString() == GET_USER_SPREADSHEETS_TITLE) query = GET_USER_SPREADSHEETS + MAX_RESULTS;
-    if(index.model()->data(index).toString() == OWNED_BY_ME_TITLE) query = GET_OWNED_BY_ME + MAX_RESULTS;
-    if(index.model()->data(index).toString() == GET_STARRED_TITLE)  query = GET_STARRED;
-    if(index.model()->data(index).toString() == TRASH_TITLE) query = GET_TRASH;
+//    if(index.model()->data(index).toString() == ALL_ITEMS_TITLE) query = GET_ALL_ITEMS + MAX_RESULTS;
+//    if(index.model()->data(index).toString() == GET_USER_DOCUMENTS_TITLE) query = GET_USER_DOCUMENTS + MAX_RESULTS;
+//    if(index.model()->data(index).toString() == GET_USER_PRESENTATIONS_TITLE) query = GET_USER_PRESENTATIONS + MAX_RESULTS;
+//    if(index.model()->data(index).toString() == GET_USER_SPREADSHEETS_TITLE) query = GET_USER_SPREADSHEETS + MAX_RESULTS;
+//    if(index.model()->data(index).toString() == OWNED_BY_ME_TITLE) query = GET_OWNED_BY_ME + MAX_RESULTS;
+//    if(index.model()->data(index).toString() == GET_STARRED_TITLE)  query = GET_STARRED;
+//    if(index.model()->data(index).toString() == TRASH_TITLE) query = GET_TRASH;
 
-    SDriveEngine::inst()->aFoldersMngr->get(query);
-}
+//    SDriveEngine::inst()->aFoldersMngr->get(query);
+//}
 
 void FilesUI::slotLeftSortIndicatorChanged(int logicalIndex, Qt::SortOrder order)
 {
@@ -160,7 +161,7 @@ void FilesUI::slotUpdateFileList()
 void FilesUI::setPanelDisplayingPath(const QString &name, EPath path, EPanels panel)
 {
     QLabel* label = getPanelLabel(panel);
-    QString pathDividerSign("\\");
+    QString pathDividerSign(QDir::toNativeSeparators("/"));
     int labelTextlength = label->text().length();
     int discStrLength = getDisc(panel).length();
 

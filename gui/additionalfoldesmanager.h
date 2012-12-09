@@ -10,11 +10,11 @@ public:
     explicit AdditionalFoldersManager(QObject *parent = 0);
     virtual ~AdditionalFoldersManager();
 
-public:
-    void create(const QString& name, QString iconName = "");
+//public:
+//    void create(const QString& name, QString iconName = "");
 
-private:
-    QList<QTreeWidgetItem*> aFolders;
+//private:
+//    QList<QTreeWidgetItem*> aFolders;
 };
 
 #endif // ADDITIONALFOLDESMANAGER_H

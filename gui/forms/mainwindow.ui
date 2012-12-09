@@ -36,7 +36,7 @@
     <property name="spacing">
      <number>1</number>
     </property>
-    <item row="0" column="1" rowspan="2">
+    <item row="0" column="0" rowspan="2">
      <layout class="QVBoxLayout" name="leftPanelVLayout" stretch="0,0">
       <property name="spacing">
        <number>0</number>
@@ -181,7 +181,7 @@ color: rgb(255, 255, 255);</string>
       </item>
      </layout>
     </item>
-    <item row="0" column="2" rowspan="2">
+    <item row="0" column="1" rowspan="2">
      <layout class="QVBoxLayout" name="rightPanelVLayout">
       <property name="spacing">
        <number>0</number>
@@ -317,36 +317,7 @@ color: rgb(255, 255, 255);</string>
       </item>
      </layout>
     </item>
-    <item row="1" column="0" rowspan="2">
-     <widget class="QTreeWidget" name="aFoldersView">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="font">
-       <font>
-        <family>Arial</family>
-        <pointsize>9</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="cursor" stdset="0">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="animated">
-       <bool>true</bool>
-      </property>
-      <column>
-       <property name="text">
-        <string>Additional</string>
-       </property>
-      </column>
-     </widget>
-    </item>
-    <item row="2" column="1" colspan="2">
+    <item row="2" column="0" colspan="2">
      <layout class="QHBoxLayout" name="buttonsHLayout">
       <property name="spacing">
        <number>1</number>
@@ -523,47 +494,6 @@ width: 16px;</string>
        </widget>
       </item>
      </layout>
-    </item>
-    <item row="0" column="0">
-     <widget class="QTreeWidget" name="treeFoldersView">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-        <horstretch>0</horstretch>
-        <verstretch>25</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="font">
-       <font>
-        <family>Arial</family>
-        <pointsize>9</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="cursor" stdset="0">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="acceptDrops">
-       <bool>true</bool>
-      </property>
-      <property name="dragEnabled">
-       <bool>false</bool>
-      </property>
-      <property name="dragDropMode">
-       <enum>QAbstractItemView::DropOnly</enum>
-      </property>
-      <property name="defaultDropAction">
-       <enum>Qt::MoveAction</enum>
-      </property>
-      <property name="animated">
-       <bool>true</bool>
-      </property>
-      <column>
-       <property name="text">
-        <string>Drive</string>
-       </property>
-      </column>
-     </widget>
     </item>
    </layout>
   </widget>

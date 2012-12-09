@@ -9,19 +9,19 @@ OperationsUI::OperationsUI(QObject *parent) :
 
 void OperationsUI::del(QObject* object)
 {
-    if (object == SUi::inst()->treeFoldersView)
-    {
-        if(!SDriveEngine::inst()->elStates[EAFoldersViewFocused])
-        {
-            ItemInfo item = *SDriveEngine::inst()->foldersMngr->getParser()->getXMLHandler()->getItemInfo();
+//    if (object == SUi::inst()->treeFoldersView)
+//    {
+//        if(!SDriveEngine::inst()->elStates[EAFoldersViewFocused])
+//        {
+//            ItemInfo item = *SDriveEngine::inst()->foldersMngr->getParser()->getXMLHandler()->getItemInfo();
 
-            if(item[SDriveEngine::inst()->foldersUI->getCurrFolderItemId()].parent != "")
-            {
-                SDriveEngine::inst()->getFilesMngr()->deleteFile(item[SDriveEngine::inst()->foldersUI->getCurrFolderItemId()].self);
-                delItemInTree(item);
-            }
-        }
-    }
+//            if(item[SDriveEngine::inst()->foldersUI->getCurrFolderItemId()].parent != "")
+//            {
+//                SDriveEngine::inst()->getFilesMngr()->deleteFile(item[SDriveEngine::inst()->foldersUI->getCurrFolderItemId()].self);
+//                delItemInTree(item);
+//            }
+//        }
+//    }
 
     if (object == SDriveEngine::inst()->getFilesMngr()->getPanel())
     {
@@ -42,38 +42,38 @@ void OperationsUI::del(QObject* object)
     }
 }
 
-void OperationsUI::delItemInTree(ItemInfo item)
-{
-    QTreeWidgetItem *parent = item[SDriveEngine::inst()->foldersUI->getCurrFolderItemId()].pointer->parent();
-    int index;
+//void OperationsUI::delItemInTree(ItemInfo item)
+//{
+//    QTreeWidgetItem *parent = item[SDriveEngine::inst()->foldersUI->getCurrFolderItemId()].pointer->parent();
+//    int index;
 
-    if (parent)
-    {
-        index = parent->indexOfChild(SUi::inst()->treeFoldersView->currentItem());
-        delete parent->takeChild(index);
-    }
-    else
-    {
-        index = SUi::inst()->treeFoldersView->indexOfTopLevelItem(SUi::inst()->treeFoldersView->currentItem());
-        delete SUi::inst()->treeFoldersView->takeTopLevelItem(index);
-    }
-}
+//    if (parent)
+//    {
+//        index = parent->indexOfChild(SUi::inst()->treeFoldersView->currentItem());
+//        delete parent->takeChild(index);
+//    }
+//    else
+//    {
+//        index = SUi::inst()->treeFoldersView->indexOfTopLevelItem(SUi::inst()->treeFoldersView->currentItem());
+//        delete SUi::inst()->treeFoldersView->takeTopLevelItem(index);
+//    }
+//}
 
 void OperationsUI::slotTriggeredDel(void)
 {
-    if(SDriveEngine::inst()->elStates[ETrashFocused]) return;
-    if(SDriveEngine::inst()->elStates[EAFoldersViewFocused] && !SDriveEngine::inst()->elStates[ERightViewFocused]) return;
+//    if(SDriveEngine::inst()->elStates[ETrashFocused]) return;
+//    if(SDriveEngine::inst()->elStates[EAFoldersViewFocused] && !SDriveEngine::inst()->elStates[ERightViewFocused]) return;
 
     QObject* object;
 
-    if(SDriveEngine::inst()->elStates[EFoldersTreeViewFocused])
-    {
-        object = SUi::inst()->treeFoldersView;
-    }
-    else
-    {
+//    if(SDriveEngine::inst()->elStates[EFoldersTreeViewFocused])
+//    {
+//        object = SUi::inst()->treeFoldersView;
+//    }
+//    else
+//    {
         object = SDriveEngine::inst()->getFilesMngr()->getPanel();
-    }
+//    }
 
     del(object);
 }

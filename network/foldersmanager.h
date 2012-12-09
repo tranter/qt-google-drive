@@ -10,12 +10,12 @@ public:
     explicit FoldersManager(QObject *parent = 0);
 
 public:
-    void insertTreeItemFolder(const QString &name, QTreeWidget *parent);
+    //void insertTreeItemFolder(const QString &name, QTreeWidget *parent);
     void createFolder(const QString &folderUrl, const QString &name);
 
 private:
-    void buildTree(const QString& searchStr, QTreeWidgetItem* parent);
-    void fillTree(QList<QString> names, QList<QString> iconPathes, QTreeWidgetItem* parent, QList<int> indexes);
+    //void buildTree(const QString& searchStr, QTreeWidgetItem* parent);
+    //void fillTree(QList<QString> names, QList<QString> iconPathes, QTreeWidgetItem* parent, QList<int> indexes);
     virtual void show(void);
 
 private:
