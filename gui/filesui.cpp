@@ -9,27 +9,27 @@ FilesUI::FilesUI(QObject *parent) :
 {
 }
 
-int FilesUI::getCurrFileItemId(FilesManager* manager) const
-{
-    QList<ItemInfo::Data> item = manager->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
-    int count = item.count();
-    QString fileName(SDriveEngine::inst()->getFilesMngr()->getPanel()->currentIndex().data().toString());
+//int FilesUI::getCurrFileItemId(FilesManager* manager) const
+//{
+//    QList<ItemInfo::Data> item = manager->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
+//    int count = item.count();
+//    QString fileName(SDriveEngine::inst()->getFilesMngr()->getPanel()->currentIndex().data().toString());
 
-    DEBUG << "item name" << fileName;
+//    DEBUG << "item name" << fileName;
 
-    int currentFileIndex = 0;
+//    int currentFileIndex = 0;
 
-    for(int i = 1; i < count; ++i)
-    {
-        if(fileName == item[i].name)
-        {
-            currentFileIndex = i;
-            break;
-        }
-    }
+//    for(int i = 1; i < count; ++i)
+//    {
+//        if(fileName == item[i].name)
+//        {
+//            currentFileIndex = i;
+//            break;
+//        }
+//    }
 
-    return currentFileIndex;
-}
+//    return currentFileIndex;
+//}
 
 //void FilesUI::showFiles(void)
 //{
@@ -124,9 +124,6 @@ void FilesUI::slotRightPanelItemDoubleClicked(QTreeWidgetItem *item, int column)
 
 void FilesUI::showFilesOnPanel(const QString &Id, EPanels panel)
 {
-    //    SDriveEngine::inst()->elStates[EFoldersTreeViewFocused] = false;
-    //    SDriveEngine::inst()->elStates[ERightViewFocused] = true;
-
     if(Id == PARENT_FOLDER_SIGN)
     {
         setPanelDisplayingPath(Id, EBackward, panel);
@@ -139,11 +136,6 @@ void FilesUI::showFilesOnPanel(const QString &Id, EPanels panel)
             setPanelDisplayingPath(Id, EForward, panel);
             showFilesFromFolder();
         }
-
-        //        if(!SDriveEngine::inst()->elStates[EAFoldersViewFocused])
-        //        {
-        //            showFilesFromFolder();
-        //        }
     }
 }
 

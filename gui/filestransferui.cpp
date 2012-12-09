@@ -3,13 +3,14 @@
 #include "share/debug.h"
 #include <QSettings>
 #include <QFileDialog>
+#include <QDir>
 
 FilesTransferUI::FilesTransferUI(QObject *parent) :
     QObject(parent)
 {
 }
 
-void FilesTransferUI::download(FilesManager* manager)
+void FilesTransferUI::download(void)
 {
     if(SDriveEngine::inst()->downloadMngr)
     {
@@ -17,24 +18,18 @@ void FilesTransferUI::download(FilesManager* manager)
     }
 
     QSettings settings(COMPANY_NAME, APP_NAME);
+    ItemInfo::Data item = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
 
-    QList<ItemInfo::Data> item = manager->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
-    int index = SDriveEngine::inst()->filesUI->getCurrFileItemId(manager);
-
-    DEBUG << "item[index].downloadLink:" << item[index].downloadLink;
-    DEBUG << "item[index].self:" << item[index].self;
-
-    QString downloadLink(item[index].downloadLink);
+    QString downloadLink(item.downloadLink);
 
     if(!downloadLink.isEmpty())
     {
         if(SDriveEngine::inst()->checkUI->slotCheckWorkDir(false))
         {
-            QString fileName = settings.value(WORK_DIR).toString() + "/" + item[index].name;
-            QString fileType =  item[index].fileType;
+            QString fileName(settings.value(WORK_DIR).toString() + QDir::toNativeSeparators("/") + item.name);
 
             SDriveEngine::inst()->downloadMngr.reset(new DownloadFileManager(SDriveEngine::inst()->parent));
-            SDriveEngine::inst()->downloadMngr->startDownload(QUrl(downloadLink), fileName, fileType);
+            SDriveEngine::inst()->downloadMngr->startDownload(QUrl(downloadLink), fileName, item.fileType);
         }
         else
         {
@@ -45,8 +40,6 @@ void FilesTransferUI::download(FilesManager* manager)
 
 void FilesTransferUI::upload(void)
 {
-    //if(SDriveEngine::inst()->elStates[EAFoldersViewFocused]) return;
-
     if(SDriveEngine::inst()->uploadFileMngr)
     {
         if(SDriveEngine::inst()->uploadFileMngr->getState() == NetworkManager::EBusy) return;
@@ -56,12 +49,10 @@ void FilesTransferUI::upload(void)
 
     if(!fileName.isEmpty())
     {
-        QList<ItemInfo::Data> item = SDriveEngine::inst()->getFilesMngr()->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
-        int index = SDriveEngine::inst()->filesUI->getCurrFileItemId(SDriveEngine::inst()->getFilesMngr());
+        ItemInfo::Data item = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
+        QString uploadLink(item.uploadLink + QString("/?convert=false"));
 
-        QString uploadLink(item[index].uploadLink + "/?convert=false");
-
-        //  QString uploadLink(SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo().uploadLink + "/?convert=false");
+        DEBUG << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! uploadLink" << uploadLink;
 
         if(!uploadLink.isEmpty())
         {
@@ -74,14 +65,7 @@ void FilesTransferUI::upload(void)
 
 void FilesTransferUI::slotDownload(void)
 {
-//    if(SDriveEngine::inst()->elStates[EAFoldersViewFocused])
-//    {
-//        download(SDriveEngine::inst()->aFoldersMngr.data());
-//    }
-//    else
-//    {
-        download(SDriveEngine::inst()->getFilesMngr());
- //   }
+    download();
 }
 
 void FilesTransferUI::slotUpload(void)

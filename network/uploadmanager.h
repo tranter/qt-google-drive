@@ -23,8 +23,8 @@ public:
     void startUpload(QUrl url, const QString &fileName);
 
 protected:
-    virtual void setProgressBarSettings(QUrl url, const QString &fileName, const QString &progressBarDialogInfoText);
-    virtual void setPostFinishedSettings(QNetworkReply* reply);
+    void setProgressBarSettings(const QString &fileName, const QString &progressBarDialogInfoText);
+    void setPostFinishedSettings(QNetworkReply* reply);
 
 private:
     QString getContentTypeByExtension(const QString &ext);

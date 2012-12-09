@@ -33,9 +33,10 @@ void NetworkManager::slotError(QNetworkReply::NetworkError error)
 {
     DEBUG << "error code:" << error;
 
+    state = EReady;
+
     if(error == QNetworkReply::AuthenticationRequiredError)
     {
-        DEBUG << "error code: QNetworkReply::AuthenticationRequiredError";
         reply->abort();
         emit signalAccessTokenRequired();
     }

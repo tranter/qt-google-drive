@@ -34,7 +34,7 @@ private slots:
     void slotUpdateFileList();
 
 private:
-    int getCurrFileItemId(FilesManager* manager) const;
+    //int getCurrFileItemId(FilesManager* manager) const;
     QString getDisc(EPanels panel) const;
     QLabel* getPanelLabel(EPanels panel) const;
     void setDisplayingDisc(EPanels panel);

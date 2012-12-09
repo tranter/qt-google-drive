@@ -13,7 +13,7 @@ public:
 
 public:
     void upload(void);
-    void download(FilesManager* manager);
+    void download(void);
 
 private slots:
     void slotDownload(void);

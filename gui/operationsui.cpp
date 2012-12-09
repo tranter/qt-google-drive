@@ -36,9 +36,9 @@ void OperationsUI::del(QObject* object)
             manager = SDriveEngine::inst()->getFilesMngr();
 //        }
 
-        QList<ItemInfo::Data> itemData = manager->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
+        //QList<ItemInfo::Data> itemData = manager->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
 
-        manager->deleteFile(itemData[SDriveEngine::inst()->filesUI->getCurrFileItemId(manager)].self);
+        manager->deleteFile(SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo().self);
     }
 }
 
