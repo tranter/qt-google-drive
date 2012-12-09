@@ -22,6 +22,8 @@ OAuth2::OAuth2(QWidget* parent) :
 
     accessToken = settings.value(ACCESS_TOKEN).toString();
     refreshToken = settings.value(REFRESH_TOKEN).toString();
+
+    setConnections();
 }
 
 OAuth2::~OAuth2()

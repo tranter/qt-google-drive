@@ -1,5 +1,6 @@
 #include "driveengine.h"
 #include "share/registration.h"
+#include "share/debug.h"
 #include <QMessageBox>
 #include <QSettings>
 
@@ -20,6 +21,8 @@ DriveEngine::~DriveEngine()
 
 void DriveEngine::init(void)
 {
+    DEBUG;
+
     reset();
     setKeyActions();
 
@@ -42,6 +45,9 @@ void DriveEngine::init(void)
 void DriveEngine::reset(void)
 {
     //aFoldersMngr.reset(new AdditionalFoldersManager);
+
+    DEBUG;
+
     checkUI.reset(new CheckUI);
 
     for(int i = 0; i < EPanelsCount; ++i)

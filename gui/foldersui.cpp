@@ -9,12 +9,8 @@ FoldersUI::FoldersUI(QObject *parent) :
 QString FoldersUI::getFolderID(void)
 {  
     QString  str(SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo().self);
-
-    //QString str(item().self);
-    DEBUG << "item().self" << str;
     QStringList strList = str.split("/");
-    DEBUG << "list of values" << strList;
-    DEBUG << "FolderID" << strList[strList.count() - 1];
+
     return strList[strList.count() - 1];
 }
 
@@ -22,7 +18,6 @@ bool FoldersUI::isFolder(void)
 {
     bool is = false;
     QString  str(SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo().self);
-    //QString str(item().self);
     QStringList strList = str.split("/");
 
     str = strList[strList.count() - 1];
