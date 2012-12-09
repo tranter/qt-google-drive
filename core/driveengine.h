@@ -66,7 +66,7 @@ public slots:
 private:
     QWidget* parent;
 
-    bool elStates[EElStatesCount];
+    //bool elStates[EElStatesCount];
 
     QScopedPointer<AdditionalFoldersManager> aFoldersMngr;
     QScopedPointer<CheckUI> checkUI;

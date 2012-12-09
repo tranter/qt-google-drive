@@ -8,10 +8,10 @@ DriveEngine::DriveEngine(QObject *parent) :
 {
     this->parent = static_cast<QWidget*>(parent);
 
-    for(int i = 0; i < EElStatesCount; ++i)
-    {
-        elStates[i] = false;
-    }
+//    for(int i = 0; i < EElStatesCount; ++i)
+//    {
+//        elStates[i] = false;
+//    }
 }
 
 DriveEngine::~DriveEngine()

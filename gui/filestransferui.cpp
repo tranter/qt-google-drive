@@ -45,7 +45,7 @@ void FilesTransferUI::download(FilesManager* manager)
 
 void FilesTransferUI::upload(void)
 {
-    if(SDriveEngine::inst()->elStates[EAFoldersViewFocused]) return;
+    //if(SDriveEngine::inst()->elStates[EAFoldersViewFocused]) return;
 
     if(SDriveEngine::inst()->uploadFileMngr)
     {
@@ -74,14 +74,14 @@ void FilesTransferUI::upload(void)
 
 void FilesTransferUI::slotDownload(void)
 {
-    if(SDriveEngine::inst()->elStates[EAFoldersViewFocused])
-    {
-        download(SDriveEngine::inst()->aFoldersMngr.data());
-    }
-    else
-    {
+//    if(SDriveEngine::inst()->elStates[EAFoldersViewFocused])
+//    {
+//        download(SDriveEngine::inst()->aFoldersMngr.data());
+//    }
+//    else
+//    {
         download(SDriveEngine::inst()->getFilesMngr());
-    }
+ //   }
 }
 
 void FilesTransferUI::slotUpload(void)

@@ -131,8 +131,8 @@ void FilesUI::showFilesOnPanel(const QString &Id, EPanels panel)
 {
     DEBUG << "panel:" << panel << "name:" << SDriveEngine::inst()->getFoldersUI()->item().name << "item().self:" << SDriveEngine::inst()->getFoldersUI()->item().self;
 
-    SDriveEngine::inst()->elStates[EFoldersTreeViewFocused] = false;
-    SDriveEngine::inst()->elStates[ERightViewFocused] = true;
+//    SDriveEngine::inst()->elStates[EFoldersTreeViewFocused] = false;
+//    SDriveEngine::inst()->elStates[ERightViewFocused] = true;
 
     if(Id == PARENT_FOLDER_SIGN)
     {
@@ -146,10 +146,10 @@ void FilesUI::showFilesOnPanel(const QString &Id, EPanels panel)
             setPanelDisplayingPath(Id, EForward, panel);
         }
 
-        if(!SDriveEngine::inst()->elStates[EAFoldersViewFocused])
-        {
-            showFilesFromFolder();
-        }
+//        if(!SDriveEngine::inst()->elStates[EAFoldersViewFocused])
+//        {
+//            showFilesFromFolder();
+//        }
     }
 }
 
@@ -189,7 +189,7 @@ void FilesUI::setPanelDisplayingPath(const QString &name, EPath path, EPanels pa
 QString FilesUI::getDisc(EPanels panel) const
 {
     QString disc;
-    disc = "a:" + QDir::toNativeSeparators("/");
+    disc = QString("a:") + QDir::toNativeSeparators("/");
     return disc;
 }
 

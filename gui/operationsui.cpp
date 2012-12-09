@@ -27,14 +27,14 @@ void OperationsUI::del(QObject* object)
     {
         FilesManager* manager;
 
-        if(SDriveEngine::inst()->elStates[EAFoldersViewFocused])
-        {
-            manager = SDriveEngine::inst()->aFoldersMngr.data();
-        }
-        else
-        {
+//        if(SDriveEngine::inst()->elStates[EAFoldersViewFocused])
+//        {
+//            manager = SDriveEngine::inst()->aFoldersMngr.data();
+//        }
+//        else
+//        {
             manager = SDriveEngine::inst()->getFilesMngr();
-        }
+//        }
 
         QList<ItemInfo::Data> itemData = manager->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
 
