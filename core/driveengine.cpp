@@ -12,13 +12,10 @@ DriveEngine::DriveEngine(QObject *parent) :
 
 DriveEngine::~DriveEngine()
 {
-    DEBUG;
 }
 
 void DriveEngine::init(void)
 {
-    DEBUG;
-
     reset();
     setKeyActions();
 
@@ -32,14 +29,10 @@ void DriveEngine::init(void)
 
     filesUI->setDisplayingDisc(ERight);
     filesUI->setDisplayingDisc(ELeft);
-
-    DEBUG << "END OF DriveEngine::init";
 }
 
 void DriveEngine::reset(void)
 {
-    DEBUG;
-
     checkUI.reset(new CheckUI);
 
     for(int i = 0; i < EPanelsCount; ++i)
@@ -150,8 +143,6 @@ FilesManager* DriveEngine::getFilesMngr(bool opposite) const
 
 void DriveEngine::slotFirstPanelIsLoaded()
 {
-    DEBUG;
-
     QSettings settings(COMPANY_NAME, APP_NAME);
 
     settings.setValue(CURRENT_PANEL, LEFT_PANEL);
@@ -159,6 +150,4 @@ void DriveEngine::slotFirstPanelIsLoaded()
 
     SDriveEngine::inst()->filesMngr[ELeft]->setPanel(SUi::inst()->filesViewLeft);
     SDriveEngine::inst()->filesMngr[ELeft]->get(GET_FULL_ROOT_CONTENT);
-
-    DEBUG << "END OF";
 }
