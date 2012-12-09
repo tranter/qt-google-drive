@@ -52,8 +52,6 @@ void FilesTransferUI::upload(void)
         ItemInfo::Data item = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
         QString uploadLink(item.uploadLink + QString("/?convert=false"));
 
-        DEBUG << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! uploadLink" << uploadLink;
-
         if(!uploadLink.isEmpty())
         {
             SDriveEngine::inst()->uploadFileMngr.reset(new UploadFileManager(SDriveEngine::inst()->parent));

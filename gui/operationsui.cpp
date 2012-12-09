@@ -9,35 +9,11 @@ OperationsUI::OperationsUI(QObject *parent) :
 
 void OperationsUI::del(QObject* object)
 {
-//    if (object == SUi::inst()->treeFoldersView)
-//    {
-//        if(!SDriveEngine::inst()->elStates[EAFoldersViewFocused])
-//        {
-//            ItemInfo item = *SDriveEngine::inst()->foldersMngr->getParser()->getXMLHandler()->getItemInfo();
-
-//            if(item[SDriveEngine::inst()->foldersUI->getCurrFolderItemId()].parent != "")
-//            {
-//                SDriveEngine::inst()->getFilesMngr()->deleteFile(item[SDriveEngine::inst()->foldersUI->getCurrFolderItemId()].self);
-//                delItemInTree(item);
-//            }
-//        }
-//    }
-
     if (object == SDriveEngine::inst()->getFilesMngr()->getPanel())
     {
         FilesManager* manager;
 
-//        if(SDriveEngine::inst()->elStates[EAFoldersViewFocused])
-//        {
-//            manager = SDriveEngine::inst()->aFoldersMngr.data();
-//        }
-//        else
-//        {
-            manager = SDriveEngine::inst()->getFilesMngr();
-//        }
-
-        //QList<ItemInfo::Data> itemData = manager->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
-
+        manager = SDriveEngine::inst()->getFilesMngr();
         manager->deleteFile(SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo().self);
     }
 }
@@ -60,21 +36,8 @@ void OperationsUI::del(QObject* object)
 //}
 
 void OperationsUI::slotTriggeredDel(void)
-{
-//    if(SDriveEngine::inst()->elStates[ETrashFocused]) return;
-//    if(SDriveEngine::inst()->elStates[EAFoldersViewFocused] && !SDriveEngine::inst()->elStates[ERightViewFocused]) return;
-
-    QObject* object;
-
-//    if(SDriveEngine::inst()->elStates[EFoldersTreeViewFocused])
-//    {
-//        object = SUi::inst()->treeFoldersView;
-//    }
-//    else
-//    {
-        object = SDriveEngine::inst()->getFilesMngr()->getPanel();
-//    }
-
+{   
+    QObject* object(SDriveEngine::inst()->getFilesMngr()->getPanel());
     del(object);
 }
 
@@ -195,6 +158,4 @@ void OperationsUI::createFolder(const QString &name)
     }
 
     SDriveEngine::inst()->foldersMngr->createFolder(SDriveEngine::inst()->getFilesMngr()->getUpLevelFolderLink(), name);
-
-    //delete createFolderDialog;
 }

@@ -34,12 +34,10 @@ private slots:
     void slotUpdateFileList();
 
 private:
-    //int getCurrFileItemId(FilesManager* manager) const;
     QString getDisc(EPanels panel) const;
     QLabel* getPanelLabel(EPanels panel) const;
     void setDisplayingDisc(EPanels panel);
     void setPanelDisplayingPath(const QString &name, EPath path, EPanels panel);
-    //void showFiles(void);
     void showFilesFromFolder(void);
     void showFilesOnPanel(const QString &Id, EPanels panel);
 };

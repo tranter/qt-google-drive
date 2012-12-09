@@ -8,11 +8,6 @@ DriveEngine::DriveEngine(QObject *parent) :
     QObject(parent)
 {
     this->parent = static_cast<QWidget*>(parent);
-
-//    for(int i = 0; i < EElStatesCount; ++i)
-//    {
-//        elStates[i] = false;
-//    }
 }
 
 DriveEngine::~DriveEngine()
@@ -29,8 +24,6 @@ void DriveEngine::init(void)
     QSettings settings(COMPANY_NAME, APP_NAME);
     settings.setValue(INIT_LOAD, true);
 
-    //foldersUI->showFolders(GET_FOLDERS_TREE);
-
     settings.setValue(CURRENT_PANEL, RIGHT_PANEL);
 
     SDriveEngine::inst()->filesMngr[ERight]->setPanel(SUi::inst()->filesViewRight);
@@ -38,14 +31,10 @@ void DriveEngine::init(void)
 
     filesUI->setDisplayingDisc(ERight);
     filesUI->setDisplayingDisc(ELeft);
-
-    //foldersUI->createAFolders();
 }
 
 void DriveEngine::reset(void)
 {
-    //aFoldersMngr.reset(new AdditionalFoldersManager);
-
     DEBUG;
 
     checkUI.reset(new CheckUI);

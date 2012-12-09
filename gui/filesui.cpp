@@ -9,45 +9,6 @@ FilesUI::FilesUI(QObject *parent) :
 {
 }
 
-//int FilesUI::getCurrFileItemId(FilesManager* manager) const
-//{
-//    QList<ItemInfo::Data> item = manager->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
-//    int count = item.count();
-//    QString fileName(SDriveEngine::inst()->getFilesMngr()->getPanel()->currentIndex().data().toString());
-
-//    DEBUG << "item name" << fileName;
-
-//    int currentFileIndex = 0;
-
-//    for(int i = 1; i < count; ++i)
-//    {
-//        if(fileName == item[i].name)
-//        {
-//            currentFileIndex = i;
-//            break;
-//        }
-//    }
-
-//    return currentFileIndex;
-//}
-
-//void FilesUI::showFiles(void)
-//{
-//    ItemInfo item = *SDriveEngine::inst()->foldersMngr->getParser()->getXMLHandler()->getItemInfo();
-//    int itemsIndex = SDriveEngine::inst()->foldersUI->getCurrFolderItemId();
-
-//    if (item.getItems().size() > 0)
-//    {
-//        if(item[itemsIndex].type == FOLDER_TYPE_STR)
-//        {
-//            QString query(item[itemsIndex].self);
-//            query += (CONTENTS + MAX_RESULTS);
-
-//            SDriveEngine::inst()->getFilesMngr()->get(query);
-//        }
-//    }
-//}
-
 void FilesUI::showFilesFromFolder(void)
 {   
     QString query(GET_FILES_IN_FOLDER);
