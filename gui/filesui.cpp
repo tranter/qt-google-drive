@@ -49,17 +49,12 @@ int FilesUI::getCurrFileItemId(FilesManager* manager) const
 //}
 
 void FilesUI::showFilesFromFolder(void)
-{
-    DEBUG;
+{   
+    QString query(GET_FILES_IN_FOLDER);
+    query += SDriveEngine::inst()->foldersUI->getFolderID();
+    query += (CONTENTS + MAX_RESULTS);
 
-    if(SDriveEngine::inst()->foldersUI->isFolder())
-    {
-        QString query(GET_FILES_IN_FOLDER);
-        query += SDriveEngine::inst()->foldersUI->getFolderID();
-        query += (CONTENTS + MAX_RESULTS);
-
-        SDriveEngine::inst()->getFilesMngr()->get(query);
-    }
+    SDriveEngine::inst()->getFilesMngr()->get(query);
 }
 
 //void FilesUI::slotAShowFiles(const QModelIndex& index)
@@ -129,10 +124,8 @@ void FilesUI::slotRightPanelItemDoubleClicked(QTreeWidgetItem *item, int column)
 
 void FilesUI::showFilesOnPanel(const QString &Id, EPanels panel)
 {
-    DEBUG << "panel:" << panel << "name:" << SDriveEngine::inst()->getFoldersUI()->item().name << "item().self:" << SDriveEngine::inst()->getFoldersUI()->item().self;
-
-//    SDriveEngine::inst()->elStates[EFoldersTreeViewFocused] = false;
-//    SDriveEngine::inst()->elStates[ERightViewFocused] = true;
+    //    SDriveEngine::inst()->elStates[EFoldersTreeViewFocused] = false;
+    //    SDriveEngine::inst()->elStates[ERightViewFocused] = true;
 
     if(Id == PARENT_FOLDER_SIGN)
     {
@@ -144,12 +137,13 @@ void FilesUI::showFilesOnPanel(const QString &Id, EPanels panel)
         if(SDriveEngine::inst()->foldersUI->isFolder())
         {
             setPanelDisplayingPath(Id, EForward, panel);
+            showFilesFromFolder();
         }
 
-//        if(!SDriveEngine::inst()->elStates[EAFoldersViewFocused])
-//        {
-//            showFilesFromFolder();
-//        }
+        //        if(!SDriveEngine::inst()->elStates[EAFoldersViewFocused])
+        //        {
+        //            showFilesFromFolder();
+        //        }
     }
 }
 
@@ -170,7 +164,7 @@ void FilesUI::setPanelDisplayingPath(const QString &name, EPath path, EPanels pa
     case EForward:
     {
         QString divider((labelTextlength == discStrLength) ? "" : pathDividerSign);
-        label->setText(label->text() += divider + name);
+        label->setText(label->text() += (divider + name));
     }
         break;
     case EBackward:

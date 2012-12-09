@@ -8,7 +8,9 @@ FoldersUI::FoldersUI(QObject *parent) :
 
 QString FoldersUI::getFolderID(void)
 {  
-    QString str(item().self);
+    QString  str(SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo().self);
+
+    //QString str(item().self);
     DEBUG << "item().self" << str;
     QStringList strList = str.split("/");
     DEBUG << "list of values" << strList;
@@ -19,7 +21,8 @@ QString FoldersUI::getFolderID(void)
 bool FoldersUI::isFolder(void)
 {
     bool is = false;
-    QString str(item().self);
+    QString  str(SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo().self);
+    //QString str(item().self);
     QStringList strList = str.split("/");
 
     str = strList[strList.count() - 1];
@@ -31,13 +34,13 @@ bool FoldersUI::isFolder(void)
     return is;
 }
 
-ItemInfo::Data FoldersUI::item(void)
-{
-    QList<ItemInfo::Data> items = SDriveEngine::inst()->getFilesMngr()->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
-    int index = SDriveEngine::inst()->filesUI->getCurrFileItemId(SDriveEngine::inst()->getFilesMngr());
+//ItemInfo::Data FoldersUI::item(void)
+//{
+//    QList<ItemInfo::Data> items = SDriveEngine::inst()->getFilesMngr()->getParser()->getXMLHandler()->getItemInfo()->getFileItems();
+//    int index = SDriveEngine::inst()->filesUI->getCurrFileItemId(SDriveEngine::inst()->getFilesMngr());
 
-    return items[index];
-}
+//    return items[index];
+//}
 
 //int FoldersUI::getCurrFolderItemId(void) const
 //{

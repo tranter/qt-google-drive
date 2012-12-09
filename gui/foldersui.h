@@ -23,7 +23,7 @@ private:
     QString getFolderID(void);
     //int getCurrFolderItemId(void) const;
     bool isFolder(void);
-    ItemInfo::Data item(void);
+    //ItemInfo::Data item(void);
     //void showFolders(const QString &url);
 
 private:
