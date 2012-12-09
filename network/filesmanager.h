@@ -20,7 +20,8 @@ signals:
     void signalFirstPanelIsLoaded();
 
 public:
-    QString getUpLevelFolderLink(void) const;
+    QString getUpperLevelFolderURL(void) const;
+    ItemInfo::Data getUpperLevelFolderInfo(void) const;
     QTreeWidget* getPanel(void) const;
     QString back(void);
     void setPanel(QTreeWidget *p);

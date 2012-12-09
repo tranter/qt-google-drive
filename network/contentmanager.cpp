@@ -38,7 +38,7 @@ void ContentManager::slotReplyFinished(QNetworkReply*)
 
     if(!parser->getXMLHandler()->resDownloadingNow())
     {
-        show();
+        show();        
     }
 
     QApplication::restoreOverrideCursor();

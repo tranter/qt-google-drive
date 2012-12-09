@@ -102,7 +102,7 @@ void FilesUI::showFilesOnPanel(const QString &Id, EPanels panel)
 
 void FilesUI::slotUpdateFileList()
 {
-    SDriveEngine::inst()->getFilesMngr()->get(SDriveEngine::inst()->getFilesMngr()->getUpLevelFolderLink());
+    SDriveEngine::inst()->getFilesMngr()->get(SDriveEngine::inst()->getFilesMngr()->getUpperLevelFolderURL());
 }
 
 void FilesUI::setPanelDisplayingPath(const QString &name, EPath path, EPanels panel)

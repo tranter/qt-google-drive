@@ -76,10 +76,18 @@ QTreeWidget* FilesManager::getPanel(void) const
     return panel;
 }
 
-QString FilesManager::getUpLevelFolderLink(void) const
+QString FilesManager::getUpperLevelFolderURL(void) const
 {
     return pathLinks.last();
 }
+
+ItemInfo::Data FilesManager::getUpperLevelFolderInfo(void) const
+{
+    DEBUG << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << fileItems[0].name;
+
+    return  fileItems[0];
+}
+
 
 QString FilesManager::back(void)
 {

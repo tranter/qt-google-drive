@@ -49,15 +49,11 @@ void FilesTransferUI::upload(void)
 
     if(!fileName.isEmpty())
     {
-        ItemInfo::Data item = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
-        QString uploadLink(item.uploadLink + QString("/?convert=false"));
+        QString uploadLink(SDriveEngine::inst()->getFilesMngr()->getUpperLevelFolderInfo().uploadLink + QString("/?convert=false"));
 
-        if(!uploadLink.isEmpty())
-        {
-            SDriveEngine::inst()->uploadFileMngr.reset(new UploadFileManager(SDriveEngine::inst()->parent));
-            connect(SDriveEngine::inst()->uploadFileMngr.data(), SIGNAL(signalUpdateFileList()), SDriveEngine::inst()->filesUI.data(), SLOT(slotUpdateFileList()));
-            SDriveEngine::inst()->uploadFileMngr->startUpload(uploadLink, fileName);
-        }
+        SDriveEngine::inst()->uploadFileMngr.reset(new UploadFileManager(SDriveEngine::inst()->parent));
+        connect(SDriveEngine::inst()->uploadFileMngr.data(), SIGNAL(signalUpdateFileList()), SDriveEngine::inst()->filesUI.data(), SLOT(slotUpdateFileList()));
+        SDriveEngine::inst()->uploadFileMngr->startUpload(uploadLink, fileName);
     }
 }
 

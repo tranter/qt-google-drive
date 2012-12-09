@@ -80,7 +80,7 @@ void OperationsUI::slotCopyWebFile(void)
     }
 
     ItemInfo::Data source = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
-    SDriveEngine::inst()->getFilesMngr()->copyWebFile(source, SDriveEngine::inst()->getFilesMngr(true)->getUpLevelFolderLink());
+    SDriveEngine::inst()->getFilesMngr()->copyWebFile(source, SDriveEngine::inst()->getFilesMngr(true)->getUpperLevelFolderURL());
 }
 
 void OperationsUI::slotMoveWebFile(void)
@@ -92,7 +92,7 @@ void OperationsUI::slotMoveWebFile(void)
     }
 
     ItemInfo::Data source = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
-    SDriveEngine::inst()->getFilesMngr()->moveWebFile(source, SDriveEngine::inst()->getFilesMngr(true)->getUpLevelFolderLink());
+    SDriveEngine::inst()->getFilesMngr()->moveWebFile(source, SDriveEngine::inst()->getFilesMngr(true)->getUpperLevelFolderURL());
 }
 
 void OperationsUI::slotRenameWebFile(void)
@@ -157,5 +157,5 @@ void OperationsUI::createFolder(const QString &name)
         return;
     }
 
-    SDriveEngine::inst()->foldersMngr->createFolder(SDriveEngine::inst()->getFilesMngr()->getUpLevelFolderLink(), name);
+    SDriveEngine::inst()->foldersMngr->createFolder(SDriveEngine::inst()->getFilesMngr()->getUpperLevelFolderURL(), name);
 }

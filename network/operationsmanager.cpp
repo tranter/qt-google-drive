@@ -175,7 +175,7 @@ void OperationsManager::slotPutFinished(void)
 void OperationsManager::updatePanelContent(bool opposite)
 {
     FilesManager* fileManager = SDriveEngine::inst()->getFilesMngr(opposite);
-    fileManager->get(fileManager->getUpLevelFolderLink());
+    fileManager->get(fileManager->getUpperLevelFolderURL());
 }
 
 
