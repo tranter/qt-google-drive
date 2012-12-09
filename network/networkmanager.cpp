@@ -26,7 +26,6 @@ NetworkManager::~NetworkManager()
 
 void NetworkManager::slotReplyReadyRead()
 {
-    DEBUG;
     replyStr.append(reply->readAll());
 }
 
@@ -129,8 +128,6 @@ void NetworkManager::getRequest(const QString &url)
     connect(reply, SIGNAL(readyRead()), this, SLOT(slotReplyReadyRead()));
 
     connectErrorHandlers();
-
-    DEBUG << "END OF NetworkManager::getRequest";
 }
 
 void NetworkManager::postRequest(QUrl url, const QString &fileName)

@@ -20,8 +20,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::init(void)
 {
-    DEBUG;
-
     if(!CheckUI().checkReg())
     {
         CommonTools::msg("You need to register the application in <a href=\"https://code.google.com/apis/console/\">API Console - Google Code</a>");
@@ -46,8 +44,6 @@ void MainWindow::init(void)
 
     SUi::inst()->filesViewLeft->header()->resizeSection(0, 250);
     SUi::inst()->filesViewRight->header()->resizeSection(0, 250);
-
-    DEBUG << "END OF MainWindow::init";
 }
 
 void MainWindow::setConnections(void)
