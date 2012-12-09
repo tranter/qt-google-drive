@@ -22,19 +22,16 @@ void FilesTransferUI::download(void)
 
     QString downloadLink(item.downloadLink);
 
-    if(!downloadLink.isEmpty())
+    if(SDriveEngine::inst()->checkUI->slotCheckWorkDir(false))
     {
-        if(SDriveEngine::inst()->checkUI->slotCheckWorkDir(false))
-        {
-            QString fileName(settings.value(WORK_DIR).toString() + QDir::toNativeSeparators("/") + item.name);
+        QString fileName(settings.value(WORK_DIR).toString() + QDir::toNativeSeparators("/") + item.name);
 
-            SDriveEngine::inst()->downloadMngr.reset(new DownloadFileManager(SDriveEngine::inst()->parent));
-            SDriveEngine::inst()->downloadMngr->startDownload(QUrl(downloadLink), fileName, item.fileType);
-        }
-        else
-        {
-            CommonTools::msg(SET_DIR_REMINDER_MSG);
-        }
+        SDriveEngine::inst()->downloadMngr.reset(new DownloadFileManager(SDriveEngine::inst()->parent));
+        SDriveEngine::inst()->downloadMngr->startDownload(QUrl(downloadLink), fileName, item.fileType);
+    }
+    else
+    {
+        CommonTools::msg(SET_DIR_REMINDER_MSG);
     }
 }
 

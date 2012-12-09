@@ -26,21 +26,33 @@ T* TSingleton<T>::instObject = NULL;
 template <typename T>
 T* TSingleton<T>::inst(void)
 {
-    if(!instObject) instObject = new T;
+    if(!instObject)
+    {
+        instObject = new T;
+    }
+
     return instObject;
 }
 
 template <typename T>
 T* TSingleton<T>::inst(QObject *parent)
 {
-    if(!instObject) instObject = new T(parent);
+    if(!instObject)
+    {
+        instObject = new T(parent);
+    }
+
     return instObject;
 }
 
 template <typename T>
 void TSingleton<T>::freeInst(void)
 {
-    if(instObject) delete instObject;
+    if(instObject)
+    {
+        delete instObject;
+    }
+
     instObject = NULL;
 }
 

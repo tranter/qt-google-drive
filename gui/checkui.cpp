@@ -19,11 +19,7 @@ bool CheckUI::checkReg(void)
 
     if(CLIENT_ID == QString("YOUR_CLIENT_ID_HERE") || REDIRECT_URI == QString("YOUR_REDIRECT_URI_HERE") || CLIENT_SECRET == QString("YOUR_CLIENT_SECRET"))
     {
-        regState = false;
-
-        // TODO: change link to wiki page
-        QMessageBox::warning(SDriveEngine::inst()->getParent(), "Warning",
-                             "To work with application you need to register your own application in <b>Google</b>.\n");
+        regState = false;       
     }
 
     return regState;

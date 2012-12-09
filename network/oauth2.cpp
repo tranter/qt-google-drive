@@ -18,15 +18,19 @@ OAuth2::OAuth2(QWidget* parent) :
     redirectURI = REDIRECT_URI;
     endPoint = END_POINT;
 
-    QSettings settings(COMPANY_NAME, APP_NAME);
+//    QSettings settings(COMPANY_NAME, APP_NAME);
+//    accessToken = settings.value(ACCESS_TOKEN).toString();
+//    refreshToken = settings.value(REFRESH_TOKEN).toString();
 
-    accessToken = settings.value(ACCESS_TOKEN).toString();
-    refreshToken = settings.value(REFRESH_TOKEN).toString();
+//    DEBUG << "accessToken" << accessToken;
+//    DEBUG << "refreshToken" << refreshToken;
 
     init();
     networkManager = getNetworkManager();
 
     setConnections();
+
+    DEBUG << "END OF OAuth2::OAuth2";
 }
 
 OAuth2::~OAuth2()
@@ -86,6 +90,8 @@ void OAuth2::slotReplyFinished(QNetworkReply* reply)
 
     if(!accessToken.isEmpty())
     {
+        DEBUG "!accessToken.isEmpty()";
+
         QTimer::singleShot((expires - 120) * 1000/120, this, SLOT(getAccessTokenFromRefreshToken()));
     }
 

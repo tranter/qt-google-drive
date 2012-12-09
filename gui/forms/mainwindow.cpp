@@ -22,14 +22,14 @@ void MainWindow::init(void)
 {
     DEBUG;
 
+    if(!CheckUI().checkReg())
     {
-        CheckUI checkUI;
-        if(!checkUI.checkReg()) return;
+        CommonTools::msg("You need to register the application in <a href=\"https://code.google.com/apis/console/\">API Console - Google Code</a>");
+        return;
     }
 
-    SDriveEngine::freeInst();
-
     SDriveEngine::inst(this)->init();
+
     SDriveEngine::inst()->getCheckUI()->slotCheckWorkDir(false);
 
     setConnections();
@@ -47,8 +47,7 @@ void MainWindow::init(void)
     SUi::inst()->filesViewLeft->header()->resizeSection(0, 250);
     SUi::inst()->filesViewRight->header()->resizeSection(0, 250);
 
-    //SUi::inst()->treeFoldersView->setVisible(false);
-    //SUi::inst()->aFoldersView->setVisible(false);
+    DEBUG << "END OF MainWindow::init";
 }
 
 void MainWindow::setConnections(void)
@@ -66,12 +65,10 @@ void MainWindow::setConnections(void)
     connect(SUi::inst()->deleteButton, SIGNAL(clicked()), SDriveEngine::inst()->getOpUI(), SLOT(slotTriggeredDel()));
     connect(SUi::inst()->renameButton, SIGNAL(clicked()), SDriveEngine::inst()->getOpUI(), SLOT(slotRenameWebFile()));
     connect(SUi::inst()->shareButton, SIGNAL(clicked()), SDriveEngine::inst()->getOpUI(), SLOT(slotShareWebFile()));
-    //connect(SUi::inst()->treeFoldersView, SIGNAL(clicked (const QModelIndex&)), SDriveEngine::inst()->getFoldersUI(), SLOT(slotFoldersViewClicked(const QModelIndex&)));
     connect(SUi::inst()->filesViewLeft, SIGNAL(clicked(const QModelIndex&)), SDriveEngine::inst()->getfilesUI(), SLOT(slotLeftViewClicked(const QModelIndex&)));
     connect(SUi::inst()->filesViewRight, SIGNAL(clicked(const QModelIndex&)), SDriveEngine::inst()->getfilesUI(), SLOT(slotRightViewClicked(const QModelIndex&)));
     connect(SUi::inst()->filesViewLeft, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), SDriveEngine::inst()->getfilesUI(), SLOT(slotLeftPanelItemDoubleClicked(QTreeWidgetItem*, int)));
     connect(SUi::inst()->filesViewRight, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), SDriveEngine::inst()->getfilesUI(), SLOT(slotRightPanelItemDoubleClicked(QTreeWidgetItem*, int)));
-    //connect(SUi::inst()->aFoldersView, SIGNAL(clicked (const QModelIndex&)), SDriveEngine::inst()->getfilesUI(), SLOT(slotAShowFiles(const QModelIndex&)));
     connect(SUi::inst()->filesViewLeft->header(), SIGNAL(sortIndicatorChanged(int, Qt::SortOrder)), SDriveEngine::inst()->getfilesUI(), SLOT(slotLeftSortIndicatorChanged(int, Qt::SortOrder)));
     connect(SUi::inst()->filesViewRight->header(), SIGNAL(sortIndicatorChanged(int, Qt::SortOrder)), SDriveEngine::inst()->getfilesUI(), SLOT(slotRightSortIndicatorChanged(int, Qt::SortOrder)));
     connect(SDriveEngine::inst()->getFoldersMngr()->self(), SIGNAL(signalAccessTokenRequired()), SDriveEngine::inst(), SLOT(slotStartLogin()));

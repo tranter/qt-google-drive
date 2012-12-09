@@ -22,9 +22,10 @@ bool FoldersUI::isFolder(void)
 
     str = strList[strList.count() - 1];
 
-    if(str.indexOf(FOLDER_TYPE_STR) != -1) is = true;
-
-    DEBUG << "is:" << is;
+    if(str.indexOf(FOLDER_TYPE_STR) != -1)
+    {
+        is = true;
+    }
 
     return is;
 }
