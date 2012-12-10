@@ -14,7 +14,7 @@
 void CommonTools::setHeader(QNetworkRequest &request)
 {
     QSettings settings(COMPANY_NAME, APP_NAME);
-    QString accessToken = settings.value("access_token").toString();
+    QString accessToken = settings.value(ACCESS_TOKEN).toString();
 
     request.setRawHeader("User-Agent", APP_NAME);
     request.setRawHeader("GData-Version", "3.0");

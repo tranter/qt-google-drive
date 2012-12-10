@@ -19,7 +19,7 @@ bool CheckUI::checkReg(void)
 
     if(CLIENT_ID == QString("YOUR_CLIENT_ID_HERE") || REDIRECT_URI == QString("YOUR_REDIRECT_URI_HERE") || CLIENT_SECRET == QString("YOUR_CLIENT_SECRET"))
     {
-        regState = false;       
+        regState = false;
     }
 
     return regState;
@@ -27,32 +27,36 @@ bool CheckUI::checkReg(void)
 
 
 bool CheckUI::slotCheckWorkDir(bool showDlg)
-{
+{   
     QSettings settings(COMPANY_NAME, APP_NAME);
-    SettingsDialog dlg(SDriveEngine::inst()->getParent());
-    bool dirTextNotEmpty = false;
 
-    if(settings.contains(WORK_DIR) && showDlg)
-    {
-        dlg.setDirectoryPath(settings.value(WORK_DIR).toString());
-    }
-    else if(settings.contains(WORK_DIR) && !showDlg)
+    if(settings.contains(WORK_DIR) && !showDlg)
     {
         return true;
     }
 
-    switch(dlg.exec())
-    {
-    case QDialog::Accepted:
-    {
-        if(!dlg.directoryPath().isEmpty() )
-        {
-            settings.setValue(WORK_DIR,dlg.directoryPath());
-            dirTextNotEmpty = true;
-        }
+    bool dirTextNotEmpty = false;
 
-    }
-        break;
+    if(settings.contains(WORK_DIR) && showDlg)
+    {
+        SettingsDialog dlg(SDriveEngine::inst()->getParent());
+
+
+        dlg.setDirectoryPath(settings.value(WORK_DIR).toString());
+
+        switch(dlg.exec())
+        {
+        case QDialog::Accepted:
+        {
+            if(!dlg.directoryPath().isEmpty() )
+            {
+                settings.setValue(WORK_DIR,dlg.directoryPath());
+                dirTextNotEmpty = true;
+            }
+
+        }
+            break;
+        }
     }
 
     return dirTextNotEmpty;

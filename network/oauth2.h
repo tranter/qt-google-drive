@@ -14,22 +14,21 @@ public:
     ~OAuth2();
 
 public:
-    bool isAuthorized();
     void startLogin(bool bForce);
-
     void setScope(const QString& scopeStr);
     void setClientID(const QString& clientIDStr);
     void setRedirectURI(const QString& redirectURIStr);
-    QString permanentLoginUrl();
 
 private:
     void setConnections(void);
     QNetworkRequest setRequest(void);
+    void initAccess(void);
+    QString permanentLoginUrl(void);
 
 private slots:
     void slotReplyFinished(QNetworkReply* reply);
     void slotCodeObtained();
-    void getAccessTokenFromRefreshToken();
+    void getAccessTokenFromRefreshToken(void);
 
 signals:
     void loginDone();
@@ -37,14 +36,12 @@ signals:
 private:
     QScopedPointer<LoginDialog> loginDialog;
     QNetworkAccessManager* networkManager;
-
     QString accessToken;
     QString refreshToken;
     QString endPoint;
     QString scope;
     QString clientID;
     QString redirectURI;
-
     QString codeStr;
 };
 

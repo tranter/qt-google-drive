@@ -20,7 +20,10 @@ void SettingsDialog::browseDir()
 {
     QString dir = QFileDialog::getExistingDirectory(this, "Set Directory", ui->directoryLineEdit->text());
 
-    if(dir.isEmpty()) return;
+    if(dir.isEmpty())
+    {
+        return;
+    }
 
     ui->directoryLineEdit->setText(dir);
 }
