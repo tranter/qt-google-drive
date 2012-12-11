@@ -14,10 +14,11 @@ public:
     ~OAuth2();
 
 public:
-    void startLogin(bool bForce);
+    void startLogin(bool runDialog);
     void setScope(const QString& scopeStr);
     void setClientID(const QString& clientIDStr);
     void setRedirectURI(const QString& redirectURIStr);
+
 
 private:
     void setConnections(void);
@@ -25,10 +26,13 @@ private:
     void initAccess(void);
     QString permanentLoginUrl(void);
 
+public slots:
+    void slotGetAccessTokenFromRefreshToken(void);
+
 private slots:
     void slotReplyFinished(QNetworkReply* reply);
     void slotCodeObtained();
-    void getAccessTokenFromRefreshToken(void);
+
 
 signals:
     void loginDone();

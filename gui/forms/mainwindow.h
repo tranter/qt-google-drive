@@ -33,7 +33,7 @@ private:
 
 private slots:
     void slotloginDone();
-    void slotStub(void);
+    void slotAccessTokenRequired(void);
 };
 
 #endif // MAINWINDOW_H

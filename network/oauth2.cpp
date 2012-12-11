@@ -11,8 +11,6 @@ OAuth2::OAuth2(QWidget* parent) :
     NetworkManager(parent),
     loginDialog(new LoginDialog(parent))
 { 
-    DEBUG;
-
     scope = SCOPE;
     clientID = CLIENT_ID;
     redirectURI = REDIRECT_URI;
@@ -23,7 +21,6 @@ OAuth2::OAuth2(QWidget* parent) :
 
 OAuth2::~OAuth2()
 {
-    DEBUG;
 }
 
 void OAuth2::initAccess(void)
@@ -61,22 +58,29 @@ void OAuth2::slotCodeObtained()
 
 void OAuth2::slotReplyFinished(QNetworkReply* reply)
 {
-    DEBUG;
-
     QSettings settings(COMPANY_NAME, APP_NAME);
     QString replyStr = reply->readAll();
     JSONParser jParser;
 
     int expiresIn = jParser.getParam(replyStr, "expires_in").toInt();
+
     DEBUG << "expiresIn" << expiresIn;
 
     accessToken = jParser.getParam(replyStr, ACCESS_TOKEN);
     settings.setValue(ACCESS_TOKEN, accessToken);
 
-    refreshToken = jParser.getParam(replyStr, REFRESH_TOKEN);
-    settings.setValue(REFRESH_TOKEN, refreshToken);
+    DEBUG << "accessToken" << accessToken;
 
-    QTimer::singleShot(expiresIn * 1000, this, SLOT(getAccessTokenFromRefreshToken()));
+    refreshToken = jParser.getParam(replyStr, REFRESH_TOKEN);
+
+    if(!refreshToken.isEmpty())
+    {
+        settings.setValue(REFRESH_TOKEN, refreshToken);
+    }
+
+    DEBUG << "refreshToken" << refreshToken;
+
+    QTimer::singleShot(expiresIn * 1000, this, SLOT(slotGetAccessTokenFromRefreshToken()));
 
     emit loginDone();
 }
@@ -112,36 +116,39 @@ QString OAuth2::permanentLoginUrl(void)
     return str;
 }
 
-void OAuth2::startLogin(bool bForce)
+void OAuth2::startLogin(bool runDialog)
 {
     DEBUG;
 
-    QSettings settings(COMPANY_NAME, APP_NAME);
-
-    accessToken = settings.value(ACCESS_TOKEN).toString();
-    refreshToken = settings.value(REFRESH_TOKEN).toString();
-
-    if(accessToken.isEmpty() || refreshToken.isEmpty() || bForce)
+    if(runDialog)
     {
         loginDialog->setLoginUrl(permanentLoginUrl());
         loginDialog->show();
     }
     else
     {
-        getAccessTokenFromRefreshToken();
+        slotGetAccessTokenFromRefreshToken();
     }
 }
 
-void OAuth2::getAccessTokenFromRefreshToken(void)
+void OAuth2::slotGetAccessTokenFromRefreshToken(void)
 {
-    DEBUG;
+    QSettings settings(COMPANY_NAME, APP_NAME);
 
-    QByteArray params("client_id=" + QByteArray(CLIENT_ID));
+    accessToken = settings.value(ACCESS_TOKEN).toString();
+    refreshToken = settings.value(REFRESH_TOKEN).toString();
 
-    params += "&client_secret=";
+    if(accessToken.isEmpty() || refreshToken.isEmpty())
+    {
+        return;
+    }
+
+    QByteArray params(QByteArray("client_id=") + QByteArray(CLIENT_ID));
+
+    params += QByteArray("&client_secret=");
     params += QByteArray(CLIENT_SECRET);
-    params += "&grant_type=refresh_token";
-    params += "&refresh_token=" + refreshToken;
+    params += QByteArray("&grant_type=refresh_token");
+    params += QByteArray("&refresh_token=") + refreshToken;
 
     initAccess();
 

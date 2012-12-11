@@ -37,6 +37,7 @@ void NetworkManager::slotError(QNetworkReply::NetworkError error)
 
     if(error == QNetworkReply::AuthenticationRequiredError)
     {
+        DEBUG << "AuthenticationRequiredError URL" << request.url();
         reply->abort();
         emit signalAccessTokenRequired();
     }

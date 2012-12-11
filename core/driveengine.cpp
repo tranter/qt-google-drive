@@ -38,6 +38,7 @@ void DriveEngine::reset(void)
     for(int i = 0; i < EPanelsCount; ++i)
     {
         filesMngr[i].reset(new FilesManager);
+        filesMngr[i]->init();
     }
 
     filesTransferUI.reset(new FilesTransferUI);
