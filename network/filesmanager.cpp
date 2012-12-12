@@ -21,7 +21,7 @@ FilesManager::~FilesManager()
 
 void FilesManager::show(void)
 {
-    fileItems = parser->getXMLHandler()->getItemInfo()->getFileItems();
+    items = parser->getXMLHandler()->getItemInfo()->getItems();
 
     //qSort(fileItems.begin(), fileItems.end());
     //qSort(fileItems.begin(), fileItems.end(), qGreater<ItemInfo::Data>());
@@ -35,20 +35,20 @@ void FilesManager::show(void)
     {
         isRoot = false;
 
-        items.push_back(new QTreeWidgetItem(panel));
-        items.last()->setText(0, PARENT_FOLDER_SIGN);
+        treeWidgetItems.push_back(new QTreeWidgetItem(panel));
+        treeWidgetItems.last()->setText(0, PARENT_FOLDER_SIGN);
     }
     else
     {
         isRoot = true;
     }
 
-    for(int i = 1; i < fileItems.count(); ++i)
+    for(int i = 1; i < items.count(); ++i)
     {
-        DEBUG << "-------------------->" << fileItems[i].type;
+        DEBUG << "-------------------->" << items[i].type;
 //        if(fileItems[i].fileType == FOLDER_TYPE_STR)
 //        {
-            addItem(fileItems[i]);
+            addItem(items[i]);
 //        }
     }
 
@@ -84,13 +84,13 @@ void FilesManager::show(void)
 
 void FilesManager::addItem(const ItemInfo::Data &itemData)
 {
-    items.push_back(new QTreeWidgetItem(panel));
+    treeWidgetItems.push_back(new QTreeWidgetItem(panel));
 
-    items.last()->setText(0, itemData.name);
-    items.last()->setIcon(0, QPixmap(itemData.iconPath));
-    items.last()->setText(1, itemData.dataOwner);
-    items.last()->setText(2, itemData.fileUpdated);
-    items.last()->setText(3, itemData.fileSize);
+    treeWidgetItems.last()->setText(0, itemData.name);
+    treeWidgetItems.last()->setIcon(0, QPixmap(itemData.iconPath));
+    treeWidgetItems.last()->setText(1, itemData.dataOwner);
+    treeWidgetItems.last()->setText(2, itemData.fileUpdated);
+    treeWidgetItems.last()->setText(3, itemData.fileSize);
 }
 
 void FilesManager::setPanel(QTreeWidget *p)
@@ -110,7 +110,7 @@ QString FilesManager::getUpperLevelFolderURL(void) const
 
 ItemInfo::Data FilesManager::getUpperLevelFolderInfo(void) const
 {
-    return  fileItems[0];
+    return  items[0];
 }
 
 
@@ -172,5 +172,5 @@ ItemInfo::Data FilesManager::getCurrentFileInfo(void)
 
     if(index < 0) index = 0;
 
-    return  fileItems[index];
+    return  items[index];
 }

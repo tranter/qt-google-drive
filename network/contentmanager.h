@@ -30,7 +30,7 @@ protected:
 protected:
     QScopedPointer<OperationsManager> opMngr;
     QScopedPointer<XMLParser> parser;
-    QList<QTreeWidgetItem*> items;
+    QList<QTreeWidgetItem*> treeWidgetItems;
 };
 
 

@@ -43,7 +43,7 @@ private:
 private:
     QTreeWidget *panel;
     QStringList pathLinks;
-    QList<ItemInfo::Data> fileItems;
+    QList<ItemInfo::Data> items;
     bool isRoot;
 };
 

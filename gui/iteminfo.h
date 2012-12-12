@@ -31,14 +31,11 @@ public:
         }
     };
 
-//public:
-    //Data& operator [] (int index);
-
 public:
 
     void setFileSize(const QString &size, int index);
     void push_back(Data &data);
-    const QList<Data>& getFileItems(void) const;   
+    const QList<Data>& getItems(void) const;
     void setAccountOwner(const QString &name);
     QString getAccountOwner(void) const;
     void setDataOwner(const QString &name, int index);

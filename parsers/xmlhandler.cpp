@@ -43,7 +43,7 @@ void XMLHandler::handleAuthorTag(const QString &str, bool entryTag)
 
     if(entryTag)
     {
-        index = itemInfo->getFileItems().count() - 1;
+        index = itemInfo->getItems().count() - 1;
 
         QString author(str);
 
@@ -71,7 +71,7 @@ void XMLHandler::handleTitleTag(const QString &str)
 
 void XMLHandler::handleSizeTag(const QString &str)
 {
-    itemInfo->setFileSize(CommonTools::getFormattedFileSize(str), itemInfo->getFileItems().count() - 1);
+    itemInfo->setFileSize(CommonTools::getFormattedFileSize(str), itemInfo->getItems().count() - 1);
     tags[ESize] = false;
 }
 

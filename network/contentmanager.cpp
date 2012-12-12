@@ -72,13 +72,13 @@ XMLParser* ContentManager::getParser(void) const
 
 void ContentManager::clear(void)
 {
-    items.clear();
+    treeWidgetItems.clear();
 
-    if(items.empty()) return;
+    if(treeWidgetItems.empty()) return;
 
-    for(int i = 0; i < items.count(); ++i)
+    for(int i = 0; i < treeWidgetItems.count(); ++i)
     {
-        delete items[i];
+        delete treeWidgetItems[i];
     }
 }
 
