@@ -61,7 +61,7 @@
 #define INIT_LOAD QString("InitLoad")
 #define LEFT_PANEL QString("left")
 #define RIGHT_PANEL QString("right")
-#define CURRENT_PANEL QString("CurrPanel")
+#define CURRENT_PANEL QString("Current Panel")
 
 #define PARENT_FOLDER_SIGN QString("[..]")
 

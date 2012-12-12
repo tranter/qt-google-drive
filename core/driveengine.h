@@ -58,6 +58,7 @@ private slots:
 private:
     void setKeyActions(void);
     void reset(void);
+    void loadPanel(const QString &panelName, bool initLoad);
 
 public slots:
     void slotStartLogin();
@@ -65,9 +66,6 @@ public slots:
 
 private:
     QWidget* parent;
-
-    //bool elStates[EElStatesCount];
-
     QScopedPointer<AdditionalFoldersManager> aFoldersMngr;
     QScopedPointer<CheckUI> checkUI;
     QScopedPointer<DownloadFileManager> downloadMngr;

@@ -18,17 +18,7 @@ void DriveEngine::init(void)
 {
     reset();
     setKeyActions();
-
-    QSettings settings(COMPANY_NAME, APP_NAME);
-    settings.setValue(INIT_LOAD, true);
-
-    settings.setValue(CURRENT_PANEL, RIGHT_PANEL);
-
-    SDriveEngine::inst()->filesMngr[ERight]->setPanel(SUi::inst()->filesViewRight);
-    SDriveEngine::inst()->filesMngr[ERight]->get(GET_FULL_ROOT_CONTENT);
-
-    filesUI->setDisplayingDisc(ERight);
-    filesUI->setDisplayingDisc(ELeft);
+    loadPanel(RIGHT_PANEL, true);
 }
 
 void DriveEngine::reset(void)
@@ -142,13 +132,35 @@ FilesManager* DriveEngine::getFilesMngr(bool opposite) const
     return filesManager;
 }
 
-void DriveEngine::slotFirstPanelIsLoaded()
+void DriveEngine::loadPanel(const QString &panelName, bool initLoad)
 {
     QSettings settings(COMPANY_NAME, APP_NAME);
+    EPanels panelIndex;
+    QTreeWidget *treeWidget;
 
-    settings.setValue(CURRENT_PANEL, LEFT_PANEL);
-    settings.setValue(INIT_LOAD, false);
+    settings.setValue(INIT_LOAD, initLoad);
 
-    SDriveEngine::inst()->filesMngr[ELeft]->setPanel(SUi::inst()->filesViewLeft);
-    SDriveEngine::inst()->filesMngr[ELeft]->get(GET_FULL_ROOT_CONTENT);
+    settings.setValue(CURRENT_PANEL, panelName);
+
+    if (panelName == RIGHT_PANEL)
+    {
+      panelIndex = ERight;
+      treeWidget = SUi::inst()->filesViewRight;
+    }
+
+    if (panelName == LEFT_PANEL)
+    {
+      panelIndex = ELeft;
+      treeWidget = SUi::inst()->filesViewLeft;
+    }
+
+    SDriveEngine::inst()->filesMngr[panelIndex]->setPanel(treeWidget);
+    SDriveEngine::inst()->filesMngr[panelIndex]->get(GET_FULL_ROOT_CONTENT);
+
+    filesUI->setDisplayingDisc(panelIndex);
+}
+
+void DriveEngine::slotFirstPanelIsLoaded()
+{
+    loadPanel(LEFT_PANEL, false);
 }
