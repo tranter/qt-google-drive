@@ -23,6 +23,9 @@ public:
     friend class OperationsUI;
     friend class DriveEngine;
 
+public:
+    void getCurrentPanelState(void);
+
 private slots:
     //void slotAShowFiles(const QModelIndex &index);
     void slotLeftViewClicked(const QModelIndex &Id);
@@ -38,8 +41,9 @@ private:
     QLabel* getPanelLabel(EPanels panel) const;
     void setDisplayingDisc(EPanels panel);
     void setPanelDisplayingPath(const QString &name, EPath path, EPanels panel);
-    void showFilesFromFolder(void);
-    void showFilesOnPanel(const QString &Id, EPanels panel);
+    void showFilesOnPanel(const QString &name, EPanels panel);
+    void setCurrentPanelState(EPanels panel, const QString &URL);
+    void performShowFiles(const QString &query, const QString &name, EPath path, EPanels panel);
 };
 
 #endif // FILESUI_H

@@ -9,15 +9,6 @@ FilesUI::FilesUI(QObject *parent) :
 {
 }
 
-void FilesUI::showFilesFromFolder(void)
-{   
-    QString query(GET_FILES_IN_FOLDER);
-    query += SDriveEngine::inst()->foldersUI->getFolderID();
-    query += (CONTENTS + MAX_RESULTS);
-
-    SDriveEngine::inst()->getFilesMngr()->get(query);
-}
-
 //void FilesUI::slotAShowFiles(const QModelIndex& index)
 //{
 //    if(index.model()->data(index).toString() == TRASH_TITLE)
@@ -83,21 +74,44 @@ void FilesUI::slotRightPanelItemDoubleClicked(QTreeWidgetItem *item, int column)
     showFilesOnPanel(item->data(0, Qt::DisplayRole).toString(), ERight);
 }
 
-void FilesUI::showFilesOnPanel(const QString &Id, EPanels panel)
+void FilesUI::showFilesOnPanel(const QString &name, EPanels panel)
 {
-    if(Id == PARENT_FOLDER_SIGN)
+    if(name == PARENT_FOLDER_SIGN)
     {
-        setPanelDisplayingPath(Id, EBackward, panel);
-        SDriveEngine::inst()->getFilesMngr()->get(SDriveEngine::inst()->getFilesMngr()->back());
+        performShowFiles(SDriveEngine::inst()->getFilesMngr()->back(), name, EBackward, panel);
     }
     else
     {
         if(SDriveEngine::inst()->foldersUI->isFolder())
         {
-            setPanelDisplayingPath(Id, EForward, panel);
-            showFilesFromFolder();
+            QString query(GET_FILES_IN_FOLDER);
+
+            query += SDriveEngine::inst()->foldersUI->getFolderID();
+            query += (CONTENTS + MAX_RESULTS);
+
+            performShowFiles(query, name, EForward, panel);
         }
     }
+}
+
+void FilesUI::setCurrentPanelState(EPanels panel, const QString &URL)
+{
+    QSettings settings(COMPANY_NAME, APP_NAME);
+
+    settings.beginGroup(QString("Panel-") + QString::number(static_cast <int> (panel)));
+
+    settings.setValue(QString("Current Folder URL"), URL);
+    settings.setValue(QString("Current Folder Path"), getPanelLabel(panel)->text());
+    settings.setValue(QString("Path Links"), SDriveEngine::inst()->getFilesMngr()->getPathesURLs());
+
+    settings.endGroup();
+}
+
+void FilesUI::performShowFiles(const QString &query, const QString &name, EPath path, EPanels panel)
+{
+    setPanelDisplayingPath(name, path, panel);
+    SDriveEngine::inst()->getFilesMngr()->get(query);
+    setCurrentPanelState(panel, query);
 }
 
 void FilesUI::slotUpdateFileList()

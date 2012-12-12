@@ -57,15 +57,14 @@
 #define FILE_TYPE_STR QString("file")
 #define CONTENT QString("content")
 
-#define WORK_DIR QString("WorkDir")
-#define INIT_LOAD QString("InitLoad")
-#define LEFT_PANEL QString("left")
-#define RIGHT_PANEL QString("right")
+#define WORK_DIR QString("Working Directory")
+#define INIT_LOAD QString("Initial Load")
+#define LEFT_PANEL QString("Left")
+#define RIGHT_PANEL QString("Right")
 #define CURRENT_PANEL QString("Current Panel")
 
 #define PARENT_FOLDER_SIGN QString("[..]")
 
-#define MAIN_TITLE QString("My drive")
 #define ALL_ITEMS_TITLE QString("All items")
 #define OWNED_BY_ME_TITLE QString("Owned by me")
 #define TRASH_TITLE QString("Trash")

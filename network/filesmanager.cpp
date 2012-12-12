@@ -16,7 +16,7 @@ FilesManager::~FilesManager()
     DEBUG;
 
     panel->clear();
-    pathLinks.clear();
+    pathesURLs.clear();
 }
 
 void FilesManager::show(void)
@@ -45,7 +45,6 @@ void FilesManager::show(void)
 
     for(int i = 1; i < items.count(); ++i)
     {
-        DEBUG << "-------------------->" << items[i].type;
 //        if(fileItems[i].fileType == FOLDER_TYPE_STR)
 //        {
             addItem(items[i]);
@@ -67,9 +66,9 @@ void FilesManager::show(void)
 
     QString url(getRequest().url().toString());
 
-    if(!pathLinks.contains(url))
+    if(!pathesURLs.contains(url))
     {
-        pathLinks.push_back(url);
+        pathesURLs.push_back(url);
     }
 
     //SUi::inst()->filesView->setSortingEnabled(true);
@@ -105,7 +104,7 @@ QTreeWidget* FilesManager::getPanel(void) const
 
 QString FilesManager::getUpperLevelFolderURL(void) const
 {
-    return pathLinks.last();
+    return pathesURLs.last();
 }
 
 ItemInfo::Data FilesManager::getUpperLevelFolderInfo(void) const
@@ -118,14 +117,19 @@ QString FilesManager::back(void)
 {
     QString prevLink;
 
-    if(!pathLinks.isEmpty())
+    if(!pathesURLs.isEmpty())
     {
-        pathLinks.pop_back();
-        prevLink = pathLinks.last();
-        pathLinks.pop_back();
+        pathesURLs.pop_back();
+        prevLink = pathesURLs.last();
+        pathesURLs.pop_back();
     }
 
     return prevLink;
+}
+
+QStringList FilesManager::getPathesURLs(void) const
+{
+  return pathesURLs;
 }
 
 void FilesManager::sort(int column, Qt::SortOrder order)

@@ -32,6 +32,7 @@ public:
     void renameWebFile(const ItemInfo::Data &source, const QString &newName);
     void shareWebFile(const ItemInfo::Data &source);
     ItemInfo::Data getCurrentFileInfo(void);
+    QStringList getPathesURLs(void) const;
 
 private:
     virtual void show(void);
@@ -42,7 +43,7 @@ private:
 
 private:
     QTreeWidget *panel;
-    QStringList pathLinks;
+    QStringList pathesURLs;
     QList<ItemInfo::Data> items;
     bool isRoot;
 };
