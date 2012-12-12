@@ -1,7 +1,7 @@
 #include "xmlparser.h"
 
-XMLParser::XMLParser(int type):
-    xmlHandler(new XMLHandler(type))
+XMLParser::XMLParser():
+    xmlHandler(new XMLHandler)
 {
 }
 
@@ -32,9 +32,4 @@ bool XMLParser::fatalError(const QXmlParseException &exception)
 XMLHandler* XMLParser::getXMLHandler(void) const
 {
     return xmlHandler.data();
-}
-
-void XMLParser::setType(int type)
-{
-    xmlHandler->setType(type);
 }

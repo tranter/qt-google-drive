@@ -12,7 +12,8 @@ class XMLHandler : public QObject
     Q_OBJECT
 public:
 
-    enum ETags{
+    enum ETags
+    {
         ETitle = 0,
         ESize,
         EUpdated,
@@ -21,7 +22,7 @@ public:
         ETagsCount
     };
 
-    XMLHandler(int type);
+    XMLHandler();
     ~XMLHandler();
 
 public:
@@ -31,14 +32,13 @@ public:
     bool fatalError(const QXmlParseException &exception);
 
     ItemInfo* getItemInfo(void) const;
-    void setType(int type);
     bool resDownloadingNow(void) const;
 
 public slots:
     void slotResDownloaded();
 
 signals:
-    void signalAllResDownloaded(int);
+    void signalAllResDownloaded(void);
 
 private:
     bool handleReply(const QString &qName, const QXmlAttributes &attribs);
@@ -48,19 +48,16 @@ private:
     void handleUpdatedTag(const QString &str);
     void setDefaults(void);
     void setTag(const QString& qName, bool state);
-    void setItemType(QString &itemType);
+    QString getItemType(const QString &selfURL);
     void saveResData(const QXmlAttributes &attribs);
 
 private:
     QScopedPointer<ItemInfo> itemInfo;
     ItemInfo::Data itemData;
     QList<ResManager*> resManagers;
-    QLocale locale;
-
-    int queryType;
     int resDownloadedCount;
     bool isResDownloding;
-    bool tags[ETagsCount];     
+    bool tags[ETagsCount];
 };
 
 #endif // XMLHANDLER_H

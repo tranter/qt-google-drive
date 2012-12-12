@@ -10,7 +10,7 @@ class ContentManager : public NetworkManager
 {
     Q_OBJECT
 public:
-    explicit ContentManager(int handleType, QObject *parent = 0);
+    explicit ContentManager(QObject *parent);
     virtual ~ContentManager();
 
 public:
@@ -21,7 +21,7 @@ public:
 
 public slots:
     virtual void slotReplyFinished(QNetworkReply*);
-    void slotResDownloaded(int queryType);
+    void slotResDownloaded(void);
 
 protected:
     virtual bool parseReply(const QString &str);
@@ -31,7 +31,6 @@ protected:
     QScopedPointer<OperationsManager> opMngr;
     QScopedPointer<XMLParser> parser;
     QList<QTreeWidgetItem*> items;
-    int type;
 };
 
 

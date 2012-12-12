@@ -4,7 +4,7 @@
 #include "share/debug.h"
 
 FoldersManager::FoldersManager(QObject *parent) :
-    ContentManager(FOLDER_TYPE, parent)
+    ContentManager(parent)
 {
 }
 

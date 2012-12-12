@@ -24,24 +24,26 @@ public:
         QString iconPath;
         QString downloadLink;
         QString uploadLink;
+
+        bool operator < (const Data &s) const
+        {
+            return name < s.name;
+        }
     };
 
-public:
-    Data& operator [] (int index);
+//public:
+    //Data& operator [] (int index);
 
 public:
-    void setPointer(int index, QTreeWidgetItem* pointer);
+
     void setFileSize(const QString &size, int index);
-    void push_back(Data &data, int type);
-    const QList<Data>& getItems(void) const;
-    const QList<Data>& getFileItems(void) const;
-    void normalize(void);
+    void push_back(Data &data);
+    const QList<Data>& getFileItems(void) const;   
     void setAccountOwner(const QString &name);
     QString getAccountOwner(void) const;
-    void setDataOwner(const QString &name, int index, int type);
+    void setDataOwner(const QString &name, int index);
 
 private:
-    QList<Data> items;
     QList<Data> fileItems;
     QString accountOwner;
 };

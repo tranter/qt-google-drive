@@ -3,10 +3,11 @@
 #include "core/driveengine.h"
 #include "share/debug.h"
 #include <QSettings>
+//#include <QtAlgorithms>
 #include <QDebug>
 
 FilesManager::FilesManager(QObject *parent):
-    ContentManager(FILE_TYPE, parent)
+    ContentManager(parent)
 {
 }
 
@@ -21,6 +22,10 @@ FilesManager::~FilesManager()
 void FilesManager::show(void)
 {
     fileItems = parser->getXMLHandler()->getItemInfo()->getFileItems();
+
+    //qSort(fileItems.begin(), fileItems.end());
+    //qSort(fileItems.begin(), fileItems.end(), qGreater<ItemInfo::Data>());
+
     QSettings settings(COMPANY_NAME, APP_NAME);
 
     clear();
@@ -40,14 +45,20 @@ void FilesManager::show(void)
 
     for(int i = 1; i < fileItems.count(); ++i)
     {
-        items.push_back(new QTreeWidgetItem(panel));
-
-        items.last()->setText(0, fileItems[i].name);
-        items.last()->setIcon(0, QPixmap(fileItems[i].iconPath));
-        items.last()->setText(1, fileItems[i].dataOwner);
-        items.last()->setText(2, fileItems[i].fileUpdated);
-        items.last()->setText(3, fileItems[i].fileSize);
+        DEBUG << "-------------------->" << fileItems[i].type;
+//        if(fileItems[i].fileType == FOLDER_TYPE_STR)
+//        {
+            addItem(fileItems[i]);
+//        }
     }
+
+//    for(int i = 1; i < fileItems.count(); ++i)
+//    {
+//        if(fileItems[i].fileType == FILE_TYPE_STR)
+//        {
+//            addItem(fileItems[i]);
+//        }
+//    }
 
     if(settings.value(INIT_LOAD).toBool())
     {
@@ -61,9 +72,25 @@ void FilesManager::show(void)
         pathLinks.push_back(url);
     }
 
-    //    SUi::inst()->filesView->setSortingEnabled(true);
-    //    SUi::inst()->filesView->sortItems(0, Qt::AscendingOrder);
+    //SUi::inst()->filesView->setSortingEnabled(true);
+    //SUi::inst()->filesView->sortItems(0, Qt::AscendingOrder);
     //connect(panel, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(slotItemClicked(QTreeWidgetItem*, int)));
+}
+
+//bool FilesManager::compare(const ItemInfo::Data &s1, const ItemInfo::Data &s2)
+//{
+//    return s1.name < s2.name;
+//}
+
+void FilesManager::addItem(const ItemInfo::Data &itemData)
+{
+    items.push_back(new QTreeWidgetItem(panel));
+
+    items.last()->setText(0, itemData.name);
+    items.last()->setIcon(0, QPixmap(itemData.iconPath));
+    items.last()->setText(1, itemData.dataOwner);
+    items.last()->setText(2, itemData.fileUpdated);
+    items.last()->setText(3, itemData.fileSize);
 }
 
 void FilesManager::setPanel(QTreeWidget *p)
@@ -83,8 +110,6 @@ QString FilesManager::getUpperLevelFolderURL(void) const
 
 ItemInfo::Data FilesManager::getUpperLevelFolderInfo(void) const
 {
-    DEBUG << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << fileItems[0].name;
-
     return  fileItems[0];
 }
 
@@ -124,12 +149,12 @@ void FilesManager::moveWebFile(const ItemInfo::Data &source, const QString &dest
 
 void FilesManager::renameWebFile(const ItemInfo::Data &source, const QString &newName)
 {
-   opMngr->renameWebFile(source, newName);
+    opMngr->renameWebFile(source, newName);
 }
 
 void FilesManager::shareWebFile(const ItemInfo::Data &source)
 {
- opMngr->shareWebFile(source);
+    opMngr->shareWebFile(source);
 }
 
 ItemInfo::Data FilesManager::getCurrentFileInfo(void)

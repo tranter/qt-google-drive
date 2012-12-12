@@ -2,9 +2,8 @@
 #include "share/commontools.h"
 #include "share/debug.h"
 
-XMLHandler::XMLHandler(int type):
+XMLHandler::XMLHandler():
     itemInfo(new ItemInfo),
-    queryType(type),
     resDownloadedCount(0),
     isResDownloding(false)
 {
@@ -44,24 +43,16 @@ void XMLHandler::handleAuthorTag(const QString &str, bool entryTag)
 
     if(entryTag)
     {
-        switch(queryType)
-        {
-        case FOLDER_TYPE:
-        {
-            index = itemInfo->getItems().count() - 1;
-        }
-            break;
-        case FILE_TYPE:
-        {
-            index = itemInfo->getFileItems().count() - 1;
-        }
-            break;
-        }
+        index = itemInfo->getFileItems().count() - 1;
 
         QString author(str);
 
-        if(itemInfo->getAccountOwner() == author) author = OWNER_ME;
-        itemInfo->setDataOwner(author, index, queryType);
+        if(itemInfo->getAccountOwner() == author)
+        {
+            author = OWNER_ME;
+        }
+
+        itemInfo->setDataOwner(author, index);
     }
     else
     {
@@ -104,12 +95,9 @@ bool XMLHandler::fatalError(const QXmlParseException &exception)
 
 bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs)
 {
-    QString itemType;
-
-    setItemType(itemType);
     setTag(qName, true);
 
-    if(qName == CONTENT && itemType == FILE_TYPE_STR)
+    if(qName == CONTENT)
     {
         itemData.fileType = FYLE_TYPE_ATTRIBUTE_TAG(attribs.value);
         itemData.downloadLink = FYLE_TYPE_SRC_ATTRIBUTE_TAG(attribs.value);
@@ -122,8 +110,8 @@ bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs
     if(HIERARCHY_ATTRIBUTE_TAG(attribs.value) == SELF_TAG)
     {
         itemData.self = HIERARCHY_VALUE_TAG(attribs.value);
-        itemData.type = itemType;
-        itemInfo->push_back(itemData, queryType);
+        itemData.type = getItemType(itemData.self);
+        itemInfo->push_back(itemData);
 
         setDefaults();
     }
@@ -131,22 +119,20 @@ bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs
     return true;
 }
 
-void XMLHandler::setItemType(QString &itemType)
+QString XMLHandler::getItemType(const QString &selfURL)
 {
-    switch(queryType)
-    {
-    case FOLDER_TYPE:
-    {
-        itemType = FOLDER_TYPE_STR;
-    }
-        break;
+    QString typeStr(FILE_TYPE_STR);
+    QString  str(selfURL);
+    QStringList strList = str.split("/");
 
-    case FILE_TYPE:
+    str = strList[strList.count() - 1];
+
+    if(str.indexOf(FOLDER_TYPE_STR) != -1)
     {
-        itemType = FILE_TYPE_STR;
+        typeStr = FOLDER_TYPE_STR;
     }
-        break;
-    }
+
+    return typeStr;
 }
 
 void XMLHandler::setTag(const QString &qName, bool state)
@@ -170,7 +156,7 @@ void XMLHandler::slotResDownloaded()
         resManagers.clear();
         resDownloadedCount = 0;
 
-        emit signalAllResDownloaded(queryType);
+        emit signalAllResDownloaded();
     }
 }
 
@@ -187,11 +173,6 @@ void XMLHandler::saveResData(const QXmlAttributes &attribs)
     }
 
     itemData.iconPath = CommonTools::getFileNameFromURL(HIERARCHY_VALUE_TAG(attribs.value));
-}
-
-void XMLHandler::setType(int type)
-{
-    queryType = type;
 }
 
 void XMLHandler::setDefaults(void)

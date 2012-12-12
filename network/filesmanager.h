@@ -37,6 +37,10 @@ private:
     virtual void show(void);
 
 private:
+    //bool compare(const ItemInfo::Data &s1, const ItemInfo::Data &s2);
+    void addItem(const ItemInfo::Data &itemData);
+
+private:
     QTreeWidget *panel;
     QStringList pathLinks;
     QList<ItemInfo::Data> fileItems;

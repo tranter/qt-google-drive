@@ -7,7 +7,7 @@
 class XMLParser : public QXmlDefaultHandler
 {
 public:
-    XMLParser(int type);
+    XMLParser();
     ~XMLParser();
 
 public:
@@ -16,7 +16,6 @@ public:
     bool characters(const QString &str);
     bool fatalError(const QXmlParseException &exception);
     XMLHandler* getXMLHandler(void) const;
-    void setType(int type);
 
 private:
     QScopedPointer<XMLHandler> xmlHandler;

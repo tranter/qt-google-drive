@@ -77,7 +77,7 @@ void FilesUI::slotLeftPanelItemDoubleClicked(QTreeWidgetItem *item, int column)
 
 void FilesUI::slotRightPanelItemDoubleClicked(QTreeWidgetItem *item, int column)
 {
-    DEBUG << "item %s" << item->data(0, Qt::DisplayRole).toString().toAscii();
+    DEBUG << "item" << item->data(0, Qt::DisplayRole).toString().toAscii();
 
     QSettings(COMPANY_NAME, APP_NAME).setValue(CURRENT_PANEL, RIGHT_PANEL);
     showFilesOnPanel(item->data(0, Qt::DisplayRole).toString(), ERight);

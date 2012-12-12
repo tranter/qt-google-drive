@@ -3,12 +3,11 @@
 #include "share/debug.h"
 #include <QApplication>
 
-ContentManager::ContentManager(int handleType, QObject *parent):
+ContentManager::ContentManager(QObject *parent):
     NetworkManager(parent),
-    opMngr(new OperationsManager(parent)),
-    type(handleType)
+    opMngr(new OperationsManager(parent))
 {
-    parser.reset(new XMLParser(type));
+    parser.reset(new XMLParser);
 }
 
 ContentManager::~ContentManager()
@@ -25,11 +24,11 @@ void ContentManager::get(const QString &url)
 
 void ContentManager::slotReplyFinished(QNetworkReply*)
 {
-    CommonTools::logToFile(QString("ParserReply ") + QString::number(type) + ".txt", replyStr.toAscii());
+    CommonTools::logToFile(QString("ParserReply ") + ".txt", replyStr.toAscii());
 
-//    DEBUG << "<===============================================================================================================";
-//    DEBUG << "replyStr" << replyStr;
-//    DEBUG << "===============================================================================================================>";
+    //    DEBUG << "<===============================================================================================================";
+    //    DEBUG << "replyStr" << replyStr;
+    //    DEBUG << "===============================================================================================================>";
 
     if(parseReply(replyStr)) DEBUG << "parse OK";
     else DEBUG << "parse not OK";
@@ -49,9 +48,9 @@ bool ContentManager::parseReply(const QString &str)
     QXmlSimpleReader reader;
     QXmlInputSource source;
 
-    parser.reset(new XMLParser(type));
+    parser.reset(new XMLParser);
 
-    connect(parser->getXMLHandler(), SIGNAL(signalAllResDownloaded(int)),this, SLOT(slotResDownloaded(int)));
+    connect(parser->getXMLHandler(), SIGNAL(signalAllResDownloaded(/*int*/)),this, SLOT(slotResDownloaded(/*int*/)));
 
     source.setData(str.toAscii());
 
@@ -61,12 +60,9 @@ bool ContentManager::parseReply(const QString &str)
     return reader.parse(&source);
 }
 
-void ContentManager::slotResDownloaded(int queryType)
+void ContentManager::slotResDownloaded(void)
 {
-    if(queryType == type)
-    {
-        show();
-    }
+    show();
 }
 
 XMLParser* ContentManager::getParser(void) const

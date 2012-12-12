@@ -133,6 +133,8 @@ void OAuth2::startLogin(bool runDialog)
 
 void OAuth2::slotGetAccessTokenFromRefreshToken(void)
 {
+    DEBUG;
+
     QSettings settings(COMPANY_NAME, APP_NAME);
 
     accessToken = settings.value(ACCESS_TOKEN).toString();

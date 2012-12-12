@@ -53,8 +53,8 @@
 #define FILE_TYPE 1
 
 #define UNKNOWN_TYPE_STR QString("unknown")
-#define FILE_TYPE_STR QString("file")
 #define FOLDER_TYPE_STR QString("folder")
+#define FILE_TYPE_STR QString("file")
 #define CONTENT QString("content")
 
 #define WORK_DIR QString("WorkDir")
