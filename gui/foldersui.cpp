@@ -15,19 +15,8 @@ QString FoldersUI::getFolderID(void)
 }
 
 bool FoldersUI::isFolder(void)
-{
-    bool is = false;
-    QString  str(SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo().self);
-    QStringList strList = str.split("/");
-
-    str = strList[strList.count() - 1];
-
-    if(str.indexOf(FOLDER_TYPE_STR) != -1)
-    {
-        is = true;
-    }
-
-    return is;
+{    
+  return (SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo().type == FOLDER_TYPE_STR);
 }
 
 //void FoldersUI::createAFolders(void)

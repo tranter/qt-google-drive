@@ -34,7 +34,7 @@ QString ItemInfo::getAccountOwner(void) const
     return accountOwner;
 }
 
-void ItemInfo::setDataOwner(const QString &name, int index/*, int type*/)
+void ItemInfo::setDataOwner(const QString &name, int index)
 {
     fileItems[index].dataOwner = name;
 }
