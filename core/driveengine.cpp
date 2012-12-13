@@ -3,6 +3,7 @@
 #include "share/debug.h"
 #include <QMessageBox>
 #include <QSettings>
+#include <QDir>
 
 DriveEngine::DriveEngine(QObject *parent) :
     QObject(parent)
@@ -75,29 +76,37 @@ FilesManager* DriveEngine::getFilesMngr(bool opposite) const
 void DriveEngine::loadPanel(const QString &panelName, bool initLoad)
 {
     QSettings settings(COMPANY_NAME, APP_NAME);
-    EPanels panelIndex;
+    EPanels panel;
     QTreeWidget *treeWidget;
+    QString query;
 
     settings.setValue(INIT_LOAD, initLoad);
-
     settings.setValue(CURRENT_PANEL, panelName);
 
     if (panelName == RIGHT_PANEL)
     {
-      panelIndex = ERight;
+      panel  = ERight;
       treeWidget = SUi::inst()->filesViewRight;
     }
 
     if (panelName == LEFT_PANEL)
     {
-      panelIndex = ELeft;
+      panel = ELeft;
       treeWidget = SUi::inst()->filesViewLeft;
     }
 
-    SDriveEngine::inst()->filesMngr[panelIndex]->setPanel(treeWidget);
-    SDriveEngine::inst()->filesMngr[panelIndex]->get(GET_FULL_ROOT_CONTENT);
+    settings.beginGroup(PANEL + QString::number(static_cast <int> (panel)));
 
-    filesUI->setDisplayingDisc(panelIndex);
+    filesUI->getPanelLabel(panel)->setText(settings.value(CURRENT_FOLDER_PATH, QString("a:") + QDir::toNativeSeparators("/")).toString());
+    query = settings.value(CURRENT_FOLDER_URL, GET_FULL_ROOT_CONTENT).toString();
+    SDriveEngine::inst()->getFilesMngr()->setPathesURLs(settings.value(PATHES_URLS).toStringList());
+
+    settings.endGroup();
+
+    SDriveEngine::inst()->filesMngr[panel]->setPanel(treeWidget);
+    SDriveEngine::inst()->filesMngr[panel]->get(query);
+
+    //filesUI->setDisplayingDisc(panelIndex);
 }
 
 void DriveEngine::slotFirstPanelIsLoaded()

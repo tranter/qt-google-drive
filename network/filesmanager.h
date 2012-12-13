@@ -33,6 +33,7 @@ public:
     void shareWebFile(const ItemInfo::Data &source);
     ItemInfo::Data getCurrentFileInfo(void);
     QStringList getPathesURLs(void) const;
+    void setPathesURLs(const QStringList &pathesURLsStrList);
 
 private:
     virtual void show(void);

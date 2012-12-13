@@ -98,11 +98,11 @@ void FilesUI::setCurrentPanelState(EPanels panel, const QString &URL)
 {
     QSettings settings(COMPANY_NAME, APP_NAME);
 
-    settings.beginGroup(QString("Panel-") + QString::number(static_cast <int> (panel)));
+    settings.beginGroup(PANEL + QString::number(static_cast <int> (panel)));
 
-    settings.setValue(QString("Current Folder URL"), URL);
-    settings.setValue(QString("Current Folder Path"), getPanelLabel(panel)->text());
-    settings.setValue(QString("Path Links"), SDriveEngine::inst()->getFilesMngr()->getPathesURLs());
+    settings.setValue(CURRENT_FOLDER_URL, URL);
+    settings.setValue(CURRENT_FOLDER_PATH, getPanelLabel(panel)->text());
+    settings.setValue(PATHES_URLS, SDriveEngine::inst()->getFilesMngr()->getPathesURLs());
 
     settings.endGroup();
 }
@@ -154,10 +154,10 @@ QString FilesUI::getDisc(EPanels panel) const
     return disc;
 }
 
-void FilesUI::setDisplayingDisc(EPanels panel)
-{
-    getPanelLabel(panel)->setText(getDisc(panel));
-}
+//void FilesUI::setDisplayingDisc(EPanels panel)
+//{
+//    getPanelLabel(panel)->setText(getDisc(panel));
+//}
 
 QLabel* FilesUI::getPanelLabel(EPanels panel) const
 {

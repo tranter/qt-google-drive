@@ -24,7 +24,7 @@ public:
     friend class DriveEngine;
 
 public:
-    void getCurrentPanelState(void);
+    QLabel* getPanelLabel(EPanels panel) const;
 
 private slots:
     //void slotAShowFiles(const QModelIndex &index);
@@ -38,8 +38,7 @@ private slots:
 
 private:
     QString getDisc(EPanels panel) const;
-    QLabel* getPanelLabel(EPanels panel) const;
-    void setDisplayingDisc(EPanels panel);
+    //void setDisplayingDisc(EPanels panel);
     void setPanelDisplayingPath(const QString &name, EPath path, EPanels panel);
     void showFilesOnPanel(const QString &name, EPanels panel);
     void setCurrentPanelState(EPanels panel, const QString &URL);

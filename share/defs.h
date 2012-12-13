@@ -62,6 +62,10 @@
 #define LEFT_PANEL QString("Left")
 #define RIGHT_PANEL QString("Right")
 #define CURRENT_PANEL QString("Current Panel")
+#define PANEL QString("Panel-")
+#define CURRENT_FOLDER_URL QString("Current Folder URL")
+#define CURRENT_FOLDER_PATH QString("Current Folder Path")
+#define PATHES_URLS QString("Pathes URLs")
 
 #define PARENT_FOLDER_SIGN QString("[..]")
 

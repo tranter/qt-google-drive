@@ -132,6 +132,11 @@ QStringList FilesManager::getPathesURLs(void) const
   return pathesURLs;
 }
 
+void FilesManager::setPathesURLs(const QStringList &pathesURLsStrList)
+{
+  pathesURLs = pathesURLsStrList;
+}
+
 void FilesManager::sort(int column, Qt::SortOrder order)
 {
 }
