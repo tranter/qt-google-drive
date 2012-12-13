@@ -49,7 +49,7 @@ void XMLHandler::handleAuthorTag(const QString &str, bool entryTag)
 
         if(itemInfo->getAccountOwner() == author)
         {
-            author = OWNER_ME;
+            author = QString("me");
         }
 
         itemInfo->setDataOwner(author, index);

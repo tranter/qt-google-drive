@@ -161,7 +161,7 @@ QNetworkRequest OAuth2::setRequest(void)
 {
     DEBUG;
 
-    QUrl url(OAUTH2_TOKEN_URL);
+    QUrl url(QString("https://accounts.google.com/o/oauth2/token"));
     QNetworkRequest request;
 
     request.setUrl(url);

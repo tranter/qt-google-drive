@@ -31,7 +31,7 @@ void FilesTransferUI::download(void)
     }
     else
     {
-        CommonTools::msg(SET_DIR_REMINDER_MSG);
+        CommonTools::msg(tr("Please note: you must set working directory for downloading files"));
     }
 }
 
