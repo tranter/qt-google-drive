@@ -37,10 +37,9 @@ bool CheckUI::slotCheckWorkDir(bool showDlg)
 
     bool dirTextNotEmpty = false;
 
-    if(settings.contains(WORK_DIR) && showDlg)
+    if(showDlg)
     {
         SettingsDialog dlg(SDriveEngine::inst()->getParent());
-
 
         dlg.setDirectoryPath(settings.value(WORK_DIR).toString());
 

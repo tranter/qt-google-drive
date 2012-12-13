@@ -105,8 +105,6 @@ void DriveEngine::loadPanel(const QString &panelName, bool initLoad)
 
     SDriveEngine::inst()->filesMngr[panel]->setPanel(treeWidget);
     SDriveEngine::inst()->filesMngr[panel]->get(query);
-
-    //filesUI->setDisplayingDisc(panelIndex);
 }
 
 void DriveEngine::slotFirstPanelIsLoaded()

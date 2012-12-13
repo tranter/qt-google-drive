@@ -8,7 +8,6 @@
 #define UPLOAD_TAG QString("http://schemas.google.com/g/2005#resumable-create-media")
 #define ICON_TAG QString("http://schemas.google.com/docs/2007#icon")
 #define DELETE_FILE QString("https://docs.google.com/feeds/default/private/full/file:")
-
 #define CREATE_FOLDER QString("https://www.googleapis.com/drive/v2/files")
 #define COPY_FILE QString("https://docs.google.com/feeds/default/private/full/document:")
 #define COPY_FILE_FIRST_QUERY_PART QString("https://www.googleapis.com/drive/v2/files/")
@@ -52,6 +51,5 @@
 #define PATHES_URLS QString("Pathes URLs")
 
 #define PARENT_FOLDER_SIGN QString("[..]")
-
 
 #endif // DEF_H
