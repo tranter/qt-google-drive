@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
     SUi::inst()->setupUi(this);
+
 }
 
 MainWindow::~MainWindow()
@@ -32,20 +33,11 @@ void MainWindow::init(void)
 
     setConnections();
 
-    //    SUi::inst()->filesViewLeft->installEventFilter(this);
-    //    SUi::inst()->filesViewRight->installEventFilter(this);
-
     SDriveEngine::inst()->getFilePanel(ELeft)->getFileView()->installEventFilter(this);
     SDriveEngine::inst()->getFilePanel(ERight)->getFileView()->installEventFilter(this);
 
     QTextCodec::setCodecForCStrings(QTextCodec::codecForLocale());
     QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
-
-    //    SUi::inst()->filesViewLeft->header()->setClickable(true);
-    //    SUi::inst()->filesViewRight->header()->setClickable(true);
-
-    //    SUi::inst()->filesViewLeft->header()->resizeSection(0, 250);
-    //    SUi::inst()->filesViewRight->header()->resizeSection(0, 250);
 
     SDriveEngine::inst()->getFilePanel(ELeft)->getFileView()->header()->setClickable(true);
     SDriveEngine::inst()->getFilePanel(ERight)->getFileView()->header()->setClickable(true);
@@ -69,20 +61,12 @@ void MainWindow::setConnections(void)
     connect(SUi::inst()->deleteButton, SIGNAL(clicked()), SDriveEngine::inst()->getOpUI(), SLOT(slotTriggeredDel()));
     connect(SUi::inst()->renameButton, SIGNAL(clicked()), SDriveEngine::inst()->getOpUI(), SLOT(slotRenameWebFile()));
     connect(SUi::inst()->shareButton, SIGNAL(clicked()), SDriveEngine::inst()->getOpUI(), SLOT(slotShareWebFile()));
-    //    connect(SUi::inst()->filesViewLeft, SIGNAL(clicked(const QModelIndex&)), SDriveEngine::inst()->getfilesUI(), SLOT(slotLeftViewClicked(const QModelIndex&)));
-    //    connect(SUi::inst()->filesViewRight, SIGNAL(clicked(const QModelIndex&)), SDriveEngine::inst()->getfilesUI(), SLOT(slotRightViewClicked(const QModelIndex&)));
-    //    connect(SUi::inst()->filesViewLeft, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), SDriveEngine::inst()->getfilesUI(), SLOT(slotLeftPanelItemDoubleClicked(QTreeWidgetItem*, int)));
-    //    connect(SUi::inst()->filesViewRight, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), SDriveEngine::inst()->getfilesUI(), SLOT(slotRightPanelItemDoubleClicked(QTreeWidgetItem*, int)));
-    //    connect(SUi::inst()->filesViewLeft->header(), SIGNAL(sortIndicatorChanged(int, Qt::SortOrder)), SDriveEngine::inst()->getfilesUI(), SLOT(slotLeftSortIndicatorChanged(int, Qt::SortOrder)));
-    //    connect(SUi::inst()->filesViewRight->header(), SIGNAL(sortIndicatorChanged(int, Qt::SortOrder)), SDriveEngine::inst()->getfilesUI(), SLOT(slotRightSortIndicatorChanged(int, Qt::SortOrder)));
-
     connect(SDriveEngine::inst()->getFilePanel(ELeft)->getFileView(), SIGNAL(clicked(const QModelIndex&)), SDriveEngine::inst()->getfilesUI(), SLOT(slotLeftViewClicked(const QModelIndex&)));
     connect(SDriveEngine::inst()->getFilePanel(ERight)->getFileView(), SIGNAL(clicked(const QModelIndex&)), SDriveEngine::inst()->getfilesUI(), SLOT(slotRightViewClicked(const QModelIndex&)));
     connect(SDriveEngine::inst()->getFilePanel(ELeft)->getFileView(), SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), SDriveEngine::inst()->getfilesUI(), SLOT(slotLeftPanelItemDoubleClicked(QTreeWidgetItem*, int)));
     connect(SDriveEngine::inst()->getFilePanel(ERight)->getFileView(), SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), SDriveEngine::inst()->getfilesUI(), SLOT(slotRightPanelItemDoubleClicked(QTreeWidgetItem*, int)));
     connect(SDriveEngine::inst()->getFilePanel(ELeft)->getFileView()->header(), SIGNAL(sortIndicatorChanged(int, Qt::SortOrder)), SDriveEngine::inst()->getfilesUI(), SLOT(slotLeftSortIndicatorChanged(int, Qt::SortOrder)));
     connect(SDriveEngine::inst()->getFilePanel(ERight)->getFileView()->header(), SIGNAL(sortIndicatorChanged(int, Qt::SortOrder)), SDriveEngine::inst()->getfilesUI(), SLOT(slotRightSortIndicatorChanged(int, Qt::SortOrder)));
-
     connect(SDriveEngine::inst()->getOAuth2(), SIGNAL(loginDone()), this, SLOT(slotloginDone()));
     connect(SDriveEngine::inst()->getFilesMngr()->self(), SIGNAL(signalAccessTokenRequired()), this, SLOT(slotAccessTokenRequired()));
     connect(SDriveEngine::inst()->getFilesMngr(true)->self(), SIGNAL(signalAccessTokenRequired()), this, SLOT(slotAccessTokenRequired()));
@@ -91,7 +75,7 @@ void MainWindow::setConnections(void)
 
 void MainWindow::slotloginDone()
 {
-    init();
+    SDriveEngine::inst()->loadPanel(LEFT_PANEL, true);
 }
 
 void MainWindow::slotAccessTokenRequired(void)
@@ -105,10 +89,7 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event)
 }
 
 void MainWindow::paintEvent(QPaintEvent*)
-{
-    //    SUi::inst()->pathLabelLeft->setMaximumWidth(SUi::inst()->filesViewLeft->width());
-    //    SUi::inst()->pathLabelRight->setMaximumWidth(SUi::inst()->filesViewRight->width());
-
+{   
     SDriveEngine::inst()->getFilePanel(ELeft)->getPathLabel()->setMaximumWidth(SDriveEngine::inst()->getFilePanel(ELeft)->width());
     SDriveEngine::inst()->getFilePanel(ERight)->getPathLabel()->setMaximumWidth(SDriveEngine::inst()->getFilePanel(ERight)->width());
 }

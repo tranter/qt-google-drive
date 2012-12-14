@@ -53,14 +53,14 @@ public:
     QWidget* getParent(void) const;
     void init(void);
     FilePanel *getFilePanel(EPanels panel) const;
+    void loadPanel(const QString &panelName, bool initLoad);
 
 private slots:
     void slotFirstPanelIsLoaded();
 
 private:
     void setKeyActions(void);
-    void reset(void);
-    void loadPanel(const QString &panelName, bool initLoad);
+    void reset(void);   
 
 public slots:
     void slotStartLogin();

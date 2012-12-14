@@ -21,13 +21,11 @@ void DriveEngine::init(void)
 {
     reset();
     setKeyActions();
-    loadPanel(RIGHT_PANEL, true);
+    loadPanel(LEFT_PANEL, true);
 }
 
 void DriveEngine::reset(void)
 {
-    DEBUG << "RESET";
-
     checkUI.reset(new CheckUI);
 
     for(int i = 0; i < EPanelsCount; ++i)
@@ -121,14 +119,12 @@ void DriveEngine::loadPanel(const QString &panelName, bool initLoad)
     if (panelName == RIGHT_PANEL)
     {
         panel  = ERight;
-        //treeWidget = SUi::inst()->filesViewRight;
         treeWidget = filesViewRight->getFileView();
     }
 
     if (panelName == LEFT_PANEL)
     {
         panel = ELeft;
-        //treeWidget = SUi::inst()->filesViewLeft;
         treeWidget = filesViewLeft->getFileView();
     }
 
@@ -146,7 +142,7 @@ void DriveEngine::loadPanel(const QString &panelName, bool initLoad)
 
 void DriveEngine::slotFirstPanelIsLoaded()
 {
-    loadPanel(LEFT_PANEL, false);
+    loadPanel(RIGHT_PANEL, false);
 }
 
 void DriveEngine::setKeyActions(void)
