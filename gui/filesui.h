@@ -3,6 +3,7 @@
 
 #include "core/driveengine.h"
 #include "share/enums.h"
+#include <QLabel>
 
 class FilesManager;
 

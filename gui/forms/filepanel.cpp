@@ -12,3 +12,13 @@ FilePanel::~FilePanel()
 {
     delete ui;
 }
+
+QTreeWidget* FilePanel::getFileView(void) const
+{
+    return ui->fileView;
+}
+
+QLabel* FilePanel::getPathLabel(void) const
+{
+    return ui->pathLabel;
+}

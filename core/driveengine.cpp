@@ -4,6 +4,7 @@
 #include <QMessageBox>
 #include <QSettings>
 #include <QDir>
+#include <QHBoxLayout>
 
 DriveEngine::DriveEngine(QObject *parent) :
     QObject(parent)
@@ -24,6 +25,8 @@ void DriveEngine::init(void)
 
 void DriveEngine::reset(void)
 {
+    DEBUG << "RESET";
+
     checkUI.reset(new CheckUI);
 
     for(int i = 0; i < EPanelsCount; ++i)
@@ -32,6 +35,17 @@ void DriveEngine::reset(void)
         filesMngr[i]->init();
     }
 
+    QHBoxLayout *hBoxLayout = new QHBoxLayout(SUi::inst()->panelsWidget);
+
+    filesViewLeft = new FilePanel;
+    filesViewRight = new FilePanel;
+
+    hBoxLayout->setContentsMargins(0, 0, 0, 0);
+    hBoxLayout->setSpacing(1);
+
+    hBoxLayout->addWidget(filesViewLeft);
+    hBoxLayout->addWidget(filesViewRight);
+
     filesTransferUI.reset(new FilesTransferUI);
     filesUI.reset(new FilesUI);
     foldersMngr.reset(new FoldersManager);
@@ -39,6 +53,23 @@ void DriveEngine::reset(void)
     oAuth2.reset(new OAuth2(parent));
     opUI.reset(new OperationsUI);
     opEventHandler.reset(new EventHandler<OperationsUI>(opUI.data()));
+}
+
+FilePanel* DriveEngine::getFilePanel(EPanels panel) const
+{
+    FilePanel *filePanel;
+
+    if(panel == ELeft)
+    {
+        filePanel = filesViewLeft;
+    }
+
+    if(panel == ERight)
+    {
+        filePanel = filesViewRight;
+    }
+
+    return filePanel;
 }
 
 FilesManager* DriveEngine::getFilesMngr(bool opposite) const
@@ -85,14 +116,16 @@ void DriveEngine::loadPanel(const QString &panelName, bool initLoad)
 
     if (panelName == RIGHT_PANEL)
     {
-      panel  = ERight;
-      treeWidget = SUi::inst()->filesViewRight;
+        panel  = ERight;
+        //treeWidget = SUi::inst()->filesViewRight;
+        treeWidget = filesViewRight->getFileView();
     }
 
     if (panelName == LEFT_PANEL)
     {
-      panel = ELeft;
-      treeWidget = SUi::inst()->filesViewLeft;
+        panel = ELeft;
+        //treeWidget = SUi::inst()->filesViewLeft;
+        treeWidget = filesViewLeft->getFileView();
     }
 
     settings.beginGroup(PANEL + QString::number(static_cast <int> (panel)));

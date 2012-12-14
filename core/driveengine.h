@@ -16,6 +16,7 @@
 #include "network/oauth2.h"
 #include "core/eventhandler.h"
 #include "share/enums.h"
+#include "gui/forms/filepanel.h"
 
 class AdditionalFoldersManager;
 class CheckUI;
@@ -51,6 +52,7 @@ public:
     OperationsUI* getOpUI(void) const;
     QWidget* getParent(void) const;
     void init(void);
+    FilePanel *getFilePanel(EPanels panel) const;
 
 private slots:
     void slotFirstPanelIsLoaded();
@@ -78,6 +80,8 @@ private:
     QScopedPointer<OAuth2> oAuth2;
     QScopedPointer<OperationsUI> opUI;
     QScopedPointer<UploadFileManager> uploadFileMngr;
+    FilePanel *filesViewLeft;
+    FilePanel *filesViewRight;
 };
 
 #endif // DRIVEENGINE_H

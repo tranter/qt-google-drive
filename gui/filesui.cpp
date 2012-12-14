@@ -161,19 +161,21 @@ QString FilesUI::getDisc(EPanels panel) const
 
 QLabel* FilesUI::getPanelLabel(EPanels panel) const
 {
-    QLabel* label;
+//    QLabel* label;
 
-    switch(panel)
-    {
-    case ELeft: label = SUi::inst()->pathLabelLeft;
-        break;
-    case ERight: label = SUi::inst()->pathLabelRight;
-        break;
-    case EPanelsCount:
-        break;
-    }
+//    switch(panel)
+//    {
+//    case ELeft: label = SUi::inst()->pathLabelLeft;
+//        break;
+//    case ERight: label = SUi::inst()->pathLabelRight;
+//        break;
+//    case EPanelsCount:
+//        break;
+//    }
 
-    return label;
+//    return label;
+
+    return  SDriveEngine::inst()->getFilePanel(panel)->getPathLabel();
 }
 
 
