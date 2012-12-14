@@ -5,6 +5,7 @@
 #include <QSettings>
 #include <QDir>
 #include <QHBoxLayout>
+#include <QSplitter>
 
 DriveEngine::DriveEngine(QObject *parent) :
     QObject(parent)
@@ -36,15 +37,18 @@ void DriveEngine::reset(void)
     }
 
     QHBoxLayout *hBoxLayout = new QHBoxLayout(SUi::inst()->panelsWidget);
+    QSplitter *hSplitter = new QSplitter(Qt::Horizontal, SUi::inst()->panelsWidget);
 
     filesViewLeft = new FilePanel;
     filesViewRight = new FilePanel;
 
     hBoxLayout->setContentsMargins(0, 0, 0, 0);
-    hBoxLayout->setSpacing(1);
+    hBoxLayout->addWidget(hSplitter);
 
-    hBoxLayout->addWidget(filesViewLeft);
-    hBoxLayout->addWidget(filesViewRight);
+    hSplitter->setHandleWidth(1);
+
+    hSplitter->addWidget(filesViewLeft);
+    hSplitter->addWidget(filesViewRight);
 
     filesTransferUI.reset(new FilesTransferUI);
     filesUI.reset(new FilesUI);
