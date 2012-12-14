@@ -132,12 +132,12 @@ void DriveEngine::loadPanel(const QString &panelName, bool initLoad)
 
     filesUI->getPanelLabel(panel)->setText(settings.value(CURRENT_FOLDER_PATH, QString("a:") + QDir::toNativeSeparators("/")).toString());
     query = settings.value(CURRENT_FOLDER_URL, GET_FULL_ROOT_CONTENT).toString();
-    SDriveEngine::inst()->getFilesMngr()->setPathesURLs(settings.value(PATHES_URLS).toStringList());
+    getFilesMngr()->setPathesURLs(settings.value(PATHES_URLS).toStringList());
 
     settings.endGroup();
 
-    SDriveEngine::inst()->filesMngr[panel]->setPanel(treeWidget);
-    SDriveEngine::inst()->filesMngr[panel]->get(query);
+    filesMngr[panel]->setPanel(treeWidget);
+    filesMngr[panel]->get(query);
 }
 
 void DriveEngine::slotFirstPanelIsLoaded()

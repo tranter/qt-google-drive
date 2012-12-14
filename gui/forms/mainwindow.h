@@ -26,7 +26,6 @@ public:
 
 private:
     virtual bool eventFilter(QObject *object, QEvent *event);
-    void paintEvent(QPaintEvent*);
 
 private:
     void setConnections(void);
