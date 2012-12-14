@@ -12,6 +12,7 @@ TARGET = qtdrive
 TEMPLATE = app
 
 SOURCES += core/main.cpp
+SOURCES += gui/forms/panel.cpp
 SOURCES += gui/forms/drivetree.cpp
 SOURCES += gui/forms/additionalfolders.cpp
 SOURCES += gui/forms/sharedialog.cpp
@@ -43,6 +44,7 @@ SOURCES += gui/foldersui.cpp
 SOURCES += gui/checkui.cpp
 
 HEADERS  += gui/forms/mainwindow.h
+HEADERS  += gui/forms/panel.h
 HEADERS  += gui/forms/drivetree.h
 HEADERS  += gui/forms/additionalfolders.h
 HEADERS  += gui/forms/sharedialog.h
@@ -79,6 +81,7 @@ HEADERS  += gui/foldersui.h
 HEADERS  += gui/checkui.h
 
 FORMS    += gui/forms/mainwindow.ui
+FORMS    += gui/forms/panel.ui
 FORMS    += gui/forms/drivetree.ui
 FORMS    += gui/forms/additionalfolders.ui
 FORMS    += gui/forms/sharedialog.ui

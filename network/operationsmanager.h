@@ -13,7 +13,7 @@ public:
     {
         ENone = -1,
         ECopy,
-        ECreateWebFolder,
+        ECreateFolder,
         EDelete,
         ERename,
         EShare

@@ -87,7 +87,7 @@ void OperationsManager::setProgressBarSettings(const QString &fileName, const QS
 
 void OperationsManager::createFolder(const QString &folderUrl, const QString &name)
 {
-    currentOperation = ECreateWebFolder;
+    currentOperation = ECreateFolder;
 
     QString data = QString("{\"title\": \"%1\",\"parents\": [{\"id\": \"%2\"}],\"mimeType\": \"application/vnd.google-apps.folder\"}").arg(name).arg(getIDFromURL(folderUrl));
 
@@ -157,7 +157,7 @@ void OperationsManager::slotPostFinished(QNetworkReply* reply)
          }
      }
 
-     if(currentOperation == ECreateWebFolder)
+     if(currentOperation == ECreateFolder)
      {
         updatePanelContent(false);
      }
