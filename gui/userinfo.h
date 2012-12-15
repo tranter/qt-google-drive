@@ -1,10 +1,10 @@
 #ifndef ABOUTINFO_H
 #define ABOUTINFO_H
 
-class AboutInfo
+class UserInfo
 {
 public:
-    AboutInfo();
+    UserInfo();
 };
 
 #endif // ABOUTINFO_H
