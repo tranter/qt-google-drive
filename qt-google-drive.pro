@@ -12,6 +12,9 @@ TARGET = qtdrive
 TEMPLATE = app
 
 SOURCES += core/main.cpp
+SOURCES += network/accountsmanager.cpp
+SOURCES += network/queries.cpp
+SOURCES += gui/aboutinfo.cpp
 SOURCES += gui/forms/filepanel.cpp
 SOURCES += gui/forms/drivetree.cpp
 SOURCES += gui/forms/additionalfolders.cpp
@@ -44,6 +47,9 @@ SOURCES += gui/foldersui.cpp
 SOURCES += gui/checkui.cpp
 
 HEADERS  += gui/forms/mainwindow.h
+HEADERS  += network/accountsmanager.h
+HEADERS  += network/queries.h
+HEADERS  += gui/aboutinfo.h
 HEADERS  += gui/forms/filepanel.h
 HEADERS  += gui/forms/drivetree.h
 HEADERS  += gui/forms/additionalfolders.h
