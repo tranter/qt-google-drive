@@ -12,10 +12,10 @@ public:
       EAboutInfoQuery
     };
 
-//    struct UserInfo
-//    {
+    struct Data
+    {
 
-//    };
+    };
 
     AccountInfo(const QString &uiq, const QString &aiq);
 

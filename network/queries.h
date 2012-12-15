@@ -1,7 +1,7 @@
 #ifndef QUERIES_H
 #define QUERIES_H
 
-#include "gui/userinfo.h"
+#include "gui/accountinfo.h"
 
 class Queries
 {

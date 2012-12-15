@@ -1,8 +1,8 @@
-#include "userinfo.h"
+#include "accountinfo.h"
 #include "share/commontools.h"
 #include "share/debug.h"
 
-UserInfo::UserInfo(const QString &uiq, const QString &aiq) :
+AccountInfo::AccountInfo(const QString &uiq, const QString &aiq) :
     userInfoQuery(uiq),
     aboutInfoQuery(aiq),
     query(EUserInfoQuery),
@@ -10,7 +10,7 @@ UserInfo::UserInfo(const QString &uiq, const QString &aiq) :
 {
 }
 
-void UserInfo::slotReplyFinished(QNetworkReply*)
+void AccountInfo::slotReplyFinished(QNetworkReply*)
 {
     if(parseReply(replyStr))
     {
@@ -31,7 +31,7 @@ void UserInfo::slotReplyFinished(QNetworkReply*)
     replyStr.clear();
 }
 
-void UserInfo::getInfo(void)
+void AccountInfo::getInfo(void)
 {
     CommonTools::setHeader(request);
     request.setRawHeader("Content-Type", "application/json");
@@ -39,7 +39,7 @@ void UserInfo::getInfo(void)
     getRequest(queryStr);
 }
 
-bool UserInfo::parseReply(const QString &str)
+bool AccountInfo::parseReply(const QString &str)
 {
     DEBUG << "<===============================================================================================================";
     DEBUG << "replyStr" << replyStr;

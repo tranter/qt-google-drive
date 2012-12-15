@@ -30,7 +30,7 @@ public:
     void createFolder(const QString &folderUrl, const QString &name);
 
 protected slots:
-    virtual void slotReplyFinished(QNetworkReply *reply);
+    virtual void slotReplyFinished(QNetworkReply*);
     virtual void slotPostFinished(QNetworkReply* reply);
 
 private slots:

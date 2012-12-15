@@ -128,17 +128,11 @@ QString OperationsManager::getIDFromURL(const QString &url)
     return queryStrs[queryStrs.count()  - 1];
 }
 
-void OperationsManager::slotReplyFinished(QNetworkReply *reply)
+void OperationsManager::slotReplyFinished(QNetworkReply*)
 {
-    Q_UNUSED(reply);
-
-    switch(currentOperation)
-    {
-    case EDelete:
-    {
-        updatePanelContent(false);
-    }
-        break;
+    if(currentOperation == EDelete)
+    {  
+        updatePanelContent(false); 
     }
 }
 
