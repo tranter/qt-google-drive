@@ -29,6 +29,9 @@ void MainWindow::init(void)
 
     SDriveEngine::inst(this)->init();
 
+    queries.reset(new Queries);
+    queries->getAccountInfo();
+
     SDriveEngine::inst()->getCheckUI()->slotCheckWorkDir(false);
 
     setConnections();
@@ -76,6 +79,7 @@ void MainWindow::setConnections(void)
 void MainWindow::slotloginDone()
 {
     SDriveEngine::inst()->loadPanel(LEFT_PANEL, true);
+    queries->getAccountInfo();
 }
 
 void MainWindow::slotAccessTokenRequired(void)

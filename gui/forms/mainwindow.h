@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "share/singleton.h"
+#include "network/queries.h"
 
 namespace Ui
 {
@@ -33,6 +34,9 @@ private:
 private slots:
     void slotloginDone();
     void slotAccessTokenRequired(void);
+
+private:
+    QScopedPointer<Queries> queries;
 };
 
 #endif // MAINWINDOW_H

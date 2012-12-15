@@ -62,6 +62,10 @@ void OAuth2::slotReplyFinished(QNetworkReply* reply)
     QString replyStr = reply->readAll();
     JSONParser jParser;
 
+    DEBUG << "<===============================================================================================================";
+    DEBUG << "replyStr" << replyStr;
+    DEBUG << "===============================================================================================================>";
+
     int expiresIn = jParser.getParam(replyStr, "expires_in").toInt();
 
     DEBUG << "expiresIn" << expiresIn;
