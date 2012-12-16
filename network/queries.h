@@ -12,7 +12,7 @@ public:
     void getAccountInfo(void);
 
 private:
-   QScopedPointer <AccountInfo> userInfo;
+   QScopedPointer <AccountInfo> accountInfo;
 };
 
 #endif // QUERIES_H

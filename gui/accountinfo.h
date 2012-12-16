@@ -14,7 +14,13 @@ public:
 
     struct Data
     {
-
+     QString name;
+     QString email;
+     QString domainSharingPolicy;
+     QString permissionId;
+     long quotaBytesTotal;
+     long quotaBytesUsed;
+     long quotaBytesUsedInTrash;
     };
 
     AccountInfo(const QString &uiq, const QString &aiq);
@@ -33,6 +39,7 @@ private:
     QString aboutInfoQuery;
     EQueries query;
     QString queryStr;
+    Data accountData;
 };
 
 #endif // ABOUTINFO_H

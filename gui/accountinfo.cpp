@@ -1,5 +1,6 @@
 #include "accountinfo.h"
 #include "share/commontools.h"
+#include "parsers/jsonparser.h"
 #include "share/debug.h"
 
 AccountInfo::AccountInfo(const QString &uiq, const QString &aiq) :
@@ -23,8 +24,8 @@ void AccountInfo::slotReplyFinished(QNetworkReply*)
         }
         else if(query == EAboutInfoQuery)
         {
-           queryStr = userInfoQuery;
-           query = EUserInfoQuery;
+            queryStr = userInfoQuery;
+            query = EUserInfoQuery;
         }
     }
 
@@ -41,9 +42,25 @@ void AccountInfo::getInfo(void)
 
 bool AccountInfo::parseReply(const QString &str)
 {
-    DEBUG << "<===============================================================================================================";
-    DEBUG << "replyStr" << replyStr;
-    DEBUG << "===============================================================================================================>";
+//    DEBUG << "<===============================================================================================================";
+//    DEBUG << "replyStr" << replyStr;
+//    DEBUG << "===============================================================================================================>";
+
+    JSONParser jParser;
+
+    if(query == EUserInfoQuery)
+    {
+        accountData.name = jParser.getParam(replyStr, QString("email"));
+        accountData.email = jParser.getParam(replyStr, QString("name"));
+    }
+    else if(query == EAboutInfoQuery)
+    {
+        accountData.domainSharingPolicy = jParser.getParam(replyStr, QString("domainSharingPolicy"));
+        accountData.permissionId = jParser.getParam(replyStr, QString("permissionId"));
+        accountData.quotaBytesTotal = jParser.getParam(replyStr, QString("quotaBytesTotal")).toLong();
+        accountData.quotaBytesUsed = jParser.getParam(replyStr, QString("quotaBytesUsed")).toLong();
+        accountData.quotaBytesUsedInTrash = jParser.getParam(replyStr, QString("quotaBytesUsedInTrash")).toLong();
+    }
 
     return true;
 }

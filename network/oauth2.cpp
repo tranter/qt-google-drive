@@ -62,18 +62,10 @@ void OAuth2::slotReplyFinished(QNetworkReply* reply)
     QString replyStr = reply->readAll();
     JSONParser jParser;
 
-    DEBUG << "<===============================================================================================================";
-    DEBUG << "replyStr" << replyStr;
-    DEBUG << "===============================================================================================================>";
-
-    int expiresIn = jParser.getParam(replyStr, "expires_in").toInt();
-
-    DEBUG << "expiresIn" << expiresIn;
+    int expiresIn = jParser.getParam(replyStr, TOKEN_EXPIRES_IN).toInt();
 
     accessToken = jParser.getParam(replyStr, ACCESS_TOKEN);
     settings.setValue(ACCESS_TOKEN, accessToken);
-
-    DEBUG << "accessToken" << accessToken;
 
     refreshToken = jParser.getParam(replyStr, REFRESH_TOKEN);
 
@@ -82,8 +74,6 @@ void OAuth2::slotReplyFinished(QNetworkReply* reply)
         settings.setValue(REFRESH_TOKEN, refreshToken);
     }
 
-    DEBUG << "refreshToken" << refreshToken;
-
     QTimer::singleShot(expiresIn * 1000, this, SLOT(slotGetAccessTokenFromRefreshToken()));
 
     emit loginDone();
@@ -91,29 +81,21 @@ void OAuth2::slotReplyFinished(QNetworkReply* reply)
 
 void OAuth2::setScope(const QString& scopeStr)
 {
-    DEBUG;
-
     scope = scopeStr;
 }
 
 void OAuth2::setClientID(const QString& clientIDStr)
 {
-    DEBUG;
-
     clientID = clientIDStr;
 }
 
 void OAuth2::setRedirectURI(const QString& redirectURIStr)
 {
-    DEBUG;
-
     redirectURI = redirectURIStr;
 }
 
 QString OAuth2::permanentLoginUrl(void)
 {
-    DEBUG;
-
     QString str = QString("%1?client_id=%2&redirect_uri=%3&response_type=code&scope=%4&approval_prompt=force&access_type=offline").
             arg(endPoint).arg(clientID).arg(redirectURI).arg(scope);
 
@@ -122,8 +104,6 @@ QString OAuth2::permanentLoginUrl(void)
 
 void OAuth2::startLogin(bool runDialog)
 {
-    DEBUG;
-
     if(runDialog)
     {
         loginDialog->setLoginUrl(permanentLoginUrl());
@@ -137,8 +117,6 @@ void OAuth2::startLogin(bool runDialog)
 
 void OAuth2::slotGetAccessTokenFromRefreshToken(void)
 {
-    DEBUG;
-
     QSettings settings(COMPANY_NAME, APP_NAME);
 
     accessToken = settings.value(ACCESS_TOKEN).toString();
@@ -163,8 +141,6 @@ void OAuth2::slotGetAccessTokenFromRefreshToken(void)
 
 QNetworkRequest OAuth2::setRequest(void)
 {
-    DEBUG;
-
     QUrl url(QString("https://accounts.google.com/o/oauth2/token"));
     QNetworkRequest request;
 

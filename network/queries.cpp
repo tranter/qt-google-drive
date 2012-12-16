@@ -16,7 +16,7 @@ void Queries::getAccountInfo(void)
     QString userInfoQuery(QString("https://www.googleapis.com/oauth2/v1/userinfo?access_token=").arg(accessToken));
     QString aboutInfoQuery(QString("https://www.googleapis.com/drive/v2/about"));
 
-    userInfo.reset(new AccountInfo(userInfoQuery, aboutInfoQuery));
+    accountInfo.reset(new AccountInfo(userInfoQuery, aboutInfoQuery));
 
-    userInfo->getInfo();
+    accountInfo->getInfo();
 }
