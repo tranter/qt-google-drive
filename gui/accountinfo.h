@@ -18,9 +18,9 @@ public:
      QString email;
      QString domainSharingPolicy;
      QString permissionId;
-     long quotaBytesTotal;
-     long quotaBytesUsed;
-     long quotaBytesUsedInTrash;
+     long long quotaBytesTotal;
+     long long quotaBytesUsed;
+     long long quotaBytesUsedInTrash;
     };
 
     AccountInfo(const QString &uiq, const QString &aiq);

@@ -62,12 +62,16 @@ void OAuth2::slotReplyFinished(QNetworkReply* reply)
     QString replyStr = reply->readAll();
     JSONParser jParser;
 
-    int expiresIn = jParser.getParam(replyStr, TOKEN_EXPIRES_IN).toInt();
+    DEBUG << "<===============================================================================================================";
+    DEBUG << "replyStr" << replyStr;
+    DEBUG << "===============================================================================================================>";
 
-    accessToken = jParser.getParam(replyStr, ACCESS_TOKEN);
+    int expiresIn = jParser.getPlainParam(replyStr, TOKEN_EXPIRES_IN).toInt();
+
+    accessToken = jParser.getPlainParam(replyStr, ACCESS_TOKEN);
     settings.setValue(ACCESS_TOKEN, accessToken);
 
-    refreshToken = jParser.getParam(replyStr, REFRESH_TOKEN);
+    refreshToken = jParser.getPlainParam(replyStr, REFRESH_TOKEN);
 
     if(!refreshToken.isEmpty())
     {

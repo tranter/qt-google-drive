@@ -11,9 +11,8 @@ Queries::Queries()
 void Queries::getAccountInfo(void)
 {
     QSettings settings(COMPANY_NAME, APP_NAME);
-    QString accessToken = settings.value(ACCESS_TOKEN).toString();
 
-    QString userInfoQuery(QString("https://www.googleapis.com/oauth2/v1/userinfo?access_token=").arg(accessToken));
+    QString userInfoQuery(QString("https://www.googleapis.com/oauth2/v1/userinfo?access_token=").arg(settings.value(ACCESS_TOKEN).toString()));
     QString aboutInfoQuery(QString("https://www.googleapis.com/drive/v2/about"));
 
     accountInfo.reset(new AccountInfo(userInfoQuery, aboutInfoQuery));

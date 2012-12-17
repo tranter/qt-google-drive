@@ -1,33 +1,40 @@
 #include "jsonparser.h"
+#include "share/debug.h"
 #include <QRegExp>
+#include <QString>
 #include <QStringList>
 
 JSONParser::JSONParser()
 {
 }
 
-QString JSONParser::getParam(const QString& jsonStr, const QString& lval)
+QString JSONParser::getPlainParam(const QString& jsonStr, const QString& lVal)
 {
     QString optStr = jsonStr;
-    optStr.remove(QRegExp("[ \"]"));
-    QStringList parseStrs = optStr.split("\n");
-    QString rval("");
+
+    optStr.remove(QRegExp("[{}\"\n]"));
+
+    QStringList parseStrs = optStr.split(",");
+    QString rVal;
 
     for (int i = 0; i < parseStrs.count(); ++i)
     {
-        QStringList exp = parseStrs[i].split(",");
+           QStringList token = parseStrs[i].split(": ");
 
-        for(int j = 0; j < exp.count(); ++j)
-        {
-            QStringList token = exp[j].split(":");
-
-            if(token[0] == lval)
+            if(token.count() == 2)
             {
-                rval = token[1];
-                break;
+                QString token0, token1;
+
+                token0 = token[0].trimmed();
+                token1 = token[1].trimmed();
+
+                if(token0 == lVal)
+                {
+                    rVal = token1;
+                    break;
+                }
             }
-        }
     }
 
-    return rval;
+    return rVal;
 }

@@ -78,6 +78,7 @@ void MainWindow::setConnections(void)
 
 void MainWindow::slotloginDone()
 {
+    DEBUG;
     SDriveEngine::inst()->loadPanel(LEFT_PANEL, true);
     queries->getAccountInfo();
 }

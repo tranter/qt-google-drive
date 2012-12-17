@@ -50,17 +50,25 @@ bool AccountInfo::parseReply(const QString &str)
 
     if(query == EUserInfoQuery)
     {
-        accountData.name = jParser.getParam(replyStr, QString("email"));
-        accountData.email = jParser.getParam(replyStr, QString("name"));
+        accountData.name = jParser.getPlainParam(replyStr, QString("name"));
+        accountData.email = jParser.getPlainParam(replyStr, QString("email"));
     }
     else if(query == EAboutInfoQuery)
     {
-        accountData.domainSharingPolicy = jParser.getParam(replyStr, QString("domainSharingPolicy"));
-        accountData.permissionId = jParser.getParam(replyStr, QString("permissionId"));
-        accountData.quotaBytesTotal = jParser.getParam(replyStr, QString("quotaBytesTotal")).toLong();
-        accountData.quotaBytesUsed = jParser.getParam(replyStr, QString("quotaBytesUsed")).toLong();
-        accountData.quotaBytesUsedInTrash = jParser.getParam(replyStr, QString("quotaBytesUsedInTrash")).toLong();
+        accountData.domainSharingPolicy = jParser.getPlainParam(replyStr, QString("domainSharingPolicy"));
+        accountData.permissionId = jParser.getPlainParam(replyStr, QString("permissionId"));
+        accountData.quotaBytesTotal = jParser.getPlainParam(replyStr, QString("quotaBytesTotal")).toLongLong();
+        accountData.quotaBytesUsed = jParser.getPlainParam(replyStr, QString("quotaBytesUsed")).toLongLong();
+        accountData.quotaBytesUsedInTrash = jParser.getPlainParam(replyStr, QString("quotaBytesUsedInTrash")).toLongLong();
     }
+
+    DEBUG << "-------------------------------> accountData.name" << accountData.name;
+    DEBUG << "-------------------------------> accountData.email" << accountData.email;
+    DEBUG << "-------------------------------> accountData.domainSharingPolicy" << accountData.domainSharingPolicy;
+    DEBUG << "-------------------------------> accountData.permissionId" <<  accountData.permissionId;
+    DEBUG << "-------------------------------> accountData.quotaBytesTotal" << QString::number(accountData.quotaBytesTotal);
+    DEBUG << "-------------------------------> accountData.quotaBytesUsed" << QString::number(accountData.quotaBytesUsed);
+    DEBUG << "-------------------------------> accountData.quotaBytesUsedInTrash" << QString::number(accountData.quotaBytesUsedInTrash);
 
     return true;
 }

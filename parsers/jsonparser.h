@@ -9,7 +9,7 @@ public:
     JSONParser();
 
 public:
-    QString getParam(const QString& jsonStr, const QString& lval);
+    QString getPlainParam(const QString& jsonStr, const QString& lval);
 };
 
 #endif // JSONPARSER_H
