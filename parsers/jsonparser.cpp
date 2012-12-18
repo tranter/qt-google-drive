@@ -17,12 +17,10 @@ QString JSONParser::getPlainParam(const QString& jsonStr, const QString& lVal)
 
     int endPos(jsonStr.indexOf(QString(","), beginPos));
 
-    if(endPos == -1) return QString();
-
     int strLength = endPos - beginPos;
     QString token(jsonStr.mid(beginPos, strLength));
 
-    token.remove('\"');
+    token.remove(QRegExp("[\"}]"));
 
     QStringList tokenValues(token.split(": "));
     QString rVal;

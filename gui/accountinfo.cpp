@@ -42,6 +42,10 @@ void AccountInfo::setInfo(void)
 
 void AccountInfo::parseReply(void)
 {
+    DEBUG << "<===============================================================================================================";
+    DEBUG << "replyStr" << replyStr;
+    DEBUG << "===============================================================================================================>";
+
     JSONParser jParser;
 
     if(query == EUserInfoQuery)
@@ -57,6 +61,15 @@ void AccountInfo::parseReply(void)
         accountData.quotaBytesUsed = jParser.getPlainParam(replyStr, QString("quotaBytesUsed")).toLongLong();
         accountData.quotaBytesUsedInTrash = jParser.getPlainParam(replyStr, QString("quotaBytesUsedInTrash")).toLongLong();
     }
+
+    DEBUG << "-------------------------------> accountData.name" << accountData.name;
+    DEBUG << "-------------------------------> accountData.email" << accountData.email;
+    DEBUG << "-------------------------------> accountData.domainSharingPolicy" << accountData.domainSharingPolicy;
+    DEBUG << "-------------------------------> accountData.permissionId" <<  accountData.permissionId;
+    DEBUG << "-------------------------------> accountData.quotaBytesTotal" << QString::number(accountData.quotaBytesTotal);
+    DEBUG << "-------------------------------> accountData.quotaBytesUsed" << QString::number(accountData.quotaBytesUsed);
+    DEBUG << "-------------------------------> accountData.quotaBytesUsedInTrash" << QString::number(accountData.quotaBytesUsedInTrash);
+
 }
 
 AccountInfo::Data AccountInfo::getData(void) const
