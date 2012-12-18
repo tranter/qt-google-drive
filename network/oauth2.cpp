@@ -6,6 +6,7 @@
 #include "share/defs.h"
 #include "parsers/jsonparser.h"
 #include "share/debug.h"
+#include "network/queries.h"
 
 OAuth2::OAuth2(QWidget* parent) :
     NetworkManager(parent),
@@ -38,8 +39,6 @@ void OAuth2::setConnections(void)
 
 void OAuth2::slotCodeObtained()
 {
-    DEBUG;
-
     codeStr = loginDialog->code();
 
     QByteArray params = "client_id=" + QByteArray(CLIENT_ID);
@@ -62,25 +61,19 @@ void OAuth2::slotReplyFinished(QNetworkReply* reply)
     QString replyStr = reply->readAll();
     JSONParser jParser;
 
-    DEBUG << "<===============================================================================================================";
-    DEBUG << "replyStr" << replyStr;
-    DEBUG << "===============================================================================================================>";
-
-    int expiresIn = jParser.getPlainParam(replyStr, TOKEN_EXPIRES_IN).toInt();
+    //settings.beginGroup(SQueries::inst()->accountInfoPointer()->getData().email);
 
     accessToken = jParser.getPlainParam(replyStr, ACCESS_TOKEN);
     settings.setValue(ACCESS_TOKEN, accessToken);
 
     refreshToken = jParser.getPlainParam(replyStr, REFRESH_TOKEN);
 
-    DEBUG << "accessToken" << accessToken << "refreshToken" << refreshToken << "expiresIn" << expiresIn;
-
     if(!refreshToken.isEmpty())
     {
         settings.setValue(REFRESH_TOKEN, refreshToken);
     }
 
-    QTimer::singleShot(expiresIn * 1000, this, SLOT(slotGetAccessTokenFromRefreshToken()));
+    //settings.endGroup();
 
     emit loginDone();
 }
@@ -100,19 +93,16 @@ void OAuth2::setRedirectURI(const QString& redirectURIStr)
     redirectURI = redirectURIStr;
 }
 
-QString OAuth2::permanentLoginUrl(void)
+QString OAuth2::firstLogin(void)
 {
-    QString str = QString("%1?client_id=%2&redirect_uri=%3&response_type=code&scope=%4&approval_prompt=force&access_type=offline").
-            arg(endPoint).arg(clientID).arg(redirectURI).arg(scope);
-
-    return str;
+    return QString("%1?client_id=%2&redirect_uri=%3&response_type=code&scope=%4&approval_prompt=force&access_type=offline").arg(endPoint).arg(clientID).arg(redirectURI).arg(scope);
 }
 
 void OAuth2::startLogin(bool runDialog)
 {
     if(runDialog)
     {
-        loginDialog->setLoginUrl(permanentLoginUrl());
+        loginDialog->setLoginUrl(firstLogin());
         loginDialog->show();
     }
     else
@@ -125,8 +115,12 @@ void OAuth2::slotGetAccessTokenFromRefreshToken(void)
 {
     QSettings settings(COMPANY_NAME, APP_NAME);
 
+    //settings.beginGroup(SQueries::inst()->accountInfoPointer()->getData().email);
+
     accessToken = settings.value(ACCESS_TOKEN).toString();
     refreshToken = settings.value(REFRESH_TOKEN).toString();
+
+    //settings.endGroup();
 
     if(refreshToken.isEmpty())
     {
@@ -139,8 +133,6 @@ void OAuth2::slotGetAccessTokenFromRefreshToken(void)
     params += QByteArray(CLIENT_SECRET);
     params += QByteArray("&grant_type=refresh_token");
     params += QByteArray("&refresh_token=") + refreshToken;
-
-    DEBUG << "========================================" << params;
 
     initAccess();
 

@@ -18,7 +18,6 @@
 
 #define ACCESS_TOKEN QString("access_token")
 #define REFRESH_TOKEN QString("refresh_token")
-#define TOKEN_EXPIRES_IN QString("expires_in")
 
 #define HIERARCHY_ATTRIBUTE_TAG(param) param("rel")
 #define FYLE_TYPE_ATTRIBUTE_TAG(param) param("type")

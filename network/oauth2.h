@@ -24,7 +24,7 @@ private:
     void setConnections(void);
     QNetworkRequest setRequest(void);
     void initAccess(void);
-    QString permanentLoginUrl(void);
+    QString firstLogin(void);
 
 public slots:
     void slotGetAccessTokenFromRefreshToken(void);

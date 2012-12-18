@@ -84,4 +84,6 @@ private:
     FilePanel *filesViewRight;
 };
 
+typedef TSingleton<DriveEngine> SDriveEngine;
+
 #endif // DRIVEENGINE_H

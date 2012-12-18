@@ -13,26 +13,26 @@ AccountInfo::AccountInfo(const QString &uiq, const QString &aiq) :
 
 void AccountInfo::slotReplyFinished(QNetworkReply*)
 {
-    if(parseReply(replyStr))
-    {
-        if(query == EUserInfoQuery)
-        {
-            queryStr = aboutInfoQuery;
-            query = EAboutInfoQuery;
+    parseReply();
 
-            getInfo();
-        }
-        else if(query == EAboutInfoQuery)
-        {
-            queryStr = userInfoQuery;
-            query = EUserInfoQuery;
-        }
+    if(query == EUserInfoQuery)
+    {
+        queryStr = aboutInfoQuery;
+        query = EAboutInfoQuery;
+
+        setInfo();
     }
+    else if(query == EAboutInfoQuery)
+    {
+        queryStr = userInfoQuery;
+        query = EUserInfoQuery;
+    }
+
 
     replyStr.clear();
 }
 
-void AccountInfo::getInfo(void)
+void AccountInfo::setInfo(void)
 {
     CommonTools::setHeader(request);
     request.setRawHeader("Content-Type", "application/json");
@@ -40,12 +40,8 @@ void AccountInfo::getInfo(void)
     getRequest(queryStr);
 }
 
-bool AccountInfo::parseReply(const QString &str)
+void AccountInfo::parseReply(void)
 {
-    DEBUG << "<===============================================================================================================";
-    DEBUG << "replyStr" << replyStr;
-    DEBUG << "===============================================================================================================>";
-
     JSONParser jParser;
 
     if(query == EUserInfoQuery)
@@ -61,16 +57,11 @@ bool AccountInfo::parseReply(const QString &str)
         accountData.quotaBytesUsed = jParser.getPlainParam(replyStr, QString("quotaBytesUsed")).toLongLong();
         accountData.quotaBytesUsedInTrash = jParser.getPlainParam(replyStr, QString("quotaBytesUsedInTrash")).toLongLong();
     }
+}
 
-    DEBUG << "-------------------------------> accountData.name" << accountData.name;
-    DEBUG << "-------------------------------> accountData.email" << accountData.email;
-    DEBUG << "-------------------------------> accountData.domainSharingPolicy" << accountData.domainSharingPolicy;
-    DEBUG << "-------------------------------> accountData.permissionId" <<  accountData.permissionId;
-    DEBUG << "-------------------------------> accountData.quotaBytesTotal" << QString::number(accountData.quotaBytesTotal);
-    DEBUG << "-------------------------------> accountData.quotaBytesUsed" << QString::number(accountData.quotaBytesUsed);
-    DEBUG << "-------------------------------> accountData.quotaBytesUsedInTrash" << QString::number(accountData.quotaBytesUsedInTrash);
-
-    return true;
+AccountInfo::Data AccountInfo::getData(void) const
+{
+    return accountData;
 }
 
 

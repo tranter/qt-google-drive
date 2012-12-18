@@ -22,7 +22,7 @@ QString JSONParser::getPlainParam(const QString& jsonStr, const QString& lVal)
     int strLength = endPos - beginPos;
     QString token(jsonStr.mid(beginPos, strLength));
 
-    token.remove(QRegExp("\""));
+    token.remove('\"');
 
     QStringList tokenValues(token.split(": "));
     QString rVal;

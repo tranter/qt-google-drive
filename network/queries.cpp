@@ -8,7 +8,7 @@ Queries::Queries()
 {
 }
 
-void Queries::getAccountInfo(void)
+void Queries::setAccountInfo(void)
 {
     QSettings settings(COMPANY_NAME, APP_NAME);
 
@@ -17,5 +17,10 @@ void Queries::getAccountInfo(void)
 
     accountInfo.reset(new AccountInfo(userInfoQuery, aboutInfoQuery));
 
-    accountInfo->getInfo();
+    accountInfo->setInfo();
+}
+
+AccountInfo *Queries::accountInfoPointer(void) const
+{
+   return accountInfo.data();
 }

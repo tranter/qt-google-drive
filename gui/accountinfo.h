@@ -29,10 +29,11 @@ protected:
     void slotReplyFinished(QNetworkReply*);
 
 public:
-    void getInfo(void);
+    void setInfo(void);
+    Data getData(void) const;
 
 private:
-    bool parseReply(const QString &str);
+    void parseReply(void);
 
 private:
     QString userInfoQuery;

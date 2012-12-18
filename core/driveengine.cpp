@@ -79,6 +79,7 @@ FilesManager* DriveEngine::getFilesMngr(bool opposite) const
     QSettings settings(COMPANY_NAME, APP_NAME);
     FilesManager* filesManager;
 
+
     if(settings.value(CURRENT_PANEL, LEFT_PANEL).toString() == LEFT_PANEL)
     {
         if(opposite)

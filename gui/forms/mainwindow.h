@@ -13,7 +13,6 @@ namespace Ui
 class DriveEngine;
 
 typedef TSingleton<Ui::MainWindow> SUi;
-typedef TSingleton<DriveEngine> SDriveEngine;
 
 class MainWindow : public QMainWindow
 {
@@ -34,9 +33,6 @@ private:
 private slots:
     void slotloginDone();
     void slotAccessTokenRequired(void);
-
-private:
-    QScopedPointer<Queries> queries;
 };
 
 #endif // MAINWINDOW_H

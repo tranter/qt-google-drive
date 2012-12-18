@@ -2,6 +2,7 @@
 #define QUERIES_H
 
 #include "gui/accountinfo.h"
+#include "share/singleton.h"
 
 class Queries
 {
@@ -9,10 +10,13 @@ public:
     Queries();
 
 public:
-    void getAccountInfo(void);
+    void setAccountInfo(void);
+    AccountInfo *accountInfoPointer(void) const;
 
 private:
    QScopedPointer <AccountInfo> accountInfo;
 };
+
+typedef TSingleton<Queries> SQueries;
 
 #endif // QUERIES_H
