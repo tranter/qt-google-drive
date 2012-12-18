@@ -73,6 +73,8 @@ void OAuth2::slotReplyFinished(QNetworkReply* reply)
 
     refreshToken = jParser.getPlainParam(replyStr, REFRESH_TOKEN);
 
+    DEBUG << "accessToken" << accessToken << "refreshToken" << refreshToken << "expiresIn" << expiresIn;
+
     if(!refreshToken.isEmpty())
     {
         settings.setValue(REFRESH_TOKEN, refreshToken);
@@ -126,7 +128,7 @@ void OAuth2::slotGetAccessTokenFromRefreshToken(void)
     accessToken = settings.value(ACCESS_TOKEN).toString();
     refreshToken = settings.value(REFRESH_TOKEN).toString();
 
-    if(accessToken.isEmpty() || refreshToken.isEmpty())
+    if(refreshToken.isEmpty())
     {
         return;
     }
@@ -137,6 +139,8 @@ void OAuth2::slotGetAccessTokenFromRefreshToken(void)
     params += QByteArray(CLIENT_SECRET);
     params += QByteArray("&grant_type=refresh_token");
     params += QByteArray("&refresh_token=") + refreshToken;
+
+    DEBUG << "========================================" << params;
 
     initAccess();
 

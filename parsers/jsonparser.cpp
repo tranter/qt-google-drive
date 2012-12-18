@@ -10,29 +10,26 @@ JSONParser::JSONParser()
 
 QString JSONParser::getPlainParam(const QString& jsonStr, const QString& lVal)
 {
-    QString optStr(jsonStr);
+    QString searchToken(QString("\"") + lVal + QString("\""));
+    int beginPos(jsonStr.indexOf(searchToken));
 
-    optStr.remove(QRegExp("[{}\"\n]"));
+    if(beginPos == -1) return QString();
 
-    QStringList parseStrs(optStr.split(","));
-    QStringList token;
-    QString rVal, token0, token1;
+    int endPos(jsonStr.indexOf(QString(","), beginPos));
 
-    for (int i = 0; i < parseStrs.count(); ++i)
+    if(endPos == -1) return QString();
+
+    int strLength = endPos - beginPos;
+    QString token(jsonStr.mid(beginPos, strLength));
+
+    token.remove(QRegExp("\""));
+
+    QStringList tokenValues(token.split(": "));
+    QString rVal;
+
+    if(tokenValues.count() == 2)
     {
-        token = parseStrs[i].split(": ");
-
-        if(token.count() == 2)
-        {
-            token0 = token[0].trimmed();
-            token1 = token[1].trimmed();
-
-            if(token0 == lVal)
-            {
-                rVal = token1;
-                break;
-            }
-        }
+        rVal = tokenValues[1].trimmed();
     }
 
     return rVal;
