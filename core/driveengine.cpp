@@ -158,7 +158,9 @@ void DriveEngine::slotStartLogin()
 
 void DriveEngine::slotStartLoginFromMenu()
 {
-    oAuth2->startLogin(true);
+    CommonTools::msg("The application under construction");
+    return;
+    //oAuth2->startLogin(true);
 }
 
 CheckUI* DriveEngine::getCheckUI(void) const

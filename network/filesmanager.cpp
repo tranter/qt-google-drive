@@ -23,8 +23,8 @@ void FilesManager::show(void)
 {
     items = parser->getXMLHandler()->getItemInfo()->getItems();
 
-    //qSort(fileItems.begin(), fileItems.end());
-    //qSort(fileItems.begin(), fileItems.end(), qGreater<ItemInfo::Data>());
+    //qSort(items.begin(), items.end());
+    //qSort(items.begin(), items.end(), qGreater<ItemInfo::Data>());
 
     QSettings settings(COMPANY_NAME, APP_NAME);
 
@@ -45,19 +45,24 @@ void FilesManager::show(void)
 
     for(int i = 1; i < items.count(); ++i)
     {
-//        if(fileItems[i].fileType == FOLDER_TYPE_STR)
-//        {
-            addItem(items[i]);
-//        }
+        addItem(items[i]);
     }
 
-//    for(int i = 1; i < fileItems.count(); ++i)
-//    {
-//        if(fileItems[i].fileType == FILE_TYPE_STR)
-//        {
-//            addItem(fileItems[i]);
-//        }
-//    }
+    //    for(int i = 1; i < items.count(); ++i)
+    //    {
+    //        if(items[i].type == FOLDER_TYPE_STR)
+    //        {
+    //            addItem(items[i]);
+    //        }
+    //    }
+
+    //    for(int i = 1; i < items.count(); ++i)
+    //    {
+    //        if(items[i].type == FILE_TYPE_STR)
+    //        {
+    //            addItem(items[i]);
+    //        }
+    //    }
 
     if(settings.value(INIT_LOAD).toBool())
     {
@@ -129,12 +134,12 @@ QString FilesManager::back(void)
 
 QStringList FilesManager::getPathesURLs(void) const
 {
-  return pathesURLs;
+    return pathesURLs;
 }
 
 void FilesManager::setPathesURLs(const QStringList &pathesURLsStrList)
 {
-  pathesURLs = pathesURLsStrList;
+    pathesURLs = pathesURLsStrList;
 }
 
 void FilesManager::sort(int column, Qt::SortOrder order)

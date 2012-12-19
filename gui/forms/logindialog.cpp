@@ -7,8 +7,6 @@ LoginDialog::LoginDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::LoginDialog)
 {
-    DEBUG;
-
     ui->setupUi(this);
     connect(ui->webView, SIGNAL(urlChanged(QUrl)), this, SLOT(urlChanged(QUrl)));
 }

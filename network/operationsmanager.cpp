@@ -23,8 +23,6 @@ void OperationsManager::deleteFile(const QString &sourceUrl)
 
     request.setUrl(getDeleteFileQuery(sourceUrl));
 
-    DEBUG << getDeleteFileQuery(sourceUrl);
-
     reply = networkManager->deleteResource(request);
 
     connect(networkManager.data(), SIGNAL(finished(QNetworkReply*)),this, SLOT(slotReplyFinished(QNetworkReply*)));
