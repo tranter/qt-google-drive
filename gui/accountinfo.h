@@ -5,6 +5,7 @@
 
 class AccountInfo : public NetworkManager
 {
+    Q_OBJECT
 public:
     enum EQueries
     {
@@ -24,6 +25,9 @@ public:
     };
 
     AccountInfo(const QString &uiq, const QString &aiq);
+
+signals:
+   void signalAccountInfo(AccountInfo::Data&);
 
 protected:
     void slotReplyFinished(QNetworkReply*);

@@ -65,9 +65,6 @@ void OAuth2::slotReplyFinished(QNetworkReply* reply)
     DEBUG << "replyStr" << replyStr;
     DEBUG << "===============================================================================================================>";
 
-
-    DEBUG << "???????????????????????????????????????????????????  SQueries::inst()->accountInfoPointer()->getData().email" << SQueries::inst()->accountInfoPointer()->getData().email;
-
     //settings.beginGroup(SQueries::inst()->accountInfoPointer()->getData().email);
 
     accessToken = jParser.getPlainParam(replyStr, ACCESS_TOKEN);
@@ -85,7 +82,7 @@ void OAuth2::slotReplyFinished(QNetworkReply* reply)
 
     //settings.endGroup();
 
-    emit loginDone();
+    emit logged(accessToken);
 }
 
 void OAuth2::setScope(const QString& scopeStr)

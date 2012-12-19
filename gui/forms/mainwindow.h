@@ -31,8 +31,9 @@ private:
     void setConnections(void);
 
 private slots:
-    void slotloginDone();
+    void slotLogged(const QString &accessToken);
     void slotAccessTokenRequired(void);
+    void slotAccountInfoReadyToUse(void);
 };
 
 #endif // MAINWINDOW_H

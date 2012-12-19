@@ -1,20 +1,27 @@
 #ifndef QUERIES_H
 #define QUERIES_H
 
+#include <QObject>
 #include "gui/accountinfo.h"
 #include "share/singleton.h"
 
-class Queries
+class Queries : public QObject
 {
+     Q_OBJECT
 public:
     Queries();
 
 public:
-    void setAccountInfo(void);
-    AccountInfo *accountInfoPointer(void) const;
+    void setAccountInfo(const QString &accessToken);
+
+signals:
+    void signalAccountInfoReadyToUse(void);
+
+private slots:
+    void slotAccountInfo(AccountInfo::Data &data);
 
 private:
-   QScopedPointer <AccountInfo> accountInfo;
+   AccountInfo *accountInfo;
 };
 
 typedef TSingleton<Queries> SQueries;

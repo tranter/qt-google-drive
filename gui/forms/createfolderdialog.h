@@ -22,7 +22,7 @@ public slots:
 
 signals:
     void signalAccept(const QString& name);
-    void signalReject();
+    void signalReject(void);
     void signalFinished(int result);
 
 private:

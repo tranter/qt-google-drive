@@ -35,7 +35,7 @@ private slots:
 
 
 signals:
-    void loginDone();
+    void logged(const QString &accessToken);
 
 private:
     QScopedPointer<LoginDialog> loginDialog;

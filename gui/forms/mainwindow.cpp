@@ -30,7 +30,6 @@ void MainWindow::init(void)
 
     SDriveEngine::inst(this)->init();
     SDriveEngine::inst()->getCheckUI()->slotCheckWorkDir(false);
-    SQueries::inst()->setAccountInfo();
 
     setConnections();
 
@@ -68,16 +67,21 @@ void MainWindow::setConnections(void)
     connect(SDriveEngine::inst()->getFilePanel(ERight)->getFileView(), SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), SDriveEngine::inst()->getfilesUI(), SLOT(slotRightPanelItemDoubleClicked(QTreeWidgetItem*, int)));
     connect(SDriveEngine::inst()->getFilePanel(ELeft)->getFileView()->header(), SIGNAL(sortIndicatorChanged(int, Qt::SortOrder)), SDriveEngine::inst()->getfilesUI(), SLOT(slotLeftSortIndicatorChanged(int, Qt::SortOrder)));
     connect(SDriveEngine::inst()->getFilePanel(ERight)->getFileView()->header(), SIGNAL(sortIndicatorChanged(int, Qt::SortOrder)), SDriveEngine::inst()->getfilesUI(), SLOT(slotRightSortIndicatorChanged(int, Qt::SortOrder)));
-    connect(SDriveEngine::inst()->getOAuth2(), SIGNAL(loginDone()), this, SLOT(slotloginDone()));
+    connect(SDriveEngine::inst()->getOAuth2(), SIGNAL(logged(const QString&)), this, SLOT(slotLogged(const QString&)));
     connect(SDriveEngine::inst()->getFilesMngr()->self(), SIGNAL(signalAccessTokenRequired()), this, SLOT(slotAccessTokenRequired()));
     connect(SDriveEngine::inst()->getFilesMngr(true)->self(), SIGNAL(signalAccessTokenRequired()), this, SLOT(slotAccessTokenRequired()));
     connect(SDriveEngine::inst()->getFilesMngr(), SIGNAL(signalFirstPanelIsLoaded()), SDriveEngine::inst(), SLOT(slotFirstPanelIsLoaded()));
+    connect(SQueries::inst(), SIGNAL(signalAccountInfoReadyToUse()), this, SLOT(slotAccountInfoReadyToUse()));
 }
 
-void MainWindow::slotloginDone()
+void MainWindow::slotLogged(const QString &accessToken)
+{    
+    SQueries::inst()->setAccountInfo(accessToken);
+}
+
+void MainWindow::slotAccountInfoReadyToUse(void)
 {
     SDriveEngine::inst()->loadPanel(LEFT_PANEL, true);
-    SQueries::inst()->setAccountInfo();
 }
 
 void MainWindow::slotAccessTokenRequired(void)
