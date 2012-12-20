@@ -13,7 +13,7 @@ public:
 
 public:
     void writeAccountInfo(AccountInfo::Data &data);
-    QString currentPanel(void) const;
+    QString currentPanel(void);
     void setCurrentPanel(const QString &panelName);
     void setInitialLoading(bool initLoad);
     void setCurrentFolderPath(int panelNum, const QString &path);
@@ -23,16 +23,20 @@ public:
     void setPathesURLs(int panelNum, QStringList pathes);
     QStringList pathesURLs(int panelNum);
     bool isWorkDirSet(void);
-    QString workDir(void) const;
+    QString workDir(void);
     void setWorkDir(const QString &workDrName);
     void setAccessToken(const QString &accessToken);
-    QString accessToken(void) const;
+    QString accessToken(void);
     void setRefreshToken(const QString &refreshToken);
-    QString refreshToken(void) const;
+    QString refreshToken(void);
+    bool initialLoading(void);
 
 private:
     void setValueInPanelGroup(int panelNum, const QString &key, const QVariant &val);
     QVariant getValueFromPanelGroup(int panelNum, const QString &key, const QVariant &defaultVal = QVariant());
+    void setValueInGroup(const QString &group, const QString &key, const QVariant &val);
+    QVariant getValueFromGroup(const QString &group, const QString &key, const QVariant &defaultVal = QVariant());
+    bool exists(const QString &group, const QString &key);
 };
 
 #endif // SETTINGSMANAGER_H

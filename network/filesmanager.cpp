@@ -2,7 +2,7 @@
 #include "share/registration.h"
 #include "core/driveengine.h"
 #include "share/debug.h"
-#include <QSettings>
+#include "settings/settingsmanager.h"
 //#include <QtAlgorithms>
 #include <QDebug>
 
@@ -26,7 +26,7 @@ void FilesManager::show(void)
     //qSort(items.begin(), items.end());
     //qSort(items.begin(), items.end(), qGreater<ItemInfo::Data>());
 
-    QSettings settings(COMPANY_NAME, APP_NAME);
+    SettingsManager settingsManager;
 
     clear();
     panel->clear();
@@ -64,7 +64,7 @@ void FilesManager::show(void)
     //        }
     //    }
 
-    if(settings.value(INIT_LOAD).toBool())
+    if(settingsManager.initialLoading())
     {
         emit signalFirstPanelIsLoaded();
     }

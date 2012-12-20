@@ -50,19 +50,19 @@ void FilesUI::slotRightSortIndicatorChanged(int logicalIndex, Qt::SortOrder orde
 
 void FilesUI::slotLeftViewClicked(const QModelIndex &Id)
 {
-    SettingsManager().setCurrentPanel(LEFT_PANEL);
+    SettingsManager().setCurrentPanel(LEFT_PANEL_VALUE);
 }
 
 void FilesUI::slotRightViewClicked(const QModelIndex &Id)
 {
-    SettingsManager().setCurrentPanel(RIGHT_PANEL);
+    SettingsManager().setCurrentPanel(RIGHT_PANEL_VALUE);
 }
 
 void FilesUI::slotLeftPanelItemDoubleClicked(QTreeWidgetItem *item, int column)
 {
     DEBUG << "item" << item->data(0, Qt::DisplayRole).toString();
 
-    SettingsManager().setCurrentPanel(LEFT_PANEL);
+    SettingsManager().setCurrentPanel(LEFT_PANEL_VALUE);
     showFilesOnPanel(item->data(0, Qt::DisplayRole).toString(), ELeft);
 }
 
@@ -70,7 +70,9 @@ void FilesUI::slotRightPanelItemDoubleClicked(QTreeWidgetItem *item, int column)
 {
     DEBUG << "item" << item->data(0, Qt::DisplayRole).toString().toAscii();
 
-    SettingsManager().setCurrentPanel(RIGHT_PANEL);
+    Q_UNUSED(column);
+
+    SettingsManager().setCurrentPanel(RIGHT_PANEL_VALUE);
     showFilesOnPanel(item->data(0, Qt::DisplayRole).toString(), ERight);
 }
 

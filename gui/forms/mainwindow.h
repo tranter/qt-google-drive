@@ -31,7 +31,7 @@ private:
     void setConnections(void);
 
 private slots:
-    void slotLogged(const QString &accessToken);
+    void slotLogged(void);
     void slotAccessTokenRequired(void);
     void slotAccountInfoReadyToUse(void);
 };

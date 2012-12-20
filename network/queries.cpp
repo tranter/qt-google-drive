@@ -8,9 +8,9 @@ Queries::Queries()
 {
 }
 
-void Queries::setAccountInfo(const QString &accessToken)
+void Queries::setAccountInfo(void)
 {
-    QString userInfoQuery(QString("https://www.googleapis.com/oauth2/v1/userinfo?access_token=").arg(accessToken));
+    QString userInfoQuery(QString("https://www.googleapis.com/oauth2/v1/userinfo"));
     QString aboutInfoQuery(QString("https://www.googleapis.com/drive/v2/about"));
 
     accountInfo = new AccountInfo(userInfoQuery, aboutInfoQuery);

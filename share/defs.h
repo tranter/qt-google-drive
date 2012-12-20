@@ -16,9 +16,6 @@
 #define CONTENTS QString("/contents")
 #define MAX_RESULTS QString("?max-results=10000")
 
-#define ACCESS_TOKEN QString("access_token")
-#define REFRESH_TOKEN QString("refresh_token")
-
 #define HIERARCHY_ATTRIBUTE_TAG(param) param("rel")
 #define FYLE_TYPE_ATTRIBUTE_TAG(param) param("type")
 #define FYLE_TYPE_SRC_ATTRIBUTE_TAG(param) param("src");
@@ -40,15 +37,19 @@
 #define FILE_TYPE_STR QString("file")
 #define CONTENT QString("content")
 
-#define WORK_DIR QString("working directory")
-#define INIT_LOAD QString("initial load")
-#define LEFT_PANEL QString("left")
-#define RIGHT_PANEL QString("right")
-#define CURRENT_PANEL QString("current panel")
-#define PANEL QString("panel-")
-#define CURRENT_FOLDER_URL QString("current folder URL")
-#define CURRENT_FOLDER_PATH QString("current folder path")
-#define PATHES_URLS QString("pathes URLs")
+#define ACCOUNTS_GROUP QString("accounts")
+#define COMMON_GROUP QString("common")
+#define PANEL_GROUP QString("panel-")
+#define ACCESS_TOKEN_KEY QString("access_token")
+#define REFRESH_TOKEN_KEY QString("refresh_token")
+#define WORK_DIR_KEY QString("working directory")
+#define INIT_LOAD_KEY QString("initial load")
+#define CURRENT_PANEL_KEY QString("current panel")
+#define CURRENT_FOLDER_URL_KEY QString("current folder URL")
+#define CURRENT_FOLDER_PATH_KEY QString("current folder path")
+#define PATHES_URLS_KEY QString("pathes URLs")
+#define LEFT_PANEL_VALUE QString("left")
+#define RIGHT_PANEL_VALUE QString("right")
 
 #define PARENT_FOLDER_SIGN QString("[..]")
 

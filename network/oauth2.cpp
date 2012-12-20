@@ -61,17 +61,17 @@ void OAuth2::slotReplyFinished(QNetworkReply* reply)
     QString replyStr = reply->readAll();
     JSONParser jParser;
 
-    accessToken = jParser.getPlainParam(replyStr, ACCESS_TOKEN);
+    accessToken = jParser.getPlainParam(replyStr, ACCESS_TOKEN_KEY);
     settingsManager.setAccessToken(accessToken);
 
-    refreshToken = jParser.getPlainParam(replyStr, REFRESH_TOKEN);
+    refreshToken = jParser.getPlainParam(replyStr, REFRESH_TOKEN_KEY);
 
     if(!refreshToken.isEmpty())
     {
         settingsManager.setRefreshToken(refreshToken);
     }
 
-    emit logged(accessToken);
+    emit logged();
 }
 
 void OAuth2::setScope(const QString& scopeStr)

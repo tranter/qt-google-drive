@@ -12,7 +12,7 @@ SettingsManager::SettingsManager(QObject *parent) :
 
 void SettingsManager::writeAccountInfo(AccountInfo::Data &data)
 {
-    beginGroup(QString("accounts/") + data.email);
+    beginGroup(ACCOUNTS_GROUP + QString("/") + data.email);
 
     setValue("name", data.name);
     setValue("domainSharingPolicy", data.domainSharingPolicy);
@@ -24,99 +24,131 @@ void SettingsManager::writeAccountInfo(AccountInfo::Data &data)
     endGroup();
 }
 
-QString SettingsManager::currentPanel(void) const
+QString SettingsManager::currentPanel(void)
 {
-    return value(CURRENT_PANEL, LEFT_PANEL).toString();
+    return getValueFromGroup(COMMON_GROUP, CURRENT_PANEL_KEY, LEFT_PANEL_VALUE).toString();
 }
 
 void SettingsManager::setCurrentPanel(const QString &panelName)
 {
-    setValue(CURRENT_PANEL, panelName);
+    setValueInGroup(COMMON_GROUP, CURRENT_PANEL_KEY, panelName);
 }
 
 void SettingsManager::setInitialLoading(bool initLoad)
 {
-    setValue(INIT_LOAD, initLoad);
+    setValueInGroup(COMMON_GROUP, INIT_LOAD_KEY, initLoad);
+}
+
+bool SettingsManager::initialLoading(void)
+{
+    return getValueFromGroup(COMMON_GROUP, INIT_LOAD_KEY, false).toBool();
 }
 
 void SettingsManager::setCurrentFolderPath(int panelNum, const QString &path)
 {
-    setValueInPanelGroup(panelNum, CURRENT_FOLDER_PATH, path);
+    setValueInPanelGroup(panelNum, CURRENT_FOLDER_PATH_KEY, path);
 }
 
 QString SettingsManager::currentFolderPath(int panelNum)
 {
-    return getValueFromPanelGroup(panelNum, CURRENT_FOLDER_PATH, QString("a:") + QDir::toNativeSeparators("/")).toString();
+    return getValueFromPanelGroup(panelNum, CURRENT_FOLDER_PATH_KEY, QString("a:") + QDir::toNativeSeparators("/")).toString();
 }
 
 void SettingsManager::setCurrentFolderURL(int panelNum, const QString &url)
 {
-    setValueInPanelGroup(panelNum, CURRENT_FOLDER_URL, url);
+    setValueInPanelGroup(panelNum, CURRENT_FOLDER_URL_KEY, url);
 }
 
 QString SettingsManager::currentFolderURL(int panelNum)
 {
-    return getValueFromPanelGroup(panelNum, CURRENT_FOLDER_URL, GET_FULL_ROOT_CONTENT).toString();
+    return getValueFromPanelGroup(panelNum, CURRENT_FOLDER_URL_KEY, GET_FULL_ROOT_CONTENT).toString();
 }
 
 void SettingsManager::setPathesURLs(int panelNum, QStringList pathes)
 {
-    setValueInPanelGroup(panelNum, PATHES_URLS, pathes);
+    setValueInPanelGroup(panelNum, PATHES_URLS_KEY, pathes);
 }
 
 QStringList SettingsManager::pathesURLs(int panelNum)
 {
-    return getValueFromPanelGroup(panelNum, PATHES_URLS).toStringList();
+    return getValueFromPanelGroup(panelNum, PATHES_URLS_KEY).toStringList();
 }
 
 bool SettingsManager::isWorkDirSet(void)
 {
-    return contains(WORK_DIR);
+    return exists(COMMON_GROUP, WORK_DIR_KEY);
 }
 
-QString SettingsManager::workDir(void) const
+QString SettingsManager::workDir(void)
 {
-    return value(WORK_DIR).toString();
+    return getValueFromGroup(COMMON_GROUP, WORK_DIR_KEY).toString();
 }
 
 void SettingsManager::setWorkDir(const QString &workDrName)
 {
-    setValue(WORK_DIR, workDrName);
+    setValueInGroup(COMMON_GROUP, WORK_DIR_KEY, workDrName);
 }
 
 void SettingsManager::setAccessToken(const QString &accessToken)
 {
-    setValue(ACCESS_TOKEN, accessToken);
+    setValueInGroup(COMMON_GROUP, ACCESS_TOKEN_KEY, accessToken);
 }
 
-QString SettingsManager::accessToken(void) const
+QString SettingsManager::accessToken(void)
 {
-    return value(ACCESS_TOKEN).toString();
+    return getValueFromGroup(COMMON_GROUP, ACCESS_TOKEN_KEY).toString();
 }
 
 void SettingsManager::setRefreshToken(const QString &refreshToken)
 {
-    setValue(REFRESH_TOKEN, refreshToken);
+    setValueInGroup(COMMON_GROUP, REFRESH_TOKEN_KEY, refreshToken);
 }
 
-QString SettingsManager::refreshToken(void) const
+QString SettingsManager::refreshToken(void)
 {
-    return value(REFRESH_TOKEN).toString();
+   return getValueFromGroup(COMMON_GROUP, REFRESH_TOKEN_KEY).toString();
 }
 
 void SettingsManager::setValueInPanelGroup(int panelNum, const QString &key, const QVariant &val)
 {
-    beginGroup(PANEL + QString::number(panelNum));
+    beginGroup(PANEL_GROUP + QString::number(panelNum));
     setValue(key, val);
     endGroup();
 }
 
 QVariant SettingsManager::getValueFromPanelGroup(int panelNum, const QString &key, const QVariant &defaultVal)
 {
-    beginGroup(PANEL + QString::number(panelNum));
+    beginGroup(PANEL_GROUP + QString::number(panelNum));
     QVariant val(value(key, defaultVal));
     endGroup();
 
     return val;
 }
+
+void SettingsManager::setValueInGroup(const QString &group, const QString &key, const QVariant &val)
+{
+    beginGroup(group);
+    setValue(key, val);
+    endGroup();
+}
+
+QVariant SettingsManager::getValueFromGroup(const QString &group, const QString &key, const QVariant &defaultVal)
+{
+    beginGroup(group);
+    QVariant val(value(key, defaultVal));
+    endGroup();
+
+    return val;
+}
+
+bool SettingsManager::exists(const QString &group, const QString &key)
+{
+    beginGroup(group);
+    bool is =  contains(WORK_DIR_KEY);
+    endGroup();
+
+    return is;
+}
+
+
 

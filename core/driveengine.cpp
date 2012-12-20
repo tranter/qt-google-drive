@@ -20,7 +20,7 @@ void DriveEngine::init(void)
 {
     reset();
     setKeyActions();
-    loadPanel(LEFT_PANEL, true);
+    loadPanel(LEFT_PANEL_VALUE, true);
 }
 
 void DriveEngine::reset(void)
@@ -78,7 +78,7 @@ FilesManager* DriveEngine::getFilesMngr(bool opposite) const
     SettingsManager settingsManager;
     FilesManager* filesManager;
 
-    if(settingsManager.currentPanel() == LEFT_PANEL)
+    if(settingsManager.currentPanel() == LEFT_PANEL_VALUE)
     {
         if(opposite)
         {
@@ -90,7 +90,7 @@ FilesManager* DriveEngine::getFilesMngr(bool opposite) const
         }
     }
 
-    if(settingsManager.currentPanel() == RIGHT_PANEL)
+    if(settingsManager.currentPanel() == RIGHT_PANEL_VALUE)
     {
         if(opposite)
         {
@@ -115,13 +115,13 @@ void DriveEngine::loadPanel(const QString &panelName, bool initLoad)
     settingsManager.setInitialLoading(initLoad);
     settingsManager.setCurrentPanel(panelName);
 
-    if (panelName == RIGHT_PANEL)
+    if (panelName == RIGHT_PANEL_VALUE)
     {
         panel  = ERight;
         treeWidget = filesViewRight->getFileView();
     }
 
-    if (panelName == LEFT_PANEL)
+    if (panelName == LEFT_PANEL_VALUE)
     {
         panel = ELeft;
         treeWidget = filesViewLeft->getFileView();
@@ -139,7 +139,7 @@ void DriveEngine::loadPanel(const QString &panelName, bool initLoad)
 
 void DriveEngine::slotFirstPanelIsLoaded()
 {
-    loadPanel(RIGHT_PANEL, false);
+    loadPanel(RIGHT_PANEL_VALUE, false);
 }
 
 void DriveEngine::setKeyActions(void)
