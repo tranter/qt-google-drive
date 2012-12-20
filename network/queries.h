@@ -2,7 +2,7 @@
 #define QUERIES_H
 
 #include <QObject>
-#include "gui/accountinfo.h"
+#include "settings/accountinfo.h"
 #include "share/singleton.h"
 
 class Queries : public QObject

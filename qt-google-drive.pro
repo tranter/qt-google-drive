@@ -11,10 +11,10 @@ CONFIG(release, debug|release):DEFINES += QT_NO_DEBUG_OUTPUT
 TARGET = qtdrive
 TEMPLATE = app
 
-SOURCES += core/main.cpp \
-    settings/settingsmanager.cpp
-SOURCES += gui/accountinfo.cpp
-SOURCES += network/accountsmanager.cpp
+SOURCES += core/main.cpp
+SOURCES += settings/settingsmanager.cpp
+SOURCES += settings/accountinfo.cpp
+SOURCES += gui/accountsmanager.cpp
 SOURCES += network/queries.cpp
 SOURCES += gui/forms/filepanel.cpp
 SOURCES += gui/forms/drivetree.cpp
@@ -47,10 +47,10 @@ SOURCES += gui/filesui.cpp
 SOURCES += gui/foldersui.cpp
 SOURCES += gui/checkui.cpp
 
-HEADERS  += gui/forms/mainwindow.h \
-    settings/settingsmanager.h
-HEADERS  += gui/accountinfo.h
-HEADERS  += network/accountsmanager.h
+HEADERS  += gui/forms/mainwindow.h
+HEADERS  += settings/settingsmanager.h
+HEADERS  += settings/accountinfo.h
+HEADERS  += gui/accountsmanager.h
 HEADERS  += network/queries.h
 HEADERS  += gui/forms/filepanel.h
 HEADERS  += gui/forms/drivetree.h
