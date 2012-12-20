@@ -41,56 +41,32 @@ void SettingsManager::setInitialLoading(bool initLoad)
 
 void SettingsManager::setCurrentFolderPath(int panelNum, const QString &path)
 {
-    //    beginGroup(PANEL + QString::number(panelNum));
-    //    setValue(CURRENT_FOLDER_PATH, path);
-    //    endGroup();
-    setStrValueInPanelGroup(panelNum, CURRENT_FOLDER_PATH, path);
+    setValueInPanelGroup(panelNum, CURRENT_FOLDER_PATH, path);
 }
 
 QString SettingsManager::currentFolderPath(int panelNum)
 {
-    //    beginGroup(PANEL + QString::number(panelNum));
-    //    QString val(value(CURRENT_FOLDER_PATH, QString("a:") + QDir::toNativeSeparators("/")).toString());
-    //    endGroup();
-    //    return val;
-
-    return getStrValueFromPanelGroup(panelNum, CURRENT_FOLDER_PATH, QString("a:") + QDir::toNativeSeparators("/"));
+    return getValueFromPanelGroup(panelNum, CURRENT_FOLDER_PATH, QString("a:") + QDir::toNativeSeparators("/")).toString();
 }
 
 void SettingsManager::setCurrentFolderURL(int panelNum, const QString &url)
 {
-    //    beginGroup(PANEL + QString::number(panelNum));
-    //    setValue(CURRENT_FOLDER_URL, url);
-    //    endGroup();
-
-    setStrValueInPanelGroup(panelNum, CURRENT_FOLDER_URL, url);
+    setValueInPanelGroup(panelNum, CURRENT_FOLDER_URL, url);
 }
 
 QString SettingsManager::currentFolderURL(int panelNum)
 {
-//    beginGroup(PANEL + QString::number(panelNum));
-//    QString val(value(CURRENT_FOLDER_URL, GET_FULL_ROOT_CONTENT).toString());
-//    endGroup();
-
-//    return val;
-
-    return getStrValueFromPanelGroup(panelNum, CURRENT_FOLDER_URL, GET_FULL_ROOT_CONTENT);
+    return getValueFromPanelGroup(panelNum, CURRENT_FOLDER_URL, GET_FULL_ROOT_CONTENT).toString();
 }
 
 void SettingsManager::setPathesURLs(int panelNum, QStringList pathes)
 {
-    beginGroup(PANEL + QString::number(panelNum));
-    setValue(PATHES_URLS, pathes);
-    endGroup();
+    setValueInPanelGroup(panelNum, PATHES_URLS, pathes);
 }
 
 QStringList SettingsManager::pathesURLs(int panelNum)
 {
-    beginGroup(PANEL + QString::number(panelNum));
-    QStringList val(value(PATHES_URLS).toStringList());
-    endGroup();
-
-    return val;
+    return getValueFromPanelGroup(panelNum, PATHES_URLS).toStringList();
 }
 
 bool SettingsManager::isWorkDirSet(void)
@@ -128,17 +104,17 @@ QString SettingsManager::refreshToken(void) const
     return value(REFRESH_TOKEN).toString();
 }
 
-void SettingsManager::setStrValueInPanelGroup(int panelNum, const QString &key, const QString &val)
+void SettingsManager::setValueInPanelGroup(int panelNum, const QString &key, const QVariant &val)
 {
     beginGroup(PANEL + QString::number(panelNum));
     setValue(key, val);
     endGroup();
 }
 
-QString SettingsManager::getStrValueFromPanelGroup(int panelNum, const QString &key, const QString &defaultVal)
+QVariant SettingsManager::getValueFromPanelGroup(int panelNum, const QString &key, const QVariant &defaultVal)
 {
     beginGroup(PANEL + QString::number(panelNum));
-    QString val(value(key, defaultVal).toString());
+    QVariant val(value(key, defaultVal));
     endGroup();
 
     return val;

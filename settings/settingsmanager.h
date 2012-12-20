@@ -3,6 +3,7 @@
 
 #include "settings/accountinfo.h"
 #include <QSettings>
+#include <QVariant>
 
 class SettingsManager : public QSettings
 {
@@ -30,8 +31,8 @@ public:
     QString refreshToken(void) const;
 
 private:
-    void setStrValueInPanelGroup(int panelNum, const QString &key, const QString &val);
-    QString getStrValueFromPanelGroup(int panelNum, const QString &key, const QString &defaultVal);
+    void setValueInPanelGroup(int panelNum, const QString &key, const QVariant &val);
+    QVariant getValueFromPanelGroup(int panelNum, const QString &key, const QVariant &defaultVal = QVariant());
 };
 
 #endif // SETTINGSMANAGER_H
