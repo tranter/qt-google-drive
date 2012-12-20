@@ -2,6 +2,7 @@
 #include "share/defs.h"
 #include "share/registration.h"
 #include "share/debug.h"
+#include "settings/settingsmanager.h"
 
 Queries::Queries()
 {
@@ -21,15 +22,8 @@ void Queries::setAccountInfo(const QString &accessToken)
 
 void Queries::slotAccountInfo(AccountInfo::Data &data)
 {
-    DEBUG << "=========================> data.name" << data.name;
-    DEBUG << "=========================> data.email" << data.email;
-    DEBUG << "=========================> data.domainSharingPolicy" << data.domainSharingPolicy;
-    DEBUG << "=========================> data.permissionId" <<  data.permissionId;
-    DEBUG << "=========================> data.quotaBytesTotal" << QString::number(data.quotaBytesTotal);
-    DEBUG << "=========================> data.quotaBytesUsed" << QString::number(data.quotaBytesUsed);
-    DEBUG << "=========================> data.quotaBytesUsedInTrash" << QString::number(data.quotaBytesUsedInTrash);
+    SettingsManager().writeAccountInfo(data);
 
     delete accountInfo;
-
     emit signalAccountInfoReadyToUse();
 }
