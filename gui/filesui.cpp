@@ -1,4 +1,4 @@
-#include <QSettings>
+#include "settings/settingsmanager.h"
 #include <QDir>
 #include "filesui.h"
 #include "share/registration.h"
@@ -50,19 +50,19 @@ void FilesUI::slotRightSortIndicatorChanged(int logicalIndex, Qt::SortOrder orde
 
 void FilesUI::slotLeftViewClicked(const QModelIndex &Id)
 {
-    QSettings(COMPANY_NAME, APP_NAME).setValue(CURRENT_PANEL, LEFT_PANEL);
+    SettingsManager().setCurrentPanel(LEFT_PANEL);
 }
 
 void FilesUI::slotRightViewClicked(const QModelIndex &Id)
 {
-    QSettings(COMPANY_NAME, APP_NAME).setValue(CURRENT_PANEL, RIGHT_PANEL);
+    SettingsManager().setCurrentPanel(RIGHT_PANEL);
 }
 
 void FilesUI::slotLeftPanelItemDoubleClicked(QTreeWidgetItem *item, int column)
 {
     DEBUG << "item" << item->data(0, Qt::DisplayRole).toString();
 
-    QSettings(COMPANY_NAME, APP_NAME).setValue(CURRENT_PANEL, LEFT_PANEL);
+    SettingsManager().setCurrentPanel(LEFT_PANEL);
     showFilesOnPanel(item->data(0, Qt::DisplayRole).toString(), ELeft);
 }
 
@@ -70,7 +70,7 @@ void FilesUI::slotRightPanelItemDoubleClicked(QTreeWidgetItem *item, int column)
 {
     DEBUG << "item" << item->data(0, Qt::DisplayRole).toString().toAscii();
 
-    QSettings(COMPANY_NAME, APP_NAME).setValue(CURRENT_PANEL, RIGHT_PANEL);
+    SettingsManager().setCurrentPanel(RIGHT_PANEL);
     showFilesOnPanel(item->data(0, Qt::DisplayRole).toString(), ERight);
 }
 
@@ -94,17 +94,15 @@ void FilesUI::showFilesOnPanel(const QString &name, EPanels panel)
     }
 }
 
-void FilesUI::setCurrentPanelState(EPanels panel, const QString &URL)
+void FilesUI::setCurrentPanelState(EPanels panel, const QString &url)
 {
-    QSettings settings(COMPANY_NAME, APP_NAME);
+    SettingsManager settingsManager;
 
-    settings.beginGroup(PANEL + QString::number(static_cast <int> (panel)));
+    int panelNum = static_cast <int> (panel);
 
-    settings.setValue(CURRENT_FOLDER_URL, URL);
-    settings.setValue(CURRENT_FOLDER_PATH, getPanelLabel(panel)->text());
-    settings.setValue(PATHES_URLS, SDriveEngine::inst()->getFilesMngr()->getPathesURLs());
-
-    settings.endGroup();
+    settingsManager.setCurrentFolderURL(panelNum, url);
+    settingsManager.setCurrentFolderPath(panelNum, getPanelLabel(panel)->text());
+    settingsManager.setPathesURLs(panelNum, SDriveEngine::inst()->getFilesMngr()->getPathesURLs());
 }
 
 void FilesUI::performShowFiles(const QString &query, const QString &name, EPath path, EPanels panel)

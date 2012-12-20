@@ -42,7 +42,7 @@ private:
     //void setDisplayingDisc(EPanels panel);
     void setPanelDisplayingPath(const QString &name, EPath path, EPanels panel);
     void showFilesOnPanel(const QString &name, EPanels panel);
-    void setCurrentPanelState(EPanels panel, const QString &URL);
+    void setCurrentPanelState(EPanels panel, const QString &url);
     void performShowFiles(const QString &query, const QString &name, EPath path, EPanels panel);
 };
 

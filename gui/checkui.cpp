@@ -1,5 +1,5 @@
 #include "checkui.h"
-#include <QSettings>
+#include "settings/settingsmanager.h"
 #include <QMessageBox>
 #include "gui/forms/settingsdialog.h"
 #include "share/defs.h"
@@ -28,9 +28,9 @@ bool CheckUI::checkReg(void)
 
 bool CheckUI::slotCheckWorkDir(bool showDlg)
 {   
-    QSettings settings(COMPANY_NAME, APP_NAME);
+    SettingsManager settingsManager;
 
-    if(settings.contains(WORK_DIR) && !showDlg)
+    if(settingsManager.isWorkDirSet() && !showDlg)
     {
         return true;
     }
@@ -41,7 +41,7 @@ bool CheckUI::slotCheckWorkDir(bool showDlg)
     {
         SettingsDialog dlg(SDriveEngine::inst()->getParent());
 
-        dlg.setDirectoryPath(settings.value(WORK_DIR).toString());
+        dlg.setDirectoryPath(settingsManager.workDir());
 
         switch(dlg.exec())
         {
@@ -49,7 +49,7 @@ bool CheckUI::slotCheckWorkDir(bool showDlg)
         {
             if(!dlg.directoryPath().isEmpty() )
             {
-                settings.setValue(WORK_DIR,dlg.directoryPath());
+                settingsManager.setWorkDir(dlg.directoryPath());
                 dirTextNotEmpty = true;
             }
 

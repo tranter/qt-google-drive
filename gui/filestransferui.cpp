@@ -1,7 +1,7 @@
 #include "filestransferui.h"
 #include "share/registration.h"
 #include "share/debug.h"
-#include <QSettings>
+#include "settings/settingsmanager.h"
 #include <QFileDialog>
 #include <QDir>
 
@@ -17,14 +17,13 @@ void FilesTransferUI::download(void)
         if(SDriveEngine::inst()->downloadMngr->getState() == NetworkManager::EBusy) return;
     }
 
-    QSettings settings(COMPANY_NAME, APP_NAME);
     ItemInfo::Data item = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
 
     QString downloadLink(item.downloadLink);
 
     if(SDriveEngine::inst()->checkUI->slotCheckWorkDir(false))
     {
-        QString fileName(settings.value(WORK_DIR).toString() + QDir::toNativeSeparators("/") + item.name);
+        QString fileName(SettingsManager().workDir() + QDir::toNativeSeparators("/") + item.name);
 
         SDriveEngine::inst()->downloadMngr.reset(new DownloadFileManager(SDriveEngine::inst()->parent));
         SDriveEngine::inst()->downloadMngr->startDownload(QUrl(downloadLink), fileName, item.fileType);

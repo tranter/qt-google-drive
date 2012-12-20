@@ -2,8 +2,7 @@
 #include "share/registration.h"
 #include "share/debug.h"
 #include <QMessageBox>
-#include <QSettings>
-#include <QDir>
+#include "settings/settingsmanager.h"
 #include <QHBoxLayout>
 #include <QSplitter>
 
@@ -76,11 +75,10 @@ FilePanel* DriveEngine::getFilePanel(EPanels panel) const
 
 FilesManager* DriveEngine::getFilesMngr(bool opposite) const
 {
-    QSettings settings(COMPANY_NAME, APP_NAME);
+    SettingsManager settingsManager;
     FilesManager* filesManager;
 
-
-    if(settings.value(CURRENT_PANEL, LEFT_PANEL).toString() == LEFT_PANEL)
+    if(settingsManager.currentPanel() == LEFT_PANEL)
     {
         if(opposite)
         {
@@ -92,7 +90,7 @@ FilesManager* DriveEngine::getFilesMngr(bool opposite) const
         }
     }
 
-    if(settings.value(CURRENT_PANEL, RIGHT_PANEL).toString() == RIGHT_PANEL)
+    if(settingsManager.currentPanel() == RIGHT_PANEL)
     {
         if(opposite)
         {
@@ -109,13 +107,13 @@ FilesManager* DriveEngine::getFilesMngr(bool opposite) const
 
 void DriveEngine::loadPanel(const QString &panelName, bool initLoad)
 {
-    QSettings settings(COMPANY_NAME, APP_NAME);
+    SettingsManager settingsManager;
     EPanels panel;
     QTreeWidget *treeWidget;
     QString query;
 
-    settings.setValue(INIT_LOAD, initLoad);
-    settings.setValue(CURRENT_PANEL, panelName);
+    settingsManager.setInitialLoading(initLoad);
+    settingsManager.setCurrentPanel(panelName);
 
     if (panelName == RIGHT_PANEL)
     {
@@ -129,13 +127,11 @@ void DriveEngine::loadPanel(const QString &panelName, bool initLoad)
         treeWidget = filesViewLeft->getFileView();
     }
 
-    settings.beginGroup(PANEL + QString::number(static_cast <int> (panel)));
+    int panelNum = static_cast <int> (panel);
 
-    filesUI->getPanelLabel(panel)->setText(settings.value(CURRENT_FOLDER_PATH, QString("a:") + QDir::toNativeSeparators("/")).toString());
-    query = settings.value(CURRENT_FOLDER_URL, GET_FULL_ROOT_CONTENT).toString();
-    getFilesMngr()->setPathesURLs(settings.value(PATHES_URLS).toStringList());
-
-    settings.endGroup();
+    filesUI->getPanelLabel(panel)->setText(settingsManager.currentFolderPath(panelNum));
+    query = settingsManager.currentFolderURL(panelNum);
+    getFilesMngr()->setPathesURLs(settingsManager.pathesURLs(panelNum));
 
     filesMngr[panel]->setPanel(treeWidget);
     filesMngr[panel]->get(query);

@@ -1,7 +1,7 @@
 #include "oauth2.h"
 #include <QApplication>
 #include "gui/forms/logindialog.h"
-#include <QSettings>
+#include "settings/settingsmanager.h"
 #include "share/registration.h"
 #include "share/defs.h"
 #include "parsers/jsonparser.h"
@@ -57,30 +57,19 @@ void OAuth2::slotCodeObtained()
 
 void OAuth2::slotReplyFinished(QNetworkReply* reply)
 {
-    QSettings settings(COMPANY_NAME, APP_NAME);
+    SettingsManager settingsManager;
     QString replyStr = reply->readAll();
     JSONParser jParser;
 
-    DEBUG << "<===============================================================================================================";
-    DEBUG << "replyStr" << replyStr;
-    DEBUG << "===============================================================================================================>";
-
-    //settings.beginGroup(SQueries::inst()->accountInfoPointer()->getData().email);
-
     accessToken = jParser.getPlainParam(replyStr, ACCESS_TOKEN);
-    settings.setValue(ACCESS_TOKEN, accessToken);
+    settingsManager.setAccessToken(accessToken);
 
     refreshToken = jParser.getPlainParam(replyStr, REFRESH_TOKEN);
 
-    DEBUG << "??????????????????????????????????????????????????? refreshToken" << refreshToken;
-    DEBUG << "??????????????????????????????????????????????????? expires_in" << jParser.getPlainParam(replyStr, "expires_in");
-
     if(!refreshToken.isEmpty())
     {
-        settings.setValue(REFRESH_TOKEN, refreshToken);
+        settingsManager.setRefreshToken(refreshToken);
     }
-
-    //settings.endGroup();
 
     emit logged(accessToken);
 }
@@ -120,14 +109,10 @@ void OAuth2::startLogin(bool runDialog)
 
 void OAuth2::slotGetAccessTokenFromRefreshToken(void)
 {
-    QSettings settings(COMPANY_NAME, APP_NAME);
+    SettingsManager settingsManager;
 
-    //settings.beginGroup(SQueries::inst()->accountInfoPointer()->getData().email);
-
-    accessToken = settings.value(ACCESS_TOKEN).toString();
-    refreshToken = settings.value(REFRESH_TOKEN).toString();
-
-    //settings.endGroup();
+    accessToken = settingsManager.accessToken();
+    refreshToken = settingsManager.refreshToken();
 
     if(refreshToken.isEmpty())
     {
