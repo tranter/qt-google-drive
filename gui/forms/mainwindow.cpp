@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "core/driveengine.h"
 #include "share/debug.h"
+#include "gui/forms/authdialog.h"
 #include <QTextCodec>
 #include <QKeyEvent>
 #include <QToolButton>
@@ -72,6 +73,13 @@ void MainWindow::setConnections(void)
     connect(SDriveEngine::inst()->getFilesMngr(), SIGNAL(signalFirstPanelIsLoaded()), SDriveEngine::inst(), SLOT(slotFirstPanelIsLoaded()));
     connect(SQueries::inst(), SIGNAL(signalAccountInfoReadyToUse()), this, SLOT(slotAccountInfoReadyToUse()));
     connect(SDriveEngine::inst()->getOAuth2(), SIGNAL(logged()), this, SLOT(slotLogged()));
+    connect((SUi::inst()->actionTestAuth), SIGNAL(triggered()), this, SLOT(slotTestAuth()));
+}
+
+void MainWindow::slotTestAuth(void)
+{
+    AuthDialog authDialog(SUi::inst()->centralWidget);// = new AuthDialog(SUi::inst()->centralWidget);
+    authDialog.exec();
 }
 
 void MainWindow::slotLogged(void)

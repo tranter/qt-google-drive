@@ -20,7 +20,7 @@ void LoginDialog::urlChanged(const QUrl &url)
 {
     QString code(url.queryItemValue("code"));
 
-    if(code != QString())
+    if(!code.isEmpty())
     {
         emit signalCodeObtained(code);
         QDialog::accept();

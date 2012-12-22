@@ -104,8 +104,6 @@ void NetworkManager::slotProgressCanceled()
 
 void NetworkManager::slotPostFinished(QNetworkReply* reply)
 {
-    replyStr = reply->readAll();
-
     if (reply->error())
     {
         progressBarDialog.hide();

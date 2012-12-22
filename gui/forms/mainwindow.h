@@ -34,6 +34,7 @@ private slots:
     void slotLogged(void);
     void slotAccessTokenRequired(void);
     void slotAccountInfoReadyToUse(void);
+    void slotTestAuth(void);
 };
 
 #endif // MAINWINDOW_H

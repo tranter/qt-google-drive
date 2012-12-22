@@ -304,6 +304,7 @@ width: 16px;</string>
    <addaction name="separator"/>
    <addaction name="actionSettings"/>
    <addaction name="separator"/>
+   <addaction name="actionTestAuth"/>
   </widget>
   <widget class="QStatusBar" name="statusBar">
    <property name="styleSheet">
@@ -384,6 +385,11 @@ color: rgb(255, 255, 255);</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionTestAuth">
+   <property name="text">
+    <string>testAuth</string>
    </property>
   </action>
  </widget>

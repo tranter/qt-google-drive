@@ -2,6 +2,7 @@
 #define AUTHDIALOG_H
 
 #include <QDialog>
+#include "network/auth.h"
 
 namespace Ui {
 class AuthDialog;
@@ -14,9 +15,17 @@ class AuthDialog : public QDialog
 public:
     explicit AuthDialog(QWidget *parent = 0);
     ~AuthDialog();
+
+private slots:
+    void slotUrlChanged(const QUrl& url);
+    void slotAuthResponse(const QString &accessToken, const QString &refreshToken);
+
+private:
+    void init(void);
     
 private:
     Ui::AuthDialog *ui;
+    QScopedPointer<Auth> auth;
 };
 
 #endif // AUTHDIALOG_H

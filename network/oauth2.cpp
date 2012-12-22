@@ -32,8 +32,6 @@ void OAuth2::setConnections(void)
 
 void OAuth2::slotCodeObtained(const QString &code)
 {
-    DEBUG << "======================> code" << code;
-
     QByteArray params;
 
     params += QByteArray("client_id=");
@@ -56,6 +54,8 @@ void OAuth2::slotReplyFinished(QNetworkReply* reply)
     SettingsManager settingsManager;
     QString replyStr = reply->readAll();
     JSONParser jParser;
+
+    DEBUG << "======================> replyStr" << replyStr;
 
     settingsManager.setAccessToken(jParser.getPlainParam(replyStr, ACCESS_TOKEN_KEY));
 
