@@ -18,26 +18,12 @@ LoginDialog::~LoginDialog()
 
 void LoginDialog::urlChanged(const QUrl &url)
 {
-    QString str = url.toString();
+    QString code(url.queryItemValue("code"));
 
-    DEBUG << "====================================>" << url;
-
-    if(str.indexOf("code=") != -1)
+    if(code != QString())
     {
-        QStringList parseStrs = str.split("?");
-        QStringList exp = parseStrs[1].split("&");
-
-        for (int i = 0; i < exp.count(); ++i)
-        {
-            QStringList token = exp[i].split("=");
-
-            if (token[0] == "code")
-            {
-                emit signalCodeObtained(token[1]);
-                QDialog::accept();
-                break;
-            }
-        }
+        emit signalCodeObtained(code);
+        QDialog::accept();
     }
 }
 

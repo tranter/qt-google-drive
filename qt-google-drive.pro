@@ -94,7 +94,6 @@ HEADERS += gui/checkui.h
 
 FORMS += gui/forms/mainwindow.ui
 FORMS += gui/forms/authdialog.ui
-FORMS += gui/forms/authorizationdialog.ui
 FORMS += gui/forms/filepanel.ui
 FORMS += gui/forms/drivetree.ui
 FORMS += gui/forms/additionalfolders.ui
