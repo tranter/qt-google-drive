@@ -24,6 +24,6 @@ void Queries::slotAccountInfo(AccountInfo::Data &data)
 {
     SettingsManager().writeAccountInfo(data);
 
-    delete accountInfo;
+    accountInfo->deleteLater();
     emit signalAccountInfoReadyToUse();
 }

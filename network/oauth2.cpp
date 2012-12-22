@@ -1,22 +1,15 @@
 #include "oauth2.h"
-#include <QApplication>
 #include "gui/forms/logindialog.h"
 #include "settings/settingsmanager.h"
 #include "share/registration.h"
 #include "share/defs.h"
 #include "parsers/jsonparser.h"
 #include "share/debug.h"
-#include "network/queries.h"
 
-OAuth2::OAuth2(QWidget* parent) :
-    NetworkManager(parent),
-    loginDialog(new LoginDialog(parent))
+OAuth2::OAuth2(QWidget* prnt) :
+    NetworkManager(prnt)
 { 
-    scope = SCOPE;
-    clientID = CLIENT_ID;
-    redirectURI = REDIRECT_URI;
-    endPoint = END_POINT;
-
+    loginDialog.reset(new LoginDialog(prnt));
     initAccess();
 }
 
@@ -33,22 +26,23 @@ void OAuth2::initAccess(void)
 
 void OAuth2::setConnections(void)
 {
-    connect(loginDialog.data(), SIGNAL(signalCodeObtained()), this, SLOT(slotCodeObtained()));
+    connect(loginDialog.data(), SIGNAL(signalCodeObtained(const QString&)), this, SLOT(slotCodeObtained(const QString&)));
     connect(networkManager, SIGNAL(finished(QNetworkReply*)),this, SLOT(slotReplyFinished(QNetworkReply*)));
 }
 
-void OAuth2::slotCodeObtained()
+void OAuth2::slotCodeObtained(const QString &code)
 {
-    codeStr = loginDialog->code();
+    QByteArray params;
 
-    QByteArray params = "client_id=" + QByteArray(CLIENT_ID);
-
-    params += "&redirect_uri=";
+    params += QByteArray("client_id=");
+    params += QByteArray(CLIENT_ID);
+    params += QByteArray("&redirect_uri=");
     params += QByteArray(REDIRECT_URI);
-    params += "&client_secret=";
+    params += QByteArray("&client_secret=");
     params += QByteArray(CLIENT_SECRET);
-    params += "&grant_type=authorization_code";
-    params += "&code=" + codeStr;
+    params += QByteArray("&grant_type=authorization_code");
+    params += QByteArray("&code=");
+    params += code.toAscii();
 
     initAccess();
 
@@ -61,10 +55,9 @@ void OAuth2::slotReplyFinished(QNetworkReply* reply)
     QString replyStr = reply->readAll();
     JSONParser jParser;
 
-    accessToken = jParser.getPlainParam(replyStr, ACCESS_TOKEN_KEY);
-    settingsManager.setAccessToken(accessToken);
+    settingsManager.setAccessToken(jParser.getPlainParam(replyStr, ACCESS_TOKEN_KEY));
 
-    refreshToken = jParser.getPlainParam(replyStr, REFRESH_TOKEN_KEY);
+    QString refreshToken(jParser.getPlainParam(replyStr, REFRESH_TOKEN_KEY));
 
     if(!refreshToken.isEmpty())
     {
@@ -74,57 +67,32 @@ void OAuth2::slotReplyFinished(QNetworkReply* reply)
     emit logged();
 }
 
-void OAuth2::setScope(const QString& scopeStr)
+void OAuth2::startLogin(void)
 {
-    scope = scopeStr;
-}
+    QUrl url(QString("%1?client_id=%2&redirect_uri=%3&response_type=code&scope=%4&approval_prompt=force&access_type=offline").arg(END_POINT).arg(CLIENT_ID).arg(REDIRECT_URI).arg(SCOPE));
 
-void OAuth2::setClientID(const QString& clientIDStr)
-{
-    clientID = clientIDStr;
-}
-
-void OAuth2::setRedirectURI(const QString& redirectURIStr)
-{
-    redirectURI = redirectURIStr;
-}
-
-QString OAuth2::firstLogin(void)
-{
-    return QString("%1?client_id=%2&redirect_uri=%3&response_type=code&scope=%4&approval_prompt=force&access_type=offline").arg(endPoint).arg(clientID).arg(redirectURI).arg(scope);
-}
-
-void OAuth2::startLogin(bool runDialog)
-{
-    if(runDialog)
-    {
-        loginDialog->setLoginUrl(firstLogin());
-        loginDialog->show();
-    }
-    else
-    {
-        slotGetAccessTokenFromRefreshToken();
-    }
+    loginDialog->setLoginUrl(url);
+    loginDialog->show();
 }
 
 void OAuth2::slotGetAccessTokenFromRefreshToken(void)
 {
-    SettingsManager settingsManager;
-
-    accessToken = settingsManager.accessToken();
-    refreshToken = settingsManager.refreshToken();
+    QString refreshToken(SettingsManager().refreshToken());
 
     if(refreshToken.isEmpty())
     {
         return;
     }
 
-    QByteArray params(QByteArray("client_id=") + QByteArray(CLIENT_ID));
+    QByteArray params;
 
+    params += QByteArray("client_id=");
+    params += QByteArray(CLIENT_ID);
     params += QByteArray("&client_secret=");
     params += QByteArray(CLIENT_SECRET);
     params += QByteArray("&grant_type=refresh_token");
-    params += QByteArray("&refresh_token=") + refreshToken;
+    params += QByteArray("&refresh_token=");
+    params += refreshToken.toAscii();
 
     initAccess();
 
@@ -133,10 +101,9 @@ void OAuth2::slotGetAccessTokenFromRefreshToken(void)
 
 QNetworkRequest OAuth2::setRequest(void)
 {
-    QUrl url(QString("https://accounts.google.com/o/oauth2/token"));
     QNetworkRequest request;
 
-    request.setUrl(url);
+    request.setUrl(QUrl("https://accounts.google.com/o/oauth2/token"));
     request.setRawHeader("Content-Type", "application/x-www-form-urlencoded");
 
     return request;

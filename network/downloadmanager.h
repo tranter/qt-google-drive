@@ -17,12 +17,6 @@ protected slots:
     virtual void slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);
     virtual void slotDownloadFinished();
     virtual void slotDownloadReadyRead();
-
-protected:
-    virtual void setDownloadSettings(void);
-
-private:
-    QString getExt(void) const;
 };
 
 #endif // DOWNLOADMANAGER_H

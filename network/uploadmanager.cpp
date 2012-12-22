@@ -41,7 +41,7 @@ void UploadFileManager::setUploadSettings(void)
     request.setRawHeader("X-Upload-Content-Type", contentType.toLatin1());
 }
 
-void UploadFileManager::setPostFinishedSettings(QNetworkReply* reply)
+void UploadFileManager::postFinishedActions(QNetworkReply* reply)
 {
     QString location = reply->rawHeader("Location");
 

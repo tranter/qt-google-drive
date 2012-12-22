@@ -159,7 +159,6 @@ void OperationsManager::slotPutFinished(void)
 {
     if(currentOperation == ERename)
     {
-        DEBUG;
         updatePanelContent(false);
     }
 }

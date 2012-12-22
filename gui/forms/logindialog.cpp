@@ -13,15 +13,14 @@ LoginDialog::LoginDialog(QWidget *parent) :
 
 LoginDialog::~LoginDialog()
 {
-    DEBUG;
     delete ui;
 }
 
 void LoginDialog::urlChanged(const QUrl &url)
 {
-    DEBUG;
-
     QString str = url.toString();
+
+    DEBUG << "====================================>" << url;
 
     if(str.indexOf("code=") != -1)
     {
@@ -34,8 +33,7 @@ void LoginDialog::urlChanged(const QUrl &url)
 
             if (token[0] == "code")
             {
-                codeStr = token[1];
-                emit signalCodeObtained();
+                emit signalCodeObtained(token[1]);
                 QDialog::accept();
                 break;
             }
@@ -43,14 +41,7 @@ void LoginDialog::urlChanged(const QUrl &url)
     }
 }
 
-QString LoginDialog::code()
+void LoginDialog::setLoginUrl(const QUrl& url)
 {
-    DEBUG;
-    return codeStr;
-}
-
-void LoginDialog::setLoginUrl(const QString& url)
-{
-    DEBUG;
     ui->webView->setUrl(url);
 }

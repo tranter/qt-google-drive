@@ -153,7 +153,7 @@ void OperationsUI::createFolder(const QString &name)
 {   
     if(name == "" || name.contains(QRegExp("[/.<>]")) || name.contains(QRegExp("\\\\")) || name.contains(QRegExp("\"")))
     {
-        CommonTools::msg("Please enter a valid name");
+        CommonTools::msg(tr("Please enter a valid name"));
         return;
     }
 

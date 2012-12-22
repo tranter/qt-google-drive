@@ -10,9 +10,7 @@ FoldersManager::FoldersManager(QObject *parent) :
 
 void FoldersManager::show(void)
 {
-    DEBUG;
-
-    clear();
+//    clear();
     //SUi::inst()->treeFoldersView->clear();
 
 //    QTreeWidgetItem* root = new QTreeWidgetItem(SUi::inst()->treeFoldersView);

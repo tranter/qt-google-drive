@@ -46,7 +46,7 @@ public:
     void connectErrorHandlers(void);
 
 protected:
-    virtual void setPostFinishedSettings(QNetworkReply*);
+    virtual void postFinishedActions(QNetworkReply*);
     virtual void setProgressBarSettings(const QString &fileName, const QString &progressBarDialogInfoText);
 
 protected:

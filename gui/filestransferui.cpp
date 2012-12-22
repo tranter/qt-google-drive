@@ -41,7 +41,7 @@ void FilesTransferUI::upload(void)
         if(SDriveEngine::inst()->uploadFileMngr->getState() == NetworkManager::EBusy) return;
     }
 
-    QString  fileName = QFileDialog::getOpenFileName(SDriveEngine::inst()->parent, "Uploading file", QDir::homePath(), "All files(*)");
+    QString  fileName = QFileDialog::getOpenFileName(SDriveEngine::inst()->parent, tr("Uploading file"), QDir::homePath(), tr("All files(*)"));
 
     if(!fileName.isEmpty())
     {

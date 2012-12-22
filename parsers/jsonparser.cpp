@@ -1,5 +1,4 @@
 #include "jsonparser.h"
-#include "share/debug.h"
 #include <QRegExp>
 #include <QString>
 #include <QStringList>

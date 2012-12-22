@@ -8,40 +8,15 @@ DownloadFileManager::DownloadFileManager(QObject *parent) :
 {
 }
 
-void DownloadFileManager::setDownloadSettings(void)
-{
-    QFileInfo fi(file.fileName());
-    QString ext = fi.suffix();
-
-    if(ext.isEmpty())
-    {
-        file.setFileName(file.fileName() + getExt());
-    }
-
-    CommonTools::setHeader(request);
-}
-
-QString DownloadFileManager::getExt(void) const
-{
-    QString ext(".html");
-
-    if(fileType == "text/html") ext = ".html";
-    if(fileType == "image/png") ext = ".png";
-    if(fileType == "application/pdf") ext = ".pdf";
-
-    return ext;
-}
-
 void DownloadFileManager::startDownload(QUrl url, QString& fileName, const QString& type)
 {
-    DEBUG;
-
     init();
 
     fileType = type;
 
-    setProgressBarSettings(fileName, "Downloading file: ");
-    setDownloadSettings();
+    CommonTools::setHeader(request);
+
+    setProgressBarSettings(fileName, tr("Downloading file: "));
 
     request.setUrl(url);
 

@@ -24,7 +24,7 @@ public:
 
 protected:
     void setProgressBarSettings(const QString &fileName, const QString &progressBarDialogInfoText);
-    void setPostFinishedSettings(QNetworkReply* reply);
+    void postFinishedActions(QNetworkReply* reply);
 
 private:
     QString getContentTypeByExtension(const QString &ext);

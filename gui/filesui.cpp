@@ -60,16 +60,12 @@ void FilesUI::slotRightViewClicked(const QModelIndex &Id)
 
 void FilesUI::slotLeftPanelItemDoubleClicked(QTreeWidgetItem *item, int column)
 {
-    DEBUG << "item" << item->data(0, Qt::DisplayRole).toString();
-
     SettingsManager().setCurrentPanel(LEFT_PANEL_VALUE);
     showFilesOnPanel(item->data(0, Qt::DisplayRole).toString(), ELeft);
 }
 
 void FilesUI::slotRightPanelItemDoubleClicked(QTreeWidgetItem *item, int column)
 {
-    DEBUG << "item" << item->data(0, Qt::DisplayRole).toString().toAscii();
-
     Q_UNUSED(column);
 
     SettingsManager().setCurrentPanel(RIGHT_PANEL_VALUE);

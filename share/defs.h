@@ -37,9 +37,9 @@
 #define FILE_TYPE_STR QString("file")
 #define CONTENT QString("content")
 
-#define ACCOUNTS_GROUP QString("accounts")
-#define COMMON_GROUP QString("common")
-#define PANEL_GROUP QString("panel-")
+#define ACCOUNTS_GROUP QString("Accounts")
+#define COMMON_GROUP QString("Common")
+#define PANEL_GROUP QString("Panel-")
 #define ACCESS_TOKEN_KEY QString("access_token")
 #define REFRESH_TOKEN_KEY QString("refresh_token")
 #define WORK_DIR_KEY QString("working directory")
@@ -50,6 +50,14 @@
 #define PATHES_URLS_KEY QString("pathes URLs")
 #define LEFT_PANEL_VALUE QString("left")
 #define RIGHT_PANEL_VALUE QString("right")
+#define CURRENT_ACCOUNT_KEY QString("current account")
+#define ACCOUNT_LETTER_KEY QString("account letter")
+#define NAME_KEY QString("name")
+#define DOMAIN_SHARING_POLICY_KEY QString("domainSharingPolicy")
+#define PERMISSION_ID_KEY QString("permissionId")
+#define QUOTA_BYTES_TOTAL_KEY QString("quotaBytesTotal")
+#define QUOTA_BYTES_USED_KEY QString("quotaBytesUsed")
+#define QUOTA_BYTES_USED_IN_TRASH_KEY QString("quotaBytesUsedInTrash")
 
 #define PARENT_FOLDER_SIGN QString("[..]")
 

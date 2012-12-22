@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>441</width>
-    <height>90</height>
+    <height>104</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,20 +17,20 @@
    <property name="geometry">
     <rect>
      <x>9</x>
-     <y>29</y>
+     <y>39</y>
      <width>71</width>
      <height>16</height>
     </rect>
    </property>
    <property name="text">
-    <string>Local Directory</string>
+    <string>Directory:</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="directoryLineEdit">
    <property name="geometry">
     <rect>
      <x>101</x>
-     <y>30</y>
+     <y>40</y>
      <width>251</width>
      <height>20</height>
     </rect>
@@ -49,7 +49,7 @@
    <property name="geometry">
     <rect>
      <x>360</x>
-     <y>28</y>
+     <y>38</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -62,7 +62,7 @@
    <property name="geometry">
     <rect>
      <x>280</x>
-     <y>60</y>
+     <y>70</y>
      <width>156</width>
      <height>23</height>
     </rect>
@@ -87,7 +87,7 @@
     <locale language="English" country="UnitedStates"/>
    </property>
    <property name="text">
-    <string>Please set working directory for downloading files</string>
+    <string>Please set working directory for downloading files:</string>
    </property>
   </widget>
  </widget>

@@ -104,6 +104,8 @@ void NetworkManager::slotProgressCanceled()
 
 void NetworkManager::slotPostFinished(QNetworkReply* reply)
 {
+    replyStr = reply->readAll();
+
     if (reply->error())
     {
         progressBarDialog.hide();
@@ -112,7 +114,7 @@ void NetworkManager::slotPostFinished(QNetworkReply* reply)
         return;
     }
 
-    setPostFinishedSettings(reply);
+    postFinishedActions(reply);
 }
 
 void NetworkManager::getRequest(const QString &url)
@@ -169,5 +171,5 @@ QNetworkRequest NetworkManager::getRequest(void) const
     return request;
 }
 
-void NetworkManager::setPostFinishedSettings(QNetworkReply*) {}
+void NetworkManager::postFinishedActions(QNetworkReply*) {}
 void NetworkManager::slotReplyFinished(QNetworkReply*){}

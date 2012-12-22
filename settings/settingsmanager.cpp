@@ -14,12 +14,12 @@ void SettingsManager::writeAccountInfo(AccountInfo::Data &data)
 {
     beginGroup(ACCOUNTS_GROUP + QString("/") + data.email);
 
-    setValue("name", data.name);
-    setValue("domainSharingPolicy", data.domainSharingPolicy);
-    setValue("permissionId", data.permissionId);
-    setValue("quotaBytesTotal", data.quotaBytesTotal);
-    setValue("quotaBytesUsed", data.quotaBytesUsed);
-    setValue("quotaBytesUsedInTrash", data.quotaBytesUsedInTrash);
+    setValue(NAME_KEY, data.name);
+    setValue(DOMAIN_SHARING_POLICY_KEY, data.domainSharingPolicy);
+    setValue(PERMISSION_ID_KEY, data.permissionId);
+    setValue(QUOTA_BYTES_TOTAL_KEY, data.quotaBytesTotal);
+    setValue(QUOTA_BYTES_USED_KEY, data.quotaBytesUsed);
+    setValue(QUOTA_BYTES_USED_IN_TRASH_KEY, data.quotaBytesUsedInTrash);
 
     endGroup();
 }
@@ -106,7 +106,7 @@ void SettingsManager::setRefreshToken(const QString &refreshToken)
 
 QString SettingsManager::refreshToken(void)
 {
-   return getValueFromGroup(COMMON_GROUP, REFRESH_TOKEN_KEY).toString();
+    return getValueFromGroup(COMMON_GROUP, REFRESH_TOKEN_KEY).toString();
 }
 
 void SettingsManager::setValueInPanelGroup(int panelNum, const QString &key, const QVariant &val)

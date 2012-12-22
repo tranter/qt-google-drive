@@ -18,7 +18,7 @@ SettingsDialog::~SettingsDialog()
 
 void SettingsDialog::browseDir()
 {
-    QString dir = QFileDialog::getExistingDirectory(this, "Set Directory", ui->directoryLineEdit->text());
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Set Directory"), ui->directoryLineEdit->text());
 
     if(dir.isEmpty())
     {

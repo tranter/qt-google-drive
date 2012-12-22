@@ -10,28 +10,23 @@ class OAuth2 : public NetworkManager
 {
     Q_OBJECT
 public:
-    OAuth2(QWidget* parent = 0);
+    OAuth2(QWidget* prnt = 0);
     ~OAuth2();
 
 public:
-    void startLogin(bool runDialog);
-    void setScope(const QString& scopeStr);
-    void setClientID(const QString& clientIDStr);
-    void setRedirectURI(const QString& redirectURIStr);
-
+    void startLogin(void);
 
 private:
     void setConnections(void);
     QNetworkRequest setRequest(void);
     void initAccess(void);
-    QString firstLogin(void);
 
 public slots:
     void slotGetAccessTokenFromRefreshToken(void);
 
 private slots:
     void slotReplyFinished(QNetworkReply* reply);
-    void slotCodeObtained();
+    void slotCodeObtained(const QString &code);
 
 
 signals:
@@ -40,13 +35,12 @@ signals:
 private:
     QScopedPointer<LoginDialog> loginDialog;
     QNetworkAccessManager* networkManager;
-    QString accessToken;
-    QString refreshToken;
-    QString endPoint;
-    QString scope;
-    QString clientID;
-    QString redirectURI;
-    QString codeStr;
+//    QString accessToken;
+//    QString refreshToken;
+//    QString endPoint;
+//    QString scope;
+//    QString clientID;
+//    QString redirectURI;
 };
 
 #endif // OAUTH2_H

@@ -147,14 +147,9 @@ void DriveEngine::setKeyActions(void)
     opEventHandler->setKeyAction(Qt::Key_Delete, &OperationsUI::del);
 }
 
-void DriveEngine::slotStartLogin()
+void DriveEngine::slotStartLoginFromMenu(void)
 {
-    oAuth2->startLogin(false);
-}
-
-void DriveEngine::slotStartLoginFromMenu()
-{
-    oAuth2->startLogin(true);
+    oAuth2->startLogin();
 }
 
 CheckUI* DriveEngine::getCheckUI(void) const

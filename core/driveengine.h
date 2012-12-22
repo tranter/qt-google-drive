@@ -63,8 +63,7 @@ private:
     void reset(void);   
 
 public slots:
-    void slotStartLogin();
-    void slotStartLoginFromMenu();
+    void slotStartLoginFromMenu(void);
 
 private:
     QWidget* parent;
