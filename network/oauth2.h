@@ -35,12 +35,6 @@ signals:
 private:
     QScopedPointer<LoginDialog> loginDialog;
     QNetworkAccessManager* networkManager;
-//    QString accessToken;
-//    QString refreshToken;
-//    QString endPoint;
-//    QString scope;
-//    QString clientID;
-//    QString redirectURI;
 };
 
 #endif // OAUTH2_H

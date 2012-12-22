@@ -4,3 +4,4 @@ Auth::Auth(QObject *parent) :
     NetworkManager(parent)
 {
 }
+
