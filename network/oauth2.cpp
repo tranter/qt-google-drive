@@ -32,6 +32,8 @@ void OAuth2::setConnections(void)
 
 void OAuth2::slotCodeObtained(const QString &code)
 {
+    DEBUG << "======================> code" << code;
+
     QByteArray params;
 
     params += QByteArray("client_id=");

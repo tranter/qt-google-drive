@@ -162,6 +162,8 @@ void XMLHandler::slotResDownloaded()
 
 void XMLHandler::saveResData(const QXmlAttributes &attribs)
 {
+    DEBUG << HIERARCHY_VALUE_TAG(attribs.value);
+
     if(!CommonTools::fileFromURLExists(HIERARCHY_VALUE_TAG(attribs.value)))
     {
         isResDownloding = true;
