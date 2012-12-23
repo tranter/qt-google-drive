@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include "share/singleton.h"
 #include "network/queries.h"
+#include "network/auth.h"
+#include "gui/forms/authdialog.h"
 
 namespace Ui
 {
@@ -31,10 +33,15 @@ private:
     void setConnections(void);
 
 private slots:
-    void slotLogged(void);
+    //void slotLogged(void);
     void slotAccessTokenRequired(void);
     void slotAccountInfoReadyToUse(void);
-    void slotTestAuth(void);
+    void slotAuthDialog(void);
+    void  slotAuthResponse(const QString &accessToken);
+
+private:
+    Auth *auth;
+    AuthDialog *authDialog;
 };
 
 #endif // MAINWINDOW_H

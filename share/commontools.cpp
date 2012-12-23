@@ -9,13 +9,14 @@
 #include <QList>
 #include <QFile>
 #include <QFileInfo>
-#include <QDebug>
+#include "share/debug.h"
 
 void CommonTools::setHeader(QNetworkRequest &request)
 {
     request.setRawHeader("User-Agent", APP_NAME);
     request.setRawHeader("GData-Version", "3.0");
     request.setRawHeader("Authorization", QString("Bearer %1").arg(SettingsManager().accessToken()).toLatin1());
+    DEBUG << SettingsManager().accessToken();
 }
 
 void CommonTools::msg(const QString &text, QWidget *parent)

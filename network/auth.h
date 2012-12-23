@@ -1,5 +1,5 @@
-#ifndef AUTHENTICATION_H
-#define AUTHENTICATION_H
+#ifndef AUTH_H
+#define AUTH_H
 
 #include "networkmanager.h"
 
@@ -9,8 +9,8 @@ class Auth : public NetworkManager
 public:
     enum ERequests
     {
-        EAllTokens = 0,
-        EAccessToken
+        EAccessToken = 0,
+        EAllTokens
     };
 
     explicit Auth(QObject *parent = 0);
@@ -25,8 +25,8 @@ protected:
 public:
     QUrl getOAuth2CodeUrl(const QString &scope, const QString &redirectUri, const QString &clientId , bool accessType = true, bool approvalPrompt = false, const QString &state = QString());
     QString getOAuth2Code(const QUrl &url);
-    void getTokens(const QString &code, const QString &clientId, const QString &clientSecret, const QString &redirectUri);
     void getAccessToken(const QString &clientId, const QString &clientSecret, const QString &refreshToken);
+    void getTokens(const QString &code, const QString &clientId, const QString &clientSecret, const QString &redirectUri);
 
 private:
     void performRequest(void);
@@ -35,4 +35,4 @@ private:
     ERequests currentRequest;
 };
 
-#endif // AUTHENTICATION_H
+#endif // AUTH_H

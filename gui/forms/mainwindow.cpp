@@ -2,7 +2,8 @@
 #include "ui_mainwindow.h"
 #include "core/driveengine.h"
 #include "share/debug.h"
-#include "gui/forms/authdialog.h"
+#include "share/registration.h"
+#include "settings/settingsmanager.h"
 #include <QTextCodec>
 #include <QKeyEvent>
 #include <QToolButton>
@@ -32,6 +33,8 @@ void MainWindow::init(void)
     SDriveEngine::inst(this)->init();
     SDriveEngine::inst()->getCheckUI()->slotCheckWorkDir(false);
 
+    authDialog = new AuthDialog(SUi::inst()->centralWidget);
+
     setConnections();
 
     SDriveEngine::inst()->getFilePanel(ELeft)->getFileView()->installEventFilter(this);
@@ -49,7 +52,7 @@ void MainWindow::init(void)
 
 void MainWindow::setConnections(void)
 {
-    connect(SUi::inst()->actionLogin, SIGNAL(triggered()), SDriveEngine::inst(), SLOT(slotStartLoginFromMenu()));
+    connect(SUi::inst()->actionLogin, SIGNAL(triggered()), this, SLOT(slotAuthDialog()));
     connect(SUi::inst()->actionQuit, SIGNAL(triggered()), this, SLOT(close()));
     connect(SUi::inst()->actionDownload, SIGNAL(triggered()), SDriveEngine::inst()->getfilesTransferUI(), SLOT(slotDownload()));
     connect(SUi::inst()->actionUpload, SIGNAL(triggered()), SDriveEngine::inst()->getfilesTransferUI(), SLOT(slotUpload()));
@@ -67,34 +70,47 @@ void MainWindow::setConnections(void)
     connect(SDriveEngine::inst()->getFilePanel(ELeft)->getFileView(), SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), SDriveEngine::inst()->getfilesUI(), SLOT(slotLeftPanelItemDoubleClicked(QTreeWidgetItem*, int)));
     connect(SDriveEngine::inst()->getFilePanel(ERight)->getFileView(), SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), SDriveEngine::inst()->getfilesUI(), SLOT(slotRightPanelItemDoubleClicked(QTreeWidgetItem*, int)));
     connect(SDriveEngine::inst()->getFilePanel(ELeft)->getFileView()->header(), SIGNAL(sortIndicatorChanged(int, Qt::SortOrder)), SDriveEngine::inst()->getfilesUI(), SLOT(slotLeftSortIndicatorChanged(int, Qt::SortOrder)));
-    connect(SDriveEngine::inst()->getFilePanel(ERight)->getFileView()->header(), SIGNAL(sortIndicatorChanged(int, Qt::SortOrder)), SDriveEngine::inst()->getfilesUI(), SLOT(slotRightSortIndicatorChanged(int, Qt::SortOrder))); 
+    connect(SDriveEngine::inst()->getFilePanel(ERight)->getFileView()->header(), SIGNAL(sortIndicatorChanged(int, Qt::SortOrder)), SDriveEngine::inst()->getfilesUI(), SLOT(slotRightSortIndicatorChanged(int, Qt::SortOrder)));
     connect(SDriveEngine::inst()->getFilesMngr()->self(), SIGNAL(signalAccessTokenRequired()), this, SLOT(slotAccessTokenRequired()));
     connect(SDriveEngine::inst()->getFilesMngr(true)->self(), SIGNAL(signalAccessTokenRequired()), this, SLOT(slotAccessTokenRequired()));
     connect(SDriveEngine::inst()->getFilesMngr(), SIGNAL(signalFirstPanelIsLoaded()), SDriveEngine::inst(), SLOT(slotFirstPanelIsLoaded()));
     connect(SQueries::inst(), SIGNAL(signalAccountInfoReadyToUse()), this, SLOT(slotAccountInfoReadyToUse()));
-    connect(SDriveEngine::inst()->getOAuth2(), SIGNAL(logged()), this, SLOT(slotLogged()));
-    connect((SUi::inst()->actionTestAuth), SIGNAL(triggered()), this, SLOT(slotTestAuth()));
+    //connect(authDialog, SIGNAL(signalAuthResponseTEST()), this, SLOT(slotLogged()));
 }
 
-void MainWindow::slotTestAuth(void)
+void MainWindow::slotAuthDialog(void)
 {
-    AuthDialog authDialog(SUi::inst()->centralWidget);// = new AuthDialog(SUi::inst()->centralWidget);
+    AuthDialog authDialog(SUi::inst()->centralWidget);
     authDialog.exec();
-}
-
-void MainWindow::slotLogged(void)
-{    
     SQueries::inst()->setAccountInfo();
 }
 
+//void MainWindow::slotLogged(void)
+//{
+//    SQueries::inst()->setAccountInfo();
+//}
+
 void MainWindow::slotAccountInfoReadyToUse(void)
 {
-    SDriveEngine::inst()->loadPanel(LEFT_PANEL_VALUE, true);
+    SDriveEngine::inst()->updatePanel(LEFT_PANEL_VALUE, true);
 }
 
 void MainWindow::slotAccessTokenRequired(void)
 {
-    SDriveEngine::inst()->getOAuth2()->slotGetAccessTokenFromRefreshToken();
+    DEBUG;
+    //SDriveEngine::inst()->getOAuth2()->slotGetAccessTokenFromRefreshToken();
+
+    auth = new Auth;
+    auth->getAccessToken(CLIENT_ID, CLIENT_SECRET, SettingsManager().refreshToken());
+    connect(auth, SIGNAL(authResponse(const QString&)), this, SLOT(slotAuthResponse(const QString&)));
+}
+
+void MainWindow::slotAuthResponse(const QString &accessToken)
+{
+    DEBUG << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! accessToken" << accessToken;
+    SettingsManager().setAccessToken(accessToken);
+    delete auth;
+    SQueries::inst()->setAccountInfo();
 }
 
 bool MainWindow::eventFilter(QObject *object, QEvent *event)

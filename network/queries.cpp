@@ -10,8 +10,14 @@ Queries::Queries()
 
 void Queries::setAccountInfo(void)
 {
+    DEBUG;
+
+    //QString userInfoQuery(QString("https://www.googleapis.com/oauth2/v1/userinfo?access_token=%1").arg(SettingsManager().accessToken()));
     QString userInfoQuery(QString("https://www.googleapis.com/oauth2/v1/userinfo"));
     QString aboutInfoQuery(QString("https://www.googleapis.com/drive/v2/about"));
+
+//    QString userInfoQuery(QString("https://www.googleapis.com/drive/v2/about"));
+//    QString aboutInfoQuery(QString("https://www.googleapis.com/oauth2/v1/userinfo"));
 
     accountInfo = new AccountInfo(userInfoQuery, aboutInfoQuery);
 
@@ -22,6 +28,8 @@ void Queries::setAccountInfo(void)
 
 void Queries::slotAccountInfo(AccountInfo::Data &data)
 {
+    DEBUG;
+
     SettingsManager().writeAccountInfo(data);
 
     accountInfo->deleteLater();

@@ -20,7 +20,7 @@ void DriveEngine::init(void)
 {
     reset();
     setKeyActions();
-    loadPanel(LEFT_PANEL_VALUE, true);
+    updatePanel(LEFT_PANEL_VALUE, true);
 }
 
 void DriveEngine::reset(void)
@@ -51,7 +51,7 @@ void DriveEngine::reset(void)
     filesUI.reset(new FilesUI);
     foldersMngr.reset(new FoldersManager);
     foldersUI.reset(new FoldersUI);
-    oAuth2.reset(new OAuth2(parent));
+    //oAuth2.reset(new OAuth2(parent));
     opUI.reset(new OperationsUI);
     opEventHandler.reset(new EventHandler<OperationsUI>(opUI.data()));
 }
@@ -105,7 +105,7 @@ FilesManager* DriveEngine::getFilesMngr(bool opposite) const
     return filesManager;
 }
 
-void DriveEngine::loadPanel(const QString &panelName, bool initLoad)
+void DriveEngine::updatePanel(const QString &panelName, bool initLoad)
 {
     SettingsManager settingsManager;
     EPanels panel;
@@ -139,7 +139,7 @@ void DriveEngine::loadPanel(const QString &panelName, bool initLoad)
 
 void DriveEngine::slotFirstPanelIsLoaded()
 {
-    loadPanel(RIGHT_PANEL_VALUE, false);
+    updatePanel(RIGHT_PANEL_VALUE, false);
 }
 
 void DriveEngine::setKeyActions(void)
@@ -147,10 +147,10 @@ void DriveEngine::setKeyActions(void)
     opEventHandler->setKeyAction(Qt::Key_Delete, &OperationsUI::del);
 }
 
-void DriveEngine::slotStartLoginFromMenu(void)
-{
-    oAuth2->startLogin();
-}
+//void DriveEngine::slotStartLoginFromMenu(void)
+//{
+//    oAuth2->startLogin();
+//}
 
 CheckUI* DriveEngine::getCheckUI(void) const
 {
@@ -182,10 +182,10 @@ FoldersUI* DriveEngine::getFoldersUI(void) const
     return foldersUI.data();
 }
 
-OAuth2* DriveEngine::getOAuth2(void) const
-{
-    return oAuth2.data();
-}
+//OAuth2* DriveEngine::getOAuth2(void) const
+//{
+//    return oAuth2.data();
+//}
 
 OperationsUI* DriveEngine::getOpUI(void) const
 {

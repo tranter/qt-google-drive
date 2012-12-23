@@ -139,7 +139,7 @@ void NetworkManager::postRequest(QUrl url, const QString &fileName)
 
     request.setUrl(url);
 
-    setProgressBarSettings(fileName, fileName);
+    //setProgressBarSettings(fileName, fileName);
 
     reply = networkManager->post(request, postData);
 

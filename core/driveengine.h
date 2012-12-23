@@ -48,12 +48,12 @@ public:
     FilesUI* getfilesUI(void) const;
     FoldersManager* getFoldersMngr(void) const;
     FoldersUI* getFoldersUI(void) const;
-    OAuth2* getOAuth2(void) const;
+    //OAuth2* getOAuth2(void) const;
     OperationsUI* getOpUI(void) const;
     QWidget* getParent(void) const;
     void init(void);
     FilePanel *getFilePanel(EPanels panel) const;
-    void loadPanel(const QString &panelName, bool initLoad);
+    void updatePanel(const QString &panelName, bool initLoad);
 
 private slots:
     void slotFirstPanelIsLoaded();
@@ -62,8 +62,8 @@ private:
     void setKeyActions(void);
     void reset(void);   
 
-public slots:
-    void slotStartLoginFromMenu(void);
+//public slots:
+//    void slotStartLoginFromMenu(void);
 
 private:
     QWidget* parent;
@@ -76,7 +76,7 @@ private:
     QScopedPointer<FilesUI> filesUI;
     QScopedPointer<FoldersManager> foldersMngr;
     QScopedPointer<FoldersUI> foldersUI;
-    QScopedPointer<OAuth2> oAuth2;
+    //QScopedPointer<OAuth2> oAuth2;
     QScopedPointer<OperationsUI> opUI;
     QScopedPointer<UploadFileManager> uploadFileMngr;
     FilePanel *filesViewLeft;
