@@ -14,6 +14,7 @@ public:
     };
 
     explicit Auth(QObject *parent = 0);
+    ~Auth();
 
 signals:
     void authResponse(const QString &accessToken);

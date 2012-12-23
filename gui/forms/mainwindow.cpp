@@ -85,11 +85,6 @@ void MainWindow::slotAuthDialog(void)
     SQueries::inst()->setAccountInfo();
 }
 
-//void MainWindow::slotLogged(void)
-//{
-//    SQueries::inst()->setAccountInfo();
-//}
-
 void MainWindow::slotAccountInfoReadyToUse(void)
 {
     SDriveEngine::inst()->updatePanel(LEFT_PANEL_VALUE, true);

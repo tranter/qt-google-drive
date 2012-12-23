@@ -13,7 +13,6 @@
 #include "gui/foldersui.h"
 #include "gui/operationsui.h"
 #include "gui/checkui.h"
-#include "network/oauth2.h"
 #include "core/eventhandler.h"
 #include "share/enums.h"
 #include "gui/forms/filepanel.h"

@@ -33,7 +33,6 @@ private:
     void setConnections(void);
 
 private slots:
-    //void slotLogged(void);
     void slotAccessTokenRequired(void);
     void slotAccountInfoReadyToUse(void);
     void slotAuthDialog(void);

@@ -27,8 +27,6 @@ void AuthDialog::init(void)
 
     connect(ui->webView, SIGNAL(urlChanged(const QUrl&)), this, SLOT(slotUrlChanged(const QUrl&)));
     connect(auth.data(), SIGNAL(authResponse(const QString&, const QString&)), this, SLOT(slotAuthResponse(const QString&, const QString&)));
-
-    //show();
 }
 
 void AuthDialog::slotUrlChanged(const QUrl &url)
