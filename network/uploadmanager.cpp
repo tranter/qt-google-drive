@@ -80,6 +80,7 @@ void UploadFileManager::slotUploadProgress( qint64 bytesSent, qint64 bytesTotal 
 
 void UploadFileManager::startUpload(QUrl url, const QString &fileName)
 {
+    setProgressBarSettings(fileName, fileName);
     postRequest(url, fileName);
 }
 

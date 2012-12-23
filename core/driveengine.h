@@ -47,7 +47,6 @@ public:
     FilesUI* getfilesUI(void) const;
     FoldersManager* getFoldersMngr(void) const;
     FoldersUI* getFoldersUI(void) const;
-    //OAuth2* getOAuth2(void) const;
     OperationsUI* getOpUI(void) const;
     QWidget* getParent(void) const;
     void init(void);
@@ -61,9 +60,6 @@ private:
     void setKeyActions(void);
     void reset(void);   
 
-//public slots:
-//    void slotStartLoginFromMenu(void);
-
 private:
     QWidget* parent;
     QScopedPointer<AdditionalFoldersManager> aFoldersMngr;
@@ -75,7 +71,6 @@ private:
     QScopedPointer<FilesUI> filesUI;
     QScopedPointer<FoldersManager> foldersMngr;
     QScopedPointer<FoldersUI> foldersUI;
-    //QScopedPointer<OAuth2> oAuth2;
     QScopedPointer<OperationsUI> opUI;
     QScopedPointer<UploadFileManager> uploadFileMngr;
     FilePanel *filesViewLeft;

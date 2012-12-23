@@ -77,11 +77,11 @@ void OperationsManager::shareWebFile(const ItemInfo::Data &source)
 //      shareDialog->show();
 }
 
-void OperationsManager::setProgressBarSettings(const QString &fileName, const QString &progressBarDialogInfoText)
-{
-    Q_UNUSED(fileName);
-    Q_UNUSED(progressBarDialogInfoText);
-}
+//void OperationsManager::setProgressBarSettings(const QString &fileName, const QString &progressBarDialogInfoText)
+//{
+//    Q_UNUSED(fileName);
+//    Q_UNUSED(progressBarDialogInfoText);
+//}
 
 void OperationsManager::createFolder(const QString &folderUrl, const QString &name)
 {
