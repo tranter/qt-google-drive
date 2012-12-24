@@ -33,19 +33,12 @@ void SettingsManager::writeAccountInfo(AccountInfo::Data &data)
 
 int SettingsManager::currentPanel(void)
 {
-    int num;
-
-    QString currentPanelVal = getValueFromGroup(COMMON_GROUP, CURRENT_PANEL_KEY, LEFT_PANEL_VALUE).toString();
-
-    if(currentPanelVal == LEFT_PANEL_VALUE) num = 0;
-    if(currentPanelVal == RIGHT_PANEL_VALUE) num = 1;
-
-    return num;
+    return getValueFromGroup(COMMON_GROUP, CURRENT_PANEL_KEY, LEFT_PANEL_VALUE).toInt();
 }
 
-void SettingsManager::setCurrentPanel(const QString &panelName)
+void SettingsManager::setCurrentPanel(int panelNum)
 {
-    setValueInGroup(COMMON_GROUP, CURRENT_PANEL_KEY, panelName);
+    setValueInGroup(COMMON_GROUP, CURRENT_PANEL_KEY, panelNum);
 }
 
 void SettingsManager::setInitialLoading(bool initLoad)
@@ -106,12 +99,14 @@ void SettingsManager::setWorkDir(const QString &workDrName)
 QString SettingsManager::accessToken(void)
 {
     QString accountName(currentAccount(currentPanel()));
+    DEBUG << "==================================>" << accountName << "currentPanel()" << currentPanel() << " accessToken" << getValueFromGroup(ACCOUNTS_GROUP + QString("/") + accountName, ACCESS_TOKEN_KEY).toString();
     return getValueFromGroup(ACCOUNTS_GROUP + QString("/") + accountName, ACCESS_TOKEN_KEY).toString();
 }
 
 QString SettingsManager::refreshToken(void)
 {
     QString accountName(currentAccount(currentPanel()));
+    DEBUG << "==================================>" << accountName << "currentPanel()" << currentPanel() << " refreshToken" << getValueFromGroup(ACCOUNTS_GROUP + QString("/") + accountName, REFRESH_TOKEN_KEY).toString();
     return getValueFromGroup(ACCOUNTS_GROUP + QString("/") + accountName, REFRESH_TOKEN_KEY).toString();
 }
 

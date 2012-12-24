@@ -20,7 +20,7 @@ public:
     OperationsManager* getOpMngr(void) const;
 
 public slots:
-    virtual void slotReplyFinished(QNetworkReply*);
+    virtual void slotReplyFinished(QNetworkReply* reply);
     void slotResDownloaded(void);
 
 protected:

@@ -48,6 +48,8 @@ void FilesManager::show(void)
         addItem(items[i]);
     }
 
+    //DEBUG << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" << items.count();
+
     //    for(int i = 1; i < items.count(); ++i)
     //    {
     //        if(items[i].type == FOLDER_TYPE_STR)

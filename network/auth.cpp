@@ -10,7 +10,6 @@ Auth::Auth(QObject *parent) :
 
 Auth::Auth::~Auth()
 {
-    DEBUG;
 }
 
 QUrl Auth::getOAuth2CodeUrl(const QString &scope, const QString &redirectUri, const QString &clientId, bool accessType, bool approvalPrompt, const QString &state)
@@ -79,13 +78,11 @@ void Auth::postFinishedActions(QNetworkReply* reply)
 
     if(currentRequest == EAccessToken)
     {
-        DEBUG << "EAccessToken";
         emit signalAuthResponse(accessToken);
     }
 
     if(currentRequest == EAllTokens)
     {
-        DEBUG << "EAllTokens";
         emit signalAuthResponse(accessToken, refreshToken);
     }
 }

@@ -14,7 +14,7 @@ public:
 public:
     void writeAccountInfo(AccountInfo::Data &data);
     int currentPanel(void);
-    void setCurrentPanel(const QString &panelName);
+    void setCurrentPanel(int panelNum);
     void setInitialLoading(bool initLoad);
     void setCurrentFolderPath(int panelNum, const QString &path);
     QString currentFolderPath(int panelNum);

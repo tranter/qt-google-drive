@@ -81,12 +81,10 @@ void MainWindow::slotAuthDialog(void)
     AuthDialog authDialog(SUi::inst()->centralWidget);    
     connect(&authDialog, SIGNAL(signalTokens(const QString&, const QString&)), this, SLOT(slotTokens(const QString&, const QString&)));
     authDialog.exec();
-
 }
 
 void MainWindow::slotTokens(const QString &accessToken, const QString &refreshToken)
 {
-    DEBUG;
     SQueries::inst()->setAccountInfo(accessToken, refreshToken);
 }
 
@@ -97,6 +95,7 @@ void MainWindow::slotAccountInfoReadyToUse(void)
 
 void MainWindow::slotAccessTokenRequired(void)
 {
+    DEBUG << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
     auth = new Auth;
     auth->getAccessToken(CLIENT_ID, CLIENT_SECRET, SettingsManager().refreshToken());
     connect(auth, SIGNAL(signalAuthResponse(const QString&)), this, SLOT(slotAuthResponse(const QString&)));
@@ -104,9 +103,10 @@ void MainWindow::slotAccessTokenRequired(void)
 
 void MainWindow::slotAuthResponse(const QString &accessToken)
 {
-    //SettingsManager().setAccessToken(accessToken);
-    delete auth;
+    DEBUG << "-----------------------------------> accessToken" << accessToken;
+
     SQueries::inst()->setAccountInfo(accessToken);
+    auth->deleteLater();
 }
 
 bool MainWindow::eventFilter(QObject *object, QEvent *event)

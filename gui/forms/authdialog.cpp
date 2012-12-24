@@ -13,7 +13,6 @@ AuthDialog::AuthDialog(QWidget *parent) :
 
 AuthDialog::~AuthDialog()
 {  
-    DEBUG;
     delete ui;
 }
 
@@ -41,12 +40,6 @@ void AuthDialog::slotUrlChanged(const QUrl &url)
 
 void AuthDialog::slotAuthResponse(const QString &accessToken, const QString &refreshToken)
 {
-//    SettingsManager settingsManager;
-
-//    settingsManager.setAccessToken(accessToken);
-//    settingsManager.setRefreshToken(refreshToken);
-
     emit signalTokens(accessToken, refreshToken);
-
     QDialog::accept();
 }

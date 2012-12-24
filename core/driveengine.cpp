@@ -96,29 +96,29 @@ FilesManager* DriveEngine::getFilesMngr(bool opposite) const
     return filesManager;
 }
 
-void DriveEngine::updatePanel(const QString &panelName, bool initLoad)
+void DriveEngine::updatePanel(int panelNum, bool initLoad)
 {
+    DEBUG;
+
     SettingsManager settingsManager;
     EPanels panel;
     QTreeWidget *treeWidget;
     QString query;
 
     settingsManager.setInitialLoading(initLoad);
-    settingsManager.setCurrentPanel(panelName);
+    settingsManager.setCurrentPanel(panelNum);
 
-    if (panelName == RIGHT_PANEL_VALUE)
+    if (panelNum == RIGHT_PANEL_VALUE)
     {
-        panel  = ERight;
+        panel = ERight;
         treeWidget = filesViewRight->getFileView();
     }
 
-    if (panelName == LEFT_PANEL_VALUE)
+    if (panelNum == LEFT_PANEL_VALUE)
     {
         panel = ELeft;
         treeWidget = filesViewLeft->getFileView();
     }
-
-    int panelNum = static_cast <int> (panel);
 
     filesUI->getPanelLabel(panel)->setText(settingsManager.currentFolderPath(panelNum));
     query = settingsManager.currentFolderURL(panelNum);
@@ -128,8 +128,9 @@ void DriveEngine::updatePanel(const QString &panelName, bool initLoad)
     filesMngr[panel]->get(query);
 }
 
-void DriveEngine::slotFirstPanelIsLoaded()
+void DriveEngine::slotFirstPanelIsLoaded(void)
 {
+    DEBUG << "?????????????????????????????????????????";
     updatePanel(RIGHT_PANEL_VALUE, false);
 }
 
@@ -137,11 +138,6 @@ void DriveEngine::setKeyActions(void)
 {
     opEventHandler->setKeyAction(Qt::Key_Delete, &OperationsUI::del);
 }
-
-//void DriveEngine::slotStartLoginFromMenu(void)
-//{
-//    oAuth2->startLogin();
-//}
 
 CheckUI* DriveEngine::getCheckUI(void) const
 {
@@ -172,11 +168,6 @@ FoldersUI* DriveEngine::getFoldersUI(void) const
 {
     return foldersUI.data();
 }
-
-//OAuth2* DriveEngine::getOAuth2(void) const
-//{
-//    return oAuth2.data();
-//}
 
 OperationsUI* DriveEngine::getOpUI(void) const
 {

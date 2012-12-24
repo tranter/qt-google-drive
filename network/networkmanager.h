@@ -61,6 +61,7 @@ protected:
     ProgressBarDialog progressBarDialog;
     bool operationCanceled;
     QString replyStr;
+    //int tag;
 };
 
 #endif // NETWORKMANAGER_H

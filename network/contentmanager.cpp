@@ -23,20 +23,21 @@ void ContentManager::get(const QString &url)
     getRequest(url);
 }
 
-void ContentManager::slotReplyFinished(QNetworkReply*)
+void ContentManager::slotReplyFinished(QNetworkReply* reply)
 {
     CommonTools::logToFile(QString("ParserReply ") + ".txt", replyStr.toAscii());
 
-//    DEBUG << "<===============================================================================================================";
-//    DEBUG << "replyStr" << replyStr;
-//    DEBUG << "===============================================================================================================>";
+    DEBUG << "<===============================================================================================================";
+    DEBUG << "replyStr" << replyStr;
+    DEBUG << "reply" << reply->error() << " " << reply->errorString();
+    DEBUG << "===============================================================================================================>";
 
     if(parseReply(replyStr)) DEBUG << "parse OK";
     else DEBUG << "parse not OK";
 
     replyStr.clear();
 
-    if(!parser->getXMLHandler()->resDownloadingNow())
+    if(!parser->getXMLHandler()->resDownloadingNow() && reply->error() != QNetworkReply::AuthenticationRequiredError)
     {
         show();
     }
