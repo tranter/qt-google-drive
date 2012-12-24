@@ -2,7 +2,7 @@
 #include "ui_authdialog.h"
 #include "share/debug.h"
 #include "share/registration.h"
-#include "settings/settingsmanager.h"
+//#include "settings/settingsmanager.h"
 
 AuthDialog::AuthDialog(QWidget *parent) :
     QDialog(parent),
@@ -26,7 +26,7 @@ void AuthDialog::init(void)
     ui->webView->setUrl(auth->getOAuth2CodeUrl(SCOPE, REDIRECT_URI, CLIENT_ID, false, true));
 
     connect(ui->webView, SIGNAL(urlChanged(const QUrl&)), this, SLOT(slotUrlChanged(const QUrl&)));
-    connect(auth.data(), SIGNAL(authResponse(const QString&, const QString&)), this, SLOT(slotAuthResponse(const QString&, const QString&)));
+    connect(auth.data(), SIGNAL(signalAuthResponse(const QString&, const QString&)), this, SLOT(slotAuthResponse(const QString&, const QString&)));
 }
 
 void AuthDialog::slotUrlChanged(const QUrl &url)
@@ -41,12 +41,12 @@ void AuthDialog::slotUrlChanged(const QUrl &url)
 
 void AuthDialog::slotAuthResponse(const QString &accessToken, const QString &refreshToken)
 {
-    SettingsManager settingsManager;
+//    SettingsManager settingsManager;
 
-    settingsManager.setAccessToken(accessToken);
-    settingsManager.setRefreshToken(refreshToken);
+//    settingsManager.setAccessToken(accessToken);
+//    settingsManager.setRefreshToken(refreshToken);
 
-    //emit signalAuthResponseTEST();
+    emit signalTokens(accessToken, refreshToken);
 
     QDialog::accept();
 }

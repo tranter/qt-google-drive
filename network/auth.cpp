@@ -80,13 +80,13 @@ void Auth::postFinishedActions(QNetworkReply* reply)
     if(currentRequest == EAccessToken)
     {
         DEBUG << "EAccessToken";
-        emit authResponse(accessToken);
+        emit signalAuthResponse(accessToken);
     }
 
     if(currentRequest == EAllTokens)
     {
         DEBUG << "EAllTokens";
-        emit authResponse(accessToken, refreshToken);
+        emit signalAuthResponse(accessToken, refreshToken);
     }
 }
 

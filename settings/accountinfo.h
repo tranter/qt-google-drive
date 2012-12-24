@@ -16,7 +16,9 @@ public:
     struct Data
     {
      QString name;
-     QString email;
+     QString email;        
+     QString accessToken;
+     QString refreshToken;
      QString domainSharingPolicy;
      QString permissionId;
      long long quotaBytesTotal;
@@ -24,7 +26,7 @@ public:
      long long quotaBytesUsedInTrash;
     };
 
-    AccountInfo(const QString &uiq, const QString &aiq);
+    AccountInfo(const QString &uiq, const QString &aiq, const QString &at, const QString &rt = QString());
 
 signals:
    void signalAccountInfo(AccountInfo::Data&);

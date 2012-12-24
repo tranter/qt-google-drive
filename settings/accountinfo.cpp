@@ -3,12 +3,14 @@
 #include "parsers/jsonparser.h"
 #include "share/debug.h"
 
-AccountInfo::AccountInfo(const QString &uiq, const QString &aiq) :
+AccountInfo::AccountInfo(const QString &uiq, const QString &aiq, const QString &at, const QString &rt) :
     userInfoQuery(uiq),
-    aboutInfoQuery(aiq),
+    aboutInfoQuery(aiq),    
     query(EUserInfoQuery),
     queryStr(userInfoQuery)
 {
+    accountData.accessToken = at;
+    accountData.refreshToken = rt;
 }
 
 void AccountInfo::slotReplyFinished(QNetworkReply*)
@@ -37,7 +39,7 @@ void AccountInfo::setInfo(void)
 {
     DEBUG;
 
-    CommonTools::setHeader(request);
+    CommonTools::setHeader(accountData.accessToken, request);
     request.setRawHeader("Content-Type", "application/json");
 
     getRequest(queryStr);

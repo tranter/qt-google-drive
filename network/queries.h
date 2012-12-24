@@ -12,7 +12,7 @@ public:
     Queries();
 
 public:
-    void setAccountInfo(void);
+    void setAccountInfo(const QString &accessToken, const QString &refreshToken = QString());
 
 signals:
     void signalAccountInfoReadyToUse(void);

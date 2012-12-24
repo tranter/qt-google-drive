@@ -5,11 +5,10 @@
 #include "share/singleton.h"
 #include "network/queries.h"
 #include "network/auth.h"
-#include "gui/forms/authdialog.h"
 
 namespace Ui
 {
- class MainWindow;
+class MainWindow;
 }
 
 class DriveEngine;
@@ -36,11 +35,11 @@ private slots:
     void slotAccessTokenRequired(void);
     void slotAccountInfoReadyToUse(void);
     void slotAuthDialog(void);
-    void  slotAuthResponse(const QString &accessToken);
+    void slotAuthResponse(const QString &accessToken);
+    void slotTokens(const QString &accessToken, const QString &refreshToken);
 
 private:
     Auth *auth;
-    AuthDialog *authDialog;
 };
 
 #endif // MAINWINDOW_H

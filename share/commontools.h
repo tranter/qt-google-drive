@@ -4,11 +4,12 @@
 #include <QNetworkRequest>
 #include <QDateTime>
 #include <QTreeWidget>
+#include <QString>
 
 class CommonTools
 {
 public:
-    static void setHeader(QNetworkRequest &request);
+    static void setHeader(const QString &accessToken, QNetworkRequest &request);
     static void msg(const QString &str, QWidget *parent = 0);
     static int errorMsg(const QString &caption, const QString &text, QWidget *parent = 0);
     static QString convertDate(const QString &dateStr);

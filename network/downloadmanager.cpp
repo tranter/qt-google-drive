@@ -1,5 +1,6 @@
 #include "downloadmanager.h"
 #include "gui/forms/mainwindow.h"
+#include "settings/settingsmanager.h"
 #include "share/debug.h"
 #include "ui_mainwindow.h"
 
@@ -14,7 +15,7 @@ void DownloadFileManager::startDownload(QUrl url, QString& fileName, const QStri
 
     fileType = type;
 
-    CommonTools::setHeader(request);
+    CommonTools::setHeader(SettingsManager().accessToken(), request);
 
     setProgressBarSettings(fileName, tr("Downloading file: "));
 

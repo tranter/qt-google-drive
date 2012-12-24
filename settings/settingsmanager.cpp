@@ -1,5 +1,6 @@
 #include "settingsmanager.h"
 #include "share/defs.h"
+#include "share/enums.h"
 #include "share/debug.h"
 #include <QString>
 #include <QStringList>
@@ -20,13 +21,26 @@ void SettingsManager::writeAccountInfo(AccountInfo::Data &data)
     setValue(QUOTA_BYTES_TOTAL_KEY, data.quotaBytesTotal);
     setValue(QUOTA_BYTES_USED_KEY, data.quotaBytesUsed);
     setValue(QUOTA_BYTES_USED_IN_TRASH_KEY, data.quotaBytesUsedInTrash);
+    setValue(ACCESS_TOKEN_KEY, data.accessToken);
+
+    if(!data.refreshToken.isEmpty())
+    {
+        setValue(REFRESH_TOKEN_KEY, data.refreshToken);
+    }
 
     endGroup();
 }
 
-QString SettingsManager::currentPanel(void)
+int SettingsManager::currentPanel(void)
 {
-    return getValueFromGroup(COMMON_GROUP, CURRENT_PANEL_KEY, LEFT_PANEL_VALUE).toString();
+    int num;
+
+    QString currentPanelVal = getValueFromGroup(COMMON_GROUP, CURRENT_PANEL_KEY, LEFT_PANEL_VALUE).toString();
+
+    if(currentPanelVal == LEFT_PANEL_VALUE) num = 0;
+    if(currentPanelVal == RIGHT_PANEL_VALUE) num = 1;
+
+    return num;
 }
 
 void SettingsManager::setCurrentPanel(const QString &panelName)
@@ -89,24 +103,35 @@ void SettingsManager::setWorkDir(const QString &workDrName)
     setValueInGroup(COMMON_GROUP, WORK_DIR_KEY, workDrName);
 }
 
-void SettingsManager::setAccessToken(const QString &accessToken)
-{
-    setValueInGroup(COMMON_GROUP, ACCESS_TOKEN_KEY, accessToken);
-}
-
 QString SettingsManager::accessToken(void)
 {
-    return getValueFromGroup(COMMON_GROUP, ACCESS_TOKEN_KEY).toString();
-}
-
-void SettingsManager::setRefreshToken(const QString &refreshToken)
-{
-    setValueInGroup(COMMON_GROUP, REFRESH_TOKEN_KEY, refreshToken);
+    QString accountName(currentAccount(currentPanel()));
+    return getValueFromGroup(ACCOUNTS_GROUP + QString("/") + accountName, ACCESS_TOKEN_KEY).toString();
 }
 
 QString SettingsManager::refreshToken(void)
 {
-    return getValueFromGroup(COMMON_GROUP, REFRESH_TOKEN_KEY).toString();
+    QString accountName(currentAccount(currentPanel()));
+    return getValueFromGroup(ACCOUNTS_GROUP + QString("/") + accountName, REFRESH_TOKEN_KEY).toString();
+}
+
+void SettingsManager::setCurrentAccount(int panelNum, const QString &name)
+{
+    setValueInPanelGroup(panelNum, CURRENT_ACCOUNT_KEY, name);
+}
+
+QString SettingsManager::currentAccount(int panelNum)
+{
+    return getValueFromPanelGroup(panelNum, CURRENT_ACCOUNT_KEY).toString();
+}
+
+bool SettingsManager::isAnyAccount(void)
+{
+    beginGroup(ACCOUNTS_GROUP);
+    bool is = childGroups().count() > 0;
+    endGroup();
+
+    return is;
 }
 
 void SettingsManager::setValueInPanelGroup(int panelNum, const QString &key, const QVariant &val)
@@ -149,6 +174,7 @@ bool SettingsManager::exists(const QString &group, const QString &key)
 
     return is;
 }
+
 
 
 

@@ -13,7 +13,7 @@ public:
 
 public:
     void writeAccountInfo(AccountInfo::Data &data);
-    QString currentPanel(void);
+    int currentPanel(void);
     void setCurrentPanel(const QString &panelName);
     void setInitialLoading(bool initLoad);
     void setCurrentFolderPath(int panelNum, const QString &path);
@@ -25,11 +25,12 @@ public:
     bool isWorkDirSet(void);
     QString workDir(void);
     void setWorkDir(const QString &workDrName);
-    void setAccessToken(const QString &accessToken);
     QString accessToken(void);
-    void setRefreshToken(const QString &refreshToken);
     QString refreshToken(void);
     bool initialLoading(void);
+    void setCurrentAccount(int panelNum, const QString &name);
+    QString currentAccount(int panelNum);
+    bool isAnyAccount(void);
 
 private:
     void setValueInPanelGroup(int panelNum, const QString &key, const QVariant &val);

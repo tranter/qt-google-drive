@@ -3,6 +3,7 @@
 #include "core/driveengine.h"
 #include "share/debug.h"
 #include "gui/forms/sharedialog.h"
+#include "settings/settingsmanager.h"
 #include <QStringList>
 
 OperationsManager::OperationsManager(QObject *parent):
@@ -16,7 +17,7 @@ void OperationsManager::deleteFile(const QString &sourceUrl)
 {
     currentOperation = EDelete;
 
-    CommonTools::setHeader(request);
+    CommonTools::setHeader(SettingsManager().accessToken(), request);
     request.setRawHeader("If-Match", "*");
 
     init();
@@ -37,7 +38,7 @@ void OperationsManager::copyWebFile(const ItemInfo::Data &source, const QString 
 
     postData = data.toLatin1();
 
-    CommonTools::setHeader(request);
+    CommonTools::setHeader(SettingsManager().accessToken(), request);
     request.setRawHeader("Content-Type", "application/json");
 
     postRequest(COPY_FILE_FIRST_QUERY_PART + getIDFromURL(source.self) + COPY_FILE_LAST_QUERY_PART);
@@ -57,7 +58,7 @@ void OperationsManager::renameWebFile(const ItemInfo::Data &source, const QStrin
 
     QString data = QString("{\"title\": \"%1\"}").arg(newName);
 
-    CommonTools::setHeader(request);
+    CommonTools::setHeader(SettingsManager().accessToken(), request);
     request.setRawHeader("Content-Type", "application/json");
 
     init();
@@ -77,12 +78,6 @@ void OperationsManager::shareWebFile(const ItemInfo::Data &source)
 //      shareDialog->show();
 }
 
-//void OperationsManager::setProgressBarSettings(const QString &fileName, const QString &progressBarDialogInfoText)
-//{
-//    Q_UNUSED(fileName);
-//    Q_UNUSED(progressBarDialogInfoText);
-//}
-
 void OperationsManager::createFolder(const QString &folderUrl, const QString &name)
 {
     currentOperation = ECreateFolder;
@@ -91,7 +86,7 @@ void OperationsManager::createFolder(const QString &folderUrl, const QString &na
 
     postData = data.toLatin1();
 
-    CommonTools::setHeader(request);
+    CommonTools::setHeader(SettingsManager().accessToken(), request);
     request.setRawHeader("Content-Type", "application/json");
     request.setRawHeader("Content-Length", QByteArray::number(postData.size()));
 

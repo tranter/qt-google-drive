@@ -16,8 +16,8 @@ public:
     explicit AuthDialog(QWidget *parent = 0);
     ~AuthDialog();
 
-//signals:
-//    void signalAuthResponseTEST(void);
+signals:
+    void signalTokens(const QString &accessToken, const QString &refreshToken);
 
 private slots:
     void slotUrlChanged(const QUrl& url);

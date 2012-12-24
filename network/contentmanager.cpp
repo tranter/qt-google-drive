@@ -1,5 +1,6 @@
 #include "contentmanager.h"
 #include "share/commontools.h"
+#include "settings/settingsmanager.h"
 #include "share/debug.h"
 #include <QApplication>
 
@@ -18,7 +19,7 @@ void ContentManager::get(const QString &url)
 {
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
-    CommonTools::setHeader(request);
+    CommonTools::setHeader(SettingsManager().accessToken(), request);
     getRequest(url);
 }
 

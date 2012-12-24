@@ -1,4 +1,5 @@
 #include "uploadmanager.h"
+#include "settings/settingsmanager.h"
 
 UploadFileManager::UploadFileManager(QObject *parent) :
     NetworkManager(parent),
@@ -33,7 +34,7 @@ void UploadFileManager::setUploadSettings(void)
 
     postData = protocol.toLatin1();
 
-    CommonTools::setHeader(request);
+    CommonTools::setHeader(SettingsManager().accessToken(), request);
 
     request.setRawHeader("Content-Length", QString::number(postData.size()).toLatin1());
     request.setRawHeader("Content-Type", "application/atom+xml");

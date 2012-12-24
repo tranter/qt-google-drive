@@ -17,8 +17,8 @@ public:
     ~Auth();
 
 signals:
-    void authResponse(const QString &accessToken);
-    void authResponse(const QString &accessToken, const QString &refreshToken);
+    void signalAuthResponse(const QString &accessToken);
+    void signalAuthResponse(const QString &accessToken, const QString &refreshToken);
 
 protected:
     virtual void postFinishedActions(QNetworkReply* reply);

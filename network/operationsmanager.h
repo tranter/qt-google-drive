@@ -36,9 +36,6 @@ protected slots:
 private slots:
     void slotPutFinished(void);
 
-//protected:
-//    void setProgressBarSettings(const QString &fileName, const QString &progressBarDialogInfoText);
-
 private:
     QString getIDFromURL(const QString &url);
     QUrl getDeleteFileQuery(const QString &url);

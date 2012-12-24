@@ -3,7 +3,6 @@
 #include "ui_mainwindow.h"
 #include "share/registration.h"
 #include "share/defs.h"
-#include "settings/settingsmanager.h"
 #include <QLocale>
 #include <QMessageBox>
 #include <QList>
@@ -11,12 +10,11 @@
 #include <QFileInfo>
 #include "share/debug.h"
 
-void CommonTools::setHeader(QNetworkRequest &request)
+void CommonTools::setHeader(const QString &accessToken, QNetworkRequest &request)
 {
     request.setRawHeader("User-Agent", APP_NAME);
     request.setRawHeader("GData-Version", "3.0");
-    request.setRawHeader("Authorization", QString("Bearer %1").arg(SettingsManager().accessToken()).toLatin1());
-    DEBUG << SettingsManager().accessToken();
+    request.setRawHeader("Authorization", QString("Bearer %1").arg(accessToken).toLatin1());
 }
 
 void CommonTools::msg(const QString &text, QWidget *parent)

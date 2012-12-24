@@ -4,6 +4,7 @@
 #include "share/debug.h"
 #include "share/registration.h"
 #include "settings/settingsmanager.h"
+#include "gui/forms/authdialog.h"
 #include <QTextCodec>
 #include <QKeyEvent>
 #include <QToolButton>
@@ -32,8 +33,6 @@ void MainWindow::init(void)
 
     SDriveEngine::inst(this)->init();
     SDriveEngine::inst()->getCheckUI()->slotCheckWorkDir(false);
-
-    authDialog = new AuthDialog(SUi::inst()->centralWidget);
 
     setConnections();
 
@@ -75,14 +74,20 @@ void MainWindow::setConnections(void)
     connect(SDriveEngine::inst()->getFilesMngr(true)->self(), SIGNAL(signalAccessTokenRequired()), this, SLOT(slotAccessTokenRequired()));
     connect(SDriveEngine::inst()->getFilesMngr(), SIGNAL(signalFirstPanelIsLoaded()), SDriveEngine::inst(), SLOT(slotFirstPanelIsLoaded()));
     connect(SQueries::inst(), SIGNAL(signalAccountInfoReadyToUse()), this, SLOT(slotAccountInfoReadyToUse()));
-    //connect(authDialog, SIGNAL(signalAuthResponseTEST()), this, SLOT(slotLogged()));
 }
 
 void MainWindow::slotAuthDialog(void)
 {
-    AuthDialog authDialog(SUi::inst()->centralWidget);
+    AuthDialog authDialog(SUi::inst()->centralWidget);    
+    connect(&authDialog, SIGNAL(signalTokens(const QString&, const QString&)), this, SLOT(slotTokens(const QString&, const QString&)));
     authDialog.exec();
-    SQueries::inst()->setAccountInfo();
+
+}
+
+void MainWindow::slotTokens(const QString &accessToken, const QString &refreshToken)
+{
+    DEBUG;
+    SQueries::inst()->setAccountInfo(accessToken, refreshToken);
 }
 
 void MainWindow::slotAccountInfoReadyToUse(void)
@@ -92,20 +97,16 @@ void MainWindow::slotAccountInfoReadyToUse(void)
 
 void MainWindow::slotAccessTokenRequired(void)
 {
-    DEBUG;
-    //SDriveEngine::inst()->getOAuth2()->slotGetAccessTokenFromRefreshToken();
-
     auth = new Auth;
     auth->getAccessToken(CLIENT_ID, CLIENT_SECRET, SettingsManager().refreshToken());
-    connect(auth, SIGNAL(authResponse(const QString&)), this, SLOT(slotAuthResponse(const QString&)));
+    connect(auth, SIGNAL(signalAuthResponse(const QString&)), this, SLOT(slotAuthResponse(const QString&)));
 }
 
 void MainWindow::slotAuthResponse(const QString &accessToken)
 {
-    DEBUG << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! accessToken" << accessToken;
-    SettingsManager().setAccessToken(accessToken);
+    //SettingsManager().setAccessToken(accessToken);
     delete auth;
-    SQueries::inst()->setAccountInfo();
+    SQueries::inst()->setAccountInfo(accessToken);
 }
 
 bool MainWindow::eventFilter(QObject *object, QEvent *event)

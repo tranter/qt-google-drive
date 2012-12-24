@@ -20,7 +20,11 @@ void DriveEngine::init(void)
 {
     reset();
     setKeyActions();
-    updatePanel(LEFT_PANEL_VALUE, true);
+
+    if(SettingsManager().isAnyAccount())
+    {
+        updatePanel(LEFT_PANEL_VALUE, true);
+    }
 }
 
 void DriveEngine::reset(void)
@@ -51,7 +55,6 @@ void DriveEngine::reset(void)
     filesUI.reset(new FilesUI);
     foldersMngr.reset(new FoldersManager);
     foldersUI.reset(new FoldersUI);
-    //oAuth2.reset(new OAuth2(parent));
     opUI.reset(new OperationsUI);
     opEventHandler.reset(new EventHandler<OperationsUI>(opUI.data()));
 }
@@ -75,31 +78,19 @@ FilePanel* DriveEngine::getFilePanel(EPanels panel) const
 
 FilesManager* DriveEngine::getFilesMngr(bool opposite) const
 {
-    SettingsManager settingsManager;
     FilesManager* filesManager;
+    EPanels currentPanel = static_cast<EPanels> (SettingsManager().currentPanel());
 
-    if(settingsManager.currentPanel() == LEFT_PANEL_VALUE)
+    if(currentPanel == ELeft)
     {
-        if(opposite)
-        {
-            filesManager = filesMngr[ERight].data();
-        }
-        else
-        {
-            filesManager = filesMngr[ELeft].data();
-        }
+        if(opposite) filesManager = filesMngr[ERight].data();
+        else filesManager = filesMngr[ELeft].data();
     }
 
-    if(settingsManager.currentPanel() == RIGHT_PANEL_VALUE)
+    if(currentPanel == ERight)
     {
-        if(opposite)
-        {
-            filesManager = filesMngr[ELeft].data();
-        }
-        else
-        {
-            filesManager = filesMngr[ERight].data();
-        }
+        if(opposite) filesManager = filesMngr[ELeft].data();
+        else filesManager = filesMngr[ERight].data();
     }
 
     return filesManager;

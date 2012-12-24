@@ -8,14 +8,4 @@ enum EPanels
     EPanelsCount
 };
 
-//enum EElementsStates
-//{
-//    EFoldersTreeViewFocused = 0,
-//    EAFoldersViewFocused,
-//    ELeftViewFocused,
-//    ERightViewFocused,
-//    ETrashFocused,
-//    EElStatesCount
-//};
-
 #endif // ENUMS_H
