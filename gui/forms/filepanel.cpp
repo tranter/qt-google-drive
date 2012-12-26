@@ -1,5 +1,7 @@
 #include "filepanel.h"
 #include "ui_filepanel.h"
+#include "share/debug.h"
+#include  <QApplication>
 
 FilePanel::FilePanel(QWidget *parent) :
     QWidget(parent),
@@ -41,5 +43,20 @@ ToolBar* FilePanel::getAccountsToolBar(void) const
 ComboBox* FilePanel::getAccountsComboBox(void) const
 {
     return accountsComboBox;
+}
+
+void FilePanel::fillComboBox(QMap<QString, QString> accountsMap, int index)
+{
+    QStringList keys(accountsMap.keys());
+
+    for(int i = 0; i < keys.count(); ++i)
+    {
+        QString discLetter(keys[i]);
+
+        discLetter = discLetter.leftJustified(4, ' ');
+
+        accountsComboBox->addItem(discLetter + "[" + accountsMap[keys[i]] + "]");
+        accountsComboBox->setItemIcon(i, QIcon(QApplication::style()->standardIcon(QStyle::QStyle::SP_DriveFDIcon)));
+    }
 }
 

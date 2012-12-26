@@ -11,7 +11,7 @@ void ComboBox::init(int height)
 {
     setFixedHeight(height);
     setCursor(Qt::PointingHandCursor);
-    setMinimumContentsLength(15);
+    setMinimumContentsLength(26);
     setFrame(false);
     setStyleSheet(QString("%1%2%3%4%5%6%7%8%9")
                   .arg("QComboBox {background-color: qlineargradient(spread:pad, x1:1, y1:0.432, x2:1, y2:0, stop:0 rgba(72, 72, 72, 255), stop:1 rgba(154, 154, 154, 255));}")

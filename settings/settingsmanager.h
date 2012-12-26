@@ -33,7 +33,7 @@ public:
     QString currentAccount(int panelNum);
     bool isAnyAccount(void);
     //QString accountLetter(const QString &accountName);
-    QMap <QString, QString> accountsWithLetters(void);
+    QMap<QString, QString> accountsWithLetters(void);
 
 private:
     void setValueInPanelGroup(int panelNum, const QString &key, const QVariant &val);

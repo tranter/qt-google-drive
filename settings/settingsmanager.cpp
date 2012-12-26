@@ -42,11 +42,11 @@ void SettingsManager::writeAccountInfo(AccountInfo::Data &data)
 //    return getValueFromGroup(ACCOUNTS_GROUP + QString("/") + accountName, ACCOUNT_LETTER_KEY, QString("a")).toString();
 //}
 
-QMap <QString, QString> SettingsManager::accountsWithLetters(void)
+QMap<QString, QString> SettingsManager::accountsWithLetters(void)
 {    
     beginGroup(ACCOUNTS_GROUP);
 
-    QMap <QString, QString> accountsMap;
+    QMap<QString, QString> accountsMap;
     QStringList listOfAccounts(childGroups());
 
     foreach(QString account, listOfAccounts)

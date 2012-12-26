@@ -125,8 +125,7 @@ void DriveEngine::updatePanel(int panelNum, bool initLoad)
     filesMngr[panel]->setPanel(treeWidget);
     filesMngr[panel]->get(query);
 
-    //getFilePanel(panel)->getAccountsComboBox()->addItem();
-    DEBUG << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << settingsManager.accountsWithLetters();
+    getFilePanel(panel)->fillComboBox(settingsManager.accountsWithLetters(), 0);
 }
 
 void DriveEngine::slotFirstPanelIsLoaded(void)
