@@ -27,10 +27,10 @@ void ContentManager::slotReplyFinished(QNetworkReply* reply)
 {
     CommonTools::logToFile(QString("ParserReply ") + ".txt", replyStr.toAscii());
 
-    DEBUG << "<===============================================================================================================";
-    DEBUG << "replyStr" << replyStr;
-    DEBUG << "reply" << reply->error() << " " << reply->errorString();
-    DEBUG << "===============================================================================================================>";
+//    DEBUG << "<===============================================================================================================";
+//    DEBUG << "replyStr" << replyStr;
+//    DEBUG << "reply" << reply->error() << " " << reply->errorString();
+//    DEBUG << "===============================================================================================================>";
 
     if(parseReply(replyStr)) DEBUG << "parse OK";
     else DEBUG << "parse not OK";
@@ -52,7 +52,7 @@ bool ContentManager::parseReply(const QString &str)
 
     parser.reset(new XMLParser);
 
-    connect(parser->getXMLHandler(), SIGNAL(signalAllResDownloaded(/*int*/)),this, SLOT(slotResDownloaded(/*int*/)));
+    connect(parser->getXMLHandler(), SIGNAL(signalAllResDownloaded()),this, SLOT(slotResDownloaded()));
 
     source.setData(str.toAscii());
 

@@ -1,8 +1,8 @@
 #include "driveengine.h"
 #include "share/registration.h"
 #include "share/debug.h"
-#include <QMessageBox>
 #include "settings/settingsmanager.h"
+#include <QMessageBox>
 #include <QHBoxLayout>
 #include <QSplitter>
 
@@ -130,7 +130,6 @@ void DriveEngine::updatePanel(int panelNum, bool initLoad)
 
 void DriveEngine::slotFirstPanelIsLoaded(void)
 {
-    DEBUG << "?????????????????????????????????????????";
     updatePanel(RIGHT_PANEL_VALUE, false);
 }
 

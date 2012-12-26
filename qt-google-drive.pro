@@ -46,6 +46,8 @@ SOURCES += gui/operationsui.cpp
 SOURCES += gui/filesui.cpp
 SOURCES += gui/foldersui.cpp
 SOURCES += gui/checkui.cpp
+SOURCES += gui/controls/toolbar.cpp
+SOURCES += gui/controls/combobox.cpp
 
 HEADERS += gui/forms/mainwindow.h
 HEADERS += network/auth.h
@@ -87,6 +89,8 @@ HEADERS += gui/operationsui.h
 HEADERS += gui/filesui.h
 HEADERS += gui/foldersui.h
 HEADERS += gui/checkui.h
+HEADERS += gui/controls/toolbar.h
+HEADERS += gui/controls/combobox.h
 
 FORMS += gui/forms/mainwindow.ui
 FORMS += gui/forms/authdialog.ui

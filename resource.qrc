@@ -10,5 +10,6 @@
         <file alias="logo">res/drive-text-logo-flat.png</file>
         <file alias="trash">res/trash.png</file>
         <file alias="delete">res/edit-delete.png</file>
+        <file alias="downArrow">res/down_arrow.png</file>
     </qresource>
 </RCC>
