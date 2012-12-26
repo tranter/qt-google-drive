@@ -91,11 +91,12 @@ void MainWindow::slotTokens(const QString &accessToken, const QString &refreshTo
 void MainWindow::slotAccountInfoReadyToUse(void)
 {
     SDriveEngine::inst()->updatePanel(LEFT_PANEL_VALUE, true);
+
+
 }
 
 void MainWindow::slotAccessTokenRequired(void)
 {
-    DEBUG << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
     auth = new Auth;
     auth->getAccessToken(CLIENT_ID, CLIENT_SECRET, SettingsManager().refreshToken());
     connect(auth, SIGNAL(signalAuthResponse(const QString&)), this, SLOT(slotAuthResponse(const QString&)));
@@ -103,8 +104,6 @@ void MainWindow::slotAccessTokenRequired(void)
 
 void MainWindow::slotAuthResponse(const QString &accessToken)
 {
-    DEBUG << "-----------------------------------> accessToken" << accessToken;
-
     SQueries::inst()->setAccountInfo(accessToken);
     auth->deleteLater();
 }

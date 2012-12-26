@@ -98,8 +98,6 @@ FilesManager* DriveEngine::getFilesMngr(bool opposite) const
 
 void DriveEngine::updatePanel(int panelNum, bool initLoad)
 {
-    DEBUG;
-
     SettingsManager settingsManager;
     EPanels panel;
     QTreeWidget *treeWidget;
@@ -126,6 +124,9 @@ void DriveEngine::updatePanel(int panelNum, bool initLoad)
 
     filesMngr[panel]->setPanel(treeWidget);
     filesMngr[panel]->get(query);
+
+    //getFilePanel(panel)->getAccountsComboBox()->addItem();
+    DEBUG << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << settingsManager.accountsWithLetters();
 }
 
 void DriveEngine::slotFirstPanelIsLoaded(void)

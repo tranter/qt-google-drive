@@ -4,10 +4,10 @@
 #include "share/debug.h"
 #include "settings/settingsmanager.h"
 //#include <QtAlgorithms>
-#include <QDebug>
 
 FilesManager::FilesManager(QObject *parent):
-    ContentManager(parent)
+    ContentManager(parent),
+    panel(NULL)
 {
 }
 
@@ -15,7 +15,11 @@ FilesManager::~FilesManager()
 {
     DEBUG;
 
-    panel->clear();
+    if(panel && !panel->topLevelItemCount() > 0)
+    {
+        panel->clear();
+    }
+
     pathesURLs.clear();
 }
 

@@ -4,6 +4,7 @@
 #include "settings/accountinfo.h"
 #include <QSettings>
 #include <QVariant>
+#include <QMap>
 
 class SettingsManager : public QSettings
 {
@@ -31,6 +32,8 @@ public:
     void setCurrentAccount(int panelNum, const QString &name);
     QString currentAccount(int panelNum);
     bool isAnyAccount(void);
+    //QString accountLetter(const QString &accountName);
+    QMap <QString, QString> accountsWithLetters(void);
 
 private:
     void setValueInPanelGroup(int panelNum, const QString &key, const QVariant &val);

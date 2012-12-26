@@ -51,7 +51,7 @@
 #define LEFT_PANEL_VALUE 0
 #define RIGHT_PANEL_VALUE 1
 #define CURRENT_ACCOUNT_KEY QString("current account")
-#define ACCOUNT_LETTER_KEY QString("account letter")
+#define ACCOUNT_LETTER_KEY QString("letter")
 #define NAME_KEY QString("name")
 #define DOMAIN_SHARING_POLICY_KEY QString("domainSharingPolicy")
 #define PERMISSION_ID_KEY QString("permissionId")

@@ -1,19 +1,21 @@
 #include "filepanel.h"
 #include "ui_filepanel.h"
-#include "gui/controls/toolbar.h"
-#include "gui/controls/combobox.h"
 
 FilePanel::FilePanel(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::FilePanel)
 {
     ui->setupUi(this);
+    init();
+}
 
-    ToolBar *toolBar = new ToolBar;
-    ui->verticalLayout->insertWidget(0, toolBar);
+void FilePanel::init(void)
+{
+    accountsToolBar = new ToolBar;
+    ui->verticalLayout->insertWidget(0, accountsToolBar);
 
-    ComboBox *comboBox = new ComboBox;
-    toolBar->addWidget(comboBox);
+    accountsComboBox = new ComboBox;
+    accountsToolBar->addWidget(accountsComboBox);
 }
 
 FilePanel::~FilePanel()
@@ -29,5 +31,15 @@ QTreeWidget* FilePanel::getFileView(void) const
 QLabel* FilePanel::getPathLabel(void) const
 {
     return ui->pathLabel;
+}
+
+ToolBar* FilePanel::getAccountsToolBar(void) const
+{
+    return accountsToolBar;
+}
+
+ComboBox* FilePanel::getAccountsComboBox(void) const
+{
+    return accountsComboBox;
 }
 

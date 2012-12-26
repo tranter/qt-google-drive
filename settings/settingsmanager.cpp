@@ -13,9 +13,14 @@ SettingsManager::SettingsManager(QObject *parent) :
 
 void SettingsManager::writeAccountInfo(AccountInfo::Data &data)
 {
-    beginGroup(ACCOUNTS_GROUP + QString("/") + data.email);
+    beginGroup(ACCOUNTS_GROUP);
 
-    setValue(NAME_KEY, data.name);
+    int count = childGroups().count();
+
+    beginGroup(data.email);
+
+    setValue(NAME_KEY, data.name); 
+    setValue(ACCOUNT_LETTER_KEY, QChar('a' + count));
     setValue(DOMAIN_SHARING_POLICY_KEY, data.domainSharingPolicy);
     setValue(PERMISSION_ID_KEY, data.permissionId);
     setValue(QUOTA_BYTES_TOTAL_KEY, data.quotaBytesTotal);
@@ -29,6 +34,34 @@ void SettingsManager::writeAccountInfo(AccountInfo::Data &data)
     }
 
     endGroup();
+    endGroup();
+}
+
+//QString SettingsManager::accountLetter(const QString &accountName)
+//{
+//    return getValueFromGroup(ACCOUNTS_GROUP + QString("/") + accountName, ACCOUNT_LETTER_KEY, QString("a")).toString();
+//}
+
+QMap <QString, QString> SettingsManager::accountsWithLetters(void)
+{    
+    beginGroup(ACCOUNTS_GROUP);
+
+    QMap <QString, QString> accountsMap;
+    QStringList listOfAccounts(childGroups());
+
+    foreach(QString account, listOfAccounts)
+    {
+        beginGroup(account);
+
+        QString letter = value(ACCOUNT_LETTER_KEY, QString("a")).toString();
+        accountsMap[letter] = account;
+
+        endGroup();
+    }
+
+    endGroup();
+
+    return accountsMap;
 }
 
 int SettingsManager::currentPanel(void)
@@ -99,14 +132,12 @@ void SettingsManager::setWorkDir(const QString &workDrName)
 QString SettingsManager::accessToken(void)
 {
     QString accountName(currentAccount(currentPanel()));
-    DEBUG << "==================================>" << accountName << "currentPanel()" << currentPanel() << " accessToken" << getValueFromGroup(ACCOUNTS_GROUP + QString("/") + accountName, ACCESS_TOKEN_KEY).toString();
     return getValueFromGroup(ACCOUNTS_GROUP + QString("/") + accountName, ACCESS_TOKEN_KEY).toString();
 }
 
 QString SettingsManager::refreshToken(void)
 {
     QString accountName(currentAccount(currentPanel()));
-    DEBUG << "==================================>" << accountName << "currentPanel()" << currentPanel() << " refreshToken" << getValueFromGroup(ACCOUNTS_GROUP + QString("/") + accountName, REFRESH_TOKEN_KEY).toString();
     return getValueFromGroup(ACCOUNTS_GROUP + QString("/") + accountName, REFRESH_TOKEN_KEY).toString();
 }
 
