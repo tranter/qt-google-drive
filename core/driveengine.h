@@ -51,11 +51,11 @@ public:
     QWidget* getParent(void) const;
     void init(void);
     FilePanel *getFilePanel(EPanels panel) const;
-    void updatePanel(int panelNum, bool initLoad);
+    void updatePanel(int panelId, bool initLoad);
 
 private slots:
     void slotFirstPanelIsLoaded(void);
-    void slotAccountChanged(int tag, const QString& accountName);
+    void slotAccountChanged(EPanels panelId, const QString& accountName);
 
 private:
     void setKeyActions(void);

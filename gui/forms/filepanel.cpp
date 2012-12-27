@@ -3,10 +3,10 @@
 #include "share/debug.h"
 #include  <QApplication>
 
-FilePanel::FilePanel(int tag, QWidget *parent) :
+FilePanel::FilePanel(EPanels panelNum, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::FilePanel),
-    accountTag(tag)
+    panelId(panelNum)
 {
     ui->setupUi(this);
     init();
@@ -30,7 +30,7 @@ FilePanel::~FilePanel()
 
 void FilePanel::slotCurrentIndexChanged(const QString &text)
 {
-    emit signalAccountChanged(accountTag, text);
+    emit signalAccountChanged(panelId, text);
 }
 
 QTreeWidget* FilePanel::getFileView(void) const
