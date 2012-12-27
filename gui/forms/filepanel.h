@@ -16,8 +16,14 @@ class FilePanel : public QWidget
     Q_OBJECT
 
 public:
-    explicit FilePanel(QWidget *parent = 0);
+    explicit FilePanel(int tag = 0, QWidget *parent = 0);
     ~FilePanel();
+
+signals:
+    void signalAccountChanged(int tag, const QString& accountName);
+
+private slots:
+    void slotCurrentIndexChanged(const QString& text);
 
 public:
     QTreeWidget* getFileView(void) const;
@@ -33,6 +39,7 @@ private:
     Ui::FilePanel *ui;
     ToolBar *accountsToolBar;
     ComboBox *accountsComboBox;
+    int accountTag;
 };
 
 #endif // FILEPANEL_H

@@ -40,16 +40,16 @@ void DriveEngine::reset(void)
     QHBoxLayout *hBoxLayout = new QHBoxLayout(SUi::inst()->panelsWidget);
     QSplitter *hSplitter = new QSplitter(Qt::Horizontal, SUi::inst()->panelsWidget);
 
-    filesViewLeft = new FilePanel;
-    filesViewRight = new FilePanel;
+    filesViews[ELeft] = new FilePanel(ELeft);
+    filesViews[ERight] = new FilePanel(ERight);
 
     hBoxLayout->setContentsMargins(0, 0, 0, 0);
     hBoxLayout->addWidget(hSplitter);
 
     hSplitter->setHandleWidth(1);
 
-    hSplitter->addWidget(filesViewLeft);
-    hSplitter->addWidget(filesViewRight);
+    hSplitter->addWidget(filesViews[ELeft]);
+    hSplitter->addWidget(filesViews[ERight]);
 
     filesTransferUI.reset(new FilesTransferUI);
     filesUI.reset(new FilesUI);
@@ -57,6 +57,9 @@ void DriveEngine::reset(void)
     foldersUI.reset(new FoldersUI);
     opUI.reset(new OperationsUI);
     opEventHandler.reset(new EventHandler<OperationsUI>(opUI.data()));
+
+    connect(filesViews[ELeft], SIGNAL(signalAccountChanged(int, const QString&)), SLOT(slotAccountChanged(int, const QString&)));
+    connect(filesViews[ERight], SIGNAL(signalAccountChanged(int, const QString&)), SLOT(slotAccountChanged(int, const QString&)));
 }
 
 FilePanel* DriveEngine::getFilePanel(EPanels panel) const
@@ -65,12 +68,12 @@ FilePanel* DriveEngine::getFilePanel(EPanels panel) const
 
     if(panel == ELeft)
     {
-        filePanel = filesViewLeft;
+        filePanel = filesViews[ELeft];
     }
 
     if(panel == ERight)
     {
-        filePanel = filesViewRight;
+        filePanel = filesViews[ERight];
     }
 
     return filePanel;
@@ -106,16 +109,16 @@ void DriveEngine::updatePanel(int panelNum, bool initLoad)
     settingsManager.setInitialLoading(initLoad);
     settingsManager.setCurrentPanel(panelNum);
 
-    if (panelNum == RIGHT_PANEL_VALUE)
-    {
-        panel = ERight;
-        treeWidget = filesViewRight->getFileView();
-    }
-
     if (panelNum == LEFT_PANEL_VALUE)
     {
         panel = ELeft;
-        treeWidget = filesViewLeft->getFileView();
+        treeWidget = filesViews[ELeft]->getFileView();
+    }
+
+    if (panelNum == RIGHT_PANEL_VALUE)
+    {
+        panel = ERight;
+        treeWidget = filesViews[ERight]->getFileView();
     }
 
     filesUI->getPanelLabel(panel)->setText(settingsManager.currentFolderPath(panelNum));
@@ -131,6 +134,11 @@ void DriveEngine::updatePanel(int panelNum, bool initLoad)
 void DriveEngine::slotFirstPanelIsLoaded(void)
 {
     updatePanel(RIGHT_PANEL_VALUE, false);
+}
+
+void DriveEngine::slotAccountChanged(int tag, const QString &accountName)
+{
+    DEBUG << "tag" << tag << " accountName" << accountName;
 }
 
 void DriveEngine::setKeyActions(void)

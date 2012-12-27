@@ -55,6 +55,7 @@ public:
 
 private slots:
     void slotFirstPanelIsLoaded(void);
+    void slotAccountChanged(int tag, const QString& accountName);
 
 private:
     void setKeyActions(void);
@@ -73,8 +74,8 @@ private:
     QScopedPointer<FoldersUI> foldersUI;
     QScopedPointer<OperationsUI> opUI;
     QScopedPointer<UploadFileManager> uploadFileMngr;
-    FilePanel *filesViewLeft;
-    FilePanel *filesViewRight;
+    FilePanel *filesViews[EPanelsCount];
+    //FilePanel *filesViewRight;
 };
 
 typedef TSingleton<DriveEngine> SDriveEngine;

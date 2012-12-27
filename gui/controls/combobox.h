@@ -6,10 +6,10 @@
 class ComboBox : public QComboBox
 {
 public:
-    ComboBox(const int height = 24,  QWidget *parent = 0);
+    ComboBox(int width, int height = 24, QWidget *parent = 0);
 
 public:
-    void init(const int height);
+    void init(int width, int height);
 };
 
 #endif // COMBOBOX_H

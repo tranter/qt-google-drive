@@ -19,8 +19,7 @@ void SettingsManager::writeAccountInfo(AccountInfo::Data &data)
 
     beginGroup(data.email);
 
-    setValue(NAME_KEY, data.name); 
-    setValue(ACCOUNT_LETTER_KEY, QChar('a' + count));
+    setValue(NAME_KEY, data.name);
     setValue(DOMAIN_SHARING_POLICY_KEY, data.domainSharingPolicy);
     setValue(PERMISSION_ID_KEY, data.permissionId);
     setValue(QUOTA_BYTES_TOTAL_KEY, data.quotaBytesTotal);
@@ -31,6 +30,11 @@ void SettingsManager::writeAccountInfo(AccountInfo::Data &data)
     if(!data.refreshToken.isEmpty())
     {
         setValue(REFRESH_TOKEN_KEY, data.refreshToken);
+    }
+
+    if(!contains(ACCOUNT_LETTER_KEY))
+    {
+        setValue(ACCOUNT_LETTER_KEY, QChar('a' + count));
     }
 
     endGroup();
