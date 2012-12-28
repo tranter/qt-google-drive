@@ -23,7 +23,7 @@ signals:
     void signalAccountChanged(int panelNum, const QString& accountName);
 
 private slots:
-    void slotCurrentIndexChanged(const QString& text);
+    void slotActivated(const QString& text);
 
 public:
     QTreeWidget* getFileView(void) const;

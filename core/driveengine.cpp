@@ -131,11 +131,13 @@ void DriveEngine::slotFirstPanelIsLoaded(void)
 
 void DriveEngine::slotAccountChanged(int panelNum, const QString &accountName)
 {
-    DEBUG << "panelId" << panelNum << " accountName" << accountName;
+    SettingsManager settingsManager;
 
-//    SettingsManager settingsManager;
-
-//    settingsManager.setCurrentAccount(panelNum, accountName);
+    if(settingsManager.currentAccount(panelNum) != accountName)
+    {
+        settingsManager.setCurrentAccount(panelNum, accountName);
+        updatePanel(panelNum, false);
+    }
 }
 
 void DriveEngine::setKeyActions(void)

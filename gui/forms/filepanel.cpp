@@ -21,7 +21,7 @@ void FilePanel::init(void)
     accountsComboBox = new ComboBox(26);
     accountsToolBar->addWidget(accountsComboBox);
 
-    connect(accountsComboBox, SIGNAL(currentIndexChanged(const QString&)), SLOT(slotCurrentIndexChanged(const QString&)));
+    connect(accountsComboBox, SIGNAL(activated(const QString&)), SLOT(slotActivated(const QString&)));
 }
 
 FilePanel::~FilePanel()
@@ -29,7 +29,7 @@ FilePanel::~FilePanel()
     delete ui;
 }
 
-void FilePanel::slotCurrentIndexChanged(const QString &text)
+void FilePanel::slotActivated(const QString &text)
 {
     int beginPos = text.indexOf(ACCOUNT_SEPARATOR_BEGIN) + 1;
     int length = text.lastIndexOf(ACCOUNT_SEPARATOR_END) - beginPos;
@@ -73,7 +73,7 @@ void FilePanel::fillComboBox(QMap<QString, QString> accountsMap, const QString &
         accountsComboBox->addItem(discLetter + ACCOUNT_SEPARATOR_BEGIN + accountsMap[keys[i]] + ACCOUNT_SEPARATOR_END);
         accountsComboBox->setItemIcon(i, QIcon(QApplication::style()->standardIcon(QStyle::QStyle::SP_DriveFDIcon)));
 
-        if(currentAccount == accountsMap[keys[i]])
+        if(currentAccount == accountsMap[keys[i]] && accountsComboBox->currentIndex() != i)
         {
           accountsComboBox->setCurrentIndex(i);
         }
