@@ -60,6 +60,10 @@
 #define QUOTA_BYTES_TOTAL_KEY QString("quotaBytesTotal")
 #define QUOTA_BYTES_USED_KEY QString("quotaBytesUsed")
 #define QUOTA_BYTES_USED_IN_TRASH_KEY QString("quotaBytesUsedInTrash")
+#define SCOPE_KEY QString("scope")
+#define CLIENT_ID_KEY QString("clientId")
+#define CLIENT_SECRET_KEY QString("clientSecret")
+#define REDIRECT_URI_KEY QString("redirectUri")
 
 #define PARENT_FOLDER_SIGN QString("[..]")
 

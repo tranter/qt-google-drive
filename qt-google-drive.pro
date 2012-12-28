@@ -60,7 +60,6 @@ HEADERS += gui/forms/filepanel.h
 HEADERS += gui/forms/drivetree.h
 HEADERS += gui/forms/additionalfolders.h
 HEADERS += gui/forms/sharedialog.h
-HEADERS += share/registration.h
 HEADERS += share/defs.h
 HEADERS += share/debug.h
 HEADERS += share/enums.h

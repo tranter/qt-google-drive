@@ -1,5 +1,4 @@
 #include "filesmanager.h"
-#include "share/registration.h"
 #include "core/driveengine.h"
 #include "share/debug.h"
 #include "settings/settingsmanager.h"

@@ -1,5 +1,4 @@
 #include "driveengine.h"
-#include "share/registration.h"
 #include "share/debug.h"
 #include "settings/settingsmanager.h"
 #include <QMessageBox>

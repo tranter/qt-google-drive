@@ -1,8 +1,8 @@
 #include "commontools.h"
 #include "gui/forms/mainwindow.h"
 #include "ui_mainwindow.h"
-#include "share/registration.h"
 #include "share/defs.h"
+#include "settings/settingsmanager.h"
 #include <QLocale>
 #include <QMessageBox>
 #include <QList>
@@ -12,7 +12,7 @@
 
 void CommonTools::setHeader(const QString &accessToken, QNetworkRequest &request)
 {
-    request.setRawHeader("User-Agent", APP_NAME);
+    request.setRawHeader("User-Agent", SettingsManager().applicationName().toAscii());
     request.setRawHeader("GData-Version", "3.0");
     request.setRawHeader("Authorization", QString("Bearer %1").arg(accessToken).toLatin1());
 }

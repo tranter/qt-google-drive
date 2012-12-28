@@ -1,6 +1,5 @@
 #include "queries.h"
 #include "share/defs.h"
-#include "share/registration.h"
 #include "settings/settingsmanager.h"
 #include "share/enums.h"
 #include "share/debug.h"

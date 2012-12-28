@@ -36,6 +36,11 @@ public:
     QMap<QString, QString> accountsWithLetters(void);
     void setValueForCurrentPanel(int panelNum, const QString &key, const QVariant &val);
     QVariant getValueForCurrentPanel(int panelNum, const QString &key, const QVariant &defaultVal = QVariant());
+    void writeRegistration(const QString &scope, const QString &clientId, const QString &clientSecret, const QString &redirectUri);
+    QString scope(void);
+    QString clientId(void);
+    QString clientSecret(void);
+    QString redirectUri(void);
 
 private:
     void setValueInPanelGroup(int panelNum, const QString &key, const QVariant &val);

@@ -1,7 +1,6 @@
 #include "auth.h"
 #include "parsers/jsonparser.h"
 #include "share/debug.h"
-#include "share/registration.h"
 
 Auth::Auth(QObject *parent) :
     NetworkManager(parent)

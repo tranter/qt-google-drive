@@ -1,7 +1,6 @@
 #include "settings/settingsmanager.h"
 #include <QDir>
 #include "filesui.h"
-#include "share/registration.h"
 #include "share/debug.h"
 
 FilesUI::FilesUI(QObject *parent) :

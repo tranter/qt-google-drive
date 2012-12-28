@@ -2,7 +2,6 @@
 #include "ui_mainwindow.h"
 #include "core/driveengine.h"
 #include "share/debug.h"
-#include "share/registration.h"
 #include "settings/settingsmanager.h"
 #include "gui/forms/authdialog.h"
 #include <QTextCodec>
@@ -13,7 +12,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
     SUi::inst()->setupUi(this);
-
 }
 
 MainWindow::~MainWindow()
@@ -25,12 +23,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::init(void)
 {
-    if(!CheckUI().checkReg())
-    {
-        CommonTools::msg(tr("You need to register the application in <a href=\"https://code.google.com/apis/console/\">API Console - Google Code</a>"));
-        return;
-    }
-
     SDriveEngine::inst(this)->init();
     SDriveEngine::inst()->getCheckUI()->slotCheckWorkDir(false);
 
@@ -47,6 +39,12 @@ void MainWindow::init(void)
 
     SDriveEngine::inst()->getFilePanel(ELeft)->getFileView()->header()->resizeSection(0, 250);
     SDriveEngine::inst()->getFilePanel(ERight)->getFileView()->header()->resizeSection(0, 250);
+
+    if(!CheckUI().checkReg())
+    {
+        CommonTools::msg(tr("The application under development. No commercial use allowed."));
+        return;
+    }
 }
 
 void MainWindow::setConnections(void)
@@ -95,8 +93,10 @@ void MainWindow::slotAccountInfoReadyToUse(void)
 
 void MainWindow::slotAccessTokenRequired(void)
 {
+    SettingsManager settingsManager;
+
     auth = new Auth;
-    auth->getAccessToken(CLIENT_ID, CLIENT_SECRET, SettingsManager().refreshToken());
+    auth->getAccessToken(settingsManager.clientId(), settingsManager.clientSecret(), settingsManager.refreshToken());
     connect(auth, SIGNAL(signalAuthResponse(const QString&)), this, SLOT(slotAuthResponse(const QString&)));
 }
 

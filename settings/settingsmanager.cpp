@@ -110,7 +110,7 @@ QString SettingsManager::currentFolderURL(int panelNum)
 
 void SettingsManager::setPathesURLs(int panelNum, QStringList pathes)
 {
-     setValueForCurrentPanel(panelNum, PATHES_URLS_KEY, pathes);
+    setValueForCurrentPanel(panelNum, PATHES_URLS_KEY, pathes);
 }
 
 QStringList SettingsManager::pathesURLs(int panelNum)
@@ -165,6 +165,34 @@ void SettingsManager::setCurrentAccount(int panelNum, const QString &name)
 QString SettingsManager::currentAccount(int panelNum)
 {
     return getValueFromPanelGroup(panelNum, CURRENT_ACCOUNT_KEY).toString();
+}
+
+void SettingsManager::writeRegistration(const QString &scope, const QString &clientId, const QString &clientSecret, const QString &redirectUri)
+{
+    setValueInGroup(COMMON_GROUP, SCOPE_KEY, scope);
+    setValueInGroup(COMMON_GROUP, CLIENT_ID_KEY, clientId);
+    setValueInGroup(COMMON_GROUP, CLIENT_SECRET_KEY, clientSecret);
+    setValueInGroup(COMMON_GROUP, REDIRECT_URI_KEY, redirectUri);
+}
+
+QString SettingsManager::scope(void)
+{
+    return getValueFromGroup(COMMON_GROUP, SCOPE_KEY).toString();
+}
+
+QString SettingsManager::clientId(void)
+{
+    return getValueFromGroup(COMMON_GROUP, CLIENT_ID_KEY).toString();
+}
+
+QString SettingsManager::clientSecret(void)
+{
+    return getValueFromGroup(COMMON_GROUP, CLIENT_SECRET_KEY).toString();
+}
+
+QString SettingsManager::redirectUri(void)
+{
+    return getValueFromGroup(COMMON_GROUP, REDIRECT_URI_KEY).toString();
 }
 
 bool SettingsManager::isAnyAccount(void)

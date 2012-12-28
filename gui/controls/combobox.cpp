@@ -23,6 +23,7 @@ void ComboBox::hidePopup(void)
 
 void ComboBox::init(void)
 {
+    setMaximumWidth(290);
     setCursor(Qt::PointingHandCursor);
     setFrame(false);
 
