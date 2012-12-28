@@ -5,6 +5,7 @@
 #include <QMessageBox>
 #include <QHBoxLayout>
 #include <QSplitter>
+#include <QDir>
 
 DriveEngine::DriveEngine(QObject *parent) :
     QObject(parent)
@@ -58,8 +59,8 @@ void DriveEngine::reset(void)
     opUI.reset(new OperationsUI);
     opEventHandler.reset(new EventHandler<OperationsUI>(opUI.data()));
 
-    connect(filesViews[ELeft], SIGNAL(signalAccountChanged(EPanels, const QString&)), SLOT(slotAccountChanged(EPanels, const QString&)));
-    connect(filesViews[ERight], SIGNAL(signalAccountChanged(EPanels, const QString&)), SLOT(slotAccountChanged(EPanels, const QString&)));
+    connect(filesViews[ELeft], SIGNAL(signalAccountChanged(int, const QString&)), SLOT(slotAccountChanged(int, const QString&)));
+    connect(filesViews[ERight], SIGNAL(signalAccountChanged(int, const QString&)), SLOT(slotAccountChanged(int, const QString&)));
 }
 
 FilePanel* DriveEngine::getFilePanel(EPanels panel) const
@@ -104,16 +105,21 @@ void DriveEngine::updatePanel(int panelNum, bool initLoad)
     SettingsManager settingsManager;
     EPanels panelId = static_cast <EPanels> (panelNum);
     QString query;
+    QString drive;
 
     settingsManager.setInitialLoading(initLoad);
     settingsManager.setCurrentPanel(panelNum);
 
-    filesUI->getPanelLabel(panelId)->setText(settingsManager.currentFolderPath(panelId));
-    query = settingsManager.currentFolderURL(panelId);
-    getFilesMngr()->setPathesURLs(settingsManager.pathesURLs(panelId));
+    drive = settingsManager.accountLetter(settingsManager.currentAccount(panelNum));
+    drive += QString(":");
+    drive += QDir::toNativeSeparators("/");
 
-    filesMngr[panelId]->setPanel(filesViews[panelId]->getFileView());
-    filesMngr[panelId]->get(query);
+    filesUI->getPanelLabel(panelId)->setText(drive + settingsManager.currentFolderPath(panelNum));
+    query = settingsManager.currentFolderURL(panelNum);
+    getFilesMngr()->setPathesURLs(settingsManager.pathesURLs(panelNum));
+
+    filesMngr[panelNum]->setPanel(filesViews[panelNum]->getFileView());
+    filesMngr[panelNum]->get(query);
 
     getFilePanel(panelId)->fillComboBox(settingsManager.accountsWithLetters(), 0);
 }
@@ -123,9 +129,13 @@ void DriveEngine::slotFirstPanelIsLoaded(void)
     updatePanel(RIGHT_PANEL_VALUE, false);
 }
 
-void DriveEngine::slotAccountChanged(EPanels panelId, const QString &accountName)
+void DriveEngine::slotAccountChanged(int panelNum, const QString &accountName)
 {
-    DEBUG << "panelId" << panelId << " accountName" << accountName;
+    DEBUG << "panelId" << panelNum << " accountName" << accountName;
+
+//    SettingsManager settingsManager;
+
+//    settingsManager.setCurrentAccount(panelNum, accountName);
 }
 
 void DriveEngine::setKeyActions(void)

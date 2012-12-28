@@ -1,12 +1,13 @@
 #include "filepanel.h"
 #include "ui_filepanel.h"
+#include "share/defs.h"
 #include "share/debug.h"
 #include  <QApplication>
 
-FilePanel::FilePanel(EPanels panelNum, QWidget *parent) :
+FilePanel::FilePanel(int pn, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::FilePanel),
-    panelId(panelNum)
+    panelNum(pn)
 {
     ui->setupUi(this);
     init();
@@ -30,7 +31,10 @@ FilePanel::~FilePanel()
 
 void FilePanel::slotCurrentIndexChanged(const QString &text)
 {
-    emit signalAccountChanged(panelId, text);
+    int beginPos = text.indexOf(ACCOUNT_SEPARATOR_BEGIN) + 1;
+    int length = text.lastIndexOf(ACCOUNT_SEPARATOR_END) - beginPos;
+
+    emit signalAccountChanged(panelNum, text.mid(beginPos, length));
 }
 
 QTreeWidget* FilePanel::getFileView(void) const
@@ -66,7 +70,7 @@ void FilePanel::fillComboBox(QMap<QString, QString> accountsMap, int index)
         discLetter = discLetter.rightJustified(2,' ');
         discLetter = discLetter.leftJustified(6, ' ');
 
-        accountsComboBox->addItem(discLetter + "[" + accountsMap[keys[i]] + "]");
+        accountsComboBox->addItem(discLetter + ACCOUNT_SEPARATOR_BEGIN + accountsMap[keys[i]] + ACCOUNT_SEPARATOR_END);
         accountsComboBox->setItemIcon(i, QIcon(QApplication::style()->standardIcon(QStyle::QStyle::SP_DriveFDIcon)));
     }
 

@@ -55,7 +55,7 @@ public:
 
 private slots:
     void slotFirstPanelIsLoaded(void);
-    void slotAccountChanged(EPanels panelId, const QString& accountName);
+    void slotAccountChanged(int panelNum, const QString& accountName);
 
 private:
     void setKeyActions(void);

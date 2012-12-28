@@ -6,7 +6,6 @@
 #include <QLabel>
 #include "gui/controls/toolbar.h"
 #include "gui/controls/combobox.h"
-#include "share/enums.h"
 
 namespace Ui {
 class FilePanel;
@@ -17,11 +16,11 @@ class FilePanel : public QWidget
     Q_OBJECT
 
 public:
-    explicit FilePanel(EPanels panelNum, QWidget *parent = 0);
+    explicit FilePanel(int pn, QWidget *parent = 0);
     ~FilePanel();
 
 signals:
-    void signalAccountChanged(EPanels panelId, const QString& accountName);
+    void signalAccountChanged(int panelNum, const QString& accountName);
 
 private slots:
     void slotCurrentIndexChanged(const QString& text);
@@ -40,7 +39,7 @@ private:
     Ui::FilePanel *ui;
     ToolBar *accountsToolBar;
     ComboBox *accountsComboBox;
-    EPanels panelId;
+    int panelNum;
 };
 
 #endif // FILEPANEL_H

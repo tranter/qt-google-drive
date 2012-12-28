@@ -7,6 +7,12 @@ ComboBox::ComboBox(int width, int height, QWidget *parent):
     init(width, height);
 }
 
+void ComboBox::hidePopup()
+{
+    QComboBox::hidePopup();
+    QComboBox::clearFocus();
+}
+
 void ComboBox::init(int width, int height)
 {
     setFixedHeight(height);

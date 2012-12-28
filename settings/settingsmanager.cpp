@@ -41,23 +41,23 @@ void SettingsManager::writeAccountInfo(AccountInfo::Data &data)
     endGroup();
 }
 
-//QString SettingsManager::accountLetter(const QString &accountName)
-//{
-//    return getValueFromGroup(ACCOUNTS_GROUP + QString("/") + accountName, ACCOUNT_LETTER_KEY, QString("a")).toString();
-//}
+QString SettingsManager::accountLetter(const QString &accountName)
+{
+    return getValueFromGroup(ACCOUNTS_GROUP + QString("/") + accountName, ACCOUNT_LETTER_KEY, QString("a")).toString();
+}
 
 QMap<QString, QString> SettingsManager::accountsWithLetters(void)
 {    
     beginGroup(ACCOUNTS_GROUP);
 
     QMap<QString, QString> accountsMap;
-    QStringList listOfAccounts(childGroups());
+    QStringList accountsList(childGroups());
 
-    foreach(QString account, listOfAccounts)
+    foreach(QString account, accountsList)
     {
         beginGroup(account);
 
-        QString letter = value(ACCOUNT_LETTER_KEY, QString("a")).toString();
+        QString letter = value(ACCOUNT_LETTER_KEY).toString();
         accountsMap[letter] = account;
 
         endGroup();
@@ -90,33 +90,52 @@ bool SettingsManager::initialLoading(void)
 
 void SettingsManager::setCurrentFolderPath(int panelNum, const QString &path)
 {
-    setValueInPanelGroup(panelNum, CURRENT_FOLDER_PATH_KEY, path);
+    setValueForCurrentPanel(panelNum, CURRENT_FOLDER_PATH_KEY, path);
 }
 
 QString SettingsManager::currentFolderPath(int panelNum)
 {
-    return getValueFromPanelGroup(panelNum, CURRENT_FOLDER_PATH_KEY, QString("a:") + QDir::toNativeSeparators("/")).toString();
+    return getValueForCurrentPanel(panelNum, CURRENT_FOLDER_PATH_KEY).toString();
 }
 
 void SettingsManager::setCurrentFolderURL(int panelNum, const QString &url)
 {
-    setValueInPanelGroup(panelNum, CURRENT_FOLDER_URL_KEY, url);
+    setValueForCurrentPanel(panelNum, CURRENT_FOLDER_URL_KEY, url);
 }
 
 QString SettingsManager::currentFolderURL(int panelNum)
 {
-    return getValueFromPanelGroup(panelNum, CURRENT_FOLDER_URL_KEY, GET_FULL_ROOT_CONTENT).toString();
+    return getValueForCurrentPanel(panelNum, CURRENT_FOLDER_URL_KEY, GET_FULL_ROOT_CONTENT).toString();
 }
 
 void SettingsManager::setPathesURLs(int panelNum, QStringList pathes)
 {
-    setValueInPanelGroup(panelNum, PATHES_URLS_KEY, pathes);
+     setValueForCurrentPanel(panelNum, PATHES_URLS_KEY, pathes);
 }
 
 QStringList SettingsManager::pathesURLs(int panelNum)
 {
-    return getValueFromPanelGroup(panelNum, PATHES_URLS_KEY).toStringList();
+    return getValueForCurrentPanel(panelNum, PATHES_URLS_KEY).toStringList();
 }
+
+void SettingsManager::setValueForCurrentPanel(int panelNum, const QString &key, const QVariant &val)
+{
+    QString accountGroup(ACCOUNTS_GROUP + QString("/") + currentAccount(currentPanel()));
+    setValueInGroup(accountGroup, key + QString::number(panelNum), val);
+}
+
+QVariant SettingsManager::getValueForCurrentPanel(int panelNum, const QString &key, const QVariant &defaultVal)
+{
+    QString accountGroup(ACCOUNTS_GROUP + QString("/") + currentAccount(currentPanel()));
+    return getValueFromGroup(accountGroup, key + QString::number(panelNum), defaultVal);
+}
+
+
+
+
+
+
+
 
 bool SettingsManager::isWorkDirSet(void)
 {
@@ -135,14 +154,14 @@ void SettingsManager::setWorkDir(const QString &workDrName)
 
 QString SettingsManager::accessToken(void)
 {
-    QString accountName(currentAccount(currentPanel()));
-    return getValueFromGroup(ACCOUNTS_GROUP + QString("/") + accountName, ACCESS_TOKEN_KEY).toString();
+    QString accountGroup(ACCOUNTS_GROUP + QString("/") + currentAccount(currentPanel()));
+    return getValueFromGroup(accountGroup, ACCESS_TOKEN_KEY).toString();
 }
 
 QString SettingsManager::refreshToken(void)
 {
-    QString accountName(currentAccount(currentPanel()));
-    return getValueFromGroup(ACCOUNTS_GROUP + QString("/") + accountName, REFRESH_TOKEN_KEY).toString();
+    QString accountGroup(ACCOUNTS_GROUP + QString("/") + currentAccount(currentPanel()));
+    return getValueFromGroup(accountGroup, REFRESH_TOKEN_KEY).toString();
 }
 
 void SettingsManager::setCurrentAccount(int panelNum, const QString &name)

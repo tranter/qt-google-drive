@@ -32,8 +32,10 @@ public:
     void setCurrentAccount(int panelNum, const QString &name);
     QString currentAccount(int panelNum);
     bool isAnyAccount(void);
-    //QString accountLetter(const QString &accountName);
+    QString accountLetter(const QString &accountName);
     QMap<QString, QString> accountsWithLetters(void);
+    void setValueForCurrentPanel(int panelNum, const QString &key, const QVariant &val);
+    QVariant getValueForCurrentPanel(int panelNum, const QString &key, const QVariant &defaultVal = QVariant());
 
 private:
     void setValueInPanelGroup(int panelNum, const QString &key, const QVariant &val);

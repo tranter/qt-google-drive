@@ -99,7 +99,12 @@ void FilesUI::setCurrentPanelState(EPanels panel, const QString &url)
     int panelNum = static_cast <int> (panel);
 
     settingsManager.setCurrentFolderURL(panelNum, url);
-    settingsManager.setCurrentFolderPath(panelNum, getPanelLabel(panel)->text());
+
+    QString fullPath(getPanelLabel(panel)->text());
+    int beginPos = fullPath.indexOf(QDir::toNativeSeparators("/")) + 1;
+    int length = fullPath.length() - beginPos;
+
+    settingsManager.setCurrentFolderPath(panelNum, fullPath.mid(beginPos, length));
     settingsManager.setPathesURLs(panelNum, SDriveEngine::inst()->getFilesMngr()->getPathesURLs());
 }
 
