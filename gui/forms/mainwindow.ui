@@ -270,17 +270,7 @@ width: 16px;</string>
     </property>
     <addaction name="actionSettings"/>
    </widget>
-   <widget class="QMenu" name="menuActions">
-    <property name="title">
-     <string>Actions</string>
-    </property>
-    <addaction name="actionDownload"/>
-    <addaction name="actionUpload"/>
-    <addaction name="actionNewFolder"/>
-    <addaction name="actionDelete"/>
-   </widget>
    <addaction name="menuFile"/>
-   <addaction name="menuActions"/>
    <addaction name="menuOptions"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">

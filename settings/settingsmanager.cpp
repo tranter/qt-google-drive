@@ -130,13 +130,6 @@ QVariant SettingsManager::getValueForCurrentPanel(int panelNum, const QString &k
     return getValueFromGroup(accountGroup, key + QString::number(panelNum), defaultVal);
 }
 
-
-
-
-
-
-
-
 bool SettingsManager::isWorkDirSet(void)
 {
     return exists(COMMON_GROUP, WORK_DIR_KEY);
