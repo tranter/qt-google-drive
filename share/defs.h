@@ -36,8 +36,8 @@
 #define FOLDER_TYPE_STR QString("folder")
 #define FILE_TYPE_STR QString("file")
 #define CONTENT QString("content")
-#define ACCOUNT_SEPARATOR_BEGIN QString("[")
-#define ACCOUNT_SEPARATOR_END QString("]")
+#define ACCOUNT_SEPARATOR_BEGIN QString("[ ")
+#define ACCOUNT_SEPARATOR_END QString(" ]")
 
 #define ACCOUNTS_GROUP QString("Accounts")
 #define COMMON_GROUP QString("Common")

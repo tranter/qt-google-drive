@@ -18,7 +18,7 @@ void FilePanel::init(void)
     accountsToolBar = new ToolBar;
     ui->verticalLayout->insertWidget(0, accountsToolBar);
 
-    accountsComboBox = new ComboBox(26);
+    accountsComboBox = new ComboBox;
     accountsToolBar->addWidget(accountsComboBox);
 
     connect(accountsComboBox, SIGNAL(activated(const QString&)), SLOT(slotActivated(const QString&)));
@@ -31,7 +31,7 @@ FilePanel::~FilePanel()
 
 void FilePanel::slotActivated(const QString &text)
 {
-    int beginPos = text.indexOf(ACCOUNT_SEPARATOR_BEGIN) + 1;
+    int beginPos = text.indexOf(ACCOUNT_SEPARATOR_BEGIN) + ACCOUNT_SEPARATOR_BEGIN.length();
     int length = text.lastIndexOf(ACCOUNT_SEPARATOR_END) - beginPos;
 
     emit signalAccountChanged(panelNum, text.mid(beginPos, length));
@@ -78,5 +78,7 @@ void FilePanel::fillComboBox(QMap<QString, QString> accountsMap, const QString &
           accountsComboBox->setCurrentIndex(i);
         }
     }  
+
+     accountsComboBox->setMinimumWidth(80);
 }
 

@@ -1,26 +1,31 @@
 #include "combobox.h"
 #include "share/debug.h"
 
-ComboBox::ComboBox(int width, int height, QWidget *parent):
-    QComboBox(parent)
+ComboBox::ComboBox(int w, int h, QWidget *parent):
+    QComboBox(parent),
+    width(w),
+    height(h)
 {
-    init(width, height);
+    init();
 }
 
-void ComboBox::hidePopup()
+void ComboBox::resizeEvent(QResizeEvent * e)
+{
+    setGeometry(0, 1, width, height);
+    QComboBox:: resizeEvent(e);
+}
+
+void ComboBox::hidePopup(void)
 {
     QComboBox::hidePopup();
     QComboBox::clearFocus();
 }
 
-void ComboBox::init(int width, int height)
+void ComboBox::init(void)
 {
-    setFixedHeight(height);
     setCursor(Qt::PointingHandCursor);
-    setMinimumContentsLength(width);
-    //setGeometry(QRect(0, 0 , 480, height));
-   // setMinimumWidth(180);
     setFrame(false);
+
     setStyleSheet(QString("%1%2%3%4%5%6%7%8%9")
                   .arg("QComboBox {background-color: qlineargradient(spread:pad, x1:1, y1:0.432, x2:1, y2:0, stop:0 rgba(72, 72, 72, 255), stop:1 rgba(154, 154, 154, 255));}")
                   .arg("QComboBox {font-size: 11px;color: white;min-width: 60px;}")
