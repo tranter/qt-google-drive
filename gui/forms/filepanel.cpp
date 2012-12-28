@@ -57,7 +57,7 @@ ComboBox* FilePanel::getAccountsComboBox(void) const
     return accountsComboBox;
 }
 
-void FilePanel::fillComboBox(QMap<QString, QString> accountsMap, int index)
+void FilePanel::fillComboBox(QMap<QString, QString> accountsMap, const QString &currentAccount)
 {
     QStringList keys(accountsMap.keys());
 
@@ -72,8 +72,11 @@ void FilePanel::fillComboBox(QMap<QString, QString> accountsMap, int index)
 
         accountsComboBox->addItem(discLetter + ACCOUNT_SEPARATOR_BEGIN + accountsMap[keys[i]] + ACCOUNT_SEPARATOR_END);
         accountsComboBox->setItemIcon(i, QIcon(QApplication::style()->standardIcon(QStyle::QStyle::SP_DriveFDIcon)));
-    }
 
-    accountsComboBox->setCurrentIndex(index);
+        if(currentAccount == accountsMap[keys[i]])
+        {
+          accountsComboBox->setCurrentIndex(i);
+        }
+    }  
 }
 

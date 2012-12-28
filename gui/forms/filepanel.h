@@ -30,7 +30,7 @@ public:
     QLabel* getPathLabel(void) const;
     ToolBar* getAccountsToolBar(void) const;
     ComboBox* getAccountsComboBox(void) const;
-    void fillComboBox(QMap<QString, QString> accountsMap, int index);
+    void fillComboBox(QMap<QString, QString> accountsMap, const QString &currentAccount);
 
 private:
     void init(void);

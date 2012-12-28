@@ -121,7 +121,7 @@ void DriveEngine::updatePanel(int panelNum, bool initLoad)
     filesMngr[panelNum]->setPanel(filesViews[panelNum]->getFileView());
     filesMngr[panelNum]->get(query);
 
-    getFilePanel(panelId)->fillComboBox(settingsManager.accountsWithLetters(), 0);
+    getFilePanel(panelId)->fillComboBox(settingsManager.accountsWithLetters(), settingsManager.currentAccount(panelNum));
 }
 
 void DriveEngine::slotFirstPanelIsLoaded(void)
