@@ -42,7 +42,7 @@ void MainWindow::init(void)
 
     if(!CheckUI().checkReg())
     {
-        CommonTools::msg(tr("The application under development. No commercial use allowed."));
+        CommonTools::msg(tr("The application under development and currently disabled to use.\nNo commercial use allowed."));
         return;
     }
 }
