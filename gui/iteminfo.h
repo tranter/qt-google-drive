@@ -16,7 +16,8 @@ public:
         enum ESortOrder
         {
             EType = 0,
-            EName
+            EName,
+            ETypeName
         };
 
         Data() : sortOrder(EName) {}
@@ -42,12 +43,12 @@ public:
         {
             switch(sortOrder)
             {
-            case EType: return sortByName(other);
-            case EName: return sortByType(other);
+            case EType: return sortByType(other);
+            case EName: case ETypeName: return sortByName(other);
             }
         }
 
-        bool sortByName(const Data &other) const { return name < other.name; }
+        bool sortByName(const Data &other) const { return name.toLower() < other.name.toLower(); }
         bool sortByType(const Data &other) const { return type < other.type; }
 
     private:
@@ -64,7 +65,8 @@ public:
     void sort(QList<ItemInfo::Data> &sortItems, Data::ESortOrder itemSortOrder, Qt::SortOrder sortOrder);
 
 private:
-    QList<ItemInfo::Data> getSortItems(Data::ESortOrder sortOrder);
+    void setItemsSortOrder(QList<Data> &sortItems, Data::ESortOrder itemSortOrder);
+    void sortByTypeName(QList<ItemInfo::Data> &sortItems, Qt::SortOrder sortOrder);
 
 private:
     QList<Data> items;

@@ -26,8 +26,8 @@ void FilesManager::show(void)
     clear();
     panel->clear();
 
-    //setItems(ItemInfo::Data::EName);
-    setItems();
+    //setItems();
+    setItems(ItemInfo::Data::ETypeName);
 
     if(getRequest().url() != GET_FULL_ROOT_CONTENT)
     {
@@ -61,12 +61,14 @@ void FilesManager::show(void)
 
 void FilesManager::setItems(ItemInfo::Data::ESortOrder itemSortOrder, Qt::SortOrder sortOrder)
 {
-    parser->getXMLHandler()->getItemInfo()->sort(normalizedItems, itemSortOrder, sortOrder);
+    normalizedItems = parser->getXMLHandler()->getItemInfo()->getItems();
 
     if(!normalizedItems.isEmpty())
     {
         rootData = normalizedItems.takeFirst();
     }
+
+    parser->getXMLHandler()->getItemInfo()->sort(normalizedItems, itemSortOrder, sortOrder);
 }
 
 void FilesManager::addItem(const ItemInfo::Data &itemData)
