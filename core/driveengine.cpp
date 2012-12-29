@@ -19,7 +19,6 @@ DriveEngine::~DriveEngine()
 void DriveEngine::init(void)
 {
     reset();
-    setKeyActions();
 
     if(SettingsManager().isAnyAccount())
     {
@@ -56,7 +55,6 @@ void DriveEngine::reset(void)
     foldersMngr.reset(new FoldersManager);
     foldersUI.reset(new FoldersUI);
     opUI.reset(new OperationsUI);
-    opEventHandler.reset(new EventHandler<OperationsUI>(opUI.data()));
 
     connect(filesViews[ELeft], SIGNAL(signalAccountChanged(int, const QString&)), SLOT(slotAccountChanged(int, const QString&)));
     connect(filesViews[ERight], SIGNAL(signalAccountChanged(int, const QString&)), SLOT(slotAccountChanged(int, const QString&)));
@@ -139,19 +137,9 @@ void DriveEngine::slotAccountChanged(int panelNum, const QString &accountName)
     }
 }
 
-void DriveEngine::setKeyActions(void)
-{
-    opEventHandler->setKeyAction(Qt::Key_Delete, &OperationsUI::del);
-}
-
 CheckUI* DriveEngine::getCheckUI(void) const
 {
     return checkUI.data();
-}
-
-EventHandler<OperationsUI>* DriveEngine::getEventHandler(void) const
-{
-    return opEventHandler.data();
 }
 
 FilesUI* DriveEngine::getfilesUI(void) const

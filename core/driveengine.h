@@ -13,7 +13,6 @@
 #include "gui/foldersui.h"
 #include "gui/operationsui.h"
 #include "gui/checkui.h"
-#include "core/eventhandler.h"
 #include "share/enums.h"
 #include "gui/forms/filepanel.h"
 
@@ -42,7 +41,6 @@ public:
 public:   
     CheckUI* getCheckUI(void) const;
     FilesManager* getFilesMngr(bool opposite = false) const;
-    EventHandler<OperationsUI>* getEventHandler(void) const;
     FilesTransferUI* getfilesTransferUI(void) const;
     FilesUI* getfilesUI(void) const;
     FoldersManager* getFoldersMngr(void) const;
@@ -58,7 +56,6 @@ private slots:
     void slotAccountChanged(int panelNum, const QString& accountName);
 
 private:
-    void setKeyActions(void);
     void reset(void);   
 
 private:
@@ -66,7 +63,6 @@ private:
     QScopedPointer<AdditionalFoldersManager> aFoldersMngr;
     QScopedPointer<CheckUI> checkUI;
     QScopedPointer<DownloadFileManager> downloadMngr;
-    QScopedPointer<EventHandler <OperationsUI> > opEventHandler;
     QScopedPointer<FilesManager> filesMngr[EPanelsCount];
     QScopedPointer<FilesTransferUI> filesTransferUI;
     QScopedPointer<FilesUI> filesUI;
@@ -75,7 +71,6 @@ private:
     QScopedPointer<OperationsUI> opUI;
     QScopedPointer<UploadFileManager> uploadFileMngr;
     FilePanel *filesViews[EPanelsCount];
-    //FilePanel *filesViewRight;
 };
 
 typedef TSingleton<DriveEngine> SDriveEngine;

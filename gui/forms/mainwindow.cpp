@@ -42,7 +42,7 @@ void MainWindow::init(void)
 
     if(!CheckUI().checkReg())
     {
-        CommonTools::msg(tr("The application under development and currently disabled to use.\nNo commercial use allowed."));
+        CommonTools::msg(tr("The application under development. Currently disabled to use.\nNo commercial use allowed."));
         return;
     }
 }
@@ -95,7 +95,10 @@ void MainWindow::slotAccessTokenRequired(void)
 {
     SettingsManager settingsManager;
 
+    if(auth) delete auth;
+
     auth = new Auth;
+
     auth->getAccessToken(settingsManager.clientId(), settingsManager.clientSecret(), settingsManager.refreshToken());
     connect(auth, SIGNAL(signalAuthResponse(const QString&)), this, SLOT(slotAuthResponse(const QString&)));
 }
@@ -104,11 +107,7 @@ void MainWindow::slotAuthResponse(const QString &accessToken)
 {
     SQueries::inst()->setAccountInfo(accessToken);
     auth->deleteLater();
-}
-
-bool MainWindow::eventFilter(QObject *object, QEvent *event)
-{
-    return SDriveEngine::inst()->getEventHandler()->event(object, event);
+    auth = NULL;
 }
 
 

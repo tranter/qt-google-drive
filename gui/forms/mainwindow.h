@@ -26,9 +26,6 @@ public:
     void init(void);
 
 private:
-    virtual bool eventFilter(QObject *object, QEvent *event);
-
-private:
     void setConnections(void);
 
 private slots:
