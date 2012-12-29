@@ -9,7 +9,8 @@
 #include <QToolButton>
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent)
+    QMainWindow(parent),
+    auth(NULL)
 {
     SUi::inst()->setupUi(this);
 }
@@ -40,11 +41,11 @@ void MainWindow::init(void)
     SDriveEngine::inst()->getFilePanel(ELeft)->getFileView()->header()->resizeSection(0, 250);
     SDriveEngine::inst()->getFilePanel(ERight)->getFileView()->header()->resizeSection(0, 250);
 
-    if(!CheckUI().checkReg())
-    {
-        CommonTools::msg(tr("The application under development. Currently disabled to use.\nNo commercial use allowed."));
-        return;
-    }
+//    if(!CheckUI().checkReg())
+//    {
+//        CommonTools::msg(tr("The application under development. Currently disabled to use.\nNo commercial use allowed."));
+//        return;
+//    }
 }
 
 void MainWindow::setConnections(void)

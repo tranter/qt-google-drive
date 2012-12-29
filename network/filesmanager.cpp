@@ -2,7 +2,6 @@
 #include "core/driveengine.h"
 #include "share/debug.h"
 #include "settings/settingsmanager.h"
-//#include <QtAlgorithms>
 
 FilesManager::FilesManager(QObject *parent):
     ContentManager(parent),
@@ -12,8 +11,6 @@ FilesManager::FilesManager(QObject *parent):
 
 FilesManager::~FilesManager()
 {
-    DEBUG;
-
     if(panel && !panel->topLevelItemCount() > 0)
     {
         panel->clear();
@@ -24,15 +21,13 @@ FilesManager::~FilesManager()
 
 void FilesManager::show(void)
 {
-    items = parser->getXMLHandler()->getItemInfo()->getItems();
-
-    //qSort(items.begin(), items.end());
-    //qSort(items.begin(), items.end(), qGreater<ItemInfo::Data>());
-
     SettingsManager settingsManager;
 
     clear();
     panel->clear();
+
+    //setItems(ItemInfo::Data::EName);
+    setItems();
 
     if(getRequest().url() != GET_FULL_ROOT_CONTENT)
     {
@@ -46,28 +41,10 @@ void FilesManager::show(void)
         isRoot = true;
     }
 
-    for(int i = 1; i < items.count(); ++i)
+    for(int i = 0; i < normalizedItems.count(); ++i)
     {
-        addItem(items[i]);
+        addItem(normalizedItems[i]);
     }
-
-    //DEBUG << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" << items.count();
-
-    //    for(int i = 1; i < items.count(); ++i)
-    //    {
-    //        if(items[i].type == FOLDER_TYPE_STR)
-    //        {
-    //            addItem(items[i]);
-    //        }
-    //    }
-
-    //    for(int i = 1; i < items.count(); ++i)
-    //    {
-    //        if(items[i].type == FILE_TYPE_STR)
-    //        {
-    //            addItem(items[i]);
-    //        }
-    //    }
 
     if(settingsManager.initialLoading())
     {
@@ -80,16 +57,17 @@ void FilesManager::show(void)
     {
         pathesURLs.push_back(url);
     }
-
-    //SUi::inst()->filesView->setSortingEnabled(true);
-    //SUi::inst()->filesView->sortItems(0, Qt::AscendingOrder);
-    //connect(panel, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(slotItemClicked(QTreeWidgetItem*, int)));
 }
 
-//bool FilesManager::compare(const ItemInfo::Data &s1, const ItemInfo::Data &s2)
-//{
-//    return s1.name < s2.name;
-//}
+void FilesManager::setItems(ItemInfo::Data::ESortOrder itemSortOrder, Qt::SortOrder sortOrder)
+{
+    parser->getXMLHandler()->getItemInfo()->sort(normalizedItems, itemSortOrder, sortOrder);
+
+    if(!normalizedItems.isEmpty())
+    {
+        rootData = normalizedItems.takeFirst();
+    }
+}
 
 void FilesManager::addItem(const ItemInfo::Data &itemData)
 {
@@ -119,9 +97,8 @@ QString FilesManager::getUpperLevelFolderURL(void) const
 
 ItemInfo::Data FilesManager::getUpperLevelFolderInfo(void) const
 {
-    return  items[0];
+    return  rootData;
 }
-
 
 QString FilesManager::back(void)
 {
@@ -180,16 +157,10 @@ ItemInfo::Data FilesManager::getCurrentFileInfo(void)
 {    
     int index;
 
-    if(isRoot)
-    {
-        index = panel->currentIndex().row() + 1;
-    }
-    else
-    {
-        index = panel->currentIndex().row();
-    }
+    if(isRoot) index = panel->currentIndex().row();
+    else index = panel->currentIndex().row() - 1;
 
     if(index < 0) index = 0;
 
-    return  items[index];
+    return  normalizedItems[index];
 }

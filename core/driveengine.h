@@ -30,7 +30,7 @@ class DriveEngine : public QObject
 {
     Q_OBJECT
 public:
-    explicit DriveEngine(QObject *parent = 0);
+    explicit DriveEngine(QWidget *p = 0);
     ~DriveEngine();
 
     friend class FilesTransferUI;
@@ -59,7 +59,7 @@ private:
     void reset(void);   
 
 private:
-    QWidget* parent;
+    QWidget *parent;
     QScopedPointer<AdditionalFoldersManager> aFoldersMngr;
     QScopedPointer<CheckUI> checkUI;
     QScopedPointer<DownloadFileManager> downloadMngr;

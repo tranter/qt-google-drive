@@ -6,10 +6,9 @@
 #include <QSplitter>
 #include <QDir>
 
-DriveEngine::DriveEngine(QObject *parent) :
-    QObject(parent)
+DriveEngine::DriveEngine(QWidget *p) :
+    parent(p)
 {
-    this->parent = static_cast<QWidget*>(parent);
 }
 
 DriveEngine::~DriveEngine()
@@ -28,14 +27,6 @@ void DriveEngine::init(void)
 
 void DriveEngine::reset(void)
 {
-    checkUI.reset(new CheckUI);
-
-    for(int i = 0; i < EPanelsCount; ++i)
-    {
-        filesMngr[i].reset(new FilesManager);
-        filesMngr[i]->init();
-    }
-
     QHBoxLayout *hBoxLayout = new QHBoxLayout(SUi::inst()->panelsWidget);
     QSplitter *hSplitter = new QSplitter(Qt::Horizontal, SUi::inst()->panelsWidget);
 
@@ -50,6 +41,13 @@ void DriveEngine::reset(void)
     hSplitter->addWidget(filesViews[ELeft]);
     hSplitter->addWidget(filesViews[ERight]);
 
+    for(int i = 0; i < EPanelsCount; ++i)
+    {
+        filesMngr[i].reset(new FilesManager);
+        filesMngr[i]->init();
+    }
+
+    checkUI.reset(new CheckUI);
     filesTransferUI.reset(new FilesTransferUI);
     filesUI.reset(new FilesUI);
     foldersMngr.reset(new FoldersManager);
@@ -64,15 +62,8 @@ FilePanel* DriveEngine::getFilePanel(EPanels panel) const
 {
     FilePanel *filePanel;
 
-    if(panel == ELeft)
-    {
-        filePanel = filesViews[ELeft];
-    }
-
-    if(panel == ERight)
-    {
-        filePanel = filesViews[ERight];
-    }
+    if(panel == ELeft) filePanel = filesViews[ELeft];
+    if(panel == ERight) filePanel = filesViews[ERight];
 
     return filePanel;
 }
@@ -101,7 +92,6 @@ void DriveEngine::updatePanel(int panelNum, bool initLoad)
 {
     SettingsManager settingsManager;
     EPanels panelId = static_cast <EPanels> (panelNum);
-    QString query;
     QString drive;
 
     settingsManager.setInitialLoading(initLoad);
@@ -112,11 +102,10 @@ void DriveEngine::updatePanel(int panelNum, bool initLoad)
     drive += QDir::toNativeSeparators("/");
 
     filesUI->getPanelLabel(panelId)->setText(drive + settingsManager.currentFolderPath(panelNum));
-    query = settingsManager.currentFolderURL(panelNum);
     getFilesMngr()->setPathesURLs(settingsManager.pathesURLs(panelNum));
 
     filesMngr[panelNum]->setPanel(filesViews[panelNum]->getFileView());
-    filesMngr[panelNum]->get(query);
+    filesMngr[panelNum]->get(settingsManager.currentFolderURL(panelNum));
 
     getFilePanel(panelId)->fillComboBox(settingsManager.accountsWithLetters(), settingsManager.currentAccount(panelNum));
 }

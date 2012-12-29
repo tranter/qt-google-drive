@@ -1,9 +1,10 @@
-#ifndef TREEITEMINFO_H
-#define TREEITEMINFO_H
+#ifndef ITEMINFO_H
+#define ITEMINFO_H
 
 #include <QVariant>
 #include <QTreeWidgetItem>
 #include "share/defs.h"
+#include "share/debug.h"
 
 class ItemInfo
 {
@@ -12,6 +13,14 @@ public:
 
     struct Data
     {
+        enum ESortOrder
+        {
+            EType = 0,
+            EName
+        };
+
+        Data() : sortOrder(EName) {}
+
         QTreeWidgetItem* pointer;
         QString type;
         QString dataOwner;
@@ -25,23 +34,40 @@ public:
         QString downloadLink;
         QString uploadLink;
 
-        bool operator < (const Data &s) const
+        bool operator < (const Data &other) const { return sort(other); }
+        void setSortOrder(ESortOrder so) { sortOrder = so; }
+
+    private:
+        bool sort(const Data &other) const
         {
-            return name < s.name;
+            switch(sortOrder)
+            {
+            case EType: return sortByName(other);
+            case EName: return sortByType(other);
+            }
         }
+
+        bool sortByName(const Data &other) const { return name < other.name; }
+        bool sortByType(const Data &other) const { return type < other.type; }
+
+    private:
+        ESortOrder sortOrder;
     };
 
 public:
-
     void setFileSize(const QString &size, int index);
-    void push_back(Data &data);
-    const QList<Data>& getItems(void) const;
+    void pushBack(Data &data);
+    const QList<Data> &getItems() const;
     void setAccountOwner(const QString &name);
     QString getAccountOwner(void) const;
     void setDataOwner(const QString &name, int index);
+    void sort(QList<ItemInfo::Data> &sortItems, Data::ESortOrder itemSortOrder, Qt::SortOrder sortOrder);
 
 private:
-    QList<Data> fileItems;
+    QList<ItemInfo::Data> getSortItems(Data::ESortOrder sortOrder);
+
+private:
+    QList<Data> items;
     QString accountOwner;
 };
 

@@ -39,13 +39,14 @@ private:
     virtual void show(void);
 
 private:
-    //bool compare(const ItemInfo::Data &s1, const ItemInfo::Data &s2);
+    void setItems(ItemInfo::Data::ESortOrder itemSortOrder = ItemInfo::Data::EType, Qt::SortOrder sortOrder = Qt::AscendingOrder);
     void addItem(const ItemInfo::Data &itemData);
 
 private:
     QTreeWidget *panel;
     QStringList pathesURLs;
-    QList<ItemInfo::Data> items;
+    ItemInfo::Data rootData;
+    QList<ItemInfo::Data> normalizedItems;
     bool isRoot;
 };
 

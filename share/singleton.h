@@ -8,7 +8,7 @@ class TSingleton
 {
 public:
     static T* inst(void);
-    static T* inst(QObject *parent);
+    static T* inst(QWidget *parent);
     static void freeInst(void);
 
 private:
@@ -35,7 +35,7 @@ T* TSingleton<T>::inst(void)
 }
 
 template <typename T>
-T* TSingleton<T>::inst(QObject *parent)
+T* TSingleton<T>::inst(QWidget *parent)
 {
     if(!instObject)
     {

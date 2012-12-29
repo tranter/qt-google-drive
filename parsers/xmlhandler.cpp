@@ -111,7 +111,7 @@ bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs
     {
         itemData.self = HIERARCHY_VALUE_TAG(attribs.value);
         itemData.type = getItemType(itemData.self);
-        itemInfo->push_back(itemData);
+        itemInfo->pushBack(itemData);
 
         setDefaults();
     }
