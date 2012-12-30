@@ -73,7 +73,7 @@ void FilesManager::addItem(const Items::Data &itemData)
     treeWidgetItems.last()->setText(0, itemData.name);
     treeWidgetItems.last()->setIcon(0, QPixmap(itemData.iconPath));
     treeWidgetItems.last()->setText(1, itemData.dataOwner);
-    treeWidgetItems.last()->setText(2, itemData.fileUpdated);
+    treeWidgetItems.last()->setText(2, CommonTools::convertDate(itemData.dateTime));
     treeWidgetItems.last()->setText(3, itemData.fileSize);
 }
 

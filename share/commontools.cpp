@@ -33,8 +33,7 @@ int CommonTools::errorMsg(const QString &caption, const QString &text, QWidget *
 QString CommonTools::convertDate(const QString &dateStr)
 {   
     QDateTime fileDateTime = QDateTime::fromString(dateStr, Qt::ISODate);
-    fileDateTime.setTimeSpec(Qt::UTC);
-    return fileDateTime.toLocalTime().toString("ddd MMM d yyyy h:mm");
+    return fileDateTime.toLocalTime().toString("ddd, MMM d yyyy, h:mm");
 }
 
 QString CommonTools::getFormattedFileSize(const QString &sizeStr)

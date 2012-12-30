@@ -28,7 +28,7 @@ public:
         QString fileType;
         QString dataOwner;
         QString fileSize;
-        QString fileUpdated;
+        QString dateTime;
         QString name;
         QString self;
         QString parent;
@@ -51,7 +51,7 @@ public:
         }
 
         bool sortByName(const Data &other) const { return name.toLower() < other.name.toLower(); }
-        bool sortByDateTime(const Data &other) const {DEBUG << fileUpdated;  return QDateTime::fromString(fileUpdated) < QDateTime::fromString(other.fileUpdated); }
+        bool sortByDateTime(const Data &other) const {DEBUG << dateTime;  return QDateTime::fromString(dateTime, Qt::ISODate) < QDateTime::fromString(other.dateTime, Qt::ISODate); }
         bool sortBySize(const Data &other) const { return fileSize.toInt() < other.fileSize.toInt(); }
 
     private:

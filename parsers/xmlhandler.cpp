@@ -77,7 +77,7 @@ void XMLHandler::handleSizeTag(const QString &str)
 
 void XMLHandler::handleUpdatedTag(const QString &str)
 {
-    itemData.fileUpdated = CommonTools::convertDate(str);
+    itemData.dateTime = str;//CommonTools::convertDate(str);
     tags[EUpdated] = false;
 }
 
@@ -177,7 +177,7 @@ void XMLHandler::saveResData(const QXmlAttributes &attribs)
 void XMLHandler::setDefaults(void)
 {
     itemData.fileSize = QString("---");
-    itemData.fileUpdated = QString();
+    itemData.dateTime = QString();
     itemData.parent = ROOT_TAG;
 }
 
