@@ -21,13 +21,12 @@ FilesManager::~FilesManager()
 
 void FilesManager::show(void)
 {
-    SettingsManager settingsManager;
-
     clear();
     panel->clear();
 
-    //setItems();
-    setItems(ItemInfo::Data::ETypeName);
+    //setItems(Items::Data::ETypeName, Qt::AscendingOrder);
+    setItems(Items::Data::EDateTime, Qt::AscendingOrder);
+    panel->header()->setSortIndicator(0, Qt::AscendingOrder);
 
     if(getRequest().url() != GET_FULL_ROOT_CONTENT)
     {
@@ -46,20 +45,16 @@ void FilesManager::show(void)
         addItem(normalizedItems[i]);
     }
 
-    if(settingsManager.initialLoading())
-    {
-        emit signalFirstPanelIsLoaded();
-    }
+    if(SettingsManager().initialLoading()) emit signalFirstPanelIsLoaded();
 
     QString url(getRequest().url().toString());
 
-    if(!pathesURLs.contains(url))
-    {
-        pathesURLs.push_back(url);
-    }
+    if(!pathesURLs.contains(url)) pathesURLs.push_back(url);
+
+    connect(panel->header(),SIGNAL(sortIndicatorChanged(int, Qt::SortOrder)), this, SLOT(slotSortIndicatorChanged(int, Qt::SortOrder)));
 }
 
-void FilesManager::setItems(ItemInfo::Data::ESortOrder itemSortOrder, Qt::SortOrder sortOrder)
+void FilesManager::setItems(Items::Data::ESortOrder itemSortOrder, Qt::SortOrder sortOrder)
 {
     normalizedItems = parser->getXMLHandler()->getItemInfo()->getItems();
 
@@ -71,7 +66,7 @@ void FilesManager::setItems(ItemInfo::Data::ESortOrder itemSortOrder, Qt::SortOr
     parser->getXMLHandler()->getItemInfo()->sort(normalizedItems, itemSortOrder, sortOrder);
 }
 
-void FilesManager::addItem(const ItemInfo::Data &itemData)
+void FilesManager::addItem(const Items::Data &itemData)
 {
     treeWidgetItems.push_back(new QTreeWidgetItem(panel));
 
@@ -97,7 +92,7 @@ QString FilesManager::getUpperLevelFolderURL(void) const
     return pathesURLs.last();
 }
 
-ItemInfo::Data FilesManager::getUpperLevelFolderInfo(void) const
+Items::Data FilesManager::getUpperLevelFolderInfo(void) const
 {
     return  rootData;
 }
@@ -135,27 +130,27 @@ void FilesManager::deleteFile(const QString &url)
     opMngr->deleteFile(url);
 }
 
-void FilesManager::copyWebFile(const ItemInfo::Data &source, const QString &destFolder)
+void FilesManager::copyWebFile(const Items::Data &source, const QString &destFolder)
 {
     opMngr->copyWebFile(source, destFolder);
 }
 
-void FilesManager::moveWebFile(const ItemInfo::Data &source, const QString &destFolder)
+void FilesManager::moveWebFile(const Items::Data &source, const QString &destFolder)
 {
     opMngr->moveWebFile(source, destFolder);
 }
 
-void FilesManager::renameWebFile(const ItemInfo::Data &source, const QString &newName)
+void FilesManager::renameWebFile(const Items::Data &source, const QString &newName)
 {
     opMngr->renameWebFile(source, newName);
 }
 
-void FilesManager::shareWebFile(const ItemInfo::Data &source)
+void FilesManager::shareWebFile(const Items::Data &source)
 {
     opMngr->shareWebFile(source);
 }
 
-ItemInfo::Data FilesManager::getCurrentFileInfo(void)
+Items::Data FilesManager::getCurrentFileInfo(void)
 {    
     int index;
 
@@ -165,4 +160,9 @@ ItemInfo::Data FilesManager::getCurrentFileInfo(void)
     if(index < 0) index = 0;
 
     return  normalizedItems[index];
+}
+
+void FilesManager::slotSortIndicatorChanged(int logicalIndex, Qt::SortOrder order)
+{
+    DEBUG << "logicalIndex" << logicalIndex << " order"  << order;
 }

@@ -9,7 +9,7 @@ class Auth : public NetworkManager
 public:
     enum ERequests
     {
-        EAccessToken = 0,
+        EAccessToken,
         EAllTokens
     };
 

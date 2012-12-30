@@ -35,12 +35,6 @@ void MainWindow::init(void)
     QTextCodec::setCodecForCStrings(QTextCodec::codecForLocale());
     QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
 
-    SDriveEngine::inst()->getFilePanel(ELeft)->getFileView()->header()->setClickable(true);
-    SDriveEngine::inst()->getFilePanel(ERight)->getFileView()->header()->setClickable(true);
-
-    SDriveEngine::inst()->getFilePanel(ELeft)->getFileView()->header()->resizeSection(0, 250);
-    SDriveEngine::inst()->getFilePanel(ERight)->getFileView()->header()->resizeSection(0, 250);
-
     if(!CheckUI().checkReg())
     {
         CommonTools::msg(tr("The application is under development. Currently disabled to use.\nNo commercial use allowed."));

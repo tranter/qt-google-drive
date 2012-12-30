@@ -15,7 +15,7 @@ class NetworkManager : public QObject
 public:
     enum EStates
     {
-        EReady = 0,
+        EReady,
         EBusy
     };
 

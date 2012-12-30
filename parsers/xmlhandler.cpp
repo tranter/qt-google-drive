@@ -3,7 +3,7 @@
 #include "share/debug.h"
 
 XMLHandler::XMLHandler():
-    itemInfo(new ItemInfo),
+    itemInfo(new Items),
     resDownloadedCount(0),
     isResDownloding(false)
 {
@@ -77,13 +77,12 @@ void XMLHandler::handleSizeTag(const QString &str)
 
 void XMLHandler::handleUpdatedTag(const QString &str)
 {
-    itemData.fileUpdated =  CommonTools::convertDate(str);
+    itemData.fileUpdated = CommonTools::convertDate(str);
     tags[EUpdated] = false;
 }
 
-ItemInfo* XMLHandler::getItemInfo(void) const
+Items* XMLHandler::getItemInfo(void) const
 {
-    DEBUG;
     return itemInfo.data();
 }
 

@@ -13,7 +13,7 @@ class FilesUI: public QObject
 public: 
     enum EPath
     {
-        EForward = 0,
+        EForward,
         EBackward
     };
 

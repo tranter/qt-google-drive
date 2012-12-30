@@ -9,7 +9,7 @@ class AccountInfo : public NetworkManager
 public:
     enum EQueries
     {
-      EUserInfoQuery = 0,
+      EUserInfoQuery,
       EAboutInfoQuery
     };
 

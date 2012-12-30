@@ -11,7 +11,7 @@ class OperationsManager : public NetworkManager
 public:
     enum EOperations
     {
-        ENone = -1,
+        ENone,
         ECopy,
         ECreateFolder,
         EDelete,
@@ -23,10 +23,10 @@ public:
 
 public:
     void deleteFile(const QString &sourceUrl);
-    void copyWebFile(const ItemInfo::Data &source, const QString &destFolder);
-    void moveWebFile(const ItemInfo::Data &source, const QString &destFolder);
-    void renameWebFile(const ItemInfo::Data &source, const QString &newName);
-    void shareWebFile(const ItemInfo::Data &source);
+    void copyWebFile(const Items::Data &source, const QString &destFolder);
+    void moveWebFile(const Items::Data &source, const QString &destFolder);
+    void renameWebFile(const Items::Data &source, const QString &newName);
+    void shareWebFile(const Items::Data &source);
     void createFolder(const QString &folderUrl, const QString &name);
 
 protected slots:

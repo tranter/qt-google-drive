@@ -3,7 +3,7 @@
 
 enum EPanels
 {
-    ELeft = 0,
+    ELeft,
     ERight,
     EPanelsCount
 };

@@ -16,7 +16,7 @@ void FilesTransferUI::download(void)
         if(SDriveEngine::inst()->downloadMngr->getState() == NetworkManager::EBusy) return;
     }
 
-    ItemInfo::Data item = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
+    Items::Data item = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
 
     QString downloadLink(item.downloadLink);
 

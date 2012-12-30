@@ -31,22 +31,10 @@ int CommonTools::errorMsg(const QString &caption, const QString &text, QWidget *
 }
 
 QString CommonTools::convertDate(const QString &dateStr)
-{
-    QDateTime fileDateTime = QDateTime::fromString(dateStr, "yyyy-MM-ddThh:mm:ss.zzzZ");
-    return CommonTools::getFormattedDate(fileDateTime);
-}
-
-QString CommonTools::getFormattedDate(QDateTime &dateTime)
-{
-    QString formattedDateStr;
-
-    dateTime.setTimeSpec(Qt::UTC);
-
-    if(dateTime.date() == QDate::currentDate()) formattedDateStr = dateTime.toLocalTime().toString("h:mm ap");
-    else if(dateTime.date().year() == QDate::currentDate().year()) formattedDateStr = dateTime.toLocalTime().toString("MMM d");
-    else if(dateTime.date().year() < QDate::currentDate().year()) formattedDateStr = dateTime.toLocalTime().toString("M/d/yy");
-
-    return formattedDateStr;
+{   
+    QDateTime fileDateTime = QDateTime::fromString(dateStr, Qt::ISODate);
+    fileDateTime.setTimeSpec(Qt::UTC);
+    return fileDateTime.toLocalTime().toString("ddd MMM d yyyy h:mm");
 }
 
 QString CommonTools::getFormattedFileSize(const QString &sizeStr)

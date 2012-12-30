@@ -8,13 +8,19 @@ FilePanel::FilePanel(int pn, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::FilePanel),
     panelNum(pn)
-{
-    ui->setupUi(this);
+{    
     init();
 }
 
 void FilePanel::init(void)
 {
+    ui->setupUi(this);
+
+    ui->fileView->header()->setClickable(true);
+
+    ui->fileView->header()->resizeSection(0, 250);
+    ui->fileView->header()->resizeSection(2, 150);
+
     accountsToolBar = new ToolBar;
     ui->verticalLayout->insertWidget(0, accountsToolBar);
 

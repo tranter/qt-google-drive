@@ -42,6 +42,8 @@ public:
     QString clientSecret(void);
     QString redirectUri(void);
 
+
+
 private:
     void setValueInPanelGroup(int panelNum, const QString &key, const QVariant &val);
     QVariant getValueFromPanelGroup(int panelNum, const QString &key, const QVariant &defaultVal = QVariant());

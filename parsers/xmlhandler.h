@@ -14,7 +14,7 @@ public:
 
     enum ETags
     {
-        ETitle = 0,
+        ETitle,
         ESize,
         EUpdated,
         EAuthor,
@@ -31,7 +31,7 @@ public:
     bool characters(const QString &str);
     bool fatalError(const QXmlParseException &exception);
 
-    ItemInfo* getItemInfo(void) const;
+    Items* getItemInfo(void) const;
     bool resDownloadingNow(void) const;
 
 public slots:
@@ -52,8 +52,8 @@ private:
     void saveResData(const QXmlAttributes &attribs);
 
 private:
-    QScopedPointer<ItemInfo> itemInfo;
-    ItemInfo::Data itemData;
+    QScopedPointer<Items> itemInfo;
+    Items::Data itemData;
     QList<ResManager*> resManagers;
     int resDownloadedCount;
     bool isResDownloding;

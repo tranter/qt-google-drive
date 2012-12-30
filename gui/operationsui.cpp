@@ -79,7 +79,7 @@ void OperationsUI::slotCopyWebFile(void)
         return;
     }
 
-    ItemInfo::Data source = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
+    Items::Data source = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
     SDriveEngine::inst()->getFilesMngr()->copyWebFile(source, SDriveEngine::inst()->getFilesMngr(true)->getUpperLevelFolderURL());
 }
 
@@ -91,7 +91,7 @@ void OperationsUI::slotMoveWebFile(void)
         return;
     }
 
-    ItemInfo::Data source = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
+    Items::Data source = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
     SDriveEngine::inst()->getFilesMngr()->moveWebFile(source, SDriveEngine::inst()->getFilesMngr(true)->getUpperLevelFolderURL());
 }
 
@@ -116,7 +116,7 @@ void OperationsUI::slotRenameWebFile(void)
 void OperationsUI::slotItemEditDone(void)
 {
     QTreeWidgetItem *item = SDriveEngine::inst()->getFilesMngr()->getPanel()->currentItem();
-    ItemInfo::Data source = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
+    Items::Data source = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
 
     QString itemTextAfterEditing = item->text(0);
 
@@ -129,7 +129,7 @@ void OperationsUI::slotItemEditDone(void)
 
 void OperationsUI::slotShareWebFile(void)
 {
-    ItemInfo::Data source = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
+    Items::Data source = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
     SDriveEngine::inst()->getFilesMngr()->shareWebFile(source);
 }
 

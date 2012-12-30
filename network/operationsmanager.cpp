@@ -30,7 +30,7 @@ void OperationsManager::deleteFile(const QString &sourceUrl)
     connectErrorHandlers();
 }
 
-void OperationsManager::copyWebFile(const ItemInfo::Data &source, const QString &destFolder)
+void OperationsManager::copyWebFile(const Items::Data &source, const QString &destFolder)
 {    
     currentOperation = ECopy;
 
@@ -44,7 +44,7 @@ void OperationsManager::copyWebFile(const ItemInfo::Data &source, const QString 
     postRequest(COPY_FILE_FIRST_QUERY_PART + getIDFromURL(source.self) + COPY_FILE_LAST_QUERY_PART);
 }
 
-void OperationsManager::moveWebFile(const ItemInfo::Data &source, const QString &destFolder)
+void OperationsManager::moveWebFile(const Items::Data &source, const QString &destFolder)
 {
     isMove = true;
 
@@ -52,7 +52,7 @@ void OperationsManager::moveWebFile(const ItemInfo::Data &source, const QString 
     fileURLToDeleteForMoveOperation = source.self;
 }
 
-void OperationsManager::renameWebFile(const ItemInfo::Data &source, const QString &newName)
+void OperationsManager::renameWebFile(const Items::Data &source, const QString &newName)
 {
     currentOperation = ERename;
 
@@ -71,7 +71,7 @@ void OperationsManager::renameWebFile(const ItemInfo::Data &source, const QStrin
     connectErrorHandlers();
 }
 
-void OperationsManager::shareWebFile(const ItemInfo::Data &source)
+void OperationsManager::shareWebFile(const Items::Data &source)
 {
     CommonTools::msg("Not Implemented yet");
 //      ShareDialog *shareDialog = new ShareDialog(SDriveEngine::inst()->getParent());
