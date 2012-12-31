@@ -26,7 +26,7 @@ public:
 
         QString type;
         QString fileType;
-        QString dataOwner;
+        QString owner;
         QString fileSize;
         QString dateTime;
         QString name;
@@ -44,15 +44,17 @@ public:
         {
             switch(sortOrder)
             {
-            case ETypeName: case EOwner: return sortByString(other);
+            case ETypeName: return sortByName(other);
+            case EOwner: return sortByOwner(other);
             case EDateTime: return sortByDateTime(other);
             case ESize: return sortBySize(other);
             }
 
-            return sortByString(other);
+            return sortByName(other);
         }
 
-        bool sortByString(const Data &other) const { return name.toLower() < other.name.toLower(); }
+        bool sortByName(const Data &other) const { return name.toLower() < other.name.toLower(); }
+        bool sortByOwner(const Data &other) const { return owner.toLower() < other.owner.toLower(); }
         bool sortByDateTime(const Data &other) const { return QDateTime::fromString(dateTime, Qt::ISODate) < QDateTime::fromString(other.dateTime, Qt::ISODate); }
         bool sortBySize(const Data &other) const { return fileSize.toLongLong() < other.fileSize.toLongLong(); }
 

@@ -75,6 +75,6 @@ QString Items::getAccountOwner(void) const
 
 void Items::setDataOwner(const QString &name, int index)
 {
-    items[index].dataOwner = name;
+    items[index].owner = name;
 }
 
