@@ -32,11 +32,11 @@ void MainWindow::init(void)
     QTextCodec::setCodecForCStrings(QTextCodec::codecForLocale());
     QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
 
-//    if(!CheckUI().checkReg())
-//    {
-//        CommonTools::msg(tr("The application is under development. Currently disabled to use.\nNo commercial use allowed."));
-//        return;
-//    }
+    if(!CheckUI().checkReg())
+    {
+        CommonTools::msg(tr("The application is under development. Currently disabled to use.\nNo commercial use allowed."));
+        return;
+    }
 }
 
 void MainWindow::setConnections(void)
