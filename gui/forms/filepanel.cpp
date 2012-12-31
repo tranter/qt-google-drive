@@ -19,6 +19,7 @@ void FilePanel::init(void)
     ui->fileView->header()->setClickable(true);
 
     ui->fileView->header()->resizeSection(0, 250);
+    ui->fileView->header()->resizeSection(1, 60);
     ui->fileView->header()->resizeSection(2, 150);
 
     accountsToolBar = new ToolBar;
@@ -85,6 +86,11 @@ void FilePanel::fillComboBox(QMap<QString, QString> accountsMap, const QString &
         }
     }  
 
-     accountsComboBox->setMinimumWidth(80);
+    accountsComboBox->setMinimumWidth(80);
+}
+
+int FilePanel::getpanelNum(void) const
+{
+    return panelNum;
 }
 

@@ -31,6 +31,7 @@ public:
     ToolBar* getAccountsToolBar(void) const;
     ComboBox* getAccountsComboBox(void) const;
     void fillComboBox(QMap<QString, QString> accountsMap, const QString &currentAccount);
+    int getpanelNum(void) const;
 
 private:
     void init(void);

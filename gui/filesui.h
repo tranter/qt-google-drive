@@ -29,8 +29,8 @@ public:
 
 private slots:
     //void slotAShowFiles(const QModelIndex &index);
-    void slotLeftViewClicked(const QModelIndex &Id);
-    void slotRightViewClicked(const QModelIndex &Id);
+    void slotLeftViewClicked(const QModelIndex&);
+    void slotRightViewClicked(const QModelIndex&);
     void slotLeftPanelItemDoubleClicked(QTreeWidgetItem *item, int column);
     void slotRightPanelItemDoubleClicked(QTreeWidgetItem *item, int column);
     void slotLeftSortIndicatorChanged(int logicalIndex, Qt::SortOrder order);

@@ -64,6 +64,9 @@
 #define CLIENT_ID_KEY QString("clientId")
 #define CLIENT_SECRET_KEY QString("clientSecret")
 #define REDIRECT_URI_KEY QString("redirectUri")
+#define ITEM_SORT_ORDER QString("itemSortOrder")
+#define SORT_ORDER QString("sortOrder")
+#define PANEL_HEADER_STATE QString("panelHeaderState")
 
 #define PARENT_FOLDER_SIGN QString("[..]")
 

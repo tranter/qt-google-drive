@@ -3,7 +3,6 @@
 #include "ui_mainwindow.h"
 #include "share/defs.h"
 #include "settings/settingsmanager.h"
-#include <QLocale>
 #include <QMessageBox>
 #include <QList>
 #include <QFile>
@@ -30,40 +29,16 @@ int CommonTools::errorMsg(const QString &caption, const QString &text, QWidget *
     return QMessageBox::critical(parent, caption, text, QMessageBox::Ok);
 }
 
-QString CommonTools::convertDate(const QString &dateStr)
-{   
-    QDateTime fileDateTime = QDateTime::fromString(dateStr, Qt::ISODate);
-    return fileDateTime.toLocalTime().toString("ddd, MMM d yyyy, h:mm");
-}
+//QString CommonTools::convertDate(const QString &dateStr)
+//{
+//    QDateTime fileDateTime = QDateTime::fromString(dateStr, Qt::ISODate);
+//    return fileDateTime.toLocalTime().toString("ddd, MMM d yyyy, h:mm");
+//}
 
-QString CommonTools::getFormattedFileSize(const QString &sizeStr)
-{
-    qlonglong size = sizeStr.toLongLong();
-    QLocale locale;
-    QString bytesStr;
-    QStringList bytesStrList;
-    bytesStrList  << " KB" << " MB" << " GB";
-    qlonglong sizes[3] = {1024, 1048576, 1073741824};
-
-    if(size <= sizes[0])
-    {
-        size = 1;
-        bytesStr = bytesStrList[0];
-        return locale.toString(size) + bytesStr;
-    }
-
-    for(int i = bytesStrList.count() - 1 ; i >= 0 ; --i)
-    {
-        if (size > sizes[i])
-        {
-            size /= sizes[i];
-            bytesStr = bytesStrList[i];
-            break;
-        }
-    }
-
-    return locale.toString(size) + bytesStr;
-}
+//QString CommonTools::getFormattedFileSize(const QString &sizeStr)
+//{
+//    return QLocale().toString(sizeStr.toLongLong());
+//}
 
 void CommonTools::logToFile(const QString &fileName, const QByteArray &bytes)
 {

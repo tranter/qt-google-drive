@@ -11,7 +11,7 @@ SettingsManager::SettingsManager(QObject *parent) :
 {
 }
 
-void SettingsManager::writeAccountInfo(AccountInfo::Data &data)
+void SettingsManager::saveAccountInfo(AccountInfo::Data &data)
 {
     beginGroup(ACCOUNTS_GROUP);
 
@@ -167,12 +167,22 @@ QString SettingsManager::currentAccount(int panelNum)
     return getValueFromPanelGroup(panelNum, CURRENT_ACCOUNT_KEY).toString();
 }
 
-void SettingsManager::writeRegistration(const QString &scope, const QString &clientId, const QString &clientSecret, const QString &redirectUri)
+void SettingsManager::saveRegistration(const QString &scope, const QString &clientId, const QString &clientSecret, const QString &redirectUri)
 {
     setValueInGroup(COMMON_GROUP, SCOPE_KEY, scope);
     setValueInGroup(COMMON_GROUP, CLIENT_ID_KEY, clientId);
     setValueInGroup(COMMON_GROUP, CLIENT_SECRET_KEY, clientSecret);
     setValueInGroup(COMMON_GROUP, REDIRECT_URI_KEY, redirectUri);
+}
+
+void SettingsManager::savePanelHeaderState(int panelNum, QByteArray values)
+{
+    setValueInPanelGroup(panelNum, PANEL_HEADER_STATE, values);
+}
+
+QByteArray SettingsManager::restorePanelHeaderState(int panelNum)
+{
+    return getValueFromPanelGroup(panelNum, PANEL_HEADER_STATE).toByteArray();
 }
 
 QString SettingsManager::scope(void)

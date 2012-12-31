@@ -30,7 +30,7 @@ void Queries::slotAccountInfo(AccountInfo::Data &data)
         settingsManager.setCurrentAccount(static_cast<int> (ERight), data.email);
     }
 
-    settingsManager.writeAccountInfo(data);
+    settingsManager.saveAccountInfo(data);
 
     accountInfo->deleteLater();
     emit signalAccountInfoReadyToUse();

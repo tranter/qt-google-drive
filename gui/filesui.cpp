@@ -47,12 +47,12 @@ void FilesUI::slotRightSortIndicatorChanged(int logicalIndex, Qt::SortOrder orde
 {
 }
 
-void FilesUI::slotLeftViewClicked(const QModelIndex &Id)
+void FilesUI::slotLeftViewClicked(const QModelIndex&)
 {
     SettingsManager().setCurrentPanel(LEFT_PANEL_VALUE);
 }
 
-void FilesUI::slotRightViewClicked(const QModelIndex &Id)
+void FilesUI::slotRightViewClicked(const QModelIndex&)
 {
     SettingsManager().setCurrentPanel(RIGHT_PANEL_VALUE);
 }

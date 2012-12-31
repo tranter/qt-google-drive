@@ -60,12 +60,7 @@ void DriveEngine::reset(void)
 
 FilePanel* DriveEngine::getFilePanel(EPanels panel) const
 {
-    FilePanel *filePanel;
-
-    if(panel == ELeft) filePanel = filesViews[ELeft];
-    if(panel == ERight) filePanel = filesViews[ERight];
-
-    return filePanel;
+    return filesViews[panel];
 }
 
 FilesManager* DriveEngine::getFilesMngr(bool opposite) const
@@ -104,7 +99,7 @@ void DriveEngine::updatePanel(int panelNum, bool initLoad)
     filesUI->getPanelLabel(panelId)->setText(drive + settingsManager.currentFolderPath(panelNum));
     getFilesMngr()->setPathesURLs(settingsManager.pathesURLs(panelNum));
 
-    filesMngr[panelNum]->setPanel(filesViews[panelNum]->getFileView());
+    filesMngr[panelNum]->setPanel(filesViews[panelNum]->getFileView(), filesViews[panelNum]->getpanelNum());
     filesMngr[panelNum]->get(settingsManager.currentFolderURL(panelNum));
 
     getFilePanel(panelId)->fillComboBox(settingsManager.accountsWithLetters(), settingsManager.currentAccount(panelNum));

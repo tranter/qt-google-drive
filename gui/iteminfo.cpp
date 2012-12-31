@@ -48,8 +48,6 @@ void Items::sort(QList<Items::Data> &sortItems, Data::ESortOrder itemSortOrder, 
     {
         sortItems[i] = fileItems[j];
     }
-
-    //sortByTypeName(sortItems, sortOrder);
 }
 
 void Items::setItemsSortOrder(QList<Items::Data> &sortItems, Data::ESortOrder itemSortOrder)
@@ -58,39 +56,6 @@ void Items::setItemsSortOrder(QList<Items::Data> &sortItems, Data::ESortOrder it
     {
         sortItems[i].setSortOrder(itemSortOrder);
     }
-}
-
-void Items::sortByTypeName(QList<Items::Data> &sortItems, Qt::SortOrder sortOrder)
-{
-//    QList<Items::Data> folderItems, fileItems;
-
-//    for(int i = 0; i < sortItems.count(); ++i)
-//    {
-//        if(sortItems[i].type == FOLDER_TYPE_STR) folderItems.push_back(sortItems[i]);
-//        if(sortItems[i].type == FILE_TYPE_STR) fileItems.push_back(sortItems[i]);
-//    }
-
-//    if(sortOrder == Qt::AscendingOrder)
-//    {
-//        qSort(folderItems.begin(), folderItems.end());
-//        qSort(fileItems.begin(), fileItems.end());
-//    }
-
-//    if(sortOrder == Qt::DescendingOrder)
-//    {
-//        qSort(folderItems.begin(), folderItems.end(), qGreater<Items::Data>());
-//        qSort(fileItems.begin(), fileItems.end(), qGreater<Items::Data>());
-//    }
-
-//    for(int i = 0; i < folderItems.count(); ++i)
-//    {
-//        sortItems[i] = folderItems[i];
-//    }
-
-//    for(int i = folderItems.count(), j = 0; i < sortItems.count(); ++i, ++j)
-//    {
-//        sortItems[i] = fileItems[j];
-//    }
 }
 
 void Items::pushBack(Items::Data &data)

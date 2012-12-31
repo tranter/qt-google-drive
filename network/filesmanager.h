@@ -14,14 +14,14 @@ signals:
     void signalFirstPanelIsLoaded();
 
 private slots:
-        void slotSortIndicatorChanged( int logicalIndex, Qt::SortOrder order );
+        void slotSectionClicked(int logicalIndex);
 
 public:
     QString getUpperLevelFolderURL(void) const;
     Items::Data getUpperLevelFolderInfo(void) const;
     QTreeWidget* getPanel(void) const;
     QString back(void);
-    void setPanel(QTreeWidget *p);
+    void setPanel(QTreeWidget *p, int pn);
     void sort(int column, Qt::SortOrder order);
     void deleteFile(const QString &url);
     void copyWebFile(const Items::Data &source, const QString &destFolder);
@@ -38,6 +38,9 @@ private:
 private:
     void setItems(Items::Data::ESortOrder itemSortOrder, Qt::SortOrder sortOrder);
     void addItem(const Items::Data &itemData);
+    QString getDate(const QString &date);
+    QString getSize(const QString &size);
+    void updateItemsState(void);
 
 private:
     QTreeWidget *panel;
@@ -45,6 +48,7 @@ private:
     Items::Data rootData;
     QList<Items::Data> normalizedItems;
     bool isRoot;
+    int panelNum;
 };
 
 #endif // FILESMANAGER_H

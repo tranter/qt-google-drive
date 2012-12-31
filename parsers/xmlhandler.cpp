@@ -71,13 +71,13 @@ void XMLHandler::handleTitleTag(const QString &str)
 
 void XMLHandler::handleSizeTag(const QString &str)
 {
-    itemInfo->setFileSize(CommonTools::getFormattedFileSize(str), itemInfo->getItems().count() - 1);
+    itemInfo->setFileSize(str, itemInfo->getItems().count() - 1);
     tags[ESize] = false;
 }
 
 void XMLHandler::handleUpdatedTag(const QString &str)
 {
-    itemData.dateTime = str;//CommonTools::convertDate(str);
+    itemData.dateTime = str;
     tags[EUpdated] = false;
 }
 

@@ -17,13 +17,13 @@ public:
         enum ESortOrder
         {
             ETypeName = 0,
-            EDateTime,
-            ESize
+            EOwner = 1,
+            EDateTime = 2,
+            ESize = 3
         };
 
         Data() : sortOrder(ETypeName) {}
 
-        QTreeWidgetItem* pointer;
         QString type;
         QString fileType;
         QString dataOwner;
@@ -44,15 +44,17 @@ public:
         {
             switch(sortOrder)
             {
-            case ETypeName: return sortByName(other);
+            case ETypeName: case EOwner: return sortByString(other);
             case EDateTime: return sortByDateTime(other);
             case ESize: return sortBySize(other);
             }
+
+            return sortByString(other);
         }
 
-        bool sortByName(const Data &other) const { return name.toLower() < other.name.toLower(); }
-        bool sortByDateTime(const Data &other) const {DEBUG << dateTime;  return QDateTime::fromString(dateTime, Qt::ISODate) < QDateTime::fromString(other.dateTime, Qt::ISODate); }
-        bool sortBySize(const Data &other) const { return fileSize.toInt() < other.fileSize.toInt(); }
+        bool sortByString(const Data &other) const { return name.toLower() < other.name.toLower(); }
+        bool sortByDateTime(const Data &other) const { return QDateTime::fromString(dateTime, Qt::ISODate) < QDateTime::fromString(other.dateTime, Qt::ISODate); }
+        bool sortBySize(const Data &other) const { return fileSize.toLongLong() < other.fileSize.toLongLong(); }
 
     private:
         ESortOrder sortOrder;
@@ -69,7 +71,6 @@ public:
 
 private:
     void setItemsSortOrder(QList<Data> &sortItems, Data::ESortOrder itemSortOrder);
-    void sortByTypeName(QList<Items::Data> &sortItems, Qt::SortOrder sortOrder);
 
 private:
     QList<Data> items;

@@ -2,6 +2,9 @@
 #include "core/driveengine.h"
 #include "share/debug.h"
 #include "settings/settingsmanager.h"
+#include <QLocale>
+#include <QDateTime>
+#include <QPair>
 
 FilesManager::FilesManager(QObject *parent):
     ContentManager(parent),
@@ -21,12 +24,12 @@ FilesManager::~FilesManager()
 
 void FilesManager::show(void)
 {
+    if(!panel) return;
+
     clear();
     panel->clear();
 
-    //setItems(Items::Data::ETypeName, Qt::AscendingOrder);
-    setItems(Items::Data::EDateTime, Qt::AscendingOrder);
-    panel->header()->setSortIndicator(0, Qt::AscendingOrder);
+    updateItemsState();
 
     if(getRequest().url() != GET_FULL_ROOT_CONTENT)
     {
@@ -51,7 +54,7 @@ void FilesManager::show(void)
 
     if(!pathesURLs.contains(url)) pathesURLs.push_back(url);
 
-    connect(panel->header(),SIGNAL(sortIndicatorChanged(int, Qt::SortOrder)), this, SLOT(slotSortIndicatorChanged(int, Qt::SortOrder)));
+    connect(panel->header(),SIGNAL(sectionClicked(int)), this, SLOT(slotSectionClicked(int)));
 }
 
 void FilesManager::setItems(Items::Data::ESortOrder itemSortOrder, Qt::SortOrder sortOrder)
@@ -73,13 +76,32 @@ void FilesManager::addItem(const Items::Data &itemData)
     treeWidgetItems.last()->setText(0, itemData.name);
     treeWidgetItems.last()->setIcon(0, QPixmap(itemData.iconPath));
     treeWidgetItems.last()->setText(1, itemData.dataOwner);
-    treeWidgetItems.last()->setText(2, CommonTools::convertDate(itemData.dateTime));
-    treeWidgetItems.last()->setText(3, itemData.fileSize);
+    treeWidgetItems.last()->setText(2, getDate(itemData.dateTime));
+    treeWidgetItems.last()->setText(3, getSize(itemData.fileSize));
 }
 
-void FilesManager::setPanel(QTreeWidget *p)
+QString FilesManager::getDate(const QString &date)
+{
+    QDateTime fileDateTime = QDateTime::fromString(date, Qt::ISODate);
+    return fileDateTime.toLocalTime().toString("ddd, MMM d yyyy, h:mm");
+}
+
+QString FilesManager::getSize(const QString &size)
+{
+    QString formattedSize;
+
+    if(size.toLongLong() > 0)
+    {
+        formattedSize = QLocale().toString(size.toLongLong());
+    }
+
+    return formattedSize;
+}
+
+void FilesManager::setPanel(QTreeWidget *p, int pn)
 {
     panel = p;
+    panelNum = pn;
 }
 
 QTreeWidget* FilesManager::getPanel(void) const
@@ -162,7 +184,34 @@ Items::Data FilesManager::getCurrentFileInfo(void)
     return  normalizedItems[index];
 }
 
-void FilesManager::slotSortIndicatorChanged(int logicalIndex, Qt::SortOrder order)
+void FilesManager::slotSectionClicked(int logicalIndex)
 {
-    DEBUG << "logicalIndex" << logicalIndex << " order"  << order;
+    Q_UNUSED(logicalIndex);
+    SettingsManager().savePanelHeaderState(panelNum, panel->header()->saveState());
+    show();
+}
+
+void FilesManager::updateItemsState(void)
+{
+    Items::Data::ESortOrder itemSortOrder;
+    Qt::SortOrder sortOrder;
+
+    QByteArray values(SettingsManager().restorePanelHeaderState(panelNum));
+
+    if(values.isEmpty())
+    {
+        itemSortOrder = Items::Data::ETypeName;
+        sortOrder = Qt::AscendingOrder;
+
+        panel->header()->setSortIndicator(0, sortOrder);
+    }
+    else
+    {
+        panel->header()->restoreState(values);
+
+        itemSortOrder = static_cast<Items::Data::ESortOrder> (panel->header()->sortIndicatorSection());
+        sortOrder =  static_cast<Qt::SortOrder> (panel->header()->sortIndicatorOrder());
+    }
+
+    setItems(itemSortOrder, sortOrder);
 }
