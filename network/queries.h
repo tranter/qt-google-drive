@@ -2,7 +2,7 @@
 #define QUERIES_H
 
 #include <QObject>
-//#include "share/singleton.h"
+#include <QUrl>
 
 class Queries : public QObject
 {
@@ -11,19 +11,10 @@ public:
     Queries();
 
 public:
-//    void setAccountInfo(const QString &accessToken, const QString &refreshToken = QString());
-
-//signals:
-//    void signalAccountInfoReadyToUse(void);
-
-//private slots:
-//    void slotAccountInfo(AccountInfo::Data &data);
-
-//private:
-    //   AccountInfo *accountInfo;
     void userAboutInfo(QString &userInfoQuery, QString &aboutInfoQuery);
+    QByteArray copyWebFileData(const QString &sourceName, const QString &destFolderUrl);
+    QUrl constructCopyWebFileUrl(const QString &url);
 };
 
-//typedef TSingleton<Queries> SQueries;
 
 #endif // QUERIES_H

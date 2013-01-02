@@ -25,7 +25,7 @@ public:
 
 public:
     void deleteFile(const QString &sourceUrl);
-    void copyWebFile(const Items::Data &source, const QString &destFolder);
+    void copyWebFile(const Items::Data &source, const QString &destFolderUrl);
     void moveWebFile(const Items::Data &source, const QString &destFolder);
     void renameWebFile(const Items::Data &source, const QString &newName);
     void shareWebFile(const Items::Data &source);
@@ -44,7 +44,6 @@ private slots:
     void slotAccountInfo(AccountInfo::Data &data);
 
 private:
-    QString getIDFromURL(const QString &url);
     QUrl getDeleteFileQuery(const QString &url);
     QUrl getCopyFileQuery(const QString &url);
     void updatePanelContent(bool opposite);

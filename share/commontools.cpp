@@ -4,7 +4,7 @@
 #include "share/defs.h"
 #include "settings/settingsmanager.h"
 #include <QMessageBox>
-#include <QList>
+//#include <QList>
 #include <QFile>
 #include <QFileInfo>
 #include "share/debug.h"
@@ -28,17 +28,6 @@ int CommonTools::errorMsg(const QString &caption, const QString &text, QWidget *
 {
     return QMessageBox::critical(parent, caption, text, QMessageBox::Ok);
 }
-
-//QString CommonTools::convertDate(const QString &dateStr)
-//{
-//    QDateTime fileDateTime = QDateTime::fromString(dateStr, Qt::ISODate);
-//    return fileDateTime.toLocalTime().toString("ddd, MMM d yyyy, h:mm");
-//}
-
-//QString CommonTools::getFormattedFileSize(const QString &sizeStr)
-//{
-//    return QLocale().toString(sizeStr.toLongLong());
-//}
 
 void CommonTools::logToFile(const QString &fileName, const QByteArray &bytes)
 {
@@ -73,3 +62,22 @@ QString CommonTools::getFileNameFromURL(const QString &url)
   QFileInfo fi(url);
   return fi.fileName();
 }
+
+QString CommonTools::getIDFromURL(const QString &url)
+{
+    int backParamNum = 1;
+
+    QStringList queryStrs(url.split("/"));
+
+    if(queryStrs[queryStrs.count() - 1].contains(QRegExp("contents")))
+    {
+        backParamNum = 2;
+    }
+
+    QString lastParam(queryStrs[queryStrs.count() - backParamNum]);
+
+    queryStrs = lastParam.split("%3A");
+
+    return queryStrs[queryStrs.count()  - 1];
+}
+

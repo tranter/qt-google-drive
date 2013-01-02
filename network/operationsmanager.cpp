@@ -32,18 +32,22 @@ void OperationsManager::deleteFile(const QString &sourceUrl)
     connectErrorHandlers();
 }
 
-void OperationsManager::copyWebFile(const Items::Data &source, const QString &destFolder)
+void OperationsManager::copyWebFile(const Items::Data &source, const QString &destFolderUrl)
 {    
     currentOperation = ECopy;
 
-    QString data = QString("{\"kind\": \"drive#file\", \"title\": \"%1\",\"parents\": [{\"id\":\"%2\"}]}").arg(source.name).arg(getIDFromURL(destFolder));
+    //QString data = QString("{\"kind\": \"drive#file\", \"title\": \"%1\",\"parents\": [{\"id\":\"%2\"}]}").arg(source.name).arg(getIDFromURL(destFolder));
 
-    postData = data.toLatin1();
+    //postData = data.toLatin1();
+
+    Queries  queries;
+
+    postData = queries.copyWebFileData(source.name, destFolderUrl);
 
     CommonTools::setHeader(SettingsManager().accessToken(), request);
     request.setRawHeader("Content-Type", "application/json");
 
-    postRequest(COPY_FILE_FIRST_QUERY_PART + getIDFromURL(source.self) + COPY_FILE_LAST_QUERY_PART);
+    postRequest(queries.constructCopyWebFileUrl(source.self));
 }
 
 void OperationsManager::moveWebFile(const Items::Data &source, const QString &destFolder)
@@ -65,7 +69,7 @@ void OperationsManager::renameWebFile(const Items::Data &source, const QString &
 
     init();
 
-    request.setUrl(QUrl(QString("https://www.googleapis.com/drive/v2/files/") + getIDFromURL(source.self)));
+    request.setUrl(QUrl(QString("https://www.googleapis.com/drive/v2/files/") + CommonTools::getIDFromURL(source.self)));
 
     reply = networkManager->put(request, data.toLatin1());
 
@@ -76,15 +80,15 @@ void OperationsManager::renameWebFile(const Items::Data &source, const QString &
 void OperationsManager::shareWebFile(const Items::Data &source)
 {
     CommonTools::msg("Not Implemented yet");
-//      ShareDialog *shareDialog = new ShareDialog(SDriveEngine::inst()->getParent());
-//      shareDialog->show();
+    //      ShareDialog *shareDialog = new ShareDialog(SDriveEngine::inst()->getParent());
+    //      shareDialog->show();
 }
 
 void OperationsManager::createFolder(const QString &folderUrl, const QString &name)
 {
     currentOperation = ECreateFolder;
 
-    QString data = QString("{\"title\": \"%1\",\"parents\": [{\"id\": \"%2\"}],\"mimeType\": \"application/vnd.google-apps.folder\"}").arg(name).arg(getIDFromURL(folderUrl));
+    QString data = QString("{\"title\": \"%1\",\"parents\": [{\"id\": \"%2\"}],\"mimeType\": \"application/vnd.google-apps.folder\"}").arg(name).arg(CommonTools::getIDFromURL(folderUrl));
 
     postData = data.toLatin1();
 
@@ -97,37 +101,19 @@ void OperationsManager::createFolder(const QString &folderUrl, const QString &na
 
 QUrl OperationsManager::getDeleteFileQuery(const QString &url)
 {
-    return QUrl(QString(DELETE_FILE + getIDFromURL(url)));
+    return QUrl(QString(DELETE_FILE + CommonTools::getIDFromURL(url)));
 }
 
 QUrl OperationsManager::getCopyFileQuery(const QString &url)
 {
-    return QUrl(QString(COPY_FILE + getIDFromURL(url)));
-}
-
-QString OperationsManager::getIDFromURL(const QString &url)
-{
-    int backParamNum = 1;
-
-    QStringList queryStrs(url.split("/"));
-
-    if(queryStrs[queryStrs.count() - 1].contains(QRegExp("contents")))
-    {
-        backParamNum = 2;
-    }
-
-    QString lastParam(queryStrs[queryStrs.count() - backParamNum]);
-
-    queryStrs = lastParam.split("%3A");
-
-    return queryStrs[queryStrs.count()  - 1];
+    return QUrl(QString(COPY_FILE + CommonTools::getIDFromURL(url)));
 }
 
 void OperationsManager::slotReplyFinished(QNetworkReply*)
 {
     if(currentOperation == EDelete)
-    {  
-        updatePanelContent(false); 
+    {
+        updatePanelContent(false);
     }
 }
 
@@ -135,21 +121,21 @@ void OperationsManager::slotPostFinished(QNetworkReply* reply)
 {
     NetworkManager::slotPostFinished(reply);
 
-     if(currentOperation == ECopy)
-     {
-         updatePanelContent(true);
+    if(currentOperation == ECopy)
+    {
+        updatePanelContent(true);
 
-         if(isMove)
-         {
-             deleteFile(fileURLToDeleteForMoveOperation);
-             isMove = false;
-         }
-     }
+        if(isMove)
+        {
+            deleteFile(fileURLToDeleteForMoveOperation);
+            isMove = false;
+        }
+    }
 
-     if(currentOperation == ECreateFolder)
-     {
+    if(currentOperation == ECreateFolder)
+    {
         updatePanelContent(false);
-     }
+    }
 }
 
 void OperationsManager::slotPutFinished(void)
