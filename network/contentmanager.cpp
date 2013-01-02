@@ -5,8 +5,7 @@
 #include <QApplication>
 
 ContentManager::ContentManager(QObject *parent):
-    NetworkManager(parent),
-    opMngr(new OperationsManager(parent))
+    NetworkManager(parent)
 {
     parser.reset(new XMLParser);
 }
@@ -82,11 +81,6 @@ void ContentManager::clear(void)
     {
         delete treeWidgetItems[i];
     }
-}
-
-OperationsManager* ContentManager::getOpMngr(void) const
-{
-    return opMngr.data();
 }
 
 

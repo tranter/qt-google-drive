@@ -4,6 +4,8 @@
 #include "share/debug.h"
 #include "gui/forms/sharedialog.h"
 #include "settings/settingsmanager.h"
+#include "share/enums.h"
+#include "queries.h"
 #include <QStringList>
 
 OperationsManager::OperationsManager(QObject *parent):
@@ -162,6 +164,34 @@ void OperationsManager::updatePanelContent(bool opposite)
 {
     FilesManager* fileManager = SDriveEngine::inst()->getFilesMngr(opposite);
     fileManager->get(fileManager->getUpperLevelFolderURL());
+}
+
+void OperationsManager::setAccountInfo(const QString &accessToken, const QString &refreshToken)
+{
+    QString userInfoQuery, aboutInfoQuery;
+    Queries().userAboutInfo(userInfoQuery, aboutInfoQuery);
+
+    accountInfo = new AccountInfo(userInfoQuery, aboutInfoQuery, accessToken, refreshToken);
+
+    connect(accountInfo, SIGNAL(signalAccountInfo(AccountInfo::Data&)), this, SLOT(slotAccountInfo(AccountInfo::Data&)));
+
+    accountInfo->setInfo();
+}
+
+void OperationsManager::slotAccountInfo(AccountInfo::Data &data)
+{
+    SettingsManager settingsManager;
+
+    if(!settingsManager.isAnyAccount())
+    {
+        settingsManager.setCurrentAccount(static_cast<int> (ELeft), data.email);
+        settingsManager.setCurrentAccount(static_cast<int> (ERight), data.email);
+    }
+
+    settingsManager.saveAccountInfo(data);
+
+    accountInfo->deleteLater();
+    emit signalAccountInfoReadyToUse();
 }
 
 

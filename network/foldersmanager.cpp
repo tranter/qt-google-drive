@@ -14,5 +14,5 @@ void FoldersManager::show(void)
 
 void FoldersManager::createFolder(const QString &folderUrl, const QString &name)
 {
-    opMngr->createFolder(folderUrl, name);
+    SOperationsManager::inst()->createFolder(folderUrl, name);
 }

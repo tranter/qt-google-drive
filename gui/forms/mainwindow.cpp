@@ -4,6 +4,7 @@
 #include "share/debug.h"
 #include "settings/settingsmanager.h"
 #include "gui/forms/authdialog.h"
+#include "network/operationsmanager.h"
 #include <QTextCodec>
 #include <QKeyEvent>
 #include <QToolButton>
@@ -19,7 +20,7 @@ MainWindow::~MainWindow()
 {
     SDriveEngine::freeInst();
     SUi::freeInst();
-    SQueries::freeInst();
+    //SQueries::freeInst();
 }
 
 void MainWindow::init(void)
@@ -32,11 +33,11 @@ void MainWindow::init(void)
     QTextCodec::setCodecForCStrings(QTextCodec::codecForLocale());
     QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
 
-    if(!CheckUI().checkReg())
-    {
-        CommonTools::msg(tr("The application is under development. Currently disabled to use.\nNo commercial use allowed."));
-        return;
-    }
+//    if(!CheckUI().checkReg())
+//    {
+//        CommonTools::msg(tr("The application is under development. Currently disabled to use.\nNo commercial use allowed."));
+//        return;
+//    }
 }
 
 void MainWindow::setConnections(void)
@@ -63,7 +64,8 @@ void MainWindow::setConnections(void)
     connect(SDriveEngine::inst()->getFilesMngr()->self(), SIGNAL(signalAccessTokenRequired()), this, SLOT(slotAccessTokenRequired()));
     connect(SDriveEngine::inst()->getFilesMngr(true)->self(), SIGNAL(signalAccessTokenRequired()), this, SLOT(slotAccessTokenRequired()));
     connect(SDriveEngine::inst()->getFilesMngr(), SIGNAL(signalFirstPanelIsLoaded()), SDriveEngine::inst(), SLOT(slotFirstPanelIsLoaded()));
-    connect(SQueries::inst(), SIGNAL(signalAccountInfoReadyToUse()), this, SLOT(slotAccountInfoReadyToUse()));
+    //connect(SQueries::inst(), SIGNAL(signalAccountInfoReadyToUse()), this, SLOT(slotAccountInfoReadyToUse()));
+    connect(SOperationsManager::inst(), SIGNAL(signalAccountInfoReadyToUse()), this, SLOT(slotAccountInfoReadyToUse()));
 }
 
 void MainWindow::slotAuthDialog(void)
@@ -75,7 +77,8 @@ void MainWindow::slotAuthDialog(void)
 
 void MainWindow::slotTokens(const QString &accessToken, const QString &refreshToken)
 {
-    SQueries::inst()->setAccountInfo(accessToken, refreshToken);
+    //SQueries::inst()->setAccountInfo(accessToken, refreshToken);
+    SOperationsManager::inst()->setAccountInfo(accessToken, refreshToken);
 }
 
 void MainWindow::slotAccountInfoReadyToUse(void)
@@ -97,7 +100,8 @@ void MainWindow::slotAccessTokenRequired(void)
 
 void MainWindow::slotAuthResponse(const QString &accessToken)
 {
-    SQueries::inst()->setAccountInfo(accessToken);
+    //SQueries::inst()->setAccountInfo(accessToken);
+    SOperationsManager::inst()->setAccountInfo(accessToken);
     auth->deleteLater();
     auth = NULL;
 }

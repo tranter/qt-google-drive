@@ -11,7 +11,7 @@ public:
     explicit OperationsUI(QObject *parent = 0);
 
 public:
-   void del(QObject* object);
+   void del(void);
 
 public slots:
     void slotNewFolder(void);
@@ -27,7 +27,6 @@ public slots:
 
 private:
     void createFolder(const QString &name);
-    //void delItemInTree(ItemInfo item);
     bool operationPossible(void);
 
 private:

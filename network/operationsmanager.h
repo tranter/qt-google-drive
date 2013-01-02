@@ -3,6 +3,8 @@
 
 #include "network/networkmanager.h"
 #include "gui/iteminfo.h"
+#include "settings/accountinfo.h"
+#include "share/singleton.h"
 #include "share/defs.h"
 
 class OperationsManager : public NetworkManager
@@ -28,6 +30,10 @@ public:
     void renameWebFile(const Items::Data &source, const QString &newName);
     void shareWebFile(const Items::Data &source);
     void createFolder(const QString &folderUrl, const QString &name);
+    void setAccountInfo(const QString &accessToken, const QString &refreshToken = QString());
+
+signals:
+    void signalAccountInfoReadyToUse(void);
 
 protected slots:
     virtual void slotReplyFinished(QNetworkReply*);
@@ -35,6 +41,7 @@ protected slots:
 
 private slots:
     void slotPutFinished(void);
+    void slotAccountInfo(AccountInfo::Data &data);
 
 private:
     QString getIDFromURL(const QString &url);
@@ -46,6 +53,9 @@ private:
     EOperations currentOperation;
     QString fileURLToDeleteForMoveOperation;
     bool isMove;
+    AccountInfo *accountInfo;
 };
+
+typedef TSingleton<OperationsManager> SOperationsManager;
 
 #endif // OPERATIONSMANAGER_H

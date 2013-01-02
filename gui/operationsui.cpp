@@ -7,38 +7,18 @@ OperationsUI::OperationsUI(QObject *parent) :
 {
 }
 
-void OperationsUI::del(QObject* object)
-{
-    if (object == SDriveEngine::inst()->getFilesMngr()->getPanel())
-    {
-        FilesManager* manager;
+void OperationsUI::del(void)
+{    
+    FilesManager* manager;
 
-        manager = SDriveEngine::inst()->getFilesMngr();
-        manager->deleteFile(SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo().self);
-    }
+    manager = SDriveEngine::inst()->getFilesMngr();
+    manager->deleteFile(SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo().self);
+
 }
-
-//void OperationsUI::delItemInTree(ItemInfo item)
-//{
-//    QTreeWidgetItem *parent = item[SDriveEngine::inst()->foldersUI->getCurrFolderItemId()].pointer->parent();
-//    int index;
-
-//    if (parent)
-//    {
-//        index = parent->indexOfChild(SUi::inst()->treeFoldersView->currentItem());
-//        delete parent->takeChild(index);
-//    }
-//    else
-//    {
-//        index = SUi::inst()->treeFoldersView->indexOfTopLevelItem(SUi::inst()->treeFoldersView->currentItem());
-//        delete SUi::inst()->treeFoldersView->takeTopLevelItem(index);
-//    }
-//}
 
 void OperationsUI::slotTriggeredDel(void)
 {   
-    QObject* object(SDriveEngine::inst()->getFilesMngr()->getPanel());
-    del(object);
+    del();
 }
 
 bool OperationsUI::operationPossible(void)

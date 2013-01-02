@@ -2,8 +2,7 @@
 #define QUERIES_H
 
 #include <QObject>
-#include "settings/accountinfo.h"
-#include "share/singleton.h"
+//#include "share/singleton.h"
 
 class Queries : public QObject
 {
@@ -12,18 +11,19 @@ public:
     Queries();
 
 public:
-    void setAccountInfo(const QString &accessToken, const QString &refreshToken = QString());
+//    void setAccountInfo(const QString &accessToken, const QString &refreshToken = QString());
 
-signals:
-    void signalAccountInfoReadyToUse(void);
+//signals:
+//    void signalAccountInfoReadyToUse(void);
 
-private slots:
-    void slotAccountInfo(AccountInfo::Data &data);
+//private slots:
+//    void slotAccountInfo(AccountInfo::Data &data);
 
-private:
-   AccountInfo *accountInfo;
+//private:
+    //   AccountInfo *accountInfo;
+    void userAboutInfo(QString &userInfoQuery, QString &aboutInfoQuery);
 };
 
-typedef TSingleton<Queries> SQueries;
+//typedef TSingleton<Queries> SQueries;
 
 #endif // QUERIES_H

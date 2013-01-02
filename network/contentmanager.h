@@ -17,7 +17,6 @@ public:
     virtual void get(const QString &url);
     XMLParser* getParser(void) const;
     void clear(void);
-    OperationsManager* getOpMngr(void) const;
 
 public slots:
     virtual void slotReplyFinished(QNetworkReply* reply);
@@ -28,7 +27,6 @@ protected:
     virtual void show(void) = 0;
 
 protected:
-    QScopedPointer<OperationsManager> opMngr;
     QScopedPointer<XMLParser> parser;
     QList<QTreeWidgetItem*> treeWidgetItems;
 };
