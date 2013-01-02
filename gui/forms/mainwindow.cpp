@@ -64,7 +64,6 @@ void MainWindow::setConnections(void)
     connect(SDriveEngine::inst()->getFilesMngr()->self(), SIGNAL(signalAccessTokenRequired()), this, SLOT(slotAccessTokenRequired()));
     connect(SDriveEngine::inst()->getFilesMngr(true)->self(), SIGNAL(signalAccessTokenRequired()), this, SLOT(slotAccessTokenRequired()));
     connect(SDriveEngine::inst()->getFilesMngr(), SIGNAL(signalFirstPanelIsLoaded()), SDriveEngine::inst(), SLOT(slotFirstPanelIsLoaded()));
-    //connect(SQueries::inst(), SIGNAL(signalAccountInfoReadyToUse()), this, SLOT(slotAccountInfoReadyToUse()));
     connect(SOperationsManager::inst(), SIGNAL(signalAccountInfoReadyToUse()), this, SLOT(slotAccountInfoReadyToUse()));
 }
 
@@ -77,7 +76,6 @@ void MainWindow::slotAuthDialog(void)
 
 void MainWindow::slotTokens(const QString &accessToken, const QString &refreshToken)
 {
-    //SQueries::inst()->setAccountInfo(accessToken, refreshToken);
     SOperationsManager::inst()->setAccountInfo(accessToken, refreshToken);
 }
 
@@ -100,7 +98,6 @@ void MainWindow::slotAccessTokenRequired(void)
 
 void MainWindow::slotAuthResponse(const QString &accessToken)
 {
-    //SQueries::inst()->setAccountInfo(accessToken);
     SOperationsManager::inst()->setAccountInfo(accessToken);
     auth->deleteLater();
     auth = NULL;

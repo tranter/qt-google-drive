@@ -6,6 +6,7 @@
 #include "settings/accountinfo.h"
 #include "share/singleton.h"
 #include "share/defs.h"
+#include "queries.h"
 
 class OperationsManager : public NetworkManager
 {
@@ -26,10 +27,10 @@ public:
 public:
     void deleteFile(const QString &sourceUrl);
     void copyWebFile(const Items::Data &source, const QString &destFolderUrl);
-    void moveWebFile(const Items::Data &source, const QString &destFolder);
+    void moveWebFile(const Items::Data &source, const QString &destFolderUrl);
     void renameWebFile(const Items::Data &source, const QString &newName);
     void shareWebFile(const Items::Data &source);
-    void createFolder(const QString &folderUrl, const QString &name);
+    void createFolder(const QString &name, const QString &folderUrl);
     void setAccountInfo(const QString &accessToken, const QString &refreshToken = QString());
 
 signals:
@@ -38,10 +39,10 @@ signals:
 protected slots:
     virtual void slotReplyFinished(QNetworkReply*);
     virtual void slotPostFinished(QNetworkReply* reply);
-
-private slots:
     void slotPutFinished(void);
-    void slotAccountInfo(AccountInfo::Data &data);
+
+private slots:  
+    void slotAccountInfo(AccountInfo::Data &postData);
 
 private:
     QUrl getDeleteFileQuery(const QString &url);
@@ -52,6 +53,7 @@ private:
     QString fileUrlToDeleteForMoveOperation;
     bool isMove;
     AccountInfo *accountInfo;
+    Queries queries;
 };
 
 typedef TSingleton<OperationsManager> SOperationsManager;

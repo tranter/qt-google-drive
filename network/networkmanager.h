@@ -27,6 +27,7 @@ signals:
 
 protected slots:
     virtual void slotPostFinished(QNetworkReply* reply);
+    virtual void slotPutFinished(void);
     virtual void slotError(QNetworkReply::NetworkError error);
     virtual void slotSslErrors(const QList<QSslError> &errors);
     virtual void slotReplyFinished(QNetworkReply*);
@@ -39,7 +40,8 @@ public:
     QNetworkRequest getRequest(void) const;
     void getRequest(const QString &url);
     void postRequest(QUrl url, const QString &fileName = QString());
-    void putRequest(const QString &url,const QByteArray &data);
+    void putRequest(QUrl url);
+    void putRequest(const QString &url,const QByteArray &postData);
     EStates getState(void) const;
     void setState(EStates currentState);
     const NetworkManager* self(void) const;

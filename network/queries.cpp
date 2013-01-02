@@ -3,14 +3,14 @@
 #include "settings/settingsmanager.h"
 #include <QString>
 
-Queries::Queries()
+Queries::Queries() :
+    urlStartPart("https://www.googleapis.com/drive/v2/")
 {
 }
 
 void Queries::setRawHeader(const QString &accessToken, QNetworkRequest &request)
 {
     request.setRawHeader("User-Agent", SettingsManager().applicationName().toAscii());
-    //request.setRawHeader("GData-Version", "3.0");
     request.setRawHeader("Authorization", QString("Bearer %1").arg(accessToken).toAscii());
     request.setRawHeader("Content-Type", "application/json");
 }
@@ -18,7 +18,7 @@ void Queries::setRawHeader(const QString &accessToken, QNetworkRequest &request)
 void Queries::userAboutInfo(QString &userInfoQuery, QString &aboutInfoQuery)
 {
     userInfoQuery = QString("https://www.googleapis.com/oauth2/v1/userinfo");
-    aboutInfoQuery = QString("https://www.googleapis.com/drive/v2/about");
+    aboutInfoQuery = urlStartPart + QString("about");
 }
 
 QByteArray Queries::getCopyWebFileData(const QString &sourceName, const QString &destFolderUrl)
@@ -28,6 +28,26 @@ QByteArray Queries::getCopyWebFileData(const QString &sourceName, const QString 
 
 QUrl Queries::constructCopyWebFileUrl(const QString &url)
 {
-    return QUrl(QString(QString("https://www.googleapis.com/drive/v2/files/") + CommonTools::getIDFromURL(url) + QString("/copy")));
+    return QUrl(QString(urlStartPart + QString("files/") + CommonTools::getIDFromURL(url) + QString("/copy")));
+}
+
+QByteArray Queries::getRenameWebFileData(const QString &newName)
+{
+    return QString("{\"title\": \"%1\"}").arg(newName).toAscii();
+}
+
+QUrl Queries::constructRenameWebFileUrl(const QString &sourceName)
+{
+    return QUrl(urlStartPart + QString("files/") + CommonTools::getIDFromURL(sourceName));
+}
+
+QByteArray Queries::getCreateFolderData( const QString &name, const QString &folderUrl)
+{
+    return QString("{\"title\": \"%1\",\"parents\": [{\"id\": \"%2\"}],\"mimeType\": \"application/vnd.google-apps.folder\"}").arg(name).arg(CommonTools::getIDFromURL(folderUrl)).toAscii();
+}
+
+QUrl Queries::constructCreateFolderUrl(void)
+{
+    return QUrl(urlStartPart + QString("files"));
 }
 

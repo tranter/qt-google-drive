@@ -5,7 +5,6 @@
 #include "gui/forms/sharedialog.h"
 #include "settings/settingsmanager.h"
 #include "share/enums.h"
-#include "queries.h"
 #include <QStringList>
 
 OperationsManager::OperationsManager(QObject *parent):
@@ -36,19 +35,16 @@ void OperationsManager::copyWebFile(const Items::Data &source, const QString &de
 {    
     currentOperation = ECopy;
 
-    Queries queries;
-
     postData = queries.getCopyWebFileData(source.name, destFolderUrl);
-
     queries.setRawHeader(SettingsManager().accessToken(), request);
     postRequest(queries.constructCopyWebFileUrl(source.self));
 }
 
-void OperationsManager::moveWebFile(const Items::Data &source, const QString &destFolder)
+void OperationsManager::moveWebFile(const Items::Data &source, const QString &destFolderUrl)
 {
     isMove = true;
 
-    copyWebFile(source, destFolder);
+    copyWebFile(source, destFolderUrl);
     fileUrlToDeleteForMoveOperation = source.self;
 }
 
@@ -56,19 +52,9 @@ void OperationsManager::renameWebFile(const Items::Data &source, const QString &
 {
     currentOperation = ERename;
 
-    QString data = QString("{\"title\": \"%1\"}").arg(newName);
-
-    CommonTools::setHeader(SettingsManager().accessToken(), request);
-    request.setRawHeader("Content-Type", "application/json");
-
-    init();
-
-    request.setUrl(QUrl(QString("https://www.googleapis.com/drive/v2/files/") + CommonTools::getIDFromURL(source.self)));
-
-    reply = networkManager->put(request, data.toLatin1());
-
-    connect(reply, SIGNAL(finished()), this, SLOT(slotPutFinished()));
-    connectErrorHandlers();
+    postData = queries.getRenameWebFileData(newName);
+    queries.setRawHeader(SettingsManager().accessToken(), request);
+    putRequest(QUrl(source.self));
 }
 
 void OperationsManager::shareWebFile(const Items::Data &source)
@@ -78,19 +64,25 @@ void OperationsManager::shareWebFile(const Items::Data &source)
     //      shareDialog->show();
 }
 
-void OperationsManager::createFolder(const QString &folderUrl, const QString &name)
+void OperationsManager::createFolder(const QString &name, const QString &folderUrl)
 {
     currentOperation = ECreateFolder;
 
-    QString data = QString("{\"title\": \"%1\",\"parents\": [{\"id\": \"%2\"}],\"mimeType\": \"application/vnd.google-apps.folder\"}").arg(name).arg(CommonTools::getIDFromURL(folderUrl));
+    //QString data = QString("{\"title\": \"%1\",\"parents\": [{\"id\": \"%2\"}],\"mimeType\": \"application/vnd.google-apps.folder\"}").arg(name).arg(CommonTools::getIDFromURL(folderUrl));
 
-    postData = data.toLatin1();
+    //data = data.toLatin1();
 
-    CommonTools::setHeader(SettingsManager().accessToken(), request);
-    request.setRawHeader("Content-Type", "application/json");
+//    CommonTools::setHeader(SettingsManager().accessToken(), request);
+//    request.setRawHeader("Content-Type", "application/json");
+
+    postData = queries.getCreateFolderData(name, folderUrl);
+
+    queries.setRawHeader(SettingsManager().accessToken(), request);
     request.setRawHeader("Content-Length", QByteArray::number(postData.size()));
 
-    postRequest(QUrl("https://www.googleapis.com/drive/v2/files"));
+    postRequest(queries.constructCreateFolderUrl());
+
+    //postRequest(QUrl("https://www.googleapis.com/drive/v2/files"));
 }
 
 QUrl OperationsManager::getDeleteFileQuery(const QString &url)
@@ -144,7 +136,7 @@ void OperationsManager::updatePanelContent(bool opposite)
 void OperationsManager::setAccountInfo(const QString &accessToken, const QString &refreshToken)
 {
     QString userInfoQuery, aboutInfoQuery;
-    Queries().userAboutInfo(userInfoQuery, aboutInfoQuery);
+    queries.userAboutInfo(userInfoQuery, aboutInfoQuery);
 
     accountInfo = new AccountInfo(userInfoQuery, aboutInfoQuery, accessToken, refreshToken);
 

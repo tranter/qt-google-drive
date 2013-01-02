@@ -117,8 +117,6 @@ void NetworkManager::slotPostFinished(QNetworkReply* reply)
 
 void NetworkManager::getRequest(const QString &url)
 {
-    DEBUG << "URL:" << url;
-
     init();
 
     request.setUrl(QUrl(url));
@@ -133,14 +131,9 @@ void NetworkManager::getRequest(const QString &url)
 
 void NetworkManager::postRequest(QUrl url, const QString &fileName)
 {
-    DEBUG << "URL:" << url << "fileName" << fileName;
-
     init();
 
     request.setUrl(url);
-
-    //setProgressBarSettings(fileName, fileName);
-
     reply = networkManager->post(request, postData);
 
     connect(networkManager.data(), SIGNAL(finished(QNetworkReply*)), this, SLOT(slotPostFinished(QNetworkReply*)));
@@ -159,6 +152,17 @@ void NetworkManager::putRequest(const QString &url,const QByteArray &data)
     connectErrorHandlers();
 }
 
+void NetworkManager::putRequest(QUrl url)
+{
+    init();
+
+    request.setUrl(url);
+    reply = networkManager->put(request, postData);
+
+    connect(reply, SIGNAL(finished()), this, SLOT(slotPutFinished()));
+    connectErrorHandlers();
+}
+
 const NetworkManager* NetworkManager::self(void) const
 {
     return this;
@@ -171,3 +175,4 @@ QNetworkRequest NetworkManager::getRequest(void) const
 
 void NetworkManager::postFinishedActions(QNetworkReply*) {}
 void NetworkManager::slotReplyFinished(QNetworkReply*){}
+void NetworkManager::slotPutFinished(void){}

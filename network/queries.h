@@ -16,7 +16,13 @@ public:
     QByteArray getCopyWebFileData(const QString &sourceName, const QString &destFolderUrl);
     QUrl constructCopyWebFileUrl(const QString &url);
     void setRawHeader(const QString &accessToken, QNetworkRequest &request);
-};
+    QByteArray getRenameWebFileData(const QString &newName);
+    QUrl constructRenameWebFileUrl(const QString &sourceName);
+    QByteArray getCreateFolderData(const QString &name, const QString &folderUrl);
+    QUrl constructCreateFolderUrl(void);
 
+private:
+   QString urlStartPart;
+};
 
 #endif // QUERIES_H
