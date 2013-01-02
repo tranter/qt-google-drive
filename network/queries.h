@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QUrl>
+#include <QNetworkRequest>
 
 class Queries : public QObject
 {
@@ -12,8 +13,9 @@ public:
 
 public:
     void userAboutInfo(QString &userInfoQuery, QString &aboutInfoQuery);
-    QByteArray copyWebFileData(const QString &sourceName, const QString &destFolderUrl);
+    QByteArray getCopyWebFileData(const QString &sourceName, const QString &destFolderUrl);
     QUrl constructCopyWebFileUrl(const QString &url);
+    void setRawHeader(const QString &accessToken, QNetworkRequest &request);
 };
 
 

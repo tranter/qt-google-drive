@@ -4,7 +4,6 @@
 #include "share/defs.h"
 #include "settings/settingsmanager.h"
 #include <QMessageBox>
-//#include <QList>
 #include <QFile>
 #include <QFileInfo>
 #include "share/debug.h"

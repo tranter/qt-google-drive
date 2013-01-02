@@ -36,17 +36,11 @@ void OperationsManager::copyWebFile(const Items::Data &source, const QString &de
 {    
     currentOperation = ECopy;
 
-    //QString data = QString("{\"kind\": \"drive#file\", \"title\": \"%1\",\"parents\": [{\"id\":\"%2\"}]}").arg(source.name).arg(getIDFromURL(destFolder));
+    Queries queries;
 
-    //postData = data.toLatin1();
+    postData = queries.getCopyWebFileData(source.name, destFolderUrl);
 
-    Queries  queries;
-
-    postData = queries.copyWebFileData(source.name, destFolderUrl);
-
-    CommonTools::setHeader(SettingsManager().accessToken(), request);
-    request.setRawHeader("Content-Type", "application/json");
-
+    queries.setRawHeader(SettingsManager().accessToken(), request);
     postRequest(queries.constructCopyWebFileUrl(source.self));
 }
 
@@ -55,7 +49,7 @@ void OperationsManager::moveWebFile(const Items::Data &source, const QString &de
     isMove = true;
 
     copyWebFile(source, destFolder);
-    fileURLToDeleteForMoveOperation = source.self;
+    fileUrlToDeleteForMoveOperation = source.self;
 }
 
 void OperationsManager::renameWebFile(const Items::Data &source, const QString &newName)
@@ -104,11 +98,6 @@ QUrl OperationsManager::getDeleteFileQuery(const QString &url)
     return QUrl(QString(DELETE_FILE + CommonTools::getIDFromURL(url)));
 }
 
-//QUrl OperationsManager::getCopyFileQuery(const QString &url)
-//{
-//    return QUrl(QString(COPY_FILE + CommonTools::getIDFromURL(url)));
-//}
-
 void OperationsManager::slotReplyFinished(QNetworkReply*)
 {
     if(currentOperation == EDelete)
@@ -127,7 +116,7 @@ void OperationsManager::slotPostFinished(QNetworkReply* reply)
 
         if(isMove)
         {
-            deleteFile(fileURLToDeleteForMoveOperation);
+            deleteFile(fileUrlToDeleteForMoveOperation);
             isMove = false;
         }
     }
