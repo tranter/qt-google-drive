@@ -31,8 +31,8 @@ void ContentManager::slotReplyFinished(QNetworkReply* reply)
 //    DEBUG << "reply" << reply->error() << " " << reply->errorString();
 //    DEBUG << "===============================================================================================================>";
 
-    if(parseReply(replyStr)) DEBUG << "parse OK";
-    else DEBUG << "parse not OK";
+    /*if(*/parseReply(replyStr);/*) DEBUG << "parse OK"*/
+//    else DEBUG << "parse not OK";
 
     replyStr.clear();
 

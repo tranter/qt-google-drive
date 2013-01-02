@@ -66,14 +66,25 @@ void OperationsManager::shareWebFile(const Items::Data &source)
 
 void OperationsManager::createFolder(const QString &name, const QString &folderUrl)
 {
-    currentOperation = ECreateFolder;
+//    currentOperation = ECreateFolder;
 
-    //QString data = QString("{\"title\": \"%1\",\"parents\": [{\"id\": \"%2\"}],\"mimeType\": \"application/vnd.google-apps.folder\"}").arg(name).arg(CommonTools::getIDFromURL(folderUrl));
+//    QString data = QString("{\"title\": \"%1\",\"parents\": [{\"id\": \"%2\"}],\"mimeType\": \"application/vnd.google-apps.folder\"}").arg(name).arg(CommonTools::getIDFromURL(folderUrl));
 
-    //data = data.toLatin1();
+//    postData = data.toLatin1();
 
 //    CommonTools::setHeader(SettingsManager().accessToken(), request);
 //    request.setRawHeader("Content-Type", "application/json");
+//    request.setRawHeader("Content-Length", QByteArray::number(postData.size()));
+
+//    postRequest(QUrl("https://www.googleapis.com/drive/v2/files"));
+
+
+
+
+
+
+
+    currentOperation = ECreateFolder;
 
     postData = queries.getCreateFolderData(name, folderUrl);
 
@@ -81,8 +92,6 @@ void OperationsManager::createFolder(const QString &name, const QString &folderU
     request.setRawHeader("Content-Length", QByteArray::number(postData.size()));
 
     postRequest(queries.constructCreateFolderUrl());
-
-    //postRequest(QUrl("https://www.googleapis.com/drive/v2/files"));
 }
 
 QUrl OperationsManager::getDeleteFileQuery(const QString &url)

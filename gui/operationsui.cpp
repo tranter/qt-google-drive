@@ -137,5 +137,7 @@ void OperationsUI::createFolder(const QString &name)
         return;
     }
 
-    SDriveEngine::inst()->foldersMngr->createFolder(SDriveEngine::inst()->getFilesMngr()->getUpperLevelFolderURL(), name);
+    SDriveEngine::inst()->foldersMngr->createFolder(name, SDriveEngine::inst()->getFilesMngr()->getUpperLevelFolderURL());
+
+    delete createFolderDialog;
 }
