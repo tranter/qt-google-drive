@@ -104,10 +104,10 @@ QUrl OperationsManager::getDeleteFileQuery(const QString &url)
     return QUrl(QString(DELETE_FILE + CommonTools::getIDFromURL(url)));
 }
 
-QUrl OperationsManager::getCopyFileQuery(const QString &url)
-{
-    return QUrl(QString(COPY_FILE + CommonTools::getIDFromURL(url)));
-}
+//QUrl OperationsManager::getCopyFileQuery(const QString &url)
+//{
+//    return QUrl(QString(COPY_FILE + CommonTools::getIDFromURL(url)));
+//}
 
 void OperationsManager::slotReplyFinished(QNetworkReply*)
 {

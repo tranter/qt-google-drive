@@ -45,7 +45,7 @@ private slots:
 
 private:
     QUrl getDeleteFileQuery(const QString &url);
-    QUrl getCopyFileQuery(const QString &url);
+    //QUrl getCopyFileQuery(const QString &url);
     void updatePanelContent(bool opposite);
 
 private:
