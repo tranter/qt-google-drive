@@ -62,6 +62,8 @@ void OperationsManager::shareWebFile(const Items::Data &source)
 
 void OperationsManager::createFolder(const QString &name, const QString &folderUrl)
 { 
+    currentOperation = ECreateFolder;
+
     postData = queries.getCreateFolderData(name, folderUrl);
 
     queries.setRawHeader(SettingsManager().accessToken(), request);
@@ -178,7 +180,7 @@ void OperationsManager::slotCopyWebFile(void)
     }
 
     Items::Data source = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
-    SDriveEngine::inst()->getFilesMngr()->copyWebFile(source, SDriveEngine::inst()->getFilesMngr(true)->getParentFolderUrl());
+    copyWebFile(source, SDriveEngine::inst()->getFilesMngr(true)->getParentFolderUrl());
 }
 
 void OperationsManager::slotMoveWebFile(void)
@@ -190,7 +192,7 @@ void OperationsManager::slotMoveWebFile(void)
     }
 
     Items::Data source = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
-    SDriveEngine::inst()->getFilesMngr()->moveWebFile(source, SDriveEngine::inst()->getFilesMngr(true)->getParentFolderUrl());
+    moveWebFile(source, SDriveEngine::inst()->getFilesMngr(true)->getParentFolderUrl());
 }
 
 void OperationsManager::slotRenameWebFile(void)
@@ -220,15 +222,14 @@ void OperationsManager::slotItemEditDone(void)
 
     if(editingItemText != itemTextAfterEditing)
     {
-        SDriveEngine::inst()->getFilesMngr()->renameWebFile(source, itemTextAfterEditing);
+        renameWebFile(source, itemTextAfterEditing);
         editingItemText.clear();
     }
 }
 
 void OperationsManager::slotShareWebFile(void)
 {
-    Items::Data source = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
-    SDriveEngine::inst()->getFilesMngr()->shareWebFile(source);
+    shareWebFile(SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo());
 }
 
 void OperationsManager::slotAcceptCreateFolder(const QString &name)
@@ -242,6 +243,7 @@ void OperationsManager::slotAcceptCreateFolder(const QString &name)
 //    if(operationPossible()) createFolder(name, SDriveEngine::inst()->getFilesMngr()->getParentFolderUrl());
 //    else CommonTools::msg(tr("Please select a panel"));
 
+    createFolder(name, SDriveEngine::inst()->getFilesMngr()->getParentFolderUrl());
     delete createFolderDialog;
 }
 

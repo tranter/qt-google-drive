@@ -39,7 +39,7 @@ public:
     QNetworkAccessManager *getNetworkManager(void) const;
     QNetworkRequest getRequest(void) const;
     void getRequest(const QString &url);
-    void postRequest(QUrl url, const QString &fileName = QString());
+    void postRequest(QUrl url);
     void putRequest(QUrl url);
     void putRequest(const QString &url,const QByteArray &postData);
     EStates getState(void) const;

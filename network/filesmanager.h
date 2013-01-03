@@ -24,10 +24,10 @@ public:
     void setPanel(QTreeWidget *p, int pn);
     void sort(int column, Qt::SortOrder order);
     //void deleteFile(const QString &url);
-    void copyWebFile(const Items::Data &source, const QString &destFolder);
-    void moveWebFile(const Items::Data &source, const QString &destFolder);
-    void renameWebFile(const Items::Data &source, const QString &newName);
-    void shareWebFile(const Items::Data &source);
+//    void copyWebFile(const Items::Data &source, const QString &destFolder);
+//    void moveWebFile(const Items::Data &source, const QString &destFolder);
+//    void renameWebFile(const Items::Data &source, const QString &newName);
+//    void shareWebFile(const Items::Data &source);
     Items::Data getCurrentFileInfo(void);
     QStringList getPathesURLs(void) const;
     void setPathesURLs(const QStringList &pathesURLsStrList);

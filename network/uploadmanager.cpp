@@ -82,14 +82,14 @@ void UploadFileManager::slotUploadProgress( qint64 bytesSent, qint64 bytesTotal 
 void UploadFileManager::startUpload(QUrl url, const QString &fileName)
 {
     setProgressBarSettings(fileName, fileName);
-    postRequest(url, fileName);
+    postRequest(url);
 }
 
 void UploadFileManager::setProgressBarSettings(const QString &fileName, const QString &progressBarDialogInfoText)
 {
     Q_UNUSED(progressBarDialogInfoText);
 
-    NetworkManager::setProgressBarSettings(fileName, QString("Uploading file: "));
+    NetworkManager::setProgressBarSettings(fileName, tr("Uploading file: "));
     setUploadSettings();
 }
 

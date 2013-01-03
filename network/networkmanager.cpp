@@ -129,7 +129,7 @@ void NetworkManager::getRequest(const QString &url)
     connectErrorHandlers();
 }
 
-void NetworkManager::postRequest(QUrl url, const QString &fileName)
+void NetworkManager::postRequest(QUrl url)
 {
     init();
 
