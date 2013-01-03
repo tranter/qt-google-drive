@@ -43,8 +43,8 @@ void DriveEngine::reset(void)
 
     for(int i = 0; i < EPanelsCount; ++i)
     {
-        filesMngr[i].reset(new FilesManager);
-        filesMngr[i]->init();
+        contentMngr[i].reset(new ContentManager);
+        contentMngr[i]->init();
     }
 
     checkUI.reset(new CheckUI);
@@ -60,24 +60,24 @@ FilePanel* DriveEngine::getFilePanel(EPanels panel) const
     return filesViews[panel];
 }
 
-FilesManager* DriveEngine::getFilesMngr(bool opposite) const
+ContentManager* DriveEngine::getContentMngr(bool opposite) const
 {
-    FilesManager* filesManager;
+    ContentManager* cm;
     EPanels currentPanel = static_cast<EPanels> (SettingsManager().currentPanel());
 
     if(currentPanel == ELeft)
     {
-        if(opposite) filesManager = filesMngr[ERight].data();
-        else filesManager = filesMngr[ELeft].data();
+        if(opposite) cm = contentMngr[ERight].data();
+        else cm = contentMngr[ELeft].data();
     }
 
     if(currentPanel == ERight)
     {
-        if(opposite) filesManager = filesMngr[ELeft].data();
-        else filesManager = filesMngr[ERight].data();
+        if(opposite) cm = contentMngr[ELeft].data();
+        else cm = contentMngr[ERight].data();
     }
 
-    return filesManager;
+    return cm;
 }
 
 void DriveEngine::updatePanel(int panelNum, bool initLoad)
@@ -94,10 +94,10 @@ void DriveEngine::updatePanel(int panelNum, bool initLoad)
     disc += QDir::toNativeSeparators("/");
 
     filesUI->getPanelLabel(panelId)->setText(disc + settingsManager.currentFolderPath(panelNum));
-    getFilesMngr()->setPathesURLs(settingsManager.pathesURLs(panelNum));
+    getContentMngr()->setPathesURLs(settingsManager.pathesURLs(panelNum));
 
-    filesMngr[panelNum]->setPanel(filesViews[panelNum]->getFileView(), filesViews[panelNum]->getpanelNum());
-    filesMngr[panelNum]->get(settingsManager.currentFolderURL(panelNum));
+    contentMngr[panelNum]->setPanel(filesViews[panelNum]->getFileView(), filesViews[panelNum]->getpanelNum());
+    contentMngr[panelNum]->get(settingsManager.currentFolderURL(panelNum));
 
     getFilePanel(panelId)->fillComboBox(settingsManager.accountsWithLetters(), settingsManager.currentAccount(panelNum));
 }

@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QXmlAttributes>
-#include "gui/iteminfo.h"
+#include "gui/items.h"
 #include "share/defs.h"
 #include "network/resmanager.h"
 

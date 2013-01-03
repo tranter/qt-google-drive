@@ -36,7 +36,7 @@ void FilesUI::showFilesOnPanel(const QString &name, EPanels panel)
 {
     if(name == PARENT_FOLDER_SIGN)
     {
-        performShowFiles(SDriveEngine::inst()->getFilesMngr()->back(), name, EBackward, panel);
+        performShowFiles(SDriveEngine::inst()->getContentMngr()->back(), name, EBackward, panel);
     }
     else
     {
@@ -44,7 +44,7 @@ void FilesUI::showFilesOnPanel(const QString &name, EPanels panel)
         {
             QString query(GET_FILES_IN_FOLDER);
 
-            query += CommonTools::getIDFromURL(SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo().self);
+            query += CommonTools::getIDFromURL(SDriveEngine::inst()->getContentMngr()->getCurrentFileInfo().self);
             query += (CONTENTS + MAX_RESULTS);
 
             performShowFiles(query, name, EForward, panel);
@@ -54,7 +54,7 @@ void FilesUI::showFilesOnPanel(const QString &name, EPanels panel)
 
 bool FilesUI::isFolder(void)
 {
-  return (SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo().type == FOLDER_TYPE_STR);
+  return (SDriveEngine::inst()->getContentMngr()->getCurrentFileInfo().type == FOLDER_TYPE_STR);
 }
 
 void FilesUI::setCurrentPanelState(EPanels panel, const QString &url)
@@ -70,19 +70,19 @@ void FilesUI::setCurrentPanelState(EPanels panel, const QString &url)
     int length = fullPath.length() - beginPos;
 
     settingsManager.setCurrentFolderPath(panelNum, fullPath.mid(beginPos, length));
-    settingsManager.setPathesURLs(panelNum, SDriveEngine::inst()->getFilesMngr()->getPathesURLs());
+    settingsManager.setPathesURLs(panelNum, SDriveEngine::inst()->getContentMngr()->getPathesURLs());
 }
 
 void FilesUI::performShowFiles(const QString &query, const QString &name, EPath path, EPanels panel)
 {
     setPanelDisplayingPath(name, path, panel);
-    SDriveEngine::inst()->getFilesMngr()->get(query);
+    SDriveEngine::inst()->getContentMngr()->get(query);
     setCurrentPanelState(panel, query);
 }
 
 void FilesUI::slotUpdateFileList()
 {
-    SDriveEngine::inst()->getFilesMngr()->get(SDriveEngine::inst()->getFilesMngr()->getParentFolderUrl());
+    SDriveEngine::inst()->getContentMngr()->get(SDriveEngine::inst()->getContentMngr()->getParentFolderUrl());
 }
 
 void FilesUI::setPanelDisplayingPath(const QString &name, EPath path, EPanels panel)

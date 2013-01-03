@@ -4,7 +4,7 @@
 #include <QTreeWidgetItem>
 #include "network/downloadmanager.h"
 #include "network/uploadmanager.h"
-#include "network/filesmanager.h"
+#include "network/contentmanager.h"
 #include "gui/forms/mainwindow.h"
 #include "ui_mainwindow.h"
 #include "gui/filestransferui.h"
@@ -16,7 +16,7 @@
 class AdditionalFoldersManager;
 class CheckUI;
 class CreateFolderDialog;
-class FilesManager;
+class ContentManager;
 class FilesTransferUI;
 class FilesUI;
 class OperationsUI;
@@ -35,7 +35,7 @@ public:
 
 public:   
     CheckUI* getCheckUI(void) const;
-    FilesManager* getFilesMngr(bool opposite = false) const;
+    ContentManager* getContentMngr(bool opposite = false) const;
     FilesTransferUI* getfilesTransferUI(void) const;
     FilesUI* getfilesUI(void) const;
     QWidget* getParent(void) const;
@@ -54,7 +54,7 @@ private:
     QWidget *parent;
     QScopedPointer<CheckUI> checkUI;
     QScopedPointer<DownloadFileManager> downloadMngr;
-    QScopedPointer<FilesManager> filesMngr[EPanelsCount];
+    QScopedPointer<ContentManager> contentMngr[EPanelsCount];
     QScopedPointer<FilesTransferUI> filesTransferUI;
     QScopedPointer<FilesUI> filesUI;
     QScopedPointer<UploadFileManager> uploadFileMngr;

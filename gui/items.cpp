@@ -1,4 +1,4 @@
-#include "iteminfo.h"
+#include "items.h"
 #include <QtAlgorithms>
 
 Items::Items()

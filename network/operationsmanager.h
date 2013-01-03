@@ -2,7 +2,7 @@
 #define OPERATIONSMANAGER_H
 
 #include "network/networkmanager.h"
-#include "gui/iteminfo.h"
+#include "gui/items.h"
 #include "settings/accountinfo.h"
 #include "share/singleton.h"
 #include "share/defs.h"

@@ -16,7 +16,7 @@ OperationsManager::OperationsManager(QObject *parent):
 
 void OperationsManager::slotDelete(void)
 {
-    deleteFile(SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo());
+    deleteFile(SDriveEngine::inst()->getContentMngr()->getCurrentFileInfo());
 }
 
 void OperationsManager::deleteFile(const Items::Data &source)
@@ -109,8 +109,8 @@ void OperationsManager::slotPutFinished(void)
 
 void OperationsManager::updatePanelContent(bool opposite)
 {
-    FilesManager* fileManager(SDriveEngine::inst()->getFilesMngr(opposite));
-    fileManager->get(fileManager->getParentFolderUrl());
+    ContentManager* cm(SDriveEngine::inst()->getContentMngr(opposite));
+    cm->get(cm->getParentFolderUrl());
 }
 
 void OperationsManager::setAccountInfo(const QString &accessToken, const QString &refreshToken)
@@ -145,11 +145,11 @@ bool OperationsManager::operationPossible(void)
 {
     bool is = false;
 
-    int index = SDriveEngine::inst()->getFilesMngr()->getPanel()->currentIndex().row();
+    int index = SDriveEngine::inst()->getContentMngr()->getPanel()->currentIndex().row();
 
     if(index >= 0)
     {
-        QString itemText = SDriveEngine::inst()->getFilesMngr()->getPanel()->currentItem()->text(0);
+        QString itemText = SDriveEngine::inst()->getContentMngr()->getPanel()->currentItem()->text(0);
 
         if(itemText != PARENT_FOLDER_SIGN)
         {
@@ -179,8 +179,8 @@ void OperationsManager::slotCopyWebFile(void)
         return;
     }
 
-    Items::Data source = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
-    copyWebFile(source, SDriveEngine::inst()->getFilesMngr(true)->getParentFolderUrl());
+    Items::Data source = SDriveEngine::inst()->getContentMngr()->getCurrentFileInfo();
+    copyWebFile(source, SDriveEngine::inst()->getContentMngr(true)->getParentFolderUrl());
 }
 
 void OperationsManager::slotMoveWebFile(void)
@@ -191,8 +191,8 @@ void OperationsManager::slotMoveWebFile(void)
         return;
     }
 
-    Items::Data source = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
-    moveWebFile(source, SDriveEngine::inst()->getFilesMngr(true)->getParentFolderUrl());
+    Items::Data source = SDriveEngine::inst()->getContentMngr()->getCurrentFileInfo();
+    moveWebFile(source, SDriveEngine::inst()->getContentMngr(true)->getParentFolderUrl());
 }
 
 void OperationsManager::slotRenameWebFile(void)
@@ -203,20 +203,20 @@ void OperationsManager::slotRenameWebFile(void)
         return;
     }
 
-    QTreeWidgetItem *item = SDriveEngine::inst()->getFilesMngr()->getPanel()->currentItem();
+    QTreeWidgetItem *item = SDriveEngine::inst()->getContentMngr()->getPanel()->currentItem();
 
     editingItemText = item->text(0);
 
     item->setFlags(item->flags() | Qt::ItemIsEditable);
-    SDriveEngine::inst()->getFilesMngr()->getPanel()->editItem(item, 0);
+    SDriveEngine::inst()->getContentMngr()->getPanel()->editItem(item, 0);
 
-    connect(SDriveEngine::inst()->getFilesMngr()->getPanel()->itemDelegate(), SIGNAL(closeEditor(QWidget*,QAbstractItemDelegate::EndEditHint)), this, SLOT(slotItemEditDone()));
+    connect(SDriveEngine::inst()->getContentMngr()->getPanel()->itemDelegate(), SIGNAL(closeEditor(QWidget*,QAbstractItemDelegate::EndEditHint)), this, SLOT(slotItemEditDone()));
 }
 
 void OperationsManager::slotItemEditDone(void)
 {
-    QTreeWidgetItem *item = SDriveEngine::inst()->getFilesMngr()->getPanel()->currentItem();
-    Items::Data source = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
+    QTreeWidgetItem *item = SDriveEngine::inst()->getContentMngr()->getPanel()->currentItem();
+    Items::Data source = SDriveEngine::inst()->getContentMngr()->getCurrentFileInfo();
 
     QString itemTextAfterEditing = item->text(0);
 
@@ -229,7 +229,7 @@ void OperationsManager::slotItemEditDone(void)
 
 void OperationsManager::slotShareWebFile(void)
 {
-    shareWebFile(SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo());
+    shareWebFile(SDriveEngine::inst()->getContentMngr()->getCurrentFileInfo());
 }
 
 void OperationsManager::slotAcceptCreateFolder(const QString &name)
@@ -243,7 +243,7 @@ void OperationsManager::slotAcceptCreateFolder(const QString &name)
 //    if(operationPossible()) createFolder(name, SDriveEngine::inst()->getFilesMngr()->getParentFolderUrl());
 //    else CommonTools::msg(tr("Please select a panel"));
 
-    createFolder(name, SDriveEngine::inst()->getFilesMngr()->getParentFolderUrl());
+    createFolder(name, SDriveEngine::inst()->getContentMngr()->getParentFolderUrl());
     delete createFolderDialog;
 }
 
