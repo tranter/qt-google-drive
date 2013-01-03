@@ -3,28 +3,28 @@
 #include "share/debug.h"
 #include <QDir>
 
-FilesUI::FilesUI(QObject *parent) :
+ContentUI::ContentUI(QObject *parent) :
     QObject(parent)
 {
 }
 
-void FilesUI::slotLeftViewClicked(const QModelIndex&)
+void ContentUI::slotLeftViewClicked(const QModelIndex&)
 {
     SettingsManager().setCurrentPanel(LEFT_PANEL_VALUE);
 }
 
-void FilesUI::slotRightViewClicked(const QModelIndex&)
+void ContentUI::slotRightViewClicked(const QModelIndex&)
 {
     SettingsManager().setCurrentPanel(RIGHT_PANEL_VALUE);
 }
 
-void FilesUI::slotLeftPanelItemDoubleClicked(QTreeWidgetItem *item, int column)
+void ContentUI::slotLeftPanelItemDoubleClicked(QTreeWidgetItem *item, int column)
 {
     SettingsManager().setCurrentPanel(LEFT_PANEL_VALUE);
     showFilesOnPanel(item->data(0, Qt::DisplayRole).toString(), ELeft);
 }
 
-void FilesUI::slotRightPanelItemDoubleClicked(QTreeWidgetItem *item, int column)
+void ContentUI::slotRightPanelItemDoubleClicked(QTreeWidgetItem *item, int column)
 {
     Q_UNUSED(column);
 
@@ -32,7 +32,7 @@ void FilesUI::slotRightPanelItemDoubleClicked(QTreeWidgetItem *item, int column)
     showFilesOnPanel(item->data(0, Qt::DisplayRole).toString(), ERight);
 }
 
-void FilesUI::showFilesOnPanel(const QString &name, EPanels panel)
+void ContentUI::showFilesOnPanel(const QString &name, EPanels panel)
 {
     if(name == PARENT_FOLDER_SIGN)
     {
@@ -52,12 +52,12 @@ void FilesUI::showFilesOnPanel(const QString &name, EPanels panel)
     }
 }
 
-bool FilesUI::isFolder(void)
+bool ContentUI::isFolder(void)
 {
   return (SDriveEngine::inst()->getContentMngr()->getCurrentFileInfo().type == FOLDER_TYPE_STR);
 }
 
-void FilesUI::setCurrentPanelState(EPanels panel, const QString &url)
+void ContentUI::setCurrentPanelState(EPanels panel, const QString &url)
 {
     SettingsManager settingsManager;
 
@@ -73,19 +73,19 @@ void FilesUI::setCurrentPanelState(EPanels panel, const QString &url)
     settingsManager.setPathesURLs(panelNum, SDriveEngine::inst()->getContentMngr()->getPathesURLs());
 }
 
-void FilesUI::performShowFiles(const QString &query, const QString &name, EPath path, EPanels panel)
+void ContentUI::performShowFiles(const QString &query, const QString &name, EPath path, EPanels panel)
 {
     setPanelDisplayingPath(name, path, panel);
     SDriveEngine::inst()->getContentMngr()->get(query);
     setCurrentPanelState(panel, query);
 }
 
-void FilesUI::slotUpdateFileList()
+void ContentUI::slotUpdateFileList()
 {
     SDriveEngine::inst()->getContentMngr()->get(SDriveEngine::inst()->getContentMngr()->getParentFolderUrl());
 }
 
-void FilesUI::setPanelDisplayingPath(const QString &name, EPath path, EPanels panel)
+void ContentUI::setPanelDisplayingPath(const QString &name, EPath path, EPanels panel)
 {
     QLabel* label = getPanelLabel(panel);
     QString pathDividerSign(QDir::toNativeSeparators("/"));
@@ -113,7 +113,7 @@ void FilesUI::setPanelDisplayingPath(const QString &name, EPath path, EPanels pa
     }
 }
 
-int FilesUI::getDiscLength(EPanels panel) const
+int ContentUI::getDiscLength(EPanels panel) const
 {
     SettingsManager settingsManager;
     QString disc(settingsManager.accountDisc(settingsManager.currentAccount(static_cast <int> (panel))));
@@ -124,7 +124,7 @@ int FilesUI::getDiscLength(EPanels panel) const
     return disc.length();
 }
 
-QLabel* FilesUI::getPanelLabel(EPanels panel) const
+QLabel* ContentUI::getPanelLabel(EPanels panel) const
 {
     return  SDriveEngine::inst()->getFilePanel(panel)->getPathLabel();
 }

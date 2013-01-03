@@ -49,7 +49,7 @@ void DriveEngine::reset(void)
 
     checkUI.reset(new CheckUI);
     filesTransferUI.reset(new FilesTransferUI);
-    filesUI.reset(new FilesUI);
+    filesUI.reset(new ContentUI);
 
     connect(filesViews[ELeft], SIGNAL(signalAccountChanged(int, const QString&)), SLOT(slotAccountChanged(int, const QString&)));
     connect(filesViews[ERight], SIGNAL(signalAccountChanged(int, const QString&)), SLOT(slotAccountChanged(int, const QString&)));
@@ -123,7 +123,7 @@ CheckUI* DriveEngine::getCheckUI(void) const
     return checkUI.data();
 }
 
-FilesUI* DriveEngine::getfilesUI(void) const
+ContentUI* DriveEngine::getfilesUI(void) const
 {
     return filesUI.data();
 }

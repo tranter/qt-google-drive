@@ -7,7 +7,7 @@
 
 //class FilesManager;
 
-class FilesUI: public QObject
+class ContentUI: public QObject
 {
     Q_OBJECT
 public: 
@@ -17,7 +17,7 @@ public:
         EBackward
     };
 
-    explicit FilesUI(QObject *parent = 0);
+    explicit ContentUI(QObject *parent = 0);
 
     friend class FilesTransferUI;
     friend class FoldersUI;

@@ -14,18 +14,9 @@ public:
     virtual ~ContentManager();
 
 public:
-    virtual void get(const QString &url);
+    void get(const QString &url);
     XMLParser* getParser(void) const;
     void clear(void);
-signals:
-    void signalFirstPanelIsLoaded();
-
-private slots:
-        void slotSectionClicked(int logicalIndex);
-        virtual void slotReplyFinished(QNetworkReply* reply);
-        void slotResDownloaded(void);
-
-public:
     QString getParentFolderUrl(void) const;
     Items::Data getUpperLevelFolderInfo(void) const;
     QTreeWidget* getPanel(void) const;
@@ -44,6 +35,14 @@ private:
     QString getDate(const QString &date);
     QString getSize(const QString &size);
     void updateItemsState(void);
+
+signals:
+    void signalFirstPanelIsLoaded();
+
+private slots:
+        void slotSectionClicked(int logicalIndex);
+        virtual void slotReplyFinished(QNetworkReply* reply);
+        void slotResDownloaded(void);
 
 private:
     QScopedPointer<XMLParser> parser;

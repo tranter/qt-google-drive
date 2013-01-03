@@ -18,7 +18,7 @@ class CheckUI;
 class CreateFolderDialog;
 class ContentManager;
 class FilesTransferUI;
-class FilesUI;
+class ContentUI;
 class OperationsUI;
 
 class DriveEngine : public QObject
@@ -29,7 +29,7 @@ public:
     ~DriveEngine();
 
     friend class FilesTransferUI;
-    friend class FilesUI;
+    friend class ContentUI;
     friend class FoldersUI;
     friend class OperationsUI;
 
@@ -37,7 +37,7 @@ public:
     CheckUI* getCheckUI(void) const;
     ContentManager* getContentMngr(bool opposite = false) const;
     FilesTransferUI* getfilesTransferUI(void) const;
-    FilesUI* getfilesUI(void) const;
+    ContentUI* getfilesUI(void) const;
     QWidget* getParent(void) const;
     void init(void);
     FilePanel *getFilePanel(EPanels panel) const;
@@ -56,7 +56,7 @@ private:
     QScopedPointer<DownloadFileManager> downloadMngr;
     QScopedPointer<ContentManager> contentMngr[EPanelsCount];
     QScopedPointer<FilesTransferUI> filesTransferUI;
-    QScopedPointer<FilesUI> filesUI;
+    QScopedPointer<ContentUI> filesUI;
     QScopedPointer<UploadFileManager> uploadFileMngr;
     FilePanel *filesViews[EPanelsCount];
 };
