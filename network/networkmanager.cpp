@@ -163,6 +163,18 @@ void NetworkManager::putRequest(QUrl url)
     connectErrorHandlers();
 }
 
+void NetworkManager::deleteRequest(QUrl url)
+{
+    init();
+
+    request.setUrl(url);
+    reply = networkManager->deleteResource(request);
+
+    connect(networkManager.data(), SIGNAL(finished(QNetworkReply*)), this, SLOT(slotReplyFinished(QNetworkReply*)));
+    connectErrorHandlers();
+}
+
+
 const NetworkManager* NetworkManager::self(void) const
 {
     return this;

@@ -51,3 +51,8 @@ QUrl Queries::constructCreateFolderUrl(void)
     return QUrl(urlStartPart + QString("files"));
 }
 
+QUrl Queries::constructDeleteWebFileUrl(const QString &sourceName)
+{
+  return QUrl(urlStartPart + QString("files/") + CommonTools::getIDFromURL(sourceName));
+}
+

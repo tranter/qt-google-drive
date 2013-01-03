@@ -24,8 +24,11 @@ public:
 
     OperationsManager(QObject *parent = 0);
 
+public slots:
+    void slotDelete(void);
+
 public:
-    void deleteFile(const QString &sourceUrl);
+    void deleteFile(const Items::Data &source);
     void copyWebFile(const Items::Data &source, const QString &destFolderUrl);
     void moveWebFile(const Items::Data &source, const QString &destFolderUrl);
     void renameWebFile(const Items::Data &source, const QString &newName);
@@ -42,15 +45,14 @@ protected slots:
     void slotPutFinished(void);
 
 private slots:  
-    void slotAccountInfo(AccountInfo::Data &postData);
+    void slotAccountInfoReceived(AccountInfo::Data &postData);
 
 private:
-    QUrl getDeleteFileQuery(const QString &url);
     void updatePanelContent(bool opposite);
 
 private:
     EOperations currentOperation;
-    QString fileUrlToDeleteForMoveOperation;
+    Items::Data fileUrlToDeleteForMoveOperation;
     bool isMove;
     AccountInfo *accountInfo;
     Queries queries;

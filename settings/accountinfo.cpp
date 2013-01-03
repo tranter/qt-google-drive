@@ -31,7 +31,7 @@ void AccountInfo::slotReplyFinished(QNetworkReply*)
         queryStr = userInfoQuery;
         query = EUserInfoQuery;
 
-        emit signalAccountInfo(accountData);
+        emit signalAccountInfoReceived(accountData);
     }
 }
 
@@ -47,9 +47,9 @@ void AccountInfo::setInfo(void)
 
 void AccountInfo::parseReply(void)
 {
-    DEBUG << "<===============================================================================================================";
-    DEBUG << "replyStr" << replyStr;
-    DEBUG << "===============================================================================================================>";
+//    DEBUG << "<===============================================================================================================";
+//    DEBUG << "replyStr" << replyStr;
+//    DEBUG << "===============================================================================================================>";
 
     JSONParser jParser;
 

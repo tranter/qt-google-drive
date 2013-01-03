@@ -109,7 +109,7 @@ QTreeWidget* FilesManager::getPanel(void) const
     return panel;
 }
 
-QString FilesManager::getUpperLevelFolderURL(void) const
+QString FilesManager::getParentFolderUrl(void) const
 {
     return pathesURLs.last();
 }
@@ -147,10 +147,10 @@ void FilesManager::sort(int column, Qt::SortOrder order)
 {
 }
 
-void FilesManager::deleteFile(const QString &url)
-{
-    SOperationsManager::inst()->deleteFile(url);
-}
+//void FilesManager::deleteFile(const QString &url)
+//{
+//    SOperationsManager::inst()->deleteFile(url);
+//}
 
 void FilesManager::copyWebFile(const Items::Data &source, const QString &destFolder)
 {

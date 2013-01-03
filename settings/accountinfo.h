@@ -29,7 +29,7 @@ public:
     AccountInfo(const QString &uiq, const QString &aiq, const QString &at, const QString &rt = QString());
 
 signals:
-   void signalAccountInfo(AccountInfo::Data&);
+   void signalAccountInfoReceived(AccountInfo::Data& data);
 
 protected:
     void slotReplyFinished(QNetworkReply*);

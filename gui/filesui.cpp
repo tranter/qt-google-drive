@@ -116,7 +116,7 @@ void FilesUI::performShowFiles(const QString &query, const QString &name, EPath 
 
 void FilesUI::slotUpdateFileList()
 {
-    SDriveEngine::inst()->getFilesMngr()->get(SDriveEngine::inst()->getFilesMngr()->getUpperLevelFolderURL());
+    SDriveEngine::inst()->getFilesMngr()->get(SDriveEngine::inst()->getFilesMngr()->getParentFolderUrl());
 }
 
 void FilesUI::setPanelDisplayingPath(const QString &name, EPath path, EPanels panel)

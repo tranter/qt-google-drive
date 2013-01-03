@@ -20,6 +20,7 @@ public:
     QUrl constructRenameWebFileUrl(const QString &sourceName);
     QByteArray getCreateFolderData(const QString &name, const QString &folderUrl);
     QUrl constructCreateFolderUrl(void);
+    QUrl constructDeleteWebFileUrl(const QString &sourceName);
 
 private:
    QString urlStartPart;

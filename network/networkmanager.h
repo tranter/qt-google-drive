@@ -46,6 +46,7 @@ public:
     void setState(EStates currentState);
     const NetworkManager* self(void) const;
     void connectErrorHandlers(void);
+    void deleteRequest(QUrl url);
 
 protected:
     virtual void postFinishedActions(QNetworkReply*);

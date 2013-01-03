@@ -7,19 +7,18 @@ OperationsUI::OperationsUI(QObject *parent) :
 {
 }
 
-void OperationsUI::del(void)
-{    
-    FilesManager* manager;
+//void OperationsUI::del(void)
+//{
+//    FilesManager* manager;
 
-    manager = SDriveEngine::inst()->getFilesMngr();
-    manager->deleteFile(SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo().self);
+//    manager = SDriveEngine::inst()->getFilesMngr();
+//    manager->deleteFile(SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo().self);
+//}
 
-}
-
-void OperationsUI::slotTriggeredDel(void)
-{   
-    del();
-}
+//void OperationsUI::slotTriggeredDel(void)
+//{
+//    del();
+//}
 
 bool OperationsUI::operationPossible(void)
 {
@@ -60,7 +59,7 @@ void OperationsUI::slotCopyWebFile(void)
     }
 
     Items::Data source = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
-    SDriveEngine::inst()->getFilesMngr()->copyWebFile(source, SDriveEngine::inst()->getFilesMngr(true)->getUpperLevelFolderURL());
+    SDriveEngine::inst()->getFilesMngr()->copyWebFile(source, SDriveEngine::inst()->getFilesMngr(true)->getParentFolderUrl());
 }
 
 void OperationsUI::slotMoveWebFile(void)
@@ -72,7 +71,7 @@ void OperationsUI::slotMoveWebFile(void)
     }
 
     Items::Data source = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
-    SDriveEngine::inst()->getFilesMngr()->moveWebFile(source, SDriveEngine::inst()->getFilesMngr(true)->getUpperLevelFolderURL());
+    SDriveEngine::inst()->getFilesMngr()->moveWebFile(source, SDriveEngine::inst()->getFilesMngr(true)->getParentFolderUrl());
 }
 
 void OperationsUI::slotRenameWebFile(void)
@@ -137,7 +136,7 @@ void OperationsUI::createFolder(const QString &name)
         return;
     }
 
-    SDriveEngine::inst()->foldersMngr->createFolder(name, SDriveEngine::inst()->getFilesMngr()->getUpperLevelFolderURL());
+    SDriveEngine::inst()->foldersMngr->createFolder(name, SDriveEngine::inst()->getFilesMngr()->getParentFolderUrl());
 
     delete createFolderDialog;
 }

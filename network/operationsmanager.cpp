@@ -14,21 +14,17 @@ OperationsManager::OperationsManager(QObject *parent):
 {
 }
 
-void OperationsManager::deleteFile(const QString &sourceUrl)
+void OperationsManager::slotDelete(void)
+{
+    deleteFile(SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo());
+}
+
+void OperationsManager::deleteFile(const Items::Data &source)
 {
     currentOperation = EDelete;
 
-    CommonTools::setHeader(SettingsManager().accessToken(), request);
-    request.setRawHeader("If-Match", "*");
-
-    init();
-
-    request.setUrl(getDeleteFileQuery(sourceUrl));
-
-    reply = networkManager->deleteResource(request);
-
-    connect(networkManager.data(), SIGNAL(finished(QNetworkReply*)),this, SLOT(slotReplyFinished(QNetworkReply*)));
-    connectErrorHandlers();
+    queries.setRawHeader(SettingsManager().accessToken(), request);
+    deleteRequest(queries.constructDeleteWebFileUrl(source.self));
 }
 
 void OperationsManager::copyWebFile(const Items::Data &source, const QString &destFolderUrl)
@@ -45,7 +41,7 @@ void OperationsManager::moveWebFile(const Items::Data &source, const QString &de
     isMove = true;
 
     copyWebFile(source, destFolderUrl);
-    fileUrlToDeleteForMoveOperation = source.self;
+    fileUrlToDeleteForMoveOperation = source;
 }
 
 void OperationsManager::renameWebFile(const Items::Data &source, const QString &newName)
@@ -66,37 +62,12 @@ void OperationsManager::shareWebFile(const Items::Data &source)
 
 void OperationsManager::createFolder(const QString &name, const QString &folderUrl)
 {
-//    currentOperation = ECreateFolder;
-
-//    QString data = QString("{\"title\": \"%1\",\"parents\": [{\"id\": \"%2\"}],\"mimeType\": \"application/vnd.google-apps.folder\"}").arg(name).arg(CommonTools::getIDFromURL(folderUrl));
-
-//    postData = data.toLatin1();
-
-//    CommonTools::setHeader(SettingsManager().accessToken(), request);
-//    request.setRawHeader("Content-Type", "application/json");
-//    request.setRawHeader("Content-Length", QByteArray::number(postData.size()));
-
-//    postRequest(QUrl("https://www.googleapis.com/drive/v2/files"));
-
-
-
-
-
-
-
     currentOperation = ECreateFolder;
 
     postData = queries.getCreateFolderData(name, folderUrl);
 
     queries.setRawHeader(SettingsManager().accessToken(), request);
-    request.setRawHeader("Content-Length", QByteArray::number(postData.size()));
-
     postRequest(queries.constructCreateFolderUrl());
-}
-
-QUrl OperationsManager::getDeleteFileQuery(const QString &url)
-{
-    return QUrl(QString(DELETE_FILE + CommonTools::getIDFromURL(url)));
 }
 
 void OperationsManager::slotReplyFinished(QNetworkReply*)
@@ -138,8 +109,8 @@ void OperationsManager::slotPutFinished(void)
 
 void OperationsManager::updatePanelContent(bool opposite)
 {
-    FilesManager* fileManager = SDriveEngine::inst()->getFilesMngr(opposite);
-    fileManager->get(fileManager->getUpperLevelFolderURL());
+    FilesManager* fileManager(SDriveEngine::inst()->getFilesMngr(opposite));
+    fileManager->get(fileManager->getParentFolderUrl());
 }
 
 void OperationsManager::setAccountInfo(const QString &accessToken, const QString &refreshToken)
@@ -149,12 +120,12 @@ void OperationsManager::setAccountInfo(const QString &accessToken, const QString
 
     accountInfo = new AccountInfo(userInfoQuery, aboutInfoQuery, accessToken, refreshToken);
 
-    connect(accountInfo, SIGNAL(signalAccountInfo(AccountInfo::Data&)), this, SLOT(slotAccountInfo(AccountInfo::Data&)));
+    connect(accountInfo, SIGNAL(signalAccountInfoReceived(AccountInfo::Data&)), this, SLOT(slotAccountInfoReceived(AccountInfo::Data&)));
 
     accountInfo->setInfo();
 }
 
-void OperationsManager::slotAccountInfo(AccountInfo::Data &data)
+void OperationsManager::slotAccountInfoReceived(AccountInfo::Data &data)
 {
     SettingsManager settingsManager;
 
