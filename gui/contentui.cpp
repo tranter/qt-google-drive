@@ -1,7 +1,7 @@
 #include "settings/settingsmanager.h"
-#include <QDir>
-#include "filesui.h"
+#include "contentui.h"
 #include "share/debug.h"
+#include <QDir>
 
 FilesUI::FilesUI(QObject *parent) :
     QObject(parent)

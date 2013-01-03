@@ -8,7 +8,7 @@
 #include "gui/forms/mainwindow.h"
 #include "ui_mainwindow.h"
 #include "gui/filestransferui.h"
-#include "gui/filesui.h"
+#include "gui/contentui.h"
 #include "gui/checkui.h"
 #include "share/enums.h"
 #include "gui/forms/filepanel.h"

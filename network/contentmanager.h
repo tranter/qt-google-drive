@@ -17,24 +17,13 @@ public:
     virtual void get(const QString &url);
     XMLParser* getParser(void) const;
     void clear(void);
-
-public slots:
-    virtual void slotReplyFinished(QNetworkReply* reply);
-    void slotResDownloaded(void);
-
-protected:
-    virtual bool parseReply(const QString &str);
-    //virtual void show(void) = 0;
-
-
-
-
-
 signals:
     void signalFirstPanelIsLoaded();
 
 private slots:
         void slotSectionClicked(int logicalIndex);
+        virtual void slotReplyFinished(QNetworkReply* reply);
+        void slotResDownloaded(void);
 
 public:
     QString getParentFolderUrl(void) const;
@@ -48,25 +37,17 @@ public:
     void setPathesURLs(const QStringList &pathesURLsStrList);
 
 private:
-    virtual void show(void);
-
-private:
+    void show(void);
+    bool parseReply(const QString &str);
     void setItems(Items::Data::ESortOrder itemSortOrder, Qt::SortOrder sortOrder);
     void addItem(const Items::Data &itemData);
     QString getDate(const QString &date);
     QString getSize(const QString &size);
     void updateItemsState(void);
 
-
-
-
-
-
-protected:
+private:
     QScopedPointer<XMLParser> parser;
     QList<QTreeWidgetItem*> treeWidgetItems;
-
-//private:
     QTreeWidget *panel;
     QStringList pathesURLs;
     Items::Data rootData;
