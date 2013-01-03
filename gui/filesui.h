@@ -5,7 +5,7 @@
 #include "share/enums.h"
 #include <QLabel>
 
-class FilesManager;
+//class FilesManager;
 
 class FilesUI: public QObject
 {
@@ -36,11 +36,11 @@ private slots:
 
 private:
     int getDiscLength(EPanels panel) const;
-    //void setDisplayingDisc(EPanels panel);
     void setPanelDisplayingPath(const QString &name, EPath path, EPanels panel);
     void showFilesOnPanel(const QString &name, EPanels panel);
     void setCurrentPanelState(EPanels panel, const QString &url);
     void performShowFiles(const QString &query, const QString &name, EPath path, EPanels panel);
+    bool isFolder(void);
 };
 
 #endif // FILESUI_H

@@ -40,16 +40,21 @@ void FilesUI::showFilesOnPanel(const QString &name, EPanels panel)
     }
     else
     {
-        if(SDriveEngine::inst()->foldersUI->isFolder())
+        if(isFolder())
         {
             QString query(GET_FILES_IN_FOLDER);
 
-            query += SDriveEngine::inst()->foldersUI->getFolderID();
+            query += CommonTools::getIDFromURL(SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo().self);
             query += (CONTENTS + MAX_RESULTS);
 
             performShowFiles(query, name, EForward, panel);
         }
     }
+}
+
+bool FilesUI::isFolder(void)
+{
+  return (SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo().type == FOLDER_TYPE_STR);
 }
 
 void FilesUI::setCurrentPanelState(EPanels panel, const QString &url)

@@ -24,7 +24,7 @@ void ContentManager::get(const QString &url)
 
 void ContentManager::slotReplyFinished(QNetworkReply* reply)
 {
-    CommonTools::logToFile(QString("ParserReply ") + ".txt", replyStr.toAscii());
+//    CommonTools::logToFile(QString("ParserReply ") + ".txt", replyStr.toAscii());
 
 //    DEBUG << "<===============================================================================================================";
 //    DEBUG << "replyStr" << replyStr;

@@ -20,7 +20,7 @@ MainWindow::~MainWindow()
 {
     SDriveEngine::freeInst();
     SUi::freeInst();
-    //SQueries::freeInst();
+    SOperationsManager::freeInst();
 }
 
 void MainWindow::init(void)

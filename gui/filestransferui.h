@@ -3,7 +3,7 @@
 
 #include "core/driveengine.h"
 
-class FilesManager;
+//class FilesManager;
 
 class FilesTransferUI : public QObject
 {

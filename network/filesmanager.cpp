@@ -147,31 +147,6 @@ void FilesManager::sort(int column, Qt::SortOrder order)
 {
 }
 
-//void FilesManager::deleteFile(const QString &url)
-//{
-//    SOperationsManager::inst()->deleteFile(url);
-//}
-
-//void FilesManager::copyWebFile(const Items::Data &source, const QString &destFolder)
-//{
-//    SOperationsManager::inst()->copyWebFile(source, destFolder);
-//}
-
-//void FilesManager::moveWebFile(const Items::Data &source, const QString &destFolder)
-//{
-//    SOperationsManager::inst()->moveWebFile(source, destFolder);
-//}
-
-//void FilesManager::renameWebFile(const Items::Data &source, const QString &newName)
-//{
-//    SOperationsManager::inst()->renameWebFile(source, newName);
-//}
-
-//void FilesManager::shareWebFile(const Items::Data &source)
-//{
-//    SOperationsManager::inst()->shareWebFile(source);
-//}
-
 Items::Data FilesManager::getCurrentFileInfo(void)
 {    
     int index;
