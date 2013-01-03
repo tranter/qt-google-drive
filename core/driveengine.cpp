@@ -52,7 +52,6 @@ void DriveEngine::reset(void)
     filesUI.reset(new FilesUI);
     foldersMngr.reset(new FoldersManager);
     foldersUI.reset(new FoldersUI);
-    opUI.reset(new OperationsUI);
 
     connect(filesViews[ELeft], SIGNAL(signalAccountChanged(int, const QString&)), SLOT(slotAccountChanged(int, const QString&)));
     connect(filesViews[ERight], SIGNAL(signalAccountChanged(int, const QString&)), SLOT(slotAccountChanged(int, const QString&)));
@@ -144,11 +143,6 @@ FoldersManager* DriveEngine::getFoldersMngr(void) const
 FoldersUI* DriveEngine::getFoldersUI(void) const
 {
     return foldersUI.data();
-}
-
-OperationsUI* DriveEngine::getOpUI(void) const
-{
-    return opUI.data();
 }
 
 QWidget* DriveEngine::getParent(void) const

@@ -11,7 +11,6 @@
 #include "gui/filestransferui.h"
 #include "gui/filesui.h"
 #include "gui/foldersui.h"
-#include "gui/operationsui.h"
 #include "gui/checkui.h"
 #include "share/enums.h"
 #include "gui/forms/filepanel.h"
@@ -45,7 +44,6 @@ public:
     FilesUI* getfilesUI(void) const;
     FoldersManager* getFoldersMngr(void) const;
     FoldersUI* getFoldersUI(void) const;
-    OperationsUI* getOpUI(void) const;
     QWidget* getParent(void) const;
     void init(void);
     FilePanel *getFilePanel(EPanels panel) const;
@@ -68,7 +66,6 @@ private:
     QScopedPointer<FilesUI> filesUI;
     QScopedPointer<FoldersManager> foldersMngr;
     QScopedPointer<FoldersUI> foldersUI;
-    QScopedPointer<OperationsUI> opUI;
     QScopedPointer<UploadFileManager> uploadFileMngr;
     FilePanel *filesViews[EPanelsCount];
 };

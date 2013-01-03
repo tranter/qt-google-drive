@@ -61,9 +61,7 @@ void OperationsManager::shareWebFile(const Items::Data &source)
 }
 
 void OperationsManager::createFolder(const QString &name, const QString &folderUrl)
-{
-    currentOperation = ECreateFolder;
-
+{ 
     postData = queries.getCreateFolderData(name, folderUrl);
 
     queries.setRawHeader(SettingsManager().accessToken(), request);
@@ -140,6 +138,133 @@ void OperationsManager::slotAccountInfoReceived(AccountInfo::Data &data)
     accountInfo->deleteLater();
     emit signalAccountInfoReadyToUse();
 }
+
+
+
+
+
+
+
+
+
+
+bool OperationsManager::operationPossible(void)
+{
+    bool is = false;
+
+    int index = SDriveEngine::inst()->getFilesMngr()->getPanel()->currentIndex().row();
+
+    if(index >= 0)
+    {
+        QString itemText = SDriveEngine::inst()->getFilesMngr()->getPanel()->currentItem()->text(0);
+
+        if(itemText != PARENT_FOLDER_SIGN)
+        {
+            is = true;
+        }
+    }
+
+    return is;
+}
+
+void OperationsManager::slotNewFolder(void)
+{
+    createFolderDialog = new CreateFolderDialog(SDriveEngine::inst()->getParent());
+
+    connect(createFolderDialog, SIGNAL(signalAccept(const QString&)), this, SLOT(slotAcceptCreateFolder(const QString&)));
+    connect(createFolderDialog, SIGNAL(signalReject()), this, SLOT(slotRejectCreateFolder()));
+    connect(createFolderDialog, SIGNAL(signalFinished(int)), this, SLOT(slotFinishedCreateFolder(int)));
+
+    createFolderDialog->exec();
+}
+
+void OperationsManager::slotCopyWebFile(void)
+{
+    if(!operationPossible())
+    {
+        CommonTools::msg(tr("No Files selected"));
+        return;
+    }
+
+    Items::Data source = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
+    SDriveEngine::inst()->getFilesMngr()->copyWebFile(source, SDriveEngine::inst()->getFilesMngr(true)->getParentFolderUrl());
+}
+
+void OperationsManager::slotMoveWebFile(void)
+{
+    if(!operationPossible())
+    {
+        CommonTools::msg(tr("No Files selected"));
+        return;
+    }
+
+    Items::Data source = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
+    SDriveEngine::inst()->getFilesMngr()->moveWebFile(source, SDriveEngine::inst()->getFilesMngr(true)->getParentFolderUrl());
+}
+
+void OperationsManager::slotRenameWebFile(void)
+{
+    if(!operationPossible())
+    {
+        CommonTools::msg(tr("No Files selected"));
+        return;
+    }
+
+    QTreeWidgetItem *item = SDriveEngine::inst()->getFilesMngr()->getPanel()->currentItem();
+
+    editingItemText = item->text(0);
+
+    item->setFlags(item->flags() | Qt::ItemIsEditable);
+    SDriveEngine::inst()->getFilesMngr()->getPanel()->editItem(item, 0);
+
+    connect(SDriveEngine::inst()->getFilesMngr()->getPanel()->itemDelegate(), SIGNAL(closeEditor(QWidget*,QAbstractItemDelegate::EndEditHint)), this, SLOT(slotItemEditDone()));
+}
+
+void OperationsManager::slotItemEditDone(void)
+{
+    QTreeWidgetItem *item = SDriveEngine::inst()->getFilesMngr()->getPanel()->currentItem();
+    Items::Data source = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
+
+    QString itemTextAfterEditing = item->text(0);
+
+    if(editingItemText != itemTextAfterEditing)
+    {
+        SDriveEngine::inst()->getFilesMngr()->renameWebFile(source, itemTextAfterEditing);
+        editingItemText.clear();
+    }
+}
+
+void OperationsManager::slotShareWebFile(void)
+{
+    Items::Data source = SDriveEngine::inst()->getFilesMngr()->getCurrentFileInfo();
+    SDriveEngine::inst()->getFilesMngr()->shareWebFile(source);
+}
+
+void OperationsManager::slotAcceptCreateFolder(const QString &name)
+{
+    if(name == "" || name.contains(QRegExp("[/.<>]")) || name.contains(QRegExp("\\\\")) || name.contains(QRegExp("\"")))
+    {
+        CommonTools::msg(tr("Please enter a valid name"));
+        return;
+    }
+
+    createFolder(name, SDriveEngine::inst()->getFilesMngr()->getParentFolderUrl());
+
+    delete createFolderDialog;
+}
+
+void OperationsManager::slotRejectCreateFolder(void)
+{
+    delete createFolderDialog;
+}
+
+void OperationsManager::slotFinishedCreateFolder(int result)
+{
+    Q_UNUSED(result);
+    delete createFolderDialog;
+}
+
+
 
 
 

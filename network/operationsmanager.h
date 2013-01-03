@@ -7,6 +7,7 @@
 #include "share/singleton.h"
 #include "share/defs.h"
 #include "queries.h"
+#include "gui/forms/createfolderdialog.h"
 
 class OperationsManager : public NetworkManager
 {
@@ -26,6 +27,15 @@ public:
 
 public slots:
     void slotDelete(void);
+    void slotNewFolder();
+    void slotCopyWebFile();
+    void slotMoveWebFile();
+    void slotRenameWebFile();
+    void slotItemEditDone();
+    void slotShareWebFile();
+    void slotAcceptCreateFolder(const QString &name);
+    void slotRejectCreateFolder();
+    void slotFinishedCreateFolder(int result);
 
 public:
     void deleteFile(const Items::Data &source);
@@ -35,6 +45,7 @@ public:
     void shareWebFile(const Items::Data &source);
     void createFolder(const QString &name, const QString &folderUrl);
     void setAccountInfo(const QString &accessToken, const QString &refreshToken = QString());
+    bool operationPossible();
 
 signals:
     void signalAccountInfoReadyToUse(void);
@@ -56,6 +67,8 @@ private:
     bool isMove;
     AccountInfo *accountInfo;
     Queries queries;
+    CreateFolderDialog* createFolderDialog;
+    QString editingItemText;
 };
 
 typedef TSingleton<OperationsManager> SOperationsManager;
