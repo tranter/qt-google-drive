@@ -139,15 +139,6 @@ void OperationsManager::slotAccountInfoReceived(AccountInfo::Data &data)
     emit signalAccountInfoReadyToUse();
 }
 
-
-
-
-
-
-
-
-
-
 bool OperationsManager::operationPossible(void)
 {
     bool is = false;
@@ -248,7 +239,8 @@ void OperationsManager::slotAcceptCreateFolder(const QString &name)
         return;
     }
 
-    createFolder(name, SDriveEngine::inst()->getFilesMngr()->getParentFolderUrl());
+//    if(operationPossible()) createFolder(name, SDriveEngine::inst()->getFilesMngr()->getParentFolderUrl());
+//    else CommonTools::msg(tr("Please select a panel"));
 
     delete createFolderDialog;
 }

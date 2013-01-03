@@ -27,14 +27,14 @@ public:
 
 public slots:
     void slotDelete(void);
-    void slotNewFolder();
-    void slotCopyWebFile();
-    void slotMoveWebFile();
-    void slotRenameWebFile();
-    void slotItemEditDone();
-    void slotShareWebFile();
+    void slotNewFolder(void);
+    void slotCopyWebFile(void);
+    void slotMoveWebFile(void);
+    void slotRenameWebFile(void);
+    void slotItemEditDone(void);
+    void slotShareWebFile(void);
     void slotAcceptCreateFolder(const QString &name);
-    void slotRejectCreateFolder();
+    void slotRejectCreateFolder(void);
     void slotFinishedCreateFolder(int result);
 
 public:
@@ -45,7 +45,7 @@ public:
     void shareWebFile(const Items::Data &source);
     void createFolder(const QString &name, const QString &folderUrl);
     void setAccountInfo(const QString &accessToken, const QString &refreshToken = QString());
-    bool operationPossible();
+    bool operationPossible(void);
 
 signals:
     void signalAccountInfoReadyToUse(void);

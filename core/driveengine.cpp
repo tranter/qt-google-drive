@@ -86,16 +86,16 @@ void DriveEngine::updatePanel(int panelNum, bool initLoad)
 {
     SettingsManager settingsManager;
     EPanels panelId = static_cast <EPanels> (panelNum);
-    QString drive;
+    QString disc;
 
     settingsManager.setInitialLoading(initLoad);
     settingsManager.setCurrentPanel(panelNum);
 
-    drive = settingsManager.accountLetter(settingsManager.currentAccount(panelNum));
-    drive += QString(":");
-    drive += QDir::toNativeSeparators("/");
+    disc = settingsManager.accountDisc(settingsManager.currentAccount(panelNum));
+    disc += QString(":");
+    disc += QDir::toNativeSeparators("/");
 
-    filesUI->getPanelLabel(panelId)->setText(drive + settingsManager.currentFolderPath(panelNum));
+    filesUI->getPanelLabel(panelId)->setText(disc + settingsManager.currentFolderPath(panelNum));
     getFilesMngr()->setPathesURLs(settingsManager.pathesURLs(panelNum));
 
     filesMngr[panelNum]->setPanel(filesViews[panelNum]->getFileView(), filesViews[panelNum]->getpanelNum());

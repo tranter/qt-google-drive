@@ -28,17 +28,14 @@ public:
     QLabel* getPanelLabel(EPanels panel) const;
 
 private slots:
-    //void slotAShowFiles(const QModelIndex &index);
     void slotLeftViewClicked(const QModelIndex&);
     void slotRightViewClicked(const QModelIndex&);
     void slotLeftPanelItemDoubleClicked(QTreeWidgetItem *item, int column);
     void slotRightPanelItemDoubleClicked(QTreeWidgetItem *item, int column);
-    void slotLeftSortIndicatorChanged(int logicalIndex, Qt::SortOrder order);
-    void slotRightSortIndicatorChanged(int logicalIndex, Qt::SortOrder order);
     void slotUpdateFileList();
 
 private:
-    QString getDisc(EPanels panel) const;
+    int getDiscLength(EPanels panel) const;
     //void setDisplayingDisc(EPanels panel);
     void setPanelDisplayingPath(const QString &name, EPath path, EPanels panel);
     void showFilesOnPanel(const QString &name, EPanels panel);

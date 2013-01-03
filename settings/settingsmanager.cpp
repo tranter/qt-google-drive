@@ -41,7 +41,7 @@ void SettingsManager::saveAccountInfo(AccountInfo::Data &data)
     endGroup();
 }
 
-QString SettingsManager::accountLetter(const QString &accountName)
+QString SettingsManager::accountDisc(const QString &accountName)
 {
     return getValueFromGroup(ACCOUNTS_GROUP + QString("/") + accountName, ACCOUNT_LETTER_KEY, QString("a")).toString();
 }
