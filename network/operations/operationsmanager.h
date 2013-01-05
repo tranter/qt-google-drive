@@ -6,7 +6,7 @@
 #include "settings/accountinfo.h"
 #include "share/singleton.h"
 #include "share/defs.h"
-#include "queries.h"
+#include "network/queries.h"
 #include "gui/forms/createfolderdialog.h"
 
 class OperationsManager : public NetworkManager

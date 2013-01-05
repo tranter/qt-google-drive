@@ -1,4 +1,4 @@
-#include "network/operationsmanager.h"
+#include "network/operations/operationsmanager.h"
 #include "share/commontools.h"
 #include "core/driveengine.h"
 #include "share/debug.h"

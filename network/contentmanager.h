@@ -4,7 +4,7 @@
 #include <QXmlSimpleReader>
 #include "parsers/xmlparser.h"
 #include "network/networkmanager.h"
-#include "network/operationsmanager.h"
+#include "network/operations/operationsmanager.h"
 
 class ContentManager : public NetworkManager
 {

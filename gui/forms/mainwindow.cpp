@@ -4,7 +4,7 @@
 #include "share/debug.h"
 #include "settings/settingsmanager.h"
 #include "gui/forms/authdialog.h"
-#include "network/operationsmanager.h"
+#include "network/operations/operationsmanager.h"
 #include <QTextCodec>
 #include <QKeyEvent>
 #include <QToolButton>
