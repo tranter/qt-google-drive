@@ -1,12 +1,12 @@
 #ifndef UPLOAD_H
 #define UPLOAD_H
 
-#include <QNetworkAccessMnager>
+#include <QNetworkAccessManager>
 
-class Upload : public QNetworkAccessMnager
+class Upload : public QNetworkAccessManager
 {
 public:
-    Upload();
+    Upload(QObject *parent = 0);
 };
 
 #endif // UPLOAD_H

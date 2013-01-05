@@ -1,9 +1,9 @@
 #ifndef DOWNLOAD_H
 #define DOWNLOAD_H
 
-#include <QNetworkAccessMnager>
+#include <QNetworkAccessManager>
 
-class Download : public QNetworkAccessMnager
+class Download : public QNetworkAccessManager
 {
     Q_OBJECT
 public:

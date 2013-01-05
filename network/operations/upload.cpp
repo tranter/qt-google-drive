@@ -1,5 +1,6 @@
 #include "upload.h"
 
-Upload::Upload()
+Upload::Upload(QObject *parent)
+    :QNetworkAccessManager(parent)
 {
 }
