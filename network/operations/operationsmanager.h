@@ -9,6 +9,9 @@
 #include "network/queries.h"
 #include "gui/forms/createfolderdialog.h"
 
+#include "network/operations/copy.h"
+#include "network/operations/delete.h"
+
 class OperationsManager : public NetworkManager
 {
     Q_OBJECT
@@ -38,28 +41,26 @@ public slots:
     void slotFinishedCreateFolder(int result);
 
 public:
-    void deleteFile(const Items::Data &source);
-    void copyWebFile(const Items::Data &source, const QString &destFolderUrl);
+    //void deleteFile(const Items::Data &source);
+    //void copyWebFile(const Items::Data &source, const QString &destFolderUrl);
     void moveWebFile(const Items::Data &source, const QString &destFolderUrl);
     void renameWebFile(const Items::Data &source, const QString &newName);
     void shareWebFile(const Items::Data &source);
     void createFolder(const QString &name, const QString &folderUrl);
     void setAccountInfo(const QString &accessToken, const QString &refreshToken = QString());
     bool operationPossible(void);
+    void updatePanelContent(bool opposite);
 
 signals:
     void signalAccountInfoReadyToUse(void);
 
 protected slots:
-    virtual void slotReplyFinished(QNetworkReply*);
-    virtual void slotPostFinished(QNetworkReply* reply);
+    void slotReplyFinished(QNetworkReply* reply);
+    void slotPostFinished(QNetworkReply* reply);
     void slotPutFinished(void);
 
 private slots:  
     void slotAccountInfoReceived(AccountInfo::Data &postData);
-
-private:
-    void updatePanelContent(bool opposite);
 
 private:
     EOperations currentOperation;
@@ -69,6 +70,8 @@ private:
     Queries queries;
     CreateFolderDialog* createFolderDialog;
     QString editingItemText;
+    Copy copy;
+    Delete del;
 };
 
 typedef TSingleton<OperationsManager> SOperationsManager;

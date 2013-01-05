@@ -1,4 +1,4 @@
-#include "network/operations/operationsmanager.h"
+#include "operationsmanager.h"
 #include "share/commontools.h"
 #include "core/driveengine.h"
 #include "share/debug.h"
@@ -16,31 +16,33 @@ OperationsManager::OperationsManager(QObject *parent):
 
 void OperationsManager::slotDelete(void)
 {
-    deleteFile(SDriveEngine::inst()->getContentMngr()->getCurrentFileInfo());
+    //deleteFile(SDriveEngine::inst()->getContentMngr()->getCurrentFileInfo());
+    del.file(SDriveEngine::inst()->getContentMngr()->getCurrentFileInfo());
 }
 
-void OperationsManager::deleteFile(const Items::Data &source)
-{
-    currentOperation = EDelete;
+//void OperationsManager::deleteFile(const Items::Data &source)
+//{
+//    currentOperation = EDelete;
 
-    queries.setRawHeader(SettingsManager().accessToken(), request);
-    deleteRequest(queries.constructDeleteWebFileUrl(source.self));
-}
+//    queries.setRawHeader(SettingsManager().accessToken(), request);
+//    deleteRequest(queries.constructDeleteWebFileUrl(source.self));
+//}
 
-void OperationsManager::copyWebFile(const Items::Data &source, const QString &destFolderUrl)
-{    
-    currentOperation = ECopy;
+//void OperationsManager::copyWebFile(const Items::Data &source, const QString &destFolderUrl)
+//{
+//    currentOperation = ECopy;
 
-    postData = queries.getCopyWebFileData(source.name, destFolderUrl);
-    queries.setRawHeader(SettingsManager().accessToken(), request);
-    postRequest(queries.constructCopyWebFileUrl(source.self));
-}
+//    postData = queries.getCopyWebFileData(source.name, destFolderUrl);
+//    queries.setRawHeader(SettingsManager().accessToken(), request);
+//    postRequest(queries.constructCopyWebFileUrl(source.self));
+//}
 
 void OperationsManager::moveWebFile(const Items::Data &source, const QString &destFolderUrl)
 {
     isMove = true;
 
-    copyWebFile(source, destFolderUrl);
+    //copyWebFile(source, destFolderUrl);
+    copy.file(source, destFolderUrl);
     fileUrlToDeleteForMoveOperation = source;
 }
 
@@ -70,7 +72,7 @@ void OperationsManager::createFolder(const QString &name, const QString &folderU
     postRequest(queries.constructCreateFolderUrl());
 }
 
-void OperationsManager::slotReplyFinished(QNetworkReply*)
+void OperationsManager::slotReplyFinished(QNetworkReply* reply)
 {
     if(currentOperation == EDelete)
     {
@@ -88,7 +90,8 @@ void OperationsManager::slotPostFinished(QNetworkReply* reply)
 
         if(isMove)
         {
-            deleteFile(fileUrlToDeleteForMoveOperation);
+            //deleteFile(fileUrlToDeleteForMoveOperation);
+            del.file(fileUrlToDeleteForMoveOperation);
             isMove = false;
         }
     }
@@ -180,7 +183,8 @@ void OperationsManager::slotCopyWebFile(void)
     }
 
     Items::Data source = SDriveEngine::inst()->getContentMngr()->getCurrentFileInfo();
-    copyWebFile(source, SDriveEngine::inst()->getContentMngr(true)->getParentFolderUrl());
+    //copyWebFile(source, SDriveEngine::inst()->getContentMngr(true)->getParentFolderUrl());
+    copy.file(source, SDriveEngine::inst()->getContentMngr(true)->getParentFolderUrl());
 }
 
 void OperationsManager::slotMoveWebFile(void)
