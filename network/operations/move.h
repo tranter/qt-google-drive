@@ -1,12 +1,25 @@
 #ifndef MOVE_H
 #define MOVE_H
 
-#include <QNetworkAccessManager>
+#include <QObject>
+#include "network/operations/copy.h"
+#include "network/operations/delete.h"
 
-class Move : public QNetworkAccessManager
+class Move : public QObject
 {
+    Q_OBJECT
 public:
-    Move();
+    Move(QObject* parent = 0);
+
+public:
+    void file(const Items::Data &source, const QString &destFolderUrl);
+
+private slots:
+    void slotFileCopied(Items::Data &source);
+
+private:
+    Copy copy;
+    Delete del;
 };
 
 #endif // MOVE_H

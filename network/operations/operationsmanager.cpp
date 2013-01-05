@@ -39,11 +39,12 @@ void OperationsManager::slotDelete(void)
 
 void OperationsManager::moveWebFile(const Items::Data &source, const QString &destFolderUrl)
 {
-    isMove = true;
+    //isMove = true;
 
     //copyWebFile(source, destFolderUrl);
-    copy.file(source, destFolderUrl);
-    fileUrlToDeleteForMoveOperation = source;
+//    copy.file(source, destFolderUrl);
+//    fileUrlToDeleteForMoveOperation = source;
+    move.file(source, destFolderUrl);
 }
 
 void OperationsManager::renameWebFile(const Items::Data &source, const QString &newName)
@@ -72,7 +73,7 @@ void OperationsManager::createFolder(const QString &name, const QString &folderU
     postRequest(queries.constructCreateFolderUrl());
 }
 
-void OperationsManager::slotReplyFinished(QNetworkReply* reply)
+void OperationsManager::slotReplyFinished(QNetworkReply*)
 {
     if(currentOperation == EDelete)
     {
@@ -84,17 +85,17 @@ void OperationsManager::slotPostFinished(QNetworkReply* reply)
 {
     NetworkManager::slotPostFinished(reply);
 
-    if(currentOperation == ECopy)
-    {
-        updatePanelContent(true);
+//    if(currentOperation == ECopy)
+//    {
+//        updatePanelContent(true);
 
-        if(isMove)
-        {
-            //deleteFile(fileUrlToDeleteForMoveOperation);
-            del.file(fileUrlToDeleteForMoveOperation);
-            isMove = false;
-        }
-    }
+//        if(isMove)
+//        {
+//            //deleteFile(fileUrlToDeleteForMoveOperation);
+//            del.file(fileUrlToDeleteForMoveOperation);
+//            isMove = false;
+//        }
+//    }
 
     if(currentOperation == ECreateFolder)
     {

@@ -12,10 +12,13 @@ void Copy::file(const Items::Data &source, const QString &destFolderUrl)
     postData = queries.getCopyWebFileData(source.name, destFolderUrl);
     queries.setRawHeader(SettingsManager().accessToken(), request);
     postRequest(queries.constructCopyWebFileUrl(source.self));
+    sourceFileData = source;
 }
 
 void Copy::slotPostFinished(QNetworkReply* reply)
 {
     NetworkManager::slotPostFinished(reply);
     SOperationsManager::inst()->updatePanelContent(true);
+
+    emit fileCopied(sourceFileData);
 }

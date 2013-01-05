@@ -11,6 +11,7 @@
 
 #include "network/operations/copy.h"
 #include "network/operations/delete.h"
+#include "network/operations/move.h"
 
 class OperationsManager : public NetworkManager
 {
@@ -55,7 +56,7 @@ signals:
     void signalAccountInfoReadyToUse(void);
 
 protected slots:
-    void slotReplyFinished(QNetworkReply* reply);
+    void slotReplyFinished(QNetworkReply* );
     void slotPostFinished(QNetworkReply* reply);
     void slotPutFinished(void);
 
@@ -72,6 +73,7 @@ private:
     QString editingItemText;
     Copy copy;
     Delete del;
+    Move move;
 };
 
 typedef TSingleton<OperationsManager> SOperationsManager;

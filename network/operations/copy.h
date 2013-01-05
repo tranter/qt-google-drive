@@ -11,6 +11,9 @@ class Copy : public NetworkManager
 public:
     explicit Copy(QObject *parent = 0);
 
+signals:
+    void fileCopied(Items::Data &source);
+
 protected slots:
     void slotPostFinished(QNetworkReply* reply);
 
@@ -19,6 +22,7 @@ public:
 
 private:
      Queries queries;
+     Items::Data sourceFileData;
 };
 
 #endif // COPY_H
