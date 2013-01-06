@@ -7,6 +7,7 @@
 
 class Delete : public NetworkManager
 {
+    Q_OBJECT
 public:
     Delete(QObject *parent = 0);
     void file(const Items::Data &source);

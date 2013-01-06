@@ -9,42 +9,13 @@
 
 OperationsManager::OperationsManager(QObject *parent):
     NetworkManager(parent),
-    currentOperation(ENone),
-    isMove(false)
+    currentOperation(ENone)
 {
 }
 
 void OperationsManager::slotDelete(void)
 {
-    //deleteFile(SDriveEngine::inst()->getContentMngr()->getCurrentFileInfo());
     del.file(SDriveEngine::inst()->getContentMngr()->getCurrentFileInfo());
-}
-
-//void OperationsManager::deleteFile(const Items::Data &source)
-//{
-//    currentOperation = EDelete;
-
-//    queries.setRawHeader(SettingsManager().accessToken(), request);
-//    deleteRequest(queries.constructDeleteWebFileUrl(source.self));
-//}
-
-//void OperationsManager::copyWebFile(const Items::Data &source, const QString &destFolderUrl)
-//{
-//    currentOperation = ECopy;
-
-//    postData = queries.getCopyWebFileData(source.name, destFolderUrl);
-//    queries.setRawHeader(SettingsManager().accessToken(), request);
-//    postRequest(queries.constructCopyWebFileUrl(source.self));
-//}
-
-void OperationsManager::moveWebFile(const Items::Data &source, const QString &destFolderUrl)
-{
-    //isMove = true;
-
-    //copyWebFile(source, destFolderUrl);
-//    copy.file(source, destFolderUrl);
-//    fileUrlToDeleteForMoveOperation = source;
-    move.file(source, destFolderUrl);
 }
 
 void OperationsManager::renameWebFile(const Items::Data &source, const QString &newName)
@@ -63,41 +34,9 @@ void OperationsManager::shareWebFile(const Items::Data &source)
     //      shareDialog->show();
 }
 
-void OperationsManager::createFolder(const QString &name, const QString &folderUrl)
-{ 
-    currentOperation = ECreateFolder;
-
-    postData = queries.getCreateFolderData(name, folderUrl);
-
-    queries.setRawHeader(SettingsManager().accessToken(), request);
-    postRequest(queries.constructCreateFolderUrl());
-}
-
 void OperationsManager::slotReplyFinished(QNetworkReply*)
 {
     if(currentOperation == EDelete)
-    {
-        updatePanelContent(false);
-    }
-}
-
-void OperationsManager::slotPostFinished(QNetworkReply* reply)
-{
-    NetworkManager::slotPostFinished(reply);
-
-//    if(currentOperation == ECopy)
-//    {
-//        updatePanelContent(true);
-
-//        if(isMove)
-//        {
-//            //deleteFile(fileUrlToDeleteForMoveOperation);
-//            del.file(fileUrlToDeleteForMoveOperation);
-//            isMove = false;
-//        }
-//    }
-
-    if(currentOperation == ECreateFolder)
     {
         updatePanelContent(false);
     }
@@ -172,6 +111,8 @@ void OperationsManager::slotNewFolder(void)
     connect(createFolderDialog, SIGNAL(signalReject()), this, SLOT(slotRejectCreateFolder()));
     connect(createFolderDialog, SIGNAL(signalFinished(int)), this, SLOT(slotFinishedCreateFolder(int)));
 
+    createFolderDialog->setNameLabel(tr("New folder name:"));
+
     createFolderDialog->exec();
 }
 
@@ -183,9 +124,10 @@ void OperationsManager::slotCopyWebFile(void)
         return;
     }
 
-    Items::Data source = SDriveEngine::inst()->getContentMngr()->getCurrentFileInfo();
-    //copyWebFile(source, SDriveEngine::inst()->getContentMngr(true)->getParentFolderUrl());
-    copy.file(source, SDriveEngine::inst()->getContentMngr(true)->getParentFolderUrl());
+    Items::Data source(SDriveEngine::inst()->getContentMngr()->getCurrentFileInfo());
+    QString destFolderUrl(SDriveEngine::inst()->getContentMngr(true)->getParentFolderUrl());
+
+    copy.file(source, destFolderUrl);
 }
 
 void OperationsManager::slotMoveWebFile(void)
@@ -196,8 +138,10 @@ void OperationsManager::slotMoveWebFile(void)
         return;
     }
 
-    Items::Data source = SDriveEngine::inst()->getContentMngr()->getCurrentFileInfo();
-    moveWebFile(source, SDriveEngine::inst()->getContentMngr(true)->getParentFolderUrl());
+    Items::Data source(SDriveEngine::inst()->getContentMngr()->getCurrentFileInfo());
+    QString destFolderUrl(SDriveEngine::inst()->getContentMngr(true)->getParentFolderUrl());
+
+    move.file(source, destFolderUrl);
 }
 
 void OperationsManager::slotRenameWebFile(void)
@@ -248,7 +192,9 @@ void OperationsManager::slotAcceptCreateFolder(const QString &name)
 //    if(operationPossible()) createFolder(name, SDriveEngine::inst()->getFilesMngr()->getParentFolderUrl());
 //    else CommonTools::msg(tr("Please select a panel"));
 
-    createFolder(name, SDriveEngine::inst()->getContentMngr()->getParentFolderUrl());
+    QString parentFolderUrl(SDriveEngine::inst()->getContentMngr()->getParentFolderUrl());
+
+    create.folder(name, parentFolderUrl);
     delete createFolderDialog;
 }
 

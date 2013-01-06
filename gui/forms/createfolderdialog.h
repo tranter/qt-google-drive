@@ -15,6 +15,9 @@ public:
     explicit CreateFolderDialog(QWidget *parent = 0);
     ~CreateFolderDialog();
 
+public:
+    void setNameLabel(const QString &text);
+
 public slots:
     void slotAccept();
     void slotReject();

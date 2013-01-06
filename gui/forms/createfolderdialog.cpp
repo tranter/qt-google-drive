@@ -32,3 +32,8 @@ void CreateFolderDialog::slotFinished(int result)
 {
     emit signalFinished(result);
 }
+
+void CreateFolderDialog::setNameLabel(const QString &text)
+{
+    return ui->nameLabel->setText(text);
+}

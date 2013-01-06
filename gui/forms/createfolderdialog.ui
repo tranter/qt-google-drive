@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Name: not implemented yet</string>
+    <string/>
    </property>
   </widget>
   <widget class="QDialogButtonBox" name="buttonBox">

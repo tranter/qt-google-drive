@@ -12,6 +12,7 @@
 #include "network/operations/copy.h"
 #include "network/operations/delete.h"
 #include "network/operations/move.h"
+#include "network/operations/create.h"
 
 class OperationsManager : public NetworkManager
 {
@@ -42,12 +43,8 @@ public slots:
     void slotFinishedCreateFolder(int result);
 
 public:
-    //void deleteFile(const Items::Data &source);
-    //void copyWebFile(const Items::Data &source, const QString &destFolderUrl);
-    void moveWebFile(const Items::Data &source, const QString &destFolderUrl);
     void renameWebFile(const Items::Data &source, const QString &newName);
     void shareWebFile(const Items::Data &source);
-    void createFolder(const QString &name, const QString &folderUrl);
     void setAccountInfo(const QString &accessToken, const QString &refreshToken = QString());
     bool operationPossible(void);
     void updatePanelContent(bool opposite);
@@ -56,8 +53,7 @@ signals:
     void signalAccountInfoReadyToUse(void);
 
 protected slots:
-    void slotReplyFinished(QNetworkReply* );
-    void slotPostFinished(QNetworkReply* reply);
+    void slotReplyFinished(QNetworkReply*);
     void slotPutFinished(void);
 
 private slots:  
@@ -66,7 +62,6 @@ private slots:
 private:
     EOperations currentOperation;
     Items::Data fileUrlToDeleteForMoveOperation;
-    bool isMove;
     AccountInfo *accountInfo;
     Queries queries;
     CreateFolderDialog* createFolderDialog;
@@ -74,6 +69,7 @@ private:
     Copy copy;
     Delete del;
     Move move;
+    Create create;
 };
 
 typedef TSingleton<OperationsManager> SOperationsManager;
