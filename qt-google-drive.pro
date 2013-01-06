@@ -11,7 +11,8 @@ CONFIG(release, debug|release):DEFINES += QT_NO_DEBUG_OUTPUT
 TARGET = gdfm
 TEMPLATE = app
 
-SOURCES += core/main.cpp
+SOURCES += core/main.cpp \
+    network/operations/operation.cpp
 SOURCES += network/operations/download.cpp
 SOURCES += network/operations/upload.cpp
 SOURCES += network/operations/copy.cpp
@@ -50,7 +51,8 @@ SOURCES += gui/checkui.cpp
 SOURCES += gui/controls/toolbar.cpp
 SOURCES += gui/controls/combobox.cpp
 
-HEADERS += gui/forms/mainwindow.h
+HEADERS += gui/forms/mainwindow.h \
+    network/operations/operation.h
 HEADERS += network/operations/download.h
 HEADERS += network/operations/upload.h
 HEADERS += network/operations/copy.h

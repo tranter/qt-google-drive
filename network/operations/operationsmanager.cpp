@@ -1,23 +1,11 @@
 #include "operationsmanager.h"
-#include "share/commontools.h"
 #include "core/driveengine.h"
-#include "share/debug.h"
-#include "gui/forms/sharedialog.h"
 #include "settings/settingsmanager.h"
-#include "share/enums.h"
 #include <QStringList>
 
 OperationsManager::OperationsManager(QObject *parent):
-    NetworkManager(parent),
-    currentOperation(ENone)
+    NetworkManager(parent)
 {
-}
-
-void OperationsManager::shareWebFile(const Items::Data &source)
-{
-    CommonTools::msg("Not Implemented yet");
-    //      ShareDialog *shareDialog = new ShareDialog(SDriveEngine::inst()->getParent());
-    //      shareDialog->show();
 }
 
 void OperationsManager::updatePanelContent(bool opposite)
@@ -122,12 +110,12 @@ void OperationsManager::slotMoveWebFile(void)
     Items::Data source(SDriveEngine::inst()->getContentMngr()->getCurrentFileInfo());
     QString destFolderUrl(SDriveEngine::inst()->getContentMngr(true)->getParentFolderUrl());
 
-    move.file(source, destFolderUrl);
+    move.item(source, destFolderUrl);
 }
 
 void OperationsManager::slotDelete(void)
 {
-    del.file(SDriveEngine::inst()->getContentMngr()->getCurrentFileInfo());
+    del.item(SDriveEngine::inst()->getContentMngr()->getCurrentFileInfo());
 }
 
 void OperationsManager::slotRenameWebFile(void)
@@ -157,14 +145,14 @@ void OperationsManager::slotItemEditDone(void)
 
     if(editingItemText != itemTextAfterEditing)
     {
-        rename.file(source, itemTextAfterEditing);
+        rename.item(source, itemTextAfterEditing);
         editingItemText.clear();
     }
 }
 
 void OperationsManager::slotShareWebFile(void)
 {
-    shareWebFile(SDriveEngine::inst()->getContentMngr()->getCurrentFileInfo());
+    share.file(SDriveEngine::inst()->getContentMngr()->getCurrentFileInfo());
 }
 
 void OperationsManager::slotAcceptCreateFolder(const QString &name)

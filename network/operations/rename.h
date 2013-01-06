@@ -15,7 +15,7 @@ protected slots:
     void slotPutFinished(void);
 
 public:
-    void file(const Items::Data &source, const QString &newName);
+    void item(const Items::Data &source, const QString &newName);
 
 private:
     Queries queries;

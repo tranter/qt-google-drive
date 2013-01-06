@@ -12,7 +12,7 @@ public:
     Move(QObject* parent = 0);
 
 public:
-    void file(const Items::Data &source, const QString &destFolderUrl);
+    void item(const Items::Data &source, const QString &destFolderUrl);
 
 private slots:
     void slotFileCopied(Items::Data &source);

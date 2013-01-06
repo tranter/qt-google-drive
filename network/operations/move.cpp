@@ -5,7 +5,7 @@ Move::Move(QObject *parent) :
 {
 }
 
-void Move::file(const Items::Data &source, const QString &destFolderUrl)
+void Move::item(const Items::Data &source, const QString &destFolderUrl)
 {
     copy.file(source, destFolderUrl);
     connect(&copy, SIGNAL(fileCopied(Items::Data&)), this, SLOT(slotFileCopied(Items::Data&)));
@@ -13,5 +13,5 @@ void Move::file(const Items::Data &source, const QString &destFolderUrl)
 
 void Move::slotFileCopied(Items::Data &source)
 {
-    del.file(source);
+    del.item(source);
 }

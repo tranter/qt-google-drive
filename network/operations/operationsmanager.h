@@ -13,21 +13,12 @@
 #include "network/operations/move.h"
 #include "network/operations/create.h"
 #include "network/operations/rename.h"
+#include "network/operations/share.h"
 
 class OperationsManager : public NetworkManager
 {
     Q_OBJECT
 public:
-    enum EOperations
-    {
-        ENone,
-        ECopy,
-        ECreateFolder,
-        EDelete,
-        ERename,
-        EShare
-    };
-
     OperationsManager(QObject *parent = 0);
 
 public slots:
@@ -43,7 +34,6 @@ public slots:
     void slotFinishedCreateFolder(int result);
 
 public:
-    void shareWebFile(const Items::Data &source);
     void setAccountInfo(const QString &accessToken, const QString &refreshToken = QString());
     bool operationPossible(void);
     void updatePanelContent(bool opposite);
@@ -55,7 +45,6 @@ private slots:
     void slotAccountInfoReceived(AccountInfo::Data &postData);
 
 private:
-    EOperations currentOperation;
     Items::Data fileUrlToDeleteForMoveOperation;
     AccountInfo *accountInfo;
     Queries queries;
@@ -66,6 +55,7 @@ private:
     Move move;
     Create create;
     Rename rename;
+    Share share;
 };
 
 typedef TSingleton<OperationsManager> SOperationsManager;

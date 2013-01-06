@@ -7,7 +7,7 @@ Delete::Delete(QObject *parent)
 {
 }
 
-void Delete::file(const Items::Data &source)
+void Delete::item(const Items::Data &source)
 {
     queries.setRawHeader(SettingsManager().accessToken(), request);
     deleteRequest(queries.constructDeleteWebFileUrl(source.self));
