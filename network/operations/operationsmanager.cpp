@@ -79,7 +79,7 @@ void OperationsManager::slotFinishedCreateFolder(int result)
     delete createFolderDialog;
 }
 
-void OperationsManager::slotCopyWebFile(void)
+void OperationsManager::slotCopyFile(void)
 {
     if(!operationPossible())
     {
@@ -93,7 +93,7 @@ void OperationsManager::slotCopyWebFile(void)
     copy.file(source, destFolderUrl);
 }
 
-void OperationsManager::slotMoveWebFile(void)
+void OperationsManager::slotMoveFile(void)
 {
     if(!operationPossible())
     {
@@ -107,12 +107,12 @@ void OperationsManager::slotMoveWebFile(void)
     move.item(source, destFolderUrl);
 }
 
-void OperationsManager::slotDelete(void)
+void OperationsManager::slotDeleteItem(void)
 {
     del.item(SDriveEngine::inst()->getContentMngr()->getCurrentFileInfo());
 }
 
-void OperationsManager::slotRenameWebFile(void)
+void OperationsManager::slotRenameItem(void)
 {
     if(!operationPossible())
     {
@@ -144,7 +144,7 @@ void OperationsManager::slotItemEditDone(void)
     }
 }
 
-void OperationsManager::slotShareWebFile(void)
+void OperationsManager::slotShareFile(void)
 {
     share.file(SDriveEngine::inst()->getContentMngr()->getCurrentFileInfo());
 }

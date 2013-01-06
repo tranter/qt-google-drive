@@ -22,13 +22,13 @@ public:
     OperationsManager(QObject *parent = 0);
 
 public slots:
-    void slotDelete(void);
+    void slotDeleteItem(void);
     void slotNewFolder(void);
-    void slotCopyWebFile(void);
-    void slotMoveWebFile(void);
-    void slotRenameWebFile(void);
+    void slotCopyFile(void);
+    void slotMoveFile(void);
+    void slotRenameItem(void);
     void slotItemEditDone(void);
-    void slotShareWebFile(void);
+    void slotShareFile(void);
     void slotAcceptCreateFolder(const QString &name);
     void slotRejectCreateFolder(void);
     void slotFinishedCreateFolder(int result);
