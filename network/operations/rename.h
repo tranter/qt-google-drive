@@ -3,7 +3,6 @@
 
 #include "network/networkmanager.h"
 #include "operation.h"
-#include "network/queries.h"
 #include "gui/items.h"
 
 class Rename : public NetworkManager, public Operation
@@ -17,9 +16,6 @@ protected slots:
 
 public:
     void item(const Items::Data &source, const QString &newName);
-
-private:
-    Queries queries;
 };
 
 #endif // RENAME_H

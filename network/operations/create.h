@@ -3,7 +3,6 @@
 
 #include "network/networkmanager.h"
 #include "operation.h"
-#include "network/queries.h"
 #include "gui/items.h"
 
 class Create : public NetworkManager, public Operation
@@ -17,9 +16,6 @@ protected slots:
 
 public:
     void folder(const QString &name, const QString &parentFolderUrl);
-
-private:
-    Queries queries;
 };
 
 #endif // CREATE_H

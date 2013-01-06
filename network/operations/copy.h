@@ -3,7 +3,6 @@
 
 #include "network/networkmanager.h"
 #include "operation.h"
-#include "network/queries.h"
 #include "gui/items.h"
 
 class Copy : public NetworkManager, public Operation
@@ -22,8 +21,7 @@ public:
     void file(const Items::Data &source, const QString &destFolderUrl);
 
 private:
-     Queries queries;
-     Items::Data sourceFileData;
+     Items::Data sourceData;
 };
 
 #endif // COPY_H

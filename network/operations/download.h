@@ -7,12 +7,7 @@ class Download : public QNetworkAccessManager
 {
     Q_OBJECT
 public:
-    explicit Download(QObject *parent = 0);
-    
-signals:
-    
-public slots:
-    
+    explicit Download(QObject *parent = 0);    
 };
 
 #endif // DOWNLOAD_H
