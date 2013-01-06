@@ -21,7 +21,7 @@ void Queries::userAboutInfo(QString &userInfoQuery, QString &aboutInfoQuery)
     aboutInfoQuery = urlStartPart + QString("about");
 }
 
-QByteArray Queries::getCopyWebFileData(const QString &sourceName, const QString &destFolderUrl)
+QByteArray Queries::getCopyFileData(const QString &sourceName, const QString &destFolderUrl)
 {
     return QString("{\"kind\": \"drive#file\", \"title\": \"%1\",\"parents\": [{\"id\":\"%2\"}]}").arg(sourceName).arg(CommonTools::getIDFromURL(destFolderUrl)).toAscii();
 }
@@ -31,7 +31,7 @@ QUrl Queries::constructCopyWebFileUrl(const QString &url)
     return QUrl(QString(urlStartPart + QString("files/") + CommonTools::getIDFromURL(url) + QString("/copy")));
 }
 
-QByteArray Queries::getRenameWebFileData(const QString &newName)
+QByteArray Queries::getRenameFileData(const QString &newName)
 {
     return QString("{\"title\": \"%1\"}").arg(newName).toAscii();
 }

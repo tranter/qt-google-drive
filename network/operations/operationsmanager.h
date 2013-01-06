@@ -8,11 +8,11 @@
 #include "share/defs.h"
 #include "network/queries.h"
 #include "gui/forms/createfolderdialog.h"
-
 #include "network/operations/copy.h"
 #include "network/operations/delete.h"
 #include "network/operations/move.h"
 #include "network/operations/create.h"
+#include "network/operations/rename.h"
 
 class OperationsManager : public NetworkManager
 {
@@ -43,7 +43,6 @@ public slots:
     void slotFinishedCreateFolder(int result);
 
 public:
-    void renameWebFile(const Items::Data &source, const QString &newName);
     void shareWebFile(const Items::Data &source);
     void setAccountInfo(const QString &accessToken, const QString &refreshToken = QString());
     bool operationPossible(void);
@@ -51,10 +50,6 @@ public:
 
 signals:
     void signalAccountInfoReadyToUse(void);
-
-protected slots:
-    void slotReplyFinished(QNetworkReply*);
-    void slotPutFinished(void);
 
 private slots:  
     void slotAccountInfoReceived(AccountInfo::Data &postData);
@@ -70,6 +65,7 @@ private:
     Delete del;
     Move move;
     Create create;
+    Rename rename;
 };
 
 typedef TSingleton<OperationsManager> SOperationsManager;

@@ -13,41 +13,11 @@ OperationsManager::OperationsManager(QObject *parent):
 {
 }
 
-void OperationsManager::slotDelete(void)
-{
-    del.file(SDriveEngine::inst()->getContentMngr()->getCurrentFileInfo());
-}
-
-void OperationsManager::renameWebFile(const Items::Data &source, const QString &newName)
-{
-    currentOperation = ERename;
-
-    postData = queries.getRenameWebFileData(newName);
-    queries.setRawHeader(SettingsManager().accessToken(), request);
-    putRequest(QUrl(source.self));
-}
-
 void OperationsManager::shareWebFile(const Items::Data &source)
 {
     CommonTools::msg("Not Implemented yet");
     //      ShareDialog *shareDialog = new ShareDialog(SDriveEngine::inst()->getParent());
     //      shareDialog->show();
-}
-
-void OperationsManager::slotReplyFinished(QNetworkReply*)
-{
-    if(currentOperation == EDelete)
-    {
-        updatePanelContent(false);
-    }
-}
-
-void OperationsManager::slotPutFinished(void)
-{
-    if(currentOperation == ERename)
-    {
-        updatePanelContent(false);
-    }
 }
 
 void OperationsManager::updatePanelContent(bool opposite)
@@ -116,6 +86,17 @@ void OperationsManager::slotNewFolder(void)
     createFolderDialog->exec();
 }
 
+void OperationsManager::slotRejectCreateFolder(void)
+{
+    delete createFolderDialog;
+}
+
+void OperationsManager::slotFinishedCreateFolder(int result)
+{
+    Q_UNUSED(result);
+    delete createFolderDialog;
+}
+
 void OperationsManager::slotCopyWebFile(void)
 {
     if(!operationPossible())
@@ -142,6 +123,11 @@ void OperationsManager::slotMoveWebFile(void)
     QString destFolderUrl(SDriveEngine::inst()->getContentMngr(true)->getParentFolderUrl());
 
     move.file(source, destFolderUrl);
+}
+
+void OperationsManager::slotDelete(void)
+{
+    del.file(SDriveEngine::inst()->getContentMngr()->getCurrentFileInfo());
 }
 
 void OperationsManager::slotRenameWebFile(void)
@@ -171,7 +157,7 @@ void OperationsManager::slotItemEditDone(void)
 
     if(editingItemText != itemTextAfterEditing)
     {
-        renameWebFile(source, itemTextAfterEditing);
+        rename.file(source, itemTextAfterEditing);
         editingItemText.clear();
     }
 }
@@ -195,17 +181,6 @@ void OperationsManager::slotAcceptCreateFolder(const QString &name)
     QString parentFolderUrl(SDriveEngine::inst()->getContentMngr()->getParentFolderUrl());
 
     create.folder(name, parentFolderUrl);
-    delete createFolderDialog;
-}
-
-void OperationsManager::slotRejectCreateFolder(void)
-{
-    delete createFolderDialog;
-}
-
-void OperationsManager::slotFinishedCreateFolder(int result)
-{
-    Q_UNUSED(result);
     delete createFolderDialog;
 }
 
