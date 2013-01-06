@@ -8,12 +8,6 @@ OperationsManager::OperationsManager(QObject *parent):
 {
 }
 
-void OperationsManager::updatePanelContent(bool opposite)
-{
-    ContentManager* cm(SDriveEngine::inst()->getContentMngr(opposite));
-    cm->get(cm->getParentFolderUrl());
-}
-
 void OperationsManager::setAccountInfo(const QString &accessToken, const QString &refreshToken)
 {
     QString userInfoQuery, aboutInfoQuery;

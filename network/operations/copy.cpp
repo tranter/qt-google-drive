@@ -1,6 +1,5 @@
 #include "copy.h"
 #include "settings/settingsmanager.h"
-#include "network/operations/operationsmanager.h"
 
 Copy::Copy(QObject *parent) :
     NetworkManager(parent)
@@ -18,7 +17,7 @@ void Copy::file(const Items::Data &source, const QString &destFolderUrl)
 void Copy::slotPostFinished(QNetworkReply* reply)
 {
     NetworkManager::slotPostFinished(reply);
-    SOperationsManager::inst()->updatePanelContent(true);
+    updatePanelContent(true);
 
     emit fileCopied(sourceFileData);
 }

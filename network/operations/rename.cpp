@@ -1,6 +1,5 @@
 #include "rename.h"
 #include "settings/settingsmanager.h"
-#include "network/operations/operationsmanager.h"
 
 Rename::Rename(QObject *parent) :
     NetworkManager(parent)
@@ -16,5 +15,5 @@ void Rename::item(const Items::Data &source, const QString &newName)
 
 void Rename::slotPutFinished(void)
 {
-    SOperationsManager::inst()->updatePanelContent(false);
+    updatePanelContent(false);
 }

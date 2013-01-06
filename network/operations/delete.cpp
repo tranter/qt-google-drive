@@ -1,6 +1,5 @@
 #include "delete.h"
 #include "settings/settingsmanager.h"
-#include "network/operations/operationsmanager.h"
 
 Delete::Delete(QObject *parent)
     :NetworkManager(parent)
@@ -15,5 +14,5 @@ void Delete::item(const Items::Data &source)
 
 void Delete::slotReplyFinished(QNetworkReply*)
 {
-    SOperationsManager::inst()->updatePanelContent(false);
+   updatePanelContent(false);
 }

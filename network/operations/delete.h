@@ -2,10 +2,11 @@
 #define DELETE_H
 
 #include "network/networkmanager.h"
+#include "operation.h"
 #include "network/queries.h"
 #include "gui/items.h"
 
-class Delete : public NetworkManager
+class Delete : public NetworkManager, public Operation
 {
     Q_OBJECT
 public:

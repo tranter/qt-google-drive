@@ -36,7 +36,6 @@ public slots:
 public:
     void setAccountInfo(const QString &accessToken, const QString &refreshToken = QString());
     bool operationPossible(void);
-    void updatePanelContent(bool opposite);
 
 signals:
     void signalAccountInfoReadyToUse(void);
