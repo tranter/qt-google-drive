@@ -33,11 +33,11 @@ void MainWindow::init(void)
     QTextCodec::setCodecForCStrings(QTextCodec::codecForLocale());
     QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
 
-    if(!CheckUI().checkReg())
-    {
-        CommonTools::msg(tr("The application is under development. Currently disabled to use.\nNo commercial use allowed."));
-        return;
-    }
+//    if(!CheckUI().checkReg())
+//    {
+//        CommonTools::msg(tr("The application is under development. Currently disabled to use.\nNo commercial use allowed."));
+//        return;
+//    }
 }
 
 void MainWindow::setConnections(void)
@@ -47,7 +47,7 @@ void MainWindow::setConnections(void)
     connect(SUi::inst()->actionDownload, SIGNAL(triggered()), SDriveEngine::inst()->getfilesTransferUI(), SLOT(slotDownload()));
     connect(SUi::inst()->actionUpload, SIGNAL(triggered()), SDriveEngine::inst()->getfilesTransferUI(), SLOT(slotUpload()));
     connect(SUi::inst()->actionSettings, SIGNAL(triggered()), SDriveEngine::inst()->getCheckUI(), SLOT(slotCheckWorkDir()));   
-    connect(SUi::inst()->actionDelete, SIGNAL(triggered()), SOperationsManager::inst(), SLOT(slotDelete()));
+    connect(SUi::inst()->actionDelete, SIGNAL(triggered()), SOperationsManager::inst(), SLOT(slotDeleteItem()));
     connect(SUi::inst()->actionNewFolder, SIGNAL(triggered()), SOperationsManager::inst(), SLOT(slotNewFolder()));
     connect(SUi::inst()->copyButton, SIGNAL(clicked()), SOperationsManager::inst(), SLOT(slotCopyFile()));
     connect(SUi::inst()->moveButton, SIGNAL(clicked()), SOperationsManager::inst(), SLOT(slotMoveFile()));

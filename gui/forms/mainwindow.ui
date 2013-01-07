@@ -98,7 +98,7 @@ border-bottom-left-radius: 6px;
 width: 16px;</string>
           </property>
           <property name="text">
-           <string>F5 Copy</string>
+           <string>Copy</string>
           </property>
          </widget>
         </item>
@@ -126,7 +126,7 @@ border-bottom-left-radius: 6px;
 width: 16px;</string>
           </property>
           <property name="text">
-           <string>F6 Move</string>
+           <string>Move</string>
           </property>
          </widget>
         </item>
@@ -154,7 +154,7 @@ border-bottom-left-radius: 6px;
 width: 16px;</string>
           </property>
           <property name="text">
-           <string>F7 New Folder</string>
+           <string>New Folder</string>
           </property>
          </widget>
         </item>
@@ -182,7 +182,7 @@ border-bottom-left-radius: 6px;
 width: 16px;</string>
           </property>
           <property name="text">
-           <string>F8 Delete</string>
+           <string>Delete</string>
           </property>
          </widget>
         </item>
@@ -210,7 +210,7 @@ border-bottom-left-radius: 6px;
 width: 16px;</string>
           </property>
           <property name="text">
-           <string>F9 Rename</string>
+           <string>Rename</string>
           </property>
          </widget>
         </item>
@@ -238,7 +238,7 @@ border-bottom-left-radius: 6px;
 width: 16px;</string>
           </property>
           <property name="text">
-           <string>F10 Share</string>
+           <string>Share</string>
           </property>
          </widget>
         </item>

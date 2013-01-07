@@ -8,8 +8,6 @@
 #define UPLOAD_TAG QString("http://schemas.google.com/g/2005#resumable-create-media")
 #define ICON_TAG QString("http://schemas.google.com/docs/2007#icon")
 
-#define DELETE_FILE QString("https://docs.google.com/feeds/default/private/full/file:")
-
 #define CONTENTS QString("/contents")
 #define MAX_RESULTS QString("?max-results=10000")
 
