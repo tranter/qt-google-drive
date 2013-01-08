@@ -10,7 +10,7 @@ void Rename::item(const Items::Data &source, const QString &newName)
 {
     postData = queries.getRenameFileData(newName);
     queries.setRawHeader(SettingsManager().accessToken(), request);
-    putRequest(QUrl(queries.constructRenameWebFileUrl(source.self)));
+    putRequest(QUrl(queries.constructRenameFileUrl(source.self)));
 }
 
 void Rename::slotPutFinished(void)

@@ -12,6 +12,7 @@ TARGET = gdfm
 TEMPLATE = app
 
 SOURCES += core/main.cpp
+SOURCES += network/operations/children.cpp
 SOURCES += network/operations/operation.cpp
 SOURCES += network/operations/download.cpp
 SOURCES += network/operations/upload.cpp
@@ -52,6 +53,7 @@ SOURCES += gui/controls/toolbar.cpp
 SOURCES += gui/controls/combobox.cpp
 
 HEADERS += gui/forms/mainwindow.h
+HEADERS += network/operations/children.h
 HEADERS += network/operations/operation.h
 HEADERS += network/operations/download.h
 HEADERS += network/operations/upload.h

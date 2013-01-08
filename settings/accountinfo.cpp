@@ -1,11 +1,12 @@
 #include "accountinfo.h"
 #include "share/commontools.h"
 #include "parsers/jsonparser.h"
+#include "network/queries.h"
 #include "share/debug.h"
 
 AccountInfo::AccountInfo(const QString &uiq, const QString &aiq, const QString &at, const QString &rt) :
     userInfoQuery(uiq),
-    aboutInfoQuery(aiq),    
+    aboutInfoQuery(aiq),
     query(EUserInfoQuery),
     queryStr(userInfoQuery)
 {
@@ -37,40 +38,31 @@ void AccountInfo::slotReplyFinished(QNetworkReply*)
 
 void AccountInfo::setInfo(void)
 {
-    DEBUG;
-
-    CommonTools::setHeader(accountData.accessToken, request);
-    request.setRawHeader("Content-Type", "application/json");
-
+    Queries().setRawHeader(accountData.accessToken, request);
     getRequest(queryStr);
 }
 
 void AccountInfo::parseReply(void)
 {
-//    DEBUG << "<===============================================================================================================";
-//    DEBUG << "replyStr" << replyStr;
-//    DEBUG << "===============================================================================================================>";
+    DEBUG << "<===============================================================================================================";
+    DEBUG << "replyStr" << replyStr;
+    DEBUG << "===============================================================================================================>";
 
     JSONParser jParser;
 
     if(query == EUserInfoQuery)
     {
-        accountData.name = jParser.getPlainParam(replyStr, QString("name"));
-        accountData.email = jParser.getPlainParam(replyStr, QString("email"));
+        accountData.name = jParser.getParam(replyStr, QString("name"));
+        accountData.email = jParser.getParam(replyStr, QString("email"));
     }
     else if(query == EAboutInfoQuery)
     {
-        accountData.domainSharingPolicy = jParser.getPlainParam(replyStr, QString("domainSharingPolicy"));
-        accountData.permissionId = jParser.getPlainParam(replyStr, QString("permissionId"));
-        accountData.quotaBytesTotal = jParser.getPlainParam(replyStr, QString("quotaBytesTotal")).toLongLong();
-        accountData.quotaBytesUsed = jParser.getPlainParam(replyStr, QString("quotaBytesUsed")).toLongLong();
-        accountData.quotaBytesUsedInTrash = jParser.getPlainParam(replyStr, QString("quotaBytesUsedInTrash")).toLongLong();
+        accountData.domainSharingPolicy = jParser.getParam(replyStr, QString("domainSharingPolicy"));
+        accountData.permissionId = jParser.getParam(replyStr, QString("permissionId"));
+        accountData.quotaBytesTotal = jParser.getParam(replyStr, QString("quotaBytesTotal")).toLongLong();
+        accountData.quotaBytesUsed = jParser.getParam(replyStr, QString("quotaBytesUsed")).toLongLong();
+        accountData.quotaBytesUsedInTrash = jParser.getParam(replyStr, QString("quotaBytesUsedInTrash")).toLongLong();
     }
-}
-
-AccountInfo::Data AccountInfo::getData(void) const
-{
-    return accountData;
 }
 
 

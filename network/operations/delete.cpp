@@ -9,7 +9,7 @@ Delete::Delete(QObject *parent)
 void Delete::item(const Items::Data &source)
 {
     queries.setRawHeader(SettingsManager().accessToken(), request);
-    deleteRequest(queries.constructDeleteWebFileUrl(source.self));
+    deleteRequest(queries.constructDeleteFileUrl(source.self));
 }
 
 void Delete::slotReplyFinished(QNetworkReply*)

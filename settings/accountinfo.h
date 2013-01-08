@@ -36,7 +36,6 @@ protected:
 
 public:
     void setInfo(void);
-    Data getData(void) const;
 
 private:
     void parseReply(void);

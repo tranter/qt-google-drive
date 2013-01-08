@@ -26,7 +26,7 @@ QByteArray Queries::getCopyFileData(const QString &sourceName, const QString &de
     return QString("{\"kind\": \"drive#file\", \"title\": \"%1\",\"parents\": [{\"id\":\"%2\"}]}").arg(sourceName).arg(CommonTools::getIDFromURL(destFolderUrl)).toAscii();
 }
 
-QUrl Queries::constructCopyWebFileUrl(const QString &url)
+QUrl Queries::constructCopyFileUrl(const QString &url)
 {
     return QUrl(QString(urlStartPart + QString("files/") + CommonTools::getIDFromURL(url) + QString("/copy")));
 }
@@ -36,7 +36,7 @@ QByteArray Queries::getRenameFileData(const QString &newName)
     return QString("{\"title\": \"%1\"}").arg(newName).toAscii();
 }
 
-QUrl Queries::constructRenameWebFileUrl(const QString &sourceName)
+QUrl Queries::constructRenameFileUrl(const QString &sourceName)
 {
     return QUrl(urlStartPart + QString("files/") + CommonTools::getIDFromURL(sourceName));
 }
@@ -51,8 +51,13 @@ QUrl Queries::constructCreateFolderUrl(void)
     return QUrl(urlStartPart + QString("files"));
 }
 
-QUrl Queries::constructDeleteWebFileUrl(const QString &sourceName)
+QUrl Queries::constructDeleteFileUrl(const QString &sourceName)
 {
   return QUrl(urlStartPart + QString("files/") + CommonTools::getIDFromURL(sourceName));
+}
+
+QUrl Queries::construcChildrenUrl(const QString &sourceName)
+{
+    return QUrl(QString(urlStartPart + QString("files/") + CommonTools::getIDFromURL(sourceName) + QString("/children")));
 }
 

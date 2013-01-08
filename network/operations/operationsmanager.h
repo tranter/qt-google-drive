@@ -14,6 +14,7 @@
 #include "network/operations/create.h"
 #include "network/operations/rename.h"
 #include "network/operations/share.h"
+#include "network/operations/children.h"
 
 class OperationsManager : public NetworkManager
 {
@@ -55,6 +56,7 @@ private:
     Create create;
     Rename rename;
     Share share;
+    Children children;
 };
 
 typedef TSingleton<OperationsManager> SOperationsManager;

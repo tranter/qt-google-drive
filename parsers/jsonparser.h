@@ -8,8 +8,16 @@ class JSONParser
 public:
     JSONParser();
 
-public:
-    QString getPlainParam(const QString& jsonStr, const QString& lval);
+public:   
+    QString getParam(const QString &jsonStr, const QString &lVal, bool isQuotes = true);
+    QStringList getParams(const QString& jsonStr, const QStringList &pathValues, const QString &lVal);
+
+private:
+    QString getToken(const QString &jsonStr, const QString &lVal, QString endDivider, bool isQuotes);
+
+
+private:
+    int continuePos;
 };
 
 #endif // JSONPARSER_H

@@ -14,13 +14,14 @@ public:
 public:
     void userAboutInfo(QString &userInfoQuery, QString &aboutInfoQuery);
     QByteArray getCopyFileData(const QString &sourceName, const QString &destFolderUrl);
-    QUrl constructCopyWebFileUrl(const QString &url);
+    QUrl constructCopyFileUrl(const QString &url);
     void setRawHeader(const QString &accessToken, QNetworkRequest &request);
     QByteArray getRenameFileData(const QString &newName);
-    QUrl constructRenameWebFileUrl(const QString &sourceName);
+    QUrl constructRenameFileUrl(const QString &sourceName);
     QByteArray getCreateFolderData(const QString &name, const QString &folderUrl);
     QUrl constructCreateFolderUrl(void);
-    QUrl constructDeleteWebFileUrl(const QString &sourceName);
+    QUrl constructDeleteFileUrl(const QString &sourceName);
+    QUrl construcChildrenUrl(const QString &sourceName);
 
 private:
    QString urlStartPart;

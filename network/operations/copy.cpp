@@ -10,7 +10,7 @@ void Copy::file(const Items::Data &source, const QString &destFolderUrl)
 {
     postData = queries.getCopyFileData(source.name, destFolderUrl);
     queries.setRawHeader(SettingsManager().accessToken(), request);
-    postRequest(queries.constructCopyWebFileUrl(source.self));
+    postRequest(queries.constructCopyFileUrl(source.self));
     sourceData = source;
 }
 
