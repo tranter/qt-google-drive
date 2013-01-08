@@ -8,10 +8,13 @@ JSONParser::JSONParser()
 {
 }
 
-QString JSONParser::getParam(const QString& jsonStr, const QString& lVal, bool isQuotes)
+QString JSONParser::getParam(const QString& jsonStr, const QString& lVal)
 {
-    QString token(getToken(jsonStr, lVal, QString(","), isQuotes));
-    QStringList tokenValues(token.split(":"));
+    QString token(getToken(jsonStr, lVal, QString(",")));
+
+    token.remove(QRegExp("[\"}]"));
+
+    QStringList tokenValues(token.split(": "));
     QString rVal;
 
     if(tokenValues.count() == 2) rVal = tokenValues[1].trimmed();
@@ -23,45 +26,42 @@ QStringList JSONParser::getParams(const QString& jsonStr, const QStringList& pat
 {
     if(pathValues.count() == 0)  return QStringList();
 
-    QString token(getToken(jsonStr, pathValues[0], QString("]"), true));
+    QString token(getToken(jsonStr, pathValues[0], QString("]")));
 
     for(int i = 1; i < pathValues.count(); ++i)
     {
-      token = getToken(token, pathValues[i], QString("]"), true);
+        token = getToken(token, pathValues[i], QString("]"));
     }
+
+    QStringList tokens;
+    QString nextToken;
 
     continuePos = 0;
 
-    QStringList tokens;
-
-    QString nextToken;
-
-    while(!(nextToken = getParam(token, lVal, false)).isEmpty())
+    while(!(nextToken = getParam(token, lVal)).isEmpty())
     {
         token = token.mid(continuePos);
         tokens << nextToken;
-     }
+    }
 
     return tokens;
 }
 
-QString JSONParser::getToken(const QString& jsonStr, const QString& lVal, QString endDivider, bool isQuotes)
+QString JSONParser::getToken(const QString& jsonStr, const QString& lVal, QString endDivider)
 {
-    QString searchToken(lVal);
-
-    if(isQuotes) searchToken = QString("\"") + lVal + QString("\"");
+    QString searchToken(QString("\"") + lVal + QString("\""));
 
     int beginPos(jsonStr.indexOf(searchToken));
 
     if(beginPos == -1) return QString();
 
     int endPos(jsonStr.indexOf(endDivider, beginPos));
+
     int strLength = endPos - beginPos;
     QString token(jsonStr.mid(beginPos, strLength));
 
-    token.remove(QRegExp("[\"}]"));
-
-    continuePos = endPos;
+    if(endPos != -1)  continuePos = endPos;
+    else continuePos = beginPos + token.length();
 
     return token;
 }

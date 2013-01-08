@@ -16,13 +16,16 @@ void Children::fetch(const Items::Data &source)
 
 void Children::slotReplyFinished(QNetworkReply* reply)
 {
-    //DEBUG << replyStr;
+    DEBUG << replyStr;
 
     JSONParser jParser;
     QStringList pathValues;
 
     pathValues << "items";
-    DEBUG << jParser.getParams(replyStr, pathValues, QString("id"));
+    //DEBUG << jParser.getParams(replyStr, pathValues, QString("id"));
+    //DEBUG << jParser.getParams(replyStr, pathValues, QString("selfLink"));
+    //DEBUG << jParser.getParams(replyStr, pathValues, QString("childLink"));
+
     //updatePanelContent(false);
 }
 
