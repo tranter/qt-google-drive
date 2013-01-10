@@ -31,12 +31,11 @@ void ContentManager::get(const QString &url)
 
 void ContentManager::slotReplyFinished(QNetworkReply* reply)
 {
-    //    CommonTools::logToFile(QString("ParserReply ") + ".txt", replyStr.toAscii());
+    //CommonTools::logToFile(QString("ParserReply ") + ".txt", replyStr.toAscii());
 
-    //    DEBUG << "<===============================================================================================================";
-    //    DEBUG << "replyStr" << replyStr;
-    //    DEBUG << "reply" << reply->error() << " " << reply->errorString();
-    //    DEBUG << "===============================================================================================================>";
+//    DEBUG << "<===============================================================================================================";
+//    DEBUG << "replyStr" << replyStr;
+//    DEBUG << "===============================================================================================================>";
 
     /*if(*/parseReply(replyStr);/*) DEBUG << "parse OK"*/
     //    else DEBUG << "parse not OK";

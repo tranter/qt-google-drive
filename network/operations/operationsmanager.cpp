@@ -64,9 +64,6 @@ void OperationsManager::slotNewFolder(void)
     connect(createFolderDialog, SIGNAL(signalFinished(int)), this, SLOT(slotFinishedCreateFolder(int)));
 
     createFolderDialog->setNameLabel(tr("New folder name:"));
-
-    children.fetch();
-
     createFolderDialog->exec();
 }
 

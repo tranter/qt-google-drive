@@ -9,12 +9,12 @@ public:
     JSONParser();
 
 public:   
-    QString getParam(const QString &jsonStr, const QString &lVal);
-    QStringList getParams(const QString& jsonStr, const QStringList &pathValues, const QString &lVal);
+    QString getValue(const QString &jsonStr, const QString &key);
+    QStringList getParams(const QString &jsonStr, const QStringList &pathValues, const QString &key);
 
 private:
-    QString getToken(const QString &jsonStr, const QString &lVal, QString endDivider);
-
+    QString getToken(const QString &object, const QString &key, const QString &endDivider);
+    int getTokenEnd(const QString &object, int beginPos);
 
 private:
     int continuePos;

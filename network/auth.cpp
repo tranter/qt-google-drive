@@ -72,8 +72,8 @@ void Auth::postFinishedActions(QNetworkReply* reply)
 
     JSONParser jParser;
 
-    QString accessToken(jParser.getParam(replyStr, "access_token"));
-    QString refreshToken(jParser.getParam(replyStr, "refresh_token"));
+    QString accessToken(jParser.getValue(replyStr, "access_token"));
+    QString refreshToken(jParser.getValue(replyStr, "refresh_token"));
 
     if(currentRequest == EAccessToken)
     {

@@ -8,21 +8,21 @@ JSONParser::JSONParser()
 {
 }
 
-QString JSONParser::getParam(const QString& jsonStr, const QString& lVal)
+QString JSONParser::getValue(const QString &jsonStr, const QString &key)
 {
-    QString token(getToken(jsonStr, lVal, QString(",")));
+    QString token(getToken(jsonStr, key, QString(",")));
 
     token.remove(QRegExp("[\"}]"));
 
     QStringList tokenValues(token.split(": "));
-    QString rVal;
+    QString value;
 
-    if(tokenValues.count() == 2) rVal = tokenValues[1].trimmed();
+    if(tokenValues.count() == 2) value = tokenValues[1].trimmed();
 
-    return rVal;
+    return value;
 }
 
-QStringList JSONParser::getParams(const QString& jsonStr, const QStringList& pathValues, const QString& lVal)
+QStringList JSONParser::getParams(const QString &jsonStr, const QStringList &pathValues, const QString &key)
 {
     if(pathValues.count() == 0)  return QStringList();
 
@@ -38,7 +38,7 @@ QStringList JSONParser::getParams(const QString& jsonStr, const QStringList& pat
 
     continuePos = 0;
 
-    while(!(nextToken = getParam(token, lVal)).isEmpty())
+    while(!(nextToken = getValue(token, key)).isEmpty())
     {
         token = token.mid(continuePos);
         tokens << nextToken;
@@ -47,21 +47,43 @@ QStringList JSONParser::getParams(const QString& jsonStr, const QStringList& pat
     return tokens;
 }
 
-QString JSONParser::getToken(const QString& jsonStr, const QString& lVal, QString endDivider)
+QString JSONParser::getToken(const QString &object, const QString &key, const QString &endDivider)
 {
-    QString searchToken(QString("\"") + lVal + QString("\""));
+    QString searchToken(QString("\"") + key + QString("\""));
 
-    int beginPos(jsonStr.indexOf(searchToken));
+    int beginPos(object.indexOf(searchToken));
 
     if(beginPos == -1) return QString();
 
-    int endPos(jsonStr.indexOf(endDivider, beginPos));
+    int endPos;
+
+    if(endDivider == QString(",")) endPos = object.indexOf(endDivider, beginPos);
+    else endPos = getTokenEnd(object, beginPos);
 
     int strLength = endPos - beginPos;
-    QString token(jsonStr.mid(beginPos, strLength));
+    QString token(object.mid(beginPos, strLength));
 
     if(endPos != -1)  continuePos = endPos;
     else continuePos = beginPos + token.length();
 
+    DEBUG << "TOKEN" << token;
+
     return token;
+}
+
+int JSONParser::getTokenEnd(const QString &object, int beginPos)
+{
+    int beginDividerPos(object.indexOf("[", beginPos + 1));
+    int endDividerPos(object.indexOf("]", beginPos + 1));
+
+    while(beginDividerPos != -1)
+    {
+        DEBUG << "beginDividerPos" << beginDividerPos << " endDividerPos" << endDividerPos;
+        beginDividerPos = object.indexOf("[", endDividerPos);
+        endDividerPos = object.indexOf("]", endDividerPos);
+    }
+
+    DEBUG << "endDividerPos" << endDividerPos;
+
+    return endDividerPos;
 }

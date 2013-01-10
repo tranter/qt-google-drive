@@ -11,18 +11,19 @@ Children::Children(QObject *parent) :
 void Children::fetch(const Items::Data &source)
 {
     queries.setRawHeader(SettingsManager().accessToken(), request);
-    getRequest(queries.construcChildrenUrl(QString("root")).toString());
+    getRequest(queries.construcChildrenUrl(QString("root")));
 }
 
 void Children::slotReplyFinished(QNetworkReply* reply)
 {
+    DEBUG << "=========================================================================";
     DEBUG << replyStr;
 
     JSONParser jParser;
     QStringList pathValues;
 
-    pathValues << "items";
-    //DEBUG << jParser.getParams(replyStr, pathValues, QString("id"));
+    pathValues << "items" << "parents";
+    DEBUG << "!!!!" << jParser.getParams(replyStr, pathValues, QString("id"));
     //DEBUG << jParser.getParams(replyStr, pathValues, QString("selfLink"));
     //DEBUG << jParser.getParams(replyStr, pathValues, QString("childLink"));
 

@@ -52,16 +52,16 @@ void AccountInfo::parseReply(void)
 
     if(query == EUserInfoQuery)
     {
-        accountData.name = jParser.getParam(replyStr, QString("name"));
-        accountData.email = jParser.getParam(replyStr, QString("email"));
+        accountData.name = jParser.getValue(replyStr, QString("name"));
+        accountData.email = jParser.getValue(replyStr, QString("email"));
     }
     else if(query == EAboutInfoQuery)
     {
-        accountData.domainSharingPolicy = jParser.getParam(replyStr, QString("domainSharingPolicy"));
-        accountData.permissionId = jParser.getParam(replyStr, QString("permissionId"));
-        accountData.quotaBytesTotal = jParser.getParam(replyStr, QString("quotaBytesTotal")).toLongLong();
-        accountData.quotaBytesUsed = jParser.getParam(replyStr, QString("quotaBytesUsed")).toLongLong();
-        accountData.quotaBytesUsedInTrash = jParser.getParam(replyStr, QString("quotaBytesUsedInTrash")).toLongLong();
+        accountData.domainSharingPolicy = jParser.getValue(replyStr, QString("domainSharingPolicy"));
+        accountData.permissionId = jParser.getValue(replyStr, QString("permissionId"));
+        accountData.quotaBytesTotal = jParser.getValue(replyStr, QString("quotaBytesTotal")).toLongLong();
+        accountData.quotaBytesUsed = jParser.getValue(replyStr, QString("quotaBytesUsed")).toLongLong();
+        accountData.quotaBytesUsedInTrash = jParser.getValue(replyStr, QString("quotaBytesUsedInTrash")).toLongLong();
     }
 }
 

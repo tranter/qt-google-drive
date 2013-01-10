@@ -21,7 +21,7 @@ public:
     QByteArray getCreateFolderData(const QString &name, const QString &folderUrl);
     QUrl constructCreateFolderUrl(void);
     QUrl constructDeleteFileUrl(const QString &sourceName);
-    QUrl construcChildrenUrl(const QString &sourceName);
+    QString construcChildrenUrl(const QString &Id);
 
 private:
    QString urlStartPart;

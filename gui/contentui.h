@@ -41,6 +41,7 @@ private:
     void setCurrentPanelState(EPanels panel, const QString &url);
     void performShowFiles(const QString &query, const QString &name, EPath path, EPanels panel);
     bool isFolder(void);
+    Children children;
 };
 
 #endif // FILESUI_H

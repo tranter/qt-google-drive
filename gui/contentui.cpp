@@ -20,6 +20,8 @@ void ContentUI::slotRightViewClicked(const QModelIndex&)
 
 void ContentUI::slotLeftPanelItemDoubleClicked(QTreeWidgetItem *item, int column)
 {
+    Q_UNUSED(column);
+
     SettingsManager().setCurrentPanel(LEFT_PANEL_VALUE);
     showFilesOnPanel(item->data(0, Qt::DisplayRole).toString(), ELeft);
 }
@@ -78,6 +80,8 @@ void ContentUI::performShowFiles(const QString &query, const QString &name, EPat
     setPanelDisplayingPath(name, path, panel);
     SDriveEngine::inst()->getContentMngr()->get(query);
     setCurrentPanelState(panel, query);
+
+    children.fetch();
 }
 
 void ContentUI::slotUpdateFileList()
