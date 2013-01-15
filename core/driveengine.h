@@ -13,13 +13,8 @@
 #include "share/enums.h"
 #include "gui/forms/filepanel.h"
 
-class AdditionalFoldersManager;
-class CheckUI;
-class CreateFolderDialog;
-class ContentManager;
 class FilesTransferUI;
 class ContentUI;
-class OperationsUI;
 
 class DriveEngine : public QObject
 {
@@ -30,15 +25,13 @@ public:
 
     friend class FilesTransferUI;
     friend class ContentUI;
-    friend class FoldersUI;
-    friend class OperationsUI;
 
 public:   
-    CheckUI* getCheckUI(void) const;
-    ContentManager* getContentMngr(bool opposite = false) const;
-    FilesTransferUI* getfilesTransferUI(void) const;
-    ContentUI* getfilesUI(void) const;
-    QWidget* getParent(void) const;
+    CheckUI *getCheckUI(void) const;
+    ContentManager *getContentMngr(bool opposite = false) const;
+    FilesTransferUI *getfilesTransferUI(void) const;
+    ContentUI *getfilesUI(void) const;
+    QWidget *getParent(void) const;
     void init(void);
     FilePanel *getFilePanel(EPanels panel) const;
     void updatePanel(int panelId, bool initLoad);
