@@ -32,7 +32,6 @@ void AuthDialog::init(void)
 void AuthDialog::slotUrlChanged(const QUrl &url)
 {
     SettingsManager settingsManager;
-
     QString code(auth->getOAuth2Code(url));
 
     if(!code.isEmpty())

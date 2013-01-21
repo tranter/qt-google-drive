@@ -51,6 +51,7 @@ SOURCES += gui/contentui.cpp
 SOURCES += gui/checkui.cpp
 SOURCES += gui/controls/toolbar.cpp
 SOURCES += gui/controls/combobox.cpp
+SOURCES += gui/controls/separator.cpp
 
 HEADERS += gui/forms/mainwindow.h
 HEADERS += network/operations/children.h
@@ -95,6 +96,7 @@ HEADERS += gui/contentui.h
 HEADERS += gui/checkui.h
 HEADERS += gui/controls/toolbar.h
 HEADERS += gui/controls/combobox.h
+HEADERS += gui/controls/separator.h
 
 FORMS += gui/forms/mainwindow.ui
 FORMS += gui/forms/authdialog.ui
