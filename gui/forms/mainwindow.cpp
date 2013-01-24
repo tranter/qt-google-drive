@@ -96,6 +96,7 @@ void MainWindow::slotAccessTokenRequired(void)
 void MainWindow::slotAuthResponse(const QString &accessToken)
 {
     SOperationsManager::inst()->setAccountInfo(accessToken);
+
     auth->deleteLater();
     auth = NULL;
 }
