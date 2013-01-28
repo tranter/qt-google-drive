@@ -15,7 +15,7 @@ signals:
     void fileCopied(Items::Data &source);
 
 protected slots:
-    void slotPostFinished(QNetworkReply* reply);
+    void slotPostFinished(QNetworkReply *reply);
 
 public:
     void file(const Items::Data &source, const QString &destFolderUrl);

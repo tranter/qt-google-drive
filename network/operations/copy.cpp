@@ -8,13 +8,14 @@ Copy::Copy(QObject *parent) :
 
 void Copy::file(const Items::Data &source, const QString &destFolderUrl)
 {
+    sourceData = source;
     postData = queries.getCopyFileData(source.name, destFolderUrl);
+
     queries.setRawHeader(SettingsManager().accessToken(), request);
     postRequest(queries.constructCopyFileUrl(source.self));
-    sourceData = source;
 }
 
-void Copy::slotPostFinished(QNetworkReply* reply)
+void Copy::slotPostFinished(QNetworkReply *reply)
 {
     NetworkManager::slotPostFinished(reply);
     updatePanelContent(true);
