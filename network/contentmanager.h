@@ -18,11 +18,10 @@ public:
     XMLParser* getParser(void) const;
     void clear(void);
     QString getParentFolderUrl(void) const;
-    Items::Data getUpperLevelFolderInfo(void) const;
+    Items::Data getParentFolderInfo(void) const;
     QTreeWidget* getPanel(void) const;
     QString back(void);
     void setPanel(QTreeWidget *p, int pn);
-    void sort(int column, Qt::SortOrder order);
     Items::Data getCurrentFileInfo(void);
     QStringList getPathesURLs(void) const;
     void setPathesURLs(const QStringList &pathesURLsStrList);
@@ -49,7 +48,7 @@ private:
     QList<QTreeWidgetItem*> treeWidgetItems;
     QTreeWidget *panel;
     QStringList pathesURLs;
-    Items::Data rootData;
+    Items::Data parentData;
     QList<Items::Data> normalizedItems;
     bool isRoot;
     int panelNum;

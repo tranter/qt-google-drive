@@ -130,7 +130,7 @@ void ContentManager::setItems(Items::Data::ESortOrder itemSortOrder, Qt::SortOrd
 
     if(!normalizedItems.isEmpty())
     {
-        rootData = normalizedItems.takeFirst();
+        parentData = normalizedItems.takeFirst();
     }
 
     parser->getXMLHandler()->getItemInfo()->sort(normalizedItems, itemSortOrder, sortOrder);
@@ -181,9 +181,9 @@ QString ContentManager::getParentFolderUrl(void) const
     return pathesURLs.last();
 }
 
-Items::Data ContentManager::getUpperLevelFolderInfo(void) const
+Items::Data ContentManager::getParentFolderInfo(void) const
 {
-    return  rootData;
+    return  parentData;
 }
 
 QString ContentManager::back(void)
@@ -208,10 +208,6 @@ QStringList ContentManager::getPathesURLs(void) const
 void ContentManager::setPathesURLs(const QStringList &pathesURLsStrList)
 {
     pathesURLs = pathesURLsStrList;
-}
-
-void ContentManager::sort(int column, Qt::SortOrder order)
-{
 }
 
 Items::Data ContentManager::getCurrentFileInfo(void)

@@ -57,6 +57,8 @@ void MainWindow::setConnections(void)
     connect(SUi::inst()->shareButton, SIGNAL(clicked()), SOperationsManager::inst(), SLOT(slotShareFile()));
     connect(SDriveEngine::inst()->getFilePanel(ELeft)->getFileView(), SIGNAL(clicked(const QModelIndex&)), SDriveEngine::inst()->getfilesUI(), SLOT(slotLeftViewClicked(const QModelIndex&)));
     connect(SDriveEngine::inst()->getFilePanel(ERight)->getFileView(), SIGNAL(clicked(const QModelIndex&)), SDriveEngine::inst()->getfilesUI(), SLOT(slotRightViewClicked(const QModelIndex&)));
+    connect(SDriveEngine::inst()->getFilePanel(ELeft)->getFileView(), SIGNAL(itemPressed(QTreeWidgetItem*, int)), SDriveEngine::inst()->getfilesUI(), SLOT(slotItemLeftPressed(QTreeWidgetItem*, int)));
+    connect(SDriveEngine::inst()->getFilePanel(ERight)->getFileView(), SIGNAL(itemPressed(QTreeWidgetItem*, int)), SDriveEngine::inst()->getfilesUI(), SLOT(slotItemRightPressed(QTreeWidgetItem*, int)));
     connect(SDriveEngine::inst()->getFilePanel(ELeft)->getFileView(), SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), SDriveEngine::inst()->getfilesUI(), SLOT(slotLeftPanelItemDoubleClicked(QTreeWidgetItem*, int)));
     connect(SDriveEngine::inst()->getFilePanel(ERight)->getFileView(), SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), SDriveEngine::inst()->getfilesUI(), SLOT(slotRightPanelItemDoubleClicked(QTreeWidgetItem*, int)));
     connect(SDriveEngine::inst()->getContentMngr()->self(), SIGNAL(signalAccessTokenRequired()), this, SLOT(slotAccessTokenRequired()));

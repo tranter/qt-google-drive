@@ -2,6 +2,7 @@
 #include "contentui.h"
 #include "share/debug.h"
 #include <QDir>
+#include <QMouseEvent>
 
 ContentUI::ContentUI(QObject *parent) :
     QObject(parent)
@@ -18,6 +19,16 @@ void ContentUI::slotRightViewClicked(const QModelIndex&)
     SettingsManager().setCurrentPanel(RIGHT_PANEL_VALUE);
 }
 
+void ContentUI::slotItemLeftPressed(QTreeWidgetItem *item, int column)
+{   
+    markSelectedItem(item);
+}
+
+void ContentUI::slotItemRightPressed(QTreeWidgetItem *item, int column)
+{
+    markSelectedItem(item);
+}
+
 void ContentUI::slotLeftPanelItemDoubleClicked(QTreeWidgetItem *item, int column)
 {
     Q_UNUSED(column);
@@ -32,6 +43,25 @@ void ContentUI::slotRightPanelItemDoubleClicked(QTreeWidgetItem *item, int colum
 
     SettingsManager().setCurrentPanel(RIGHT_PANEL_VALUE);
     showFilesOnPanel(item->data(0, Qt::DisplayRole).toString(), ERight);
+}
+
+void ContentUI::markSelectedItem(QTreeWidgetItem *item)
+{
+    QTreeWidget *treeWidget = qobject_cast<QTreeWidget*>(sender());
+
+    if(QApplication::mouseButtons() == Qt::RightButton)
+    {
+        //DEBUG << treeWidget->currentIndex().row();
+
+        QBrush brush(Qt::black);
+
+        if(item->foreground(0).color() == Qt::black) brush.setColor(Qt::red);
+
+        for(int i = 0; i < treeWidget->columnCount(); ++i)
+        {
+            item->setForeground(i, brush);
+        }
+    }
 }
 
 void ContentUI::showFilesOnPanel(const QString &name, EPanels panel)
@@ -56,7 +86,7 @@ void ContentUI::showFilesOnPanel(const QString &name, EPanels panel)
 
 bool ContentUI::isFolder(void)
 {
-  return (SDriveEngine::inst()->getContentMngr()->getCurrentFileInfo().type == FOLDER_TYPE_STR);
+    return (SDriveEngine::inst()->getContentMngr()->getCurrentFileInfo().type == FOLDER_TYPE_STR);
 }
 
 void ContentUI::setCurrentPanelState(EPanels panel, const QString &url)
@@ -84,7 +114,7 @@ void ContentUI::performShowFiles(const QString &query, const QString &name, EPat
     children.fetch();
 }
 
-void ContentUI::slotUpdateFileList()
+void ContentUI::slotUpdateFileList(void)
 {
     SDriveEngine::inst()->getContentMngr()->get(SDriveEngine::inst()->getContentMngr()->getParentFolderUrl());
 }

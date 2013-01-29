@@ -10,7 +10,7 @@ public:
     PainterHelper(QPaintDevice *device);
 
 public:
-    void drawFrame(QRect rect, QColor color);
+    void drawFrame(QRect rect, QColor);
 
 private:
      QPen pen;
