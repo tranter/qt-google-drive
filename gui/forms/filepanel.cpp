@@ -44,22 +44,22 @@ void FilePanel::slotActivated(const QString &text)
     emit signalAccountChanged(panelNum, text.mid(beginPos, length));
 }
 
-QTreeWidget* FilePanel::getFileView(void) const
+QTreeWidget *FilePanel::getFileView(void) const
 {
     return ui->fileView;
 }
 
-QLabel* FilePanel::getPathLabel(void) const
+QLabel *FilePanel::getPathLabel(void) const
 {
     return ui->pathLabel;
 }
 
-ToolBar* FilePanel::getAccountsToolBar(void) const
+ToolBar *FilePanel::getAccountsToolBar(void) const
 {
     return accountsToolBar;
 }
 
-ComboBox* FilePanel::getAccountsComboBox(void) const
+ComboBox *FilePanel::getAccountsComboBox(void) const
 {
     return accountsComboBox;
 }

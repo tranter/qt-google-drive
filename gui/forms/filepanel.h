@@ -26,10 +26,10 @@ private slots:
     void slotActivated(const QString& text);
 
 public:
-    QTreeWidget* getFileView(void) const;
-    QLabel* getPathLabel(void) const;
-    ToolBar* getAccountsToolBar(void) const;
-    ComboBox* getAccountsComboBox(void) const;
+    QTreeWidget *getFileView(void) const;
+    QLabel *getPathLabel(void) const;
+    ToolBar *getAccountsToolBar(void) const;
+    ComboBox *getAccountsComboBox(void) const;
     void fillComboBox(QMap<QString, QString> accountsMap, const QString &currentAccount);
     int getpanelNum(void) const;
 

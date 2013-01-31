@@ -210,7 +210,7 @@ void ContentManager::setPathesURLs(const QStringList &pathesURLsStrList)
     pathesURLs = pathesURLsStrList;
 }
 
-Items::Data ContentManager::getCurrentFileInfo(void)
+Items::Data ContentManager::getCurrentItem(void)
 {
     int index;
 
@@ -221,6 +221,20 @@ Items::Data ContentManager::getCurrentFileInfo(void)
 
     return  normalizedItems[index];
 }
+
+QList<Items::Data> ContentManager::getItemsByIds(QList<int> &ids) const
+{
+    QList<Items::Data> itemsData;
+
+    for(int i = 0; i < ids.count(); ++i)
+    {
+        itemsData << normalizedItems[ids[i]];
+        DEBUG << normalizedItems[ids[i]].name;
+    }
+
+    return  itemsData;
+}
+
 
 void ContentManager::slotSectionClicked(int logicalIndex)
 {

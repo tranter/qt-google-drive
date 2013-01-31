@@ -33,11 +33,11 @@ void MainWindow::init(void)
     QTextCodec::setCodecForCStrings(QTextCodec::codecForLocale());
     QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
 
-    if(!CheckUI().checkReg())
-    {
-        CommonTools::msg(tr("The application is under development. Currently disabled to use.\nNo commercial use allowed."));
-        return;
-    }
+//    if(!CheckUI().checkReg())
+//    {
+//        CommonTools::msg(tr("The application is under development. Currently disabled to use.\nNo commercial use allowed."));
+//        return;
+//    }
 }
 
 void MainWindow::setConnections(void)
@@ -53,12 +53,12 @@ void MainWindow::setConnections(void)
     connect(SUi::inst()->deleteButton, SIGNAL(clicked()), SOperationsManager::inst(), SLOT(slotDeleteItem()));
     connect(SUi::inst()->renameButton, SIGNAL(clicked()), SOperationsManager::inst(), SLOT(slotRenameItem()));
     connect(SUi::inst()->shareButton, SIGNAL(clicked()), SOperationsManager::inst(), SLOT(slotShareFile()));
-    connect(SDriveEngine::inst()->getFilePanel(ELeft)->getFileView(), SIGNAL(clicked(const QModelIndex&)), SDriveEngine::inst()->getfilesUI(), SLOT(slotLeftViewClicked(const QModelIndex&)));
-    connect(SDriveEngine::inst()->getFilePanel(ERight)->getFileView(), SIGNAL(clicked(const QModelIndex&)), SDriveEngine::inst()->getfilesUI(), SLOT(slotRightViewClicked(const QModelIndex&)));
-    connect(SDriveEngine::inst()->getFilePanel(ELeft)->getFileView(), SIGNAL(itemPressed(QTreeWidgetItem*, int)), SDriveEngine::inst()->getfilesUI(), SLOT(slotItemLeftPressed(QTreeWidgetItem*, int)));
-    connect(SDriveEngine::inst()->getFilePanel(ERight)->getFileView(), SIGNAL(itemPressed(QTreeWidgetItem*, int)), SDriveEngine::inst()->getfilesUI(), SLOT(slotItemRightPressed(QTreeWidgetItem*, int)));
-    connect(SDriveEngine::inst()->getFilePanel(ELeft)->getFileView(), SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), SDriveEngine::inst()->getfilesUI(), SLOT(slotLeftPanelItemDoubleClicked(QTreeWidgetItem*, int)));
-    connect(SDriveEngine::inst()->getFilePanel(ERight)->getFileView(), SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), SDriveEngine::inst()->getfilesUI(), SLOT(slotRightPanelItemDoubleClicked(QTreeWidgetItem*, int)));
+    connect(SDriveEngine::inst()->getFilePanel(ELeft)->getFileView(), SIGNAL(clicked(const QModelIndex&)), SDriveEngine::inst()->getContentUI(), SLOT(slotLeftViewClicked(const QModelIndex&)));
+    connect(SDriveEngine::inst()->getFilePanel(ERight)->getFileView(), SIGNAL(clicked(const QModelIndex&)), SDriveEngine::inst()->getContentUI(), SLOT(slotRightViewClicked(const QModelIndex&)));
+    connect(SDriveEngine::inst()->getFilePanel(ELeft)->getFileView(), SIGNAL(itemPressed(QTreeWidgetItem*, int)), SDriveEngine::inst()->getContentUI(), SLOT(slotItemLeftPressed(QTreeWidgetItem*, int)));
+    connect(SDriveEngine::inst()->getFilePanel(ERight)->getFileView(), SIGNAL(itemPressed(QTreeWidgetItem*, int)), SDriveEngine::inst()->getContentUI(), SLOT(slotItemRightPressed(QTreeWidgetItem*, int)));
+    connect(SDriveEngine::inst()->getFilePanel(ELeft)->getFileView(), SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), SDriveEngine::inst()->getContentUI(), SLOT(slotLeftPanelItemDoubleClicked(QTreeWidgetItem*, int)));
+    connect(SDriveEngine::inst()->getFilePanel(ERight)->getFileView(), SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), SDriveEngine::inst()->getContentUI(), SLOT(slotRightPanelItemDoubleClicked(QTreeWidgetItem*, int)));
     connect(SDriveEngine::inst()->getContentMngr()->self(), SIGNAL(signalAccessTokenRequired()), this, SLOT(slotAccessTokenRequired()));
     connect(SDriveEngine::inst()->getContentMngr(true)->self(), SIGNAL(signalAccessTokenRequired()), this, SLOT(slotAccessTokenRequired()));
     connect(SDriveEngine::inst()->getContentMngr(), SIGNAL(signalFirstPanelIsLoaded()), SDriveEngine::inst(), SLOT(slotFirstPanelIsLoaded()));

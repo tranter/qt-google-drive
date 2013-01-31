@@ -44,7 +44,7 @@ void DriveEngine::init(void)
 
     checkUI.reset(new CheckUI);
     filesTransferUI.reset(new FilesTransferUI);
-    filesUI.reset(new ContentUI);
+    contentUI.reset(new ContentUI);
 
     connect(filesViews[ELeft], SIGNAL(signalAccountChanged(int, const QString&)), SLOT(slotAccountChanged(int, const QString&)));
     connect(filesViews[ERight], SIGNAL(signalAccountChanged(int, const QString&)), SLOT(slotAccountChanged(int, const QString&)));
@@ -52,7 +52,7 @@ void DriveEngine::init(void)
     if(SettingsManager().isAnyAccount()) updatePanel(LEFT_PANEL_VALUE, true);
 }
 
-FilePanel* DriveEngine::getFilePanel(EPanels panel) const
+FilePanel* DriveEngine::getFilePanel(int panel) const
 {
     return filesViews[panel];
 }
@@ -90,13 +90,13 @@ void DriveEngine::updatePanel(int panelNum, bool initLoad)
     disc += QString(":");
     disc += QDir::toNativeSeparators("/");
 
-    filesUI->getPanelLabel(panelId)->setText(disc + settingsManager.currentFolderPath(panelNum));
+    contentUI->getPanelLabel(panelId)->setText(disc + settingsManager.currentFolderPath(panelNum));
     getContentMngr()->setPathesURLs(settingsManager.pathesURLs(panelNum));
 
     contentMngr[panelNum]->setPanel(filesViews[panelNum]->getFileView(), filesViews[panelNum]->getpanelNum());
     contentMngr[panelNum]->get(settingsManager.currentFolderURL(panelNum));
 
-    getFilePanel(panelId)->fillComboBox(settingsManager.accountsWithLetters(), settingsManager.currentAccount(panelNum));
+    getFilePanel(panelNum)->fillComboBox(settingsManager.accountsWithLetters(), settingsManager.currentAccount(panelNum));
 }
 
 void DriveEngine::slotFirstPanelIsLoaded(void)
@@ -120,9 +120,9 @@ CheckUI* DriveEngine::getCheckUI(void) const
     return checkUI.data();
 }
 
-ContentUI* DriveEngine::getfilesUI(void) const
+ContentUI* DriveEngine::getContentUI    (void) const
 {
-    return filesUI.data();
+    return contentUI.data();
 }
 
 FilesTransferUI* DriveEngine::getfilesTransferUI(void) const

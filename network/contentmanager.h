@@ -22,9 +22,10 @@ public:
     QTreeWidget* getPanel(void) const;
     QString back(void);
     void setPanel(QTreeWidget *p, int pn);
-    Items::Data getCurrentFileInfo(void);
+    Items::Data getCurrentItem(void);
     QStringList getPathesURLs(void) const;
     void setPathesURLs(const QStringList &pathesURLsStrList);
+    QList<Items::Data> getItemsByIds(QList<int> &ids) const;
 
 private:
     void show(void);

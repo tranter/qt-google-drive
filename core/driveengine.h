@@ -30,10 +30,10 @@ public:
     CheckUI *getCheckUI(void) const;
     ContentManager *getContentMngr(bool opposite = false) const;
     FilesTransferUI *getfilesTransferUI(void) const;
-    ContentUI *getfilesUI(void) const;
+    ContentUI *getContentUI(void) const;
     QWidget *getParent(void) const;
     void init(void);
-    FilePanel *getFilePanel(EPanels panel) const;
+    FilePanel *getFilePanel(int panel) const;
     void updatePanel(int panelId, bool initLoad);
 
 private slots:
@@ -46,7 +46,7 @@ private:
     QScopedPointer<DownloadFileManager> downloadMngr;
     QScopedPointer<ContentManager> contentMngr[EPanelsCount];
     QScopedPointer<FilesTransferUI> filesTransferUI;
-    QScopedPointer<ContentUI> filesUI;
+    QScopedPointer<ContentUI> contentUI;
     QScopedPointer<UploadFileManager> uploadFileMngr;
     FilePanel *filesViews[EPanelsCount];
 };

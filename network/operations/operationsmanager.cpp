@@ -86,10 +86,14 @@ void OperationsManager::slotCopyFile(void)
         return;
     }
 
-    Items::Data source(SDriveEngine::inst()->getContentMngr()->getCurrentFileInfo());
+    Items::Data source(SDriveEngine::inst()->getContentMngr()->getCurrentItem());
     QString destFolderUrl(SDriveEngine::inst()->getContentMngr(true)->getParentFolderUrl());
 
     copy.file(source, destFolderUrl);
+
+//    QTreeWidget *treeWidget(SDriveEngine::inst()->getFilePanel(SettingsManager().currentPanel())->getFileView());
+//    QList<int> markedItemIds(SDriveEngine::inst()->getContentUI()->getMarkedItemIds(treeWidget));
+//    SDriveEngine::inst()->getContentMngr()->getItemsByIds(markedItemIds);
 }
 
 void OperationsManager::slotMoveFile(void)
@@ -100,7 +104,7 @@ void OperationsManager::slotMoveFile(void)
         return;
     }
 
-    Items::Data source(SDriveEngine::inst()->getContentMngr()->getCurrentFileInfo());
+    Items::Data source(SDriveEngine::inst()->getContentMngr()->getCurrentItem());
     QString destFolderUrl(SDriveEngine::inst()->getContentMngr(true)->getParentFolderUrl());
 
     move.item(source, destFolderUrl);
@@ -108,7 +112,7 @@ void OperationsManager::slotMoveFile(void)
 
 void OperationsManager::slotDeleteItem(void)
 {
-    del.item(SDriveEngine::inst()->getContentMngr()->getCurrentFileInfo());
+    del.item(SDriveEngine::inst()->getContentMngr()->getCurrentItem());
 }
 
 void OperationsManager::slotRenameItem(void)
@@ -132,7 +136,7 @@ void OperationsManager::slotRenameItem(void)
 void OperationsManager::slotItemEditDone(void)
 {
     QTreeWidgetItem *item = SDriveEngine::inst()->getContentMngr()->getPanel()->currentItem();
-    Items::Data source = SDriveEngine::inst()->getContentMngr()->getCurrentFileInfo();
+    Items::Data source = SDriveEngine::inst()->getContentMngr()->getCurrentItem();
 
     QString itemTextAfterEditing = item->text(0);
 
@@ -145,7 +149,7 @@ void OperationsManager::slotItemEditDone(void)
 
 void OperationsManager::slotShareFile(void)
 {
-    share.file(SDriveEngine::inst()->getContentMngr()->getCurrentFileInfo());
+    share.file(SDriveEngine::inst()->getContentMngr()->getCurrentItem());
 }
 
 void OperationsManager::slotAcceptCreateFolder(const QString &name)

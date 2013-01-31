@@ -34,7 +34,7 @@ void ContentUI::slotLeftPanelItemDoubleClicked(QTreeWidgetItem *item, int column
     Q_UNUSED(column);
 
     SettingsManager().setCurrentPanel(LEFT_PANEL_VALUE);
-    showFilesOnPanel(item->data(0, Qt::DisplayRole).toString(), ELeft);
+    showFilesOnPanel(item, ELeft);
 }
 
 void ContentUI::slotRightPanelItemDoubleClicked(QTreeWidgetItem *item, int column)
@@ -42,11 +42,13 @@ void ContentUI::slotRightPanelItemDoubleClicked(QTreeWidgetItem *item, int colum
     Q_UNUSED(column);
 
     SettingsManager().setCurrentPanel(RIGHT_PANEL_VALUE);
-    showFilesOnPanel(item->data(0, Qt::DisplayRole).toString(), ERight);
+    showFilesOnPanel(item, ERight);
 }
 
 void ContentUI::markItem(QTreeWidgetItem *item)
 {
+    if(hasItemParentSign(item)) return;
+
     QTreeWidget *treeWidget = qobject_cast<QTreeWidget*>(sender());
 
     if(QApplication::mouseButtons() == Qt::RightButton)
@@ -62,24 +64,45 @@ void ContentUI::markItem(QTreeWidgetItem *item)
     }
 }
 
-QList<int> ContentUI::getMarkedItemIds(void) const
+QList<int> ContentUI::getMarkedItemIds(QTreeWidget *treeWidget) const
 {
-    QTreeWidget *treeWidget = qobject_cast<QTreeWidget*>(sender());
     QList<int> markedItemIds;
+    int itemsCount = treeWidget->topLevelItemCount();
+    int shiftItemsValue = 0;
 
-    for(int i = 0; i < treeWidget->topLevelItemCount(); ++i)
+    if(itemsCount > 0)
     {
-     if(treeWidget->topLevelItem(i)->foreground(0).color() == Qt::red) markedItemIds << i;
+        if(hasItemParentSign(treeWidget->topLevelItem(0)))
+        {
+            shiftItemsValue = 1;
+        }
     }
+
+    for(int i = 0; i < itemsCount; ++i)
+    {
+        if(treeWidget->topLevelItem(i)->foreground(0).color() == Qt::red)
+        {
+            markedItemIds << (i - shiftItemsValue);
+        }
+    }
+
+    DEBUG << markedItemIds;
 
     return markedItemIds;
 }
 
-void ContentUI::showFilesOnPanel(const QString &name, EPanels panel)
+bool ContentUI::hasItemParentSign(QTreeWidgetItem *item) const
 {
-    if(name == PARENT_FOLDER_SIGN)
+    return item->data(0, Qt::DisplayRole).toString() == PARENT_FOLDER_SIGN;
+}
+
+void ContentUI::showFilesOnPanel(QTreeWidgetItem *item, EPanels panel)
+{
+    const QString itemName(item->data(0, Qt::DisplayRole).toString());
+
+    if(hasItemParentSign(item))
     {
-        performShowFiles(SDriveEngine::inst()->getContentMngr()->back(), name, EBackward, panel);
+        performShowFiles(SDriveEngine::inst()->getContentMngr()->back(), itemName, EBackward, panel);
     }
     else
     {
@@ -87,17 +110,17 @@ void ContentUI::showFilesOnPanel(const QString &name, EPanels panel)
         {
             QString query(GET_FILES_IN_FOLDER);
 
-            query += CommonTools::getIDFromURL(SDriveEngine::inst()->getContentMngr()->getCurrentFileInfo().self);
+            query += CommonTools::getIDFromURL(SDriveEngine::inst()->getContentMngr()->getCurrentItem().self);
             query += (CONTENTS + MAX_RESULTS);
 
-            performShowFiles(query, name, EForward, panel);
+            performShowFiles(query, itemName, EForward, panel);
         }
     }
 }
 
 bool ContentUI::isFolder(void)
 {
-    return (SDriveEngine::inst()->getContentMngr()->getCurrentFileInfo().type == FOLDER_TYPE_STR);
+    return (SDriveEngine::inst()->getContentMngr()->getCurrentItem().type == FOLDER_TYPE_STR);
 }
 
 void ContentUI::setCurrentPanelState(EPanels panel, const QString &url)

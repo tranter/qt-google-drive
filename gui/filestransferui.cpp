@@ -16,7 +16,7 @@ void FilesTransferUI::download(void)
         if(SDriveEngine::inst()->downloadMngr->getState() == NetworkManager::EBusy) return;
     }
 
-    Items::Data item = SDriveEngine::inst()->getContentMngr()->getCurrentFileInfo();
+    Items::Data item = SDriveEngine::inst()->getContentMngr()->getCurrentItem();
 
     QString downloadLink(item.downloadLink);
 
@@ -47,7 +47,7 @@ void FilesTransferUI::upload(void)
         QString uploadLink(SDriveEngine::inst()->getContentMngr()->getParentFolderInfo().uploadLink + QString("/?convert=false"));
 
         SDriveEngine::inst()->uploadFileMngr.reset(new UploadFileManager(SDriveEngine::inst()->parent));
-        connect(SDriveEngine::inst()->uploadFileMngr.data(), SIGNAL(signalUpdateFileList()), SDriveEngine::inst()->filesUI.data(), SLOT(slotUpdateFileList()));
+        connect(SDriveEngine::inst()->uploadFileMngr.data(), SIGNAL(signalUpdateFileList()), SDriveEngine::inst()->contentUI.data(), SLOT(slotUpdateFileList()));
         SDriveEngine::inst()->uploadFileMngr->startUpload(uploadLink, fileName);
     }
 }
