@@ -21,12 +21,12 @@ void ContentUI::slotRightViewClicked(const QModelIndex&)
 
 void ContentUI::slotItemLeftPressed(QTreeWidgetItem *item, int column)
 {   
-    markItem(item);
+    if(QApplication::mouseButtons() == Qt::RightButton) markItem(qobject_cast<QTreeWidget*>(sender()), item);
 }
 
 void ContentUI::slotItemRightPressed(QTreeWidgetItem *item, int column)
 {
-    markItem(item);
+    if(QApplication::mouseButtons() == Qt::RightButton) markItem(qobject_cast<QTreeWidget*>(sender()), item);
 }
 
 void ContentUI::slotLeftPanelItemDoubleClicked(QTreeWidgetItem *item, int column)
@@ -45,23 +45,19 @@ void ContentUI::slotRightPanelItemDoubleClicked(QTreeWidgetItem *item, int colum
     showFilesOnPanel(item, ERight);
 }
 
-void ContentUI::markItem(QTreeWidgetItem *item)
+void ContentUI::markItem(QTreeWidget *treeWidget, QTreeWidgetItem *item)
 {
     if(hasItemParentSign(item)) return;
 
-    QTreeWidget *treeWidget = qobject_cast<QTreeWidget*>(sender());
+    QBrush brush(Qt::black);
 
-    if(QApplication::mouseButtons() == Qt::RightButton)
+    if(item->foreground(0).color() == Qt::black) brush.setColor(Qt::red);
+
+    for(int i = 0; i < treeWidget->columnCount(); ++i)
     {
-        QBrush brush(Qt::black);
-
-        if(item->foreground(0).color() == Qt::black) brush.setColor(Qt::red);
-
-        for(int i = 0; i < treeWidget->columnCount(); ++i)
-        {
-            item->setForeground(i, brush);
-        }
+        item->setForeground(i, brush);
     }
+    DEBUG << "----------------------->" << item->data(0, Qt::DisplayRole).toString();
 }
 
 QList<int> ContentUI::getMarkedItemIds(QTreeWidget *treeWidget) const
@@ -72,18 +68,12 @@ QList<int> ContentUI::getMarkedItemIds(QTreeWidget *treeWidget) const
 
     if(itemsCount > 0)
     {
-        if(hasItemParentSign(treeWidget->topLevelItem(0)))
-        {
-            shiftItemsValue = 1;
-        }
+        if(hasItemParentSign(treeWidget->topLevelItem(0))) shiftItemsValue = 1;
     }
 
     for(int i = 0; i < itemsCount; ++i)
     {
-        if(treeWidget->topLevelItem(i)->foreground(0).color() == Qt::red)
-        {
-            markedItemIds << (i - shiftItemsValue);
-        }
+        if(treeWidget->topLevelItem(i)->foreground(0).color() == Qt::red) markedItemIds << (i - shiftItemsValue);
     }
 
     DEBUG << markedItemIds;

@@ -18,7 +18,7 @@ protected slots:
     void slotPostFinished(QNetworkReply *reply);
 
 private slots:
-    void slotFileCopied(Items::Data &itemData);
+    void slotFileCopied(void);
 
 public:
     void file(const Items::Data &sourceData, const QString &destFolderUrlData);

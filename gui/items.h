@@ -37,6 +37,8 @@ public:
         QString uploadLink;
 
         bool operator < (const Data &other) const { return sort(other); }
+        bool operator == (const Data &other) const { return self == other.self; }
+
         void setSortOrder(ESortOrder so) { sortOrder = so; }
 
     private:

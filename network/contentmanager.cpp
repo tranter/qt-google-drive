@@ -33,9 +33,9 @@ void ContentManager::slotReplyFinished(QNetworkReply* reply)
 {
     //CommonTools::logToFile(QString("ParserReply ") + ".txt", replyStr.toAscii());
 
-//    DEBUG << "<===============================================================================================================";
-//    DEBUG << "replyStr" << replyStr;
-//    DEBUG << "===============================================================================================================>";
+    //    DEBUG << "<===============================================================================================================";
+    //    DEBUG << "replyStr" << replyStr;
+    //    DEBUG << "===============================================================================================================>";
 
     /*if(*/parseReply(replyStr);/*) DEBUG << "parse OK"*/
     //    else DEBUG << "parse not OK";
@@ -222,19 +222,39 @@ Items::Data ContentManager::getCurrentItem(void)
     return  normalizedItems[index];
 }
 
-QList<Items::Data> ContentManager::getItemsByIds(QList<int> &ids) const
+QList<Items::Data> ContentManager::getItemsDataByIndexes(QList<int> &indexes) const
 {
     QList<Items::Data> itemsData;
 
-    for(int i = 0; i < ids.count(); ++i)
+    for(int i = 0; i < indexes.count(); ++i)
     {
-        itemsData << normalizedItems[ids[i]];
-        DEBUG << normalizedItems[ids[i]].name;
+        itemsData << normalizedItems[indexes[i]];
     }
 
     return  itemsData;
 }
 
+int ContentManager::getIndexByItemData(QTreeWidget *treeWidget, Items::Data &itemData) const
+{
+    int index = -1;
+    int shiftItemsValue = 0;
+
+    if(treeWidget->topLevelItemCount() > 0)
+    {
+        if(SDriveEngine::inst()->getContentUI()->hasItemParentSign(treeWidget->topLevelItem(0))) shiftItemsValue = 1;
+    }
+
+    for(int i = 0; i < normalizedItems.count(); ++i)
+    {
+        if(normalizedItems[i] == itemData)
+        {
+            index = i;
+            break;
+        }
+    }
+
+    return index + shiftItemsValue;
+}
 
 void ContentManager::slotSectionClicked(int logicalIndex)
 {

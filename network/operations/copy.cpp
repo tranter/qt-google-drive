@@ -22,12 +22,9 @@ void Copy::files(const QList<Items::Data> &sources, const QString &destFolderUrl
     sourcesData = sources;
     destFolderUrlData = destFolderUrl;
 
-    connect(this, SIGNAL(fileCopied(Items::Data&)), this, SLOT(slotFileCopied(Items::Data&)));
+    connect(this, SIGNAL(fileCopied(Items::Data&)), this, SLOT(slotFileCopied(void)));
 
-    if(!sources.isEmpty())
-    {
-        file(sourcesData.takeFirst(), destFolderUrl);
-    }
+    if(!sources.isEmpty()) file(sourcesData.takeFirst(), destFolderUrl);
 }
 
 void Copy::slotPostFinished(QNetworkReply *reply)
@@ -38,14 +35,8 @@ void Copy::slotPostFinished(QNetworkReply *reply)
     emit fileCopied(sourceData);
 }
 
-void Copy::slotFileCopied(Items::Data& itemData)
+void Copy::slotFileCopied(void)
 {
-    if(sourcesData.isEmpty())
-    {
-        disconnect(this, SIGNAL(fileCopied(Items::Data&)), this, SLOT(slotFileCopied(Items::Data&)));
-    }
-    else
-    {
-        file(sourcesData.takeFirst(), destFolderUrlData);
-    }
+    if(!sourcesData.isEmpty()) file(sourcesData.takeFirst(), destFolderUrlData);
+    else disconnect(this, SIGNAL(fileCopied(Items::Data&)), this, SLOT(slotFileCopied(void)));
 }

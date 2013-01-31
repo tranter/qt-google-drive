@@ -44,12 +44,8 @@ bool OperationsManager::operationPossible(void)
 
     if(index >= 0)
     {
-        QString itemText = SDriveEngine::inst()->getContentMngr()->getPanel()->currentItem()->text(0);
-
-        if(itemText != PARENT_FOLDER_SIGN)
-        {
-            is = true;
-        }
+        QString itemText(SDriveEngine::inst()->getContentMngr()->getPanel()->currentItem()->text(0));
+        if(itemText != PARENT_FOLDER_SIGN) is = true;
     }
 
     return is;
@@ -80,24 +76,26 @@ void OperationsManager::slotFinishedCreateFolder(int result)
 
 void OperationsManager::slotCopyFile(void)
 {
-//    if(!operationPossible())
-//    {
-//        CommonTools::msg(tr("No Files selected"));
-//        return;
-//    }
+    //    if(!operationPossible())
+    //    {
+    //        CommonTools::msg(tr("No Files selected"));
+    //        return;
+    //    }
 
-//    Items::Data source(SDriveEngine::inst()->getContentMngr()->getCurrentItem());
+    //    Items::Data source(SDriveEngine::inst()->getContentMngr()->getCurrentItem());
     QString destFolderUrl(SDriveEngine::inst()->getContentMngr(true)->getParentFolderUrl());
 
-//    copy.file(source, destFolderUrl);
+    //    copy.file(source, destFolderUrl);
 
     QTreeWidget *treeWidget(SDriveEngine::inst()->getFilePanel(SettingsManager().currentPanel())->getFileView());
     QList<int> markedItemIds(SDriveEngine::inst()->getContentUI()->getMarkedItemIds(treeWidget));
-    QList<Items::Data> itemsData(SDriveEngine::inst()->getContentMngr()->getItemsByIds(markedItemIds));
+    QList<Items::Data> itemsData(SDriveEngine::inst()->getContentMngr()->getItemsDataByIndexes(markedItemIds));
+
+    disconnect(&copy, SIGNAL(fileCopied(Items::Data&)), this, SLOT(slotItemOperationCompleted(Items::Data&)));
+    connect(&copy, SIGNAL(fileCopied(Items::Data&)), this, SLOT(slotItemOperationCompleted(Items::Data&)));
 
     copy.files(itemsData, destFolderUrl);
 }
-
 
 void OperationsManager::slotMoveFile(void)
 {
@@ -163,13 +161,21 @@ void OperationsManager::slotAcceptCreateFolder(const QString &name)
         return;
     }
 
-//    if(operationPossible()) createFolder(name, SDriveEngine::inst()->getFilesMngr()->getParentFolderUrl());
-//    else CommonTools::msg(tr("Please select a panel"));
+    //    if(operationPossible()) createFolder(name, SDriveEngine::inst()->getFilesMngr()->getParentFolderUrl());
+    //    else CommonTools::msg(tr("Please select a panel"));
 
     QString parentFolderUrl(SDriveEngine::inst()->getContentMngr()->getParentFolderUrl());
 
     create.folder(name, parentFolderUrl);
     delete createFolderDialog;
+}
+
+void OperationsManager::slotItemOperationCompleted(Items::Data &itemData)
+{
+    QTreeWidget *treeWidget(SDriveEngine::inst()->getFilePanel(SettingsManager().currentPanel())->getFileView());
+    int index = SDriveEngine::inst()->getContentMngr()->getIndexByItemData(treeWidget, itemData);
+
+    if(index > -1) SDriveEngine::inst()->getContentUI()->markItem(treeWidget, treeWidget->topLevelItem(index));
 }
 
 

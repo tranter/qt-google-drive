@@ -22,6 +22,13 @@ class OperationsManager : public NetworkManager
 public:
     OperationsManager(QObject *parent = 0);
 
+public:
+    void setAccountInfo(const QString &accessToken, const QString &refreshToken = QString());
+    bool operationPossible(void);
+
+signals:
+    void signalAccountInfoReadyToUse(void);
+
 public slots:
     void slotDeleteItem(void);
     void slotNewFolder(void);
@@ -34,15 +41,9 @@ public slots:
     void slotRejectCreateFolder(void);
     void slotFinishedCreateFolder(int result);
 
-public:
-    void setAccountInfo(const QString &accessToken, const QString &refreshToken = QString());
-    bool operationPossible(void);
-
-signals:
-    void signalAccountInfoReadyToUse(void);
-
-private slots:  
+private slots:
     void slotAccountInfoReceived(AccountInfo::Data &postData);
+    void slotItemOperationCompleted(Items::Data &itemData);
 
 private:
     Items::Data fileUrlToDeleteForMoveOperation;
