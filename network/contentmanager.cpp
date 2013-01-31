@@ -156,12 +156,7 @@ QString ContentManager::getDate(const QString &date)
 QString ContentManager::getSize(const QString &size)
 {
     QString formattedSize;
-
-    if(size.toLongLong() > 0)
-    {
-        formattedSize = QLocale().toString(size.toLongLong());
-    }
-
+    if(size.toLongLong() > 0) formattedSize = QLocale().toString(size.toLongLong());
     return formattedSize;
 }
 

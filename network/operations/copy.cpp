@@ -30,7 +30,7 @@ void Copy::files(const QList<Items::Data> &sources, const QString &destFolderUrl
 void Copy::slotPostFinished(QNetworkReply *reply)
 {
     NetworkManager::slotPostFinished(reply);
-    updatePanelContent(true);
+    if(sourcesData.isEmpty()) updatePanelContent(true);
 
     emit fileCopied(sourceData);
 }

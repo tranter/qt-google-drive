@@ -176,7 +176,7 @@ void XMLHandler::saveResData(const QXmlAttributes &attribs)
 
 void XMLHandler::setDefaults(void)
 {
-    itemData.fileSize = QString("---");
+    itemData.fileSize = QString();
     itemData.dateTime = QString();
     itemData.parent = ROOT_TAG;
 }
