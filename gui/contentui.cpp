@@ -21,12 +21,12 @@ void ContentUI::slotRightViewClicked(const QModelIndex&)
 
 void ContentUI::slotItemLeftPressed(QTreeWidgetItem *item, int column)
 {   
-    markSelectedItem(item);
+    markItem(item);
 }
 
 void ContentUI::slotItemRightPressed(QTreeWidgetItem *item, int column)
 {
-    markSelectedItem(item);
+    markItem(item);
 }
 
 void ContentUI::slotLeftPanelItemDoubleClicked(QTreeWidgetItem *item, int column)
@@ -45,14 +45,12 @@ void ContentUI::slotRightPanelItemDoubleClicked(QTreeWidgetItem *item, int colum
     showFilesOnPanel(item->data(0, Qt::DisplayRole).toString(), ERight);
 }
 
-void ContentUI::markSelectedItem(QTreeWidgetItem *item)
+void ContentUI::markItem(QTreeWidgetItem *item)
 {
     QTreeWidget *treeWidget = qobject_cast<QTreeWidget*>(sender());
 
     if(QApplication::mouseButtons() == Qt::RightButton)
     {
-        //DEBUG << treeWidget->currentIndex().row();
-
         QBrush brush(Qt::black);
 
         if(item->foreground(0).color() == Qt::black) brush.setColor(Qt::red);
@@ -62,6 +60,19 @@ void ContentUI::markSelectedItem(QTreeWidgetItem *item)
             item->setForeground(i, brush);
         }
     }
+}
+
+QList<int> ContentUI::getMarkedItemIds(void) const
+{
+    QTreeWidget *treeWidget = qobject_cast<QTreeWidget*>(sender());
+    QList<int> markedItemIds;
+
+    for(int i = 0; i < treeWidget->topLevelItemCount(); ++i)
+    {
+     if(treeWidget->topLevelItem(i)->foreground(0).color() == Qt::red) markedItemIds << i;
+    }
+
+    return markedItemIds;
 }
 
 void ContentUI::showFilesOnPanel(const QString &name, EPanels panel)

@@ -352,30 +352,6 @@ color: rgb(255, 255, 255);</string>
     <string>Quit</string>
    </property>
   </action>
-  <action name="actionDelete">
-   <property name="icon">
-    <iconset resource="../../resource.qrc">
-     <normaloff>:/ico/delete</normaloff>:/ico/delete</iconset>
-   </property>
-   <property name="text">
-    <string>Delete</string>
-   </property>
-  </action>
-  <action name="actionNewFolder">
-   <property name="icon">
-    <iconset resource="../../resource.qrc">
-     <normaloff>:/ico/allitems</normaloff>:/ico/allitems</iconset>
-   </property>
-   <property name="text">
-    <string>Create folder</string>
-   </property>
-   <property name="visible">
-    <bool>true</bool>
-   </property>
-   <property name="iconVisibleInMenu">
-    <bool>true</bool>
-   </property>
-  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>

@@ -47,8 +47,6 @@ void MainWindow::setConnections(void)
     connect(SUi::inst()->actionDownload, SIGNAL(triggered()), SDriveEngine::inst()->getfilesTransferUI(), SLOT(slotDownload()));
     connect(SUi::inst()->actionUpload, SIGNAL(triggered()), SDriveEngine::inst()->getfilesTransferUI(), SLOT(slotUpload()));
     connect(SUi::inst()->actionSettings, SIGNAL(triggered()), SDriveEngine::inst()->getCheckUI(), SLOT(slotCheckWorkDir()));   
-    connect(SUi::inst()->actionDelete, SIGNAL(triggered()), SOperationsManager::inst(), SLOT(slotDeleteItem()));
-    connect(SUi::inst()->actionNewFolder, SIGNAL(triggered()), SOperationsManager::inst(), SLOT(slotNewFolder()));
     connect(SUi::inst()->copyButton, SIGNAL(clicked()), SOperationsManager::inst(), SLOT(slotCopyFile()));
     connect(SUi::inst()->moveButton, SIGNAL(clicked()), SOperationsManager::inst(), SLOT(slotMoveFile()));
     connect(SUi::inst()->newFolderButton, SIGNAL(clicked()), SOperationsManager::inst(), SLOT(slotNewFolder()));

@@ -19,7 +19,7 @@ public:
 
 public:
     QLabel* getPanelLabel(EPanels panel) const;
-
+    QList<int> getMarkedItemIds(void) const;
 
 private slots:
     void slotLeftViewClicked(const QModelIndex&);
@@ -37,7 +37,7 @@ private:
     void setCurrentPanelState(EPanels panel, const QString &url);
     void performShowFiles(const QString &query, const QString &name, EPath path, EPanels panel);
     bool isFolder(void);
-    void markSelectedItem(QTreeWidgetItem *item);
+    void markItem(QTreeWidgetItem *item);
 
 private:
     Children children;

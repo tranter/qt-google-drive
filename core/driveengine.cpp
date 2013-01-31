@@ -1,10 +1,12 @@
 #include "driveengine.h"
 #include "share/debug.h"
 #include "settings/settingsmanager.h"
+//#include "gui/controls/spacer.h"
 #include <QMessageBox>
 #include <QHBoxLayout>
 #include <QSplitter>
 #include <QDir>
+#include <QPushButton>
 
 DriveEngine::DriveEngine(QWidget *p) :
     parent(p)
@@ -16,17 +18,10 @@ DriveEngine::~DriveEngine()
 }
 
 void DriveEngine::init(void)
-{
-    reset();
+{    
+    //SUi::inst()->mainToolBar->addWidget(new Spacer);
+    SUi::inst()->shareButton->setVisible(false);
 
-    if(SettingsManager().isAnyAccount())
-    {
-        updatePanel(LEFT_PANEL_VALUE, true);
-    }
-}
-
-void DriveEngine::reset(void)
-{
     QHBoxLayout *hBoxLayout = new QHBoxLayout(SUi::inst()->panelsWidget);
     QSplitter *hSplitter = new QSplitter(Qt::Horizontal, SUi::inst()->panelsWidget);
 
@@ -53,6 +48,8 @@ void DriveEngine::reset(void)
 
     connect(filesViews[ELeft], SIGNAL(signalAccountChanged(int, const QString&)), SLOT(slotAccountChanged(int, const QString&)));
     connect(filesViews[ERight], SIGNAL(signalAccountChanged(int, const QString&)), SLOT(slotAccountChanged(int, const QString&)));
+
+    if(SettingsManager().isAnyAccount()) updatePanel(LEFT_PANEL_VALUE, true);
 }
 
 FilePanel* DriveEngine::getFilePanel(EPanels panel) const
