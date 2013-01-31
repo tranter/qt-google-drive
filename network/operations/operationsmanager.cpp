@@ -80,21 +80,24 @@ void OperationsManager::slotFinishedCreateFolder(int result)
 
 void OperationsManager::slotCopyFile(void)
 {
-    if(!operationPossible())
-    {
-        CommonTools::msg(tr("No Files selected"));
-        return;
-    }
+//    if(!operationPossible())
+//    {
+//        CommonTools::msg(tr("No Files selected"));
+//        return;
+//    }
 
-    Items::Data source(SDriveEngine::inst()->getContentMngr()->getCurrentItem());
+//    Items::Data source(SDriveEngine::inst()->getContentMngr()->getCurrentItem());
     QString destFolderUrl(SDriveEngine::inst()->getContentMngr(true)->getParentFolderUrl());
 
-    copy.file(source, destFolderUrl);
+//    copy.file(source, destFolderUrl);
 
-//    QTreeWidget *treeWidget(SDriveEngine::inst()->getFilePanel(SettingsManager().currentPanel())->getFileView());
-//    QList<int> markedItemIds(SDriveEngine::inst()->getContentUI()->getMarkedItemIds(treeWidget));
-//    SDriveEngine::inst()->getContentMngr()->getItemsByIds(markedItemIds);
+    QTreeWidget *treeWidget(SDriveEngine::inst()->getFilePanel(SettingsManager().currentPanel())->getFileView());
+    QList<int> markedItemIds(SDriveEngine::inst()->getContentUI()->getMarkedItemIds(treeWidget));
+    QList<Items::Data> itemsData(SDriveEngine::inst()->getContentMngr()->getItemsByIds(markedItemIds));
+
+    copy.files(itemsData, destFolderUrl);
 }
+
 
 void OperationsManager::slotMoveFile(void)
 {
