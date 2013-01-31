@@ -30,13 +30,13 @@ signals:
     void signalAccountInfoReadyToUse(void);
 
 public slots:
-    void slotDeleteItem(void);
+    void slotDelete(void);
     void slotNewFolder(void);
-    void slotCopyFile(void);
-    void slotMoveFile(void);
-    void slotRenameItem(void);
+    void slotCopy(void);
+    void slotMove(void);
+    void slotRename(void);
     void slotItemEditDone(void);
-    void slotShareFile(void);
+    void slotShare(void);
     void slotAcceptCreateFolder(const QString &name);
     void slotRejectCreateFolder(void);
     void slotFinishedCreateFolder(int result);

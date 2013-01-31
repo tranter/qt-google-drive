@@ -74,7 +74,7 @@ void OperationsManager::slotFinishedCreateFolder(int result)
     delete createFolderDialog;
 }
 
-void OperationsManager::slotCopyFile(void)
+void OperationsManager::slotCopy(void)
 {  
     QTreeWidget *treeWidget(SDriveEngine::inst()->getFilePanel(SettingsManager().currentPanel())->getFileView());
     QList<int> markedItemIds(SDriveEngine::inst()->getContentUI()->getMarkedItemIds(treeWidget));
@@ -102,7 +102,7 @@ void OperationsManager::slotCopyFile(void)
     }
 }
 
-void OperationsManager::slotMoveFile(void)
+void OperationsManager::slotMove(void)
 {
     if(!operationPossible())
     {
@@ -116,12 +116,12 @@ void OperationsManager::slotMoveFile(void)
     move.item(source, destFolderUrl);
 }
 
-void OperationsManager::slotDeleteItem(void)
+void OperationsManager::slotDelete(void)
 {
     del.item(SDriveEngine::inst()->getContentMngr()->getCurrentItem());
 }
 
-void OperationsManager::slotRenameItem(void)
+void OperationsManager::slotRename(void)
 {
     if(!operationPossible())
     {
@@ -153,7 +153,7 @@ void OperationsManager::slotItemEditDone(void)
     }
 }
 
-void OperationsManager::slotShareFile(void)
+void OperationsManager::slotShare(void)
 {
     share.file(SDriveEngine::inst()->getContentMngr()->getCurrentItem());
 }

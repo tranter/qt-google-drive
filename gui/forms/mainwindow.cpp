@@ -47,12 +47,12 @@ void MainWindow::setConnections(void)
     connect(SUi::inst()->actionDownload, SIGNAL(triggered()), SDriveEngine::inst()->getfilesTransferUI(), SLOT(slotDownload()));
     connect(SUi::inst()->actionUpload, SIGNAL(triggered()), SDriveEngine::inst()->getfilesTransferUI(), SLOT(slotUpload()));
     connect(SUi::inst()->actionSettings, SIGNAL(triggered()), SDriveEngine::inst()->getCheckUI(), SLOT(slotCheckWorkDir()));   
-    connect(SUi::inst()->copyButton, SIGNAL(clicked()), SOperationsManager::inst(), SLOT(slotCopyFile()));
-    connect(SUi::inst()->moveButton, SIGNAL(clicked()), SOperationsManager::inst(), SLOT(slotMoveFile()));
+    connect(SUi::inst()->copyButton, SIGNAL(clicked()), SOperationsManager::inst(), SLOT(slotCopy()));
+    connect(SUi::inst()->moveButton, SIGNAL(clicked()), SOperationsManager::inst(), SLOT(slotMove()));
     connect(SUi::inst()->newFolderButton, SIGNAL(clicked()), SOperationsManager::inst(), SLOT(slotNewFolder()));
-    connect(SUi::inst()->deleteButton, SIGNAL(clicked()), SOperationsManager::inst(), SLOT(slotDeleteItem()));
-    connect(SUi::inst()->renameButton, SIGNAL(clicked()), SOperationsManager::inst(), SLOT(slotRenameItem()));
-    connect(SUi::inst()->shareButton, SIGNAL(clicked()), SOperationsManager::inst(), SLOT(slotShareFile()));
+    connect(SUi::inst()->deleteButton, SIGNAL(clicked()), SOperationsManager::inst(), SLOT(slotDelete()));
+    connect(SUi::inst()->renameButton, SIGNAL(clicked()), SOperationsManager::inst(), SLOT(slotRename()));
+    connect(SUi::inst()->shareButton, SIGNAL(clicked()), SOperationsManager::inst(), SLOT(slotShare()));
     connect(SDriveEngine::inst()->getFilePanel(ELeft)->getFileView(), SIGNAL(clicked(const QModelIndex&)), SDriveEngine::inst()->getContentUI(), SLOT(slotLeftViewClicked(const QModelIndex&)));
     connect(SDriveEngine::inst()->getFilePanel(ERight)->getFileView(), SIGNAL(clicked(const QModelIndex&)), SDriveEngine::inst()->getContentUI(), SLOT(slotRightViewClicked(const QModelIndex&)));
     connect(SDriveEngine::inst()->getFilePanel(ELeft)->getFileView(), SIGNAL(itemPressed(QTreeWidgetItem*, int)), SDriveEngine::inst()->getContentUI(), SLOT(slotItemLeftPressed(QTreeWidgetItem*, int)));
