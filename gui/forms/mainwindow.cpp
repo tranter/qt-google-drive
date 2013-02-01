@@ -59,6 +59,8 @@ void MainWindow::setConnections(void)
     connect(SDriveEngine::inst()->getFilePanel(ERight)->getFileView(), SIGNAL(itemPressed(QTreeWidgetItem*, int)), SDriveEngine::inst()->getContentUI(), SLOT(slotItemRightPressed(QTreeWidgetItem*, int)));
     connect(SDriveEngine::inst()->getFilePanel(ELeft)->getFileView(), SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), SDriveEngine::inst()->getContentUI(), SLOT(slotLeftPanelItemDoubleClicked(QTreeWidgetItem*, int)));
     connect(SDriveEngine::inst()->getFilePanel(ERight)->getFileView(), SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), SDriveEngine::inst()->getContentUI(), SLOT(slotRightPanelItemDoubleClicked(QTreeWidgetItem*, int)));
+    connect(SDriveEngine::inst()->getFilePanel(ELeft)->getFileView(), SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), SDriveEngine::inst()->getContentUI(), SLOT(slotLeftCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)));
+    connect(SDriveEngine::inst()->getFilePanel(ERight)->getFileView(), SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), SDriveEngine::inst()->getContentUI(), SLOT(slotRightCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)));
     connect(SDriveEngine::inst()->getContentMngr()->self(), SIGNAL(signalAccessTokenRequired()), this, SLOT(slotAccessTokenRequired()));
     connect(SDriveEngine::inst()->getContentMngr(true)->self(), SIGNAL(signalAccessTokenRequired()), this, SLOT(slotAccessTokenRequired()));
     connect(SDriveEngine::inst()->getContentMngr(), SIGNAL(signalFirstPanelIsLoaded()), SDriveEngine::inst(), SLOT(slotFirstPanelIsLoaded()));

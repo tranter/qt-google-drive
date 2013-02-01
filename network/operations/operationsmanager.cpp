@@ -180,7 +180,7 @@ void OperationsManager::slotItemOperationCompleted(Items::Data &itemData)
     QTreeWidget *treeWidget(SDriveEngine::inst()->getFilePanel(SettingsManager().currentPanel())->getFileView());
     int index = SDriveEngine::inst()->getContentMngr()->getIndexByItemData(treeWidget, itemData);
 
-    if(index > -1) SDriveEngine::inst()->getContentUI()->markItem(treeWidget, treeWidget->topLevelItem(index));
+    if(index > -1) SDriveEngine::inst()->getContentUI()->markItem(treeWidget->topLevelItem(index));
 }
 
 

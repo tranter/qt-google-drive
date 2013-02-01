@@ -20,7 +20,8 @@ public:
 public:
     QLabel* getPanelLabel(EPanels panel) const;
     QList<int> getMarkedItemIds(QTreeWidget *treeWidget) const;
-    void markItem(QTreeWidget *treeWidget, QTreeWidgetItem *item);
+    void markItem(QTreeWidgetItem *item, bool noSwitch = false);
+    void markItems(QTreeWidgetItem *current, QTreeWidgetItem *previous);
     bool hasItemParentSign(QTreeWidgetItem *item) const;
 
 private slots:
@@ -30,6 +31,8 @@ private slots:
     void slotItemRightPressed(QTreeWidgetItem *item, int column);
     void slotLeftPanelItemDoubleClicked(QTreeWidgetItem *item, int column);
     void slotRightPanelItemDoubleClicked(QTreeWidgetItem *item, int column);
+    void slotLeftCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
+    void slotRightCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
     void slotUpdateFileList(void);
 
 private:
@@ -38,8 +41,8 @@ private:
     void showFilesOnPanel(QTreeWidgetItem *item, EPanels panel);
     void setCurrentPanelState(EPanels panel, const QString &url);
     void performShowFiles(const QString &query, const QString &name, EPath path, EPanels panel);
-    bool isFolder(void);  
-
+    bool isFolder(void);
+    int itemIndex(QTreeWidgetItem *item);
 
 private:
     Children children;

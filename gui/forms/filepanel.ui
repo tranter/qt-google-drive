@@ -112,6 +112,12 @@ color: rgb(255, 255, 255);</string>
      <property name="cursor" stdset="0">
       <cursorShape>PointingHandCursor</cursorShape>
      </property>
+     <property name="mouseTracking">
+      <bool>false</bool>
+     </property>
+     <property name="acceptDrops">
+      <bool>true</bool>
+     </property>
      <property name="styleSheet">
       <string notr="true"/>
      </property>
@@ -119,13 +125,25 @@ color: rgb(255, 255, 255);</string>
       <bool>false</bool>
      </property>
      <property name="dragDropMode">
-      <enum>QAbstractItemView::DragOnly</enum>
+      <enum>QAbstractItemView::NoDragDrop</enum>
+     </property>
+     <property name="selectionMode">
+      <enum>QAbstractItemView::SingleSelection</enum>
+     </property>
+     <property name="rootIsDecorated">
+      <bool>false</bool>
+     </property>
+     <property name="itemsExpandable">
+      <bool>false</bool>
      </property>
      <property name="sortingEnabled">
       <bool>false</bool>
      </property>
      <property name="animated">
-      <bool>true</bool>
+      <bool>false</bool>
+     </property>
+     <property name="expandsOnDoubleClick">
+      <bool>false</bool>
      </property>
      <attribute name="headerDefaultSectionSize">
       <number>100</number>
