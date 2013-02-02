@@ -9,23 +9,11 @@ ContentUI::ContentUI(QObject *parent) :
 {
 }
 
-void ContentUI::slotLeftViewClicked(const QModelIndex&)
-{
-    //    QTreeWidget *treeWidget(SDriveEngine::inst()->getFilePanel(SettingsManager().currentPanel())->getFileView());
-    //    DEBUG << treeWidget->currentIndex().row();
-    SettingsManager().setCurrentPanel(LEFT_PANEL_VALUE);
-}
-
-void ContentUI::slotRightViewClicked(const QModelIndex&)
-{
-//    QTreeWidget *treeWidget(SDriveEngine::inst()->getFilePanel(SettingsManager().currentPanel())->getFileView());
-//    DEBUG << treeWidget->currentIndex().row();
-    SettingsManager().setCurrentPanel(RIGHT_PANEL_VALUE);
-}
-
 void ContentUI::slotItemLeftPressed(QTreeWidgetItem *item, int column)
 {   
     Q_UNUSED(column);
+
+    SettingsManager().setCurrentPanel(LEFT_PANEL_VALUE);
 
     if(QApplication::mouseButtons() == Qt::RightButton) markItem(item);
     if(QApplication::keyboardModifiers() == Qt::ControlModifier && QApplication::mouseButtons() == Qt::LeftButton) markItem(item, true);
@@ -34,6 +22,8 @@ void ContentUI::slotItemLeftPressed(QTreeWidgetItem *item, int column)
 void ContentUI::slotItemRightPressed(QTreeWidgetItem *item, int column)
 {
     Q_UNUSED(column);
+
+    SettingsManager().setCurrentPanel(RIGHT_PANEL_VALUE);
 
     if(QApplication::mouseButtons() == Qt::RightButton) markItem(item);
     if(QApplication::keyboardModifiers() == Qt::ControlModifier && QApplication::mouseButtons() == Qt::LeftButton) markItem(item, true);
@@ -57,24 +47,21 @@ void ContentUI::slotRightPanelItemDoubleClicked(QTreeWidgetItem *item, int colum
 
 void ContentUI::slotLeftCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
 {
+    SettingsManager().setCurrentPanel(LEFT_PANEL_VALUE);
+
     if(previous)
     {
-        if(QApplication::mouseButtons() == Qt::LeftButton && QApplication::keyboardModifiers() == Qt::ShiftModifier)
-        {
-            markItems(current, previous);
-        }
+        if(QApplication::mouseButtons() == Qt::LeftButton && QApplication::keyboardModifiers() == Qt::ShiftModifier) markItems(current, previous);
     }
 }
 
 void ContentUI::slotRightCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
 {
+    SettingsManager().setCurrentPanel(RIGHT_PANEL_VALUE);
+
     if(previous)
     {
-        if(QApplication::mouseButtons() == Qt::LeftButton && QApplication::keyboardModifiers() == Qt::ShiftModifier)
-        {
-            markItems(current, previous);
-        }
-
+        if(QApplication::mouseButtons() == Qt::LeftButton && QApplication::keyboardModifiers() == Qt::ShiftModifier) markItems(current, previous);
     }
 }
 
@@ -119,8 +106,8 @@ void ContentUI::markItems(QTreeWidgetItem *current, QTreeWidgetItem *previous)
 
     if(currentIndex < previousIndex)
     {
-       beginIndex = currentIndex;
-       endIndex = previousIndex;
+        beginIndex = currentIndex;
+        endIndex = previousIndex;
     }
     else
     {

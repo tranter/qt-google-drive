@@ -25,8 +25,6 @@ public:
     bool hasItemParentSign(QTreeWidgetItem *item) const;
 
 private slots:
-    void slotLeftViewClicked(const QModelIndex&);
-    void slotRightViewClicked(const QModelIndex&);
     void slotItemLeftPressed(QTreeWidgetItem *item, int column);
     void slotItemRightPressed(QTreeWidgetItem *item, int column);
     void slotLeftPanelItemDoubleClicked(QTreeWidgetItem *item, int column);
