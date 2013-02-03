@@ -31,6 +31,10 @@ private slots:
     void slotRightPanelItemDoubleClicked(QTreeWidgetItem *item, int column);
     void slotLeftCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
     void slotRightCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
+    void slotLeftItemEntered(QTreeWidgetItem *item, int column);
+    void slotRightItemEntered(QTreeWidgetItem *item, int column);
+    //    void slotLeftItemClicked(QTreeWidgetItem *item, int column);
+    //    void slotRightItemClicked(QTreeWidgetItem *item, int column);
     void slotUpdateFileList(void);
 
 private:
@@ -41,9 +45,15 @@ private:
     void performShowFiles(const QString &query, const QString &name, EPath path, EPanels panel);
     bool isFolder(void);
     int itemIndex(QTreeWidgetItem *item);
+    void itemPressed(int panelNum, QTreeWidgetItem *item);
+    void itemDoubleClicked(int panelNum, QTreeWidgetItem *item);
+    void currentItemChanged(int panelNum, QTreeWidgetItem *current, QTreeWidgetItem *previous);
+    void markItemWithMouseTracking(QTreeWidgetItem *item);
+    void markItemWithMousePress(QTreeWidgetItem *item);
 
 private:
     Children children;
+    bool mouseTracking;
 };
 
 #endif // FILESUI_H

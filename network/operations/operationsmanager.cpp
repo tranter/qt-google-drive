@@ -130,7 +130,7 @@ void OperationsManager::slotRename(void)
         return;
     }
 
-    QTreeWidgetItem *item = SDriveEngine::inst()->getContentMngr()->getPanel()->currentItem();
+    QTreeWidgetItem *item(SDriveEngine::inst()->getContentMngr()->getPanel()->currentItem());
 
     editingItemText = item->text(0);
 
@@ -142,10 +142,10 @@ void OperationsManager::slotRename(void)
 
 void OperationsManager::slotItemEditDone(void)
 {
-    QTreeWidgetItem *item = SDriveEngine::inst()->getContentMngr()->getPanel()->currentItem();
-    Items::Data source = SDriveEngine::inst()->getContentMngr()->getCurrentItem();
+    QTreeWidgetItem *item(SDriveEngine::inst()->getContentMngr()->getPanel()->currentItem());
+    Items::Data source(SDriveEngine::inst()->getContentMngr()->getCurrentItem());
 
-    QString itemTextAfterEditing = item->text(0);
+    QString itemTextAfterEditing(item->text(0));
 
     if(editingItemText != itemTextAfterEditing)
     {
@@ -167,12 +167,10 @@ void OperationsManager::slotAcceptCreateFolder(const QString &name)
         return;
     }
 
-    //    if(operationPossible()) createFolder(name, SDriveEngine::inst()->getFilesMngr()->getParentFolderUrl());
-    //    else CommonTools::msg(tr("Please select a panel"));
-
     QString parentFolderUrl(SDriveEngine::inst()->getContentMngr()->getParentFolderUrl());
 
     create.folder(name, parentFolderUrl);
+
     delete createFolderDialog;
 }
 

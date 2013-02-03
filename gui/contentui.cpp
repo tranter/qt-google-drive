@@ -12,58 +12,61 @@ ContentUI::ContentUI(QObject *parent) :
 void ContentUI::slotItemLeftPressed(QTreeWidgetItem *item, int column)
 {   
     Q_UNUSED(column);
-
-    SettingsManager().setCurrentPanel(LEFT_PANEL_VALUE);
-
-    if(QApplication::mouseButtons() == Qt::RightButton) markItem(item);
-    if(QApplication::keyboardModifiers() == Qt::ControlModifier && QApplication::mouseButtons() == Qt::LeftButton) markItem(item, true);
+    itemPressed(ELeft, item);
 }
 
 void ContentUI::slotItemRightPressed(QTreeWidgetItem *item, int column)
 {
     Q_UNUSED(column);
-
-    SettingsManager().setCurrentPanel(RIGHT_PANEL_VALUE);
-
-    if(QApplication::mouseButtons() == Qt::RightButton) markItem(item);
-    if(QApplication::keyboardModifiers() == Qt::ControlModifier && QApplication::mouseButtons() == Qt::LeftButton) markItem(item, true);
+    itemPressed(ERight, item);
 }
 
 void ContentUI::slotLeftPanelItemDoubleClicked(QTreeWidgetItem *item, int column)
 {
     Q_UNUSED(column);
-
-    SettingsManager().setCurrentPanel(LEFT_PANEL_VALUE);
-    showFilesOnPanel(item, ELeft);
+    itemDoubleClicked(ELeft, item);
 }
 
 void ContentUI::slotRightPanelItemDoubleClicked(QTreeWidgetItem *item, int column)
 {
     Q_UNUSED(column);
-
-    SettingsManager().setCurrentPanel(RIGHT_PANEL_VALUE);
-    showFilesOnPanel(item, ERight);
+    itemDoubleClicked(ERight, item);
 }
 
 void ContentUI::slotLeftCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
 {
-    SettingsManager().setCurrentPanel(LEFT_PANEL_VALUE);
-
-    if(previous)
-    {
-        if(QApplication::mouseButtons() == Qt::LeftButton && QApplication::keyboardModifiers() == Qt::ShiftModifier) markItems(current, previous);
-    }
+    currentItemChanged(ELeft, current, previous);
 }
 
 void ContentUI::slotRightCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
 {
-    SettingsManager().setCurrentPanel(RIGHT_PANEL_VALUE);
-
-    if(previous)
-    {
-        if(QApplication::mouseButtons() == Qt::LeftButton && QApplication::keyboardModifiers() == Qt::ShiftModifier) markItems(current, previous);
-    }
+    currentItemChanged(ERight, current, previous);
 }
+
+void ContentUI::slotLeftItemEntered(QTreeWidgetItem *item, int column)
+{
+    Q_UNUSED(column);
+    markItemWithMouseTracking(item);
+}
+
+void ContentUI::slotRightItemEntered(QTreeWidgetItem *item, int column)
+{
+    Q_UNUSED(column);
+    markItemWithMouseTracking(item);
+}
+
+
+//void ContentUI::slotLeftItemClicked(QTreeWidgetItem *item, int column)
+//{
+//    //mouseTracking = false;
+//    //DEBUG << mouseTracking;
+//}
+
+//void ContentUI::slotRightItemClicked(QTreeWidgetItem * item, int column)
+//{
+//    //mouseTracking = false;
+//    //DEBUG << mouseTracking;
+//}
 
 int ContentUI::itemIndex(QTreeWidgetItem *item)
 {
@@ -119,6 +122,45 @@ void ContentUI::markItems(QTreeWidgetItem *current, QTreeWidgetItem *previous)
     {
         markItem(current->treeWidget()->topLevelItem(i), true);
     }
+}
+
+void ContentUI::itemPressed(int panelNum, QTreeWidgetItem *item)
+{
+    SettingsManager().setCurrentPanel(panelNum);
+    mouseTracking = false;
+    markItemWithMousePress(item);
+}
+
+void ContentUI::itemDoubleClicked(int panelNum, QTreeWidgetItem *item)
+{
+    SettingsManager().setCurrentPanel(panelNum);
+    showFilesOnPanel(item, static_cast<EPanels> (panelNum));
+}
+
+void ContentUI::currentItemChanged(int panelNum, QTreeWidgetItem *current, QTreeWidgetItem *previous)
+{
+    SettingsManager().setCurrentPanel(panelNum);
+
+    if(previous)
+    {
+        if(QApplication::mouseButtons() == Qt::LeftButton && QApplication::keyboardModifiers() == Qt::ShiftModifier) markItems(current, previous);
+    }
+}
+
+void ContentUI::markItemWithMouseTracking(QTreeWidgetItem *item)
+{
+    if(mouseTracking)
+    {
+        if(QApplication::mouseButtons() == Qt::RightButton) markItem(item);
+    }
+
+    mouseTracking = true;
+}
+
+void ContentUI::markItemWithMousePress(QTreeWidgetItem *item)
+{
+    if(QApplication::mouseButtons() == Qt::RightButton) markItem(item);
+    if(QApplication::mouseButtons() == Qt::LeftButton && QApplication::keyboardModifiers() == Qt::ControlModifier) markItem(item, true);
 }
 
 QList<int> ContentUI::getMarkedItemIds(QTreeWidget *treeWidget) const
