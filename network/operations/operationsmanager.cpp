@@ -93,12 +93,13 @@ void OperationsManager::slotCopy(void)
     }
     else
     {
-        QList<Items::Data> itemsData(SDriveEngine::inst()->getContentMngr()->getItemsDataByIndexes(markedItemIds));
+        QList<Items::Data> foldersData, filesData;
+        SDriveEngine::inst()->getContentMngr()->getItemsDataByIndexes(markedItemIds, foldersData, filesData);
 
         disconnect(&copy, SIGNAL(fileCopied(Items::Data&)), this, SLOT(slotItemOperationCompleted(Items::Data&)));
         connect(&copy, SIGNAL(fileCopied(Items::Data&)), this, SLOT(slotItemOperationCompleted(Items::Data&)));
 
-        copy.files(itemsData, destFolderUrl);
+        copy.files(filesData, destFolderUrl);
     }
 }
 

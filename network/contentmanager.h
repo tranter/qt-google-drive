@@ -25,7 +25,7 @@ public:
     Items::Data getCurrentItem(void);
     QStringList getPathesURLs(void) const;
     void setPathesURLs(const QStringList &pathesURLsStrList);
-    QList<Items::Data> getItemsDataByIndexes(QList<int> &indexes) const;
+    void getItemsDataByIndexes(QList<int> &indexes, QList<Items::Data> &folders, QList<Items::Data> &files);
     int getIndexByItemData(QTreeWidget *treeWidget, Items::Data &itemData) const;
 
 private:

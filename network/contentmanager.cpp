@@ -217,16 +217,33 @@ Items::Data ContentManager::getCurrentItem(void)
     return  normalizedItems[index];
 }
 
-QList<Items::Data> ContentManager::getItemsDataByIndexes(QList<int> &indexes) const
-{
-    QList<Items::Data> itemsData;
-
+void ContentManager::getItemsDataByIndexes(QList<int> &indexes, QList<Items::Data> &folders, QList<Items::Data> &files)
+{      
     for(int i = 0; i < indexes.count(); ++i)
     {
-        itemsData << normalizedItems[indexes[i]];
+        if(normalizedItems[indexes[i]].type == FOLDER_TYPE_STR) folders.push_back(normalizedItems[indexes[i]]);
+        if(normalizedItems[indexes[i]].type == FILE_TYPE_STR) files.push_back(normalizedItems[indexes[i]]);
     }
 
-    return  itemsData;
+    for(int i = 0; i < folders.count(); ++i)
+    {
+        DEBUG << "folders" << folders[i].name;
+    }
+
+    for(int i = 0; i < files.count(); ++i)
+    {
+        DEBUG << "files" << files[i].name;
+    }
+
+    //    return  itemsData;
+    //    QList<Items::Data> itemsData;
+
+    //    for(int i = 0; i < indexes.count(); ++i)
+    //    {
+    //        itemsData << normalizedItems[indexes[i]];
+    //    }
+
+    //    return  itemsData;
 }
 
 int ContentManager::getIndexByItemData(QTreeWidget *treeWidget, Items::Data &itemData) const
