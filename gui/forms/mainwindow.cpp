@@ -83,7 +83,8 @@ void MainWindow::slotTokens(const QString &accessToken, const QString &refreshTo
 
 void MainWindow::slotAccountInfoReadyToUse(void)
 {
-    SDriveEngine::inst()->updatePanel(LEFT_PANEL_VALUE, true);
+    DEBUG;
+    //SDriveEngine::inst()->updatePanel(ELeft, true);
 }
 
 void MainWindow::slotAccessTokenRequired(void)

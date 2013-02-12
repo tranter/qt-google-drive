@@ -44,6 +44,12 @@
    <property name="value">
     <number>0</number>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+   </property>
+   <property name="textVisible">
+    <bool>true</bool>
+   </property>
   </widget>
   <widget class="QPushButton" name="cancelButton">
    <property name="geometry">
@@ -71,7 +77,7 @@
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap resource="resource.qrc">:/ico/logo</pixmap>
+    <pixmap resource="../../resource.qrc">:/ico/logo</pixmap>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -79,7 +85,7 @@
   </widget>
  </widget>
  <resources>
-  <include location="resource.qrc"/>
+  <include location="../../resource.qrc"/>
  </resources>
  <connections/>
 </ui>

@@ -49,7 +49,7 @@ void DriveEngine::init(void)
     connect(filesViews[ELeft], SIGNAL(signalAccountChanged(int, const QString&)), SLOT(slotAccountChanged(int, const QString&)));
     connect(filesViews[ERight], SIGNAL(signalAccountChanged(int, const QString&)), SLOT(slotAccountChanged(int, const QString&)));
 
-    if(SettingsManager().isAnyAccount()) updatePanel(LEFT_PANEL_VALUE, true);
+    if(SettingsManager().isAnyAccount()) updatePanel(ELeft, true);
 }
 
 FilePanel* DriveEngine::getFilePanel(int panel) const
@@ -101,7 +101,7 @@ void DriveEngine::updatePanel(int panelNum, bool initLoad)
 
 void DriveEngine::slotFirstPanelIsLoaded(void)
 {
-    updatePanel(RIGHT_PANEL_VALUE, false);
+    updatePanel(ERight, false);
 }
 
 void DriveEngine::slotAccountChanged(int panelNum, const QString &accountName)
@@ -120,7 +120,7 @@ CheckUI* DriveEngine::getCheckUI(void) const
     return checkUI.data();
 }
 
-ContentUI* DriveEngine::getContentUI    (void) const
+ContentUI* DriveEngine::getContentUI(void) const
 {
     return contentUI.data();
 }

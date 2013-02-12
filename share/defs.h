@@ -45,8 +45,8 @@
 #define CURRENT_FOLDER_URL_KEY QString("currentFolderUrl")
 #define CURRENT_FOLDER_PATH_KEY QString("currentFolderPath")
 #define PATHES_URLS_KEY QString("pathesUrls")
-#define LEFT_PANEL_VALUE 0
-#define RIGHT_PANEL_VALUE 1
+//#define LEFT_PANEL_VALUE 0
+//#define RIGHT_PANEL_VALUE 1
 #define CURRENT_ACCOUNT_KEY QString("currentAccount")
 #define ACCOUNT_LETTER_KEY QString("letter")
 #define NAME_KEY QString("name")

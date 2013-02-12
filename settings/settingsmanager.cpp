@@ -70,7 +70,7 @@ QMap<QString, QString> SettingsManager::accountsWithLetters(void)
 
 int SettingsManager::currentPanel(void)
 {
-    return getValueFromGroup(COMMON_GROUP, CURRENT_PANEL_KEY, LEFT_PANEL_VALUE).toInt();
+    return getValueFromGroup(COMMON_GROUP, CURRENT_PANEL_KEY, ELeft).toInt();
 }
 
 void SettingsManager::setCurrentPanel(int panelNum)
