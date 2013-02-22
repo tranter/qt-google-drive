@@ -1,6 +1,7 @@
 #ifndef DEF_H
 #define DEF_H
 
+//https://docs.google.com/feeds/default/private/full/-/folder
 #define GET_FULL_ROOT_CONTENT QString("https://docs.google.com/feeds/default/private/full/folder%3Aroot/contents")
 #define GET_FILES_IN_FOLDER QString("https://docs.google.com/feeds/default/private/full/")
 #define ROOT_TAG QString("https://docs.google.com/feeds/default/private/full/folder%3Aroot")

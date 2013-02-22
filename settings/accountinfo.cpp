@@ -18,7 +18,7 @@ void AccountInfo::slotReplyFinished(QNetworkReply*)
 {
     parseReply();
 
-    replyStr.clear();
+    //replyStr.clear();
 
     if(query == EUserInfoQuery)
     {

@@ -238,7 +238,7 @@ void ContentUI::performShowFiles(const QString &query, const QString &name, EPat
     SDriveEngine::inst()->getContentMngr()->get(query);
     setCurrentPanelState(panel, query);
 
-    children.fetch();
+    //children.fetch();
 }
 
 void ContentUI::slotUpdateFileList(void)

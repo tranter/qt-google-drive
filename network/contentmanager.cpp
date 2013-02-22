@@ -33,14 +33,12 @@ void ContentManager::slotReplyFinished(QNetworkReply* reply)
 {
     //CommonTools::logToFile(QString("ParserReply ") + ".txt", replyStr.toAscii());
 
-    //    DEBUG << "<===============================================================================================================";
-    //    DEBUG << "replyStr" << replyStr;
-    //    DEBUG << "===============================================================================================================>";
+    DEBUG << "<===============================================================================================================";
+    DEBUG << "replyStr" << replyStr;
+    DEBUG << "===============================================================================================================>";
 
-    /*if(*/parseReply(replyStr);/*) DEBUG << "parse OK"*/
-    //    else DEBUG << "parse not OK";
-
-    replyStr.clear();
+    parseReply(replyStr);
+    //replyStr.clear();
 
     if(!parser->getXMLHandler()->resDownloadingNow() && reply->error() != QNetworkReply::AuthenticationRequiredError)
     {
@@ -251,6 +249,7 @@ int ContentManager::getIndexByItemData(QTreeWidget *treeWidget, Items::Data &ite
 void ContentManager::slotSectionClicked(int logicalIndex)
 {
     Q_UNUSED(logicalIndex);
+
     SettingsManager().savePanelHeaderState(panelNum, panel->header()->saveState());
     show();
 }

@@ -2,7 +2,7 @@
 #include "share/commontools.h"
 
 Share::Share(QObject *parent) :
-    NetworkManager(parent)
+   NetworkManager(parent)
 {
 }
 

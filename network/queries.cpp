@@ -53,11 +53,13 @@ QUrl Queries::constructCreateFolderUrl(void)
 
 QUrl Queries::constructDeleteFileUrl(const QString &sourceName)
 {
-  return QUrl(urlStartPart + QString("files/") + CommonTools::getIDFromURL(sourceName));
+    return QUrl(urlStartPart + QString("files/") + CommonTools::getIDFromURL(sourceName));
 }
 
 QString Queries::construcChildrenUrl(const QString &Id)
 {
-    return QString(urlStartPart + QString("files?q=\"") + Id + QString("\" in parents"));
+    //return QString(urlStartPart + QString("files?q=\"") + Id + QString("\" in parents"));
+    //return QString(urlStartPart + QString("files"));
+    return QString(urlStartPart + QString("files/") + Id + QString("/children"));
 }
 

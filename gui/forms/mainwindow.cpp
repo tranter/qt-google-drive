@@ -33,11 +33,11 @@ void MainWindow::init(void)
     QTextCodec::setCodecForCStrings(QTextCodec::codecForLocale());
     QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
 
-    if(!CheckUI().checkReg())
-    {
-        CommonTools::msg(tr("The application is under development. Currently disabled to use.\nNo commercial use allowed."));
-        return;
-    }
+    //    if(!CheckUI().checkReg())
+    //    {
+    //        CommonTools::msg(tr("The application is under development. Currently disabled to use.\nNo commercial use allowed."));
+    //        return;
+    //    }
 }
 
 void MainWindow::setConnections(void)
@@ -46,7 +46,7 @@ void MainWindow::setConnections(void)
     connect(SUi::inst()->actionQuit, SIGNAL(triggered()), this, SLOT(close()));
     connect(SUi::inst()->actionDownload, SIGNAL(triggered()), SDriveEngine::inst()->getfilesTransferUI(), SLOT(slotDownload()));
     connect(SUi::inst()->actionUpload, SIGNAL(triggered()), SDriveEngine::inst()->getfilesTransferUI(), SLOT(slotUpload()));
-    connect(SUi::inst()->actionSettings, SIGNAL(triggered()), SDriveEngine::inst()->getCheckUI(), SLOT(slotCheckWorkDir()));   
+    connect(SUi::inst()->actionSettings, SIGNAL(triggered()), SDriveEngine::inst()->getCheckUI(), SLOT(slotCheckWorkDir()));
     connect(SUi::inst()->copyButton, SIGNAL(clicked()), SOperationsManager::inst(), SLOT(slotCopy()));
     connect(SUi::inst()->moveButton, SIGNAL(clicked()), SOperationsManager::inst(), SLOT(slotMove()));
     connect(SUi::inst()->newFolderButton, SIGNAL(clicked()), SOperationsManager::inst(), SLOT(slotNewFolder()));
@@ -58,9 +58,11 @@ void MainWindow::setConnections(void)
     connect(SDriveEngine::inst()->getFilePanel(ELeft)->getFileView(), SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), SDriveEngine::inst()->getContentUI(), SLOT(slotLeftPanelItemDoubleClicked(QTreeWidgetItem*, int)));
     connect(SDriveEngine::inst()->getFilePanel(ERight)->getFileView(), SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), SDriveEngine::inst()->getContentUI(), SLOT(slotRightPanelItemDoubleClicked(QTreeWidgetItem*, int)));
     connect(SDriveEngine::inst()->getFilePanel(ELeft)->getFileView(), SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), SDriveEngine::inst()->getContentUI(), SLOT(slotLeftCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)));
-    connect(SDriveEngine::inst()->getFilePanel(ERight)->getFileView(), SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), SDriveEngine::inst()->getContentUI(), SLOT(slotRightCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)));    
+    connect(SDriveEngine::inst()->getFilePanel(ERight)->getFileView(), SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), SDriveEngine::inst()->getContentUI(), SLOT(slotRightCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)));
     connect(SDriveEngine::inst()->getFilePanel(ELeft)->getFileView(), SIGNAL(itemEntered(QTreeWidgetItem*, int)), SDriveEngine::inst()->getContentUI(), SLOT(slotLeftItemEntered(QTreeWidgetItem*, int)));
     connect(SDriveEngine::inst()->getFilePanel(ERight)->getFileView(), SIGNAL(itemEntered(QTreeWidgetItem*, int)), SDriveEngine::inst()->getContentUI(), SLOT(slotRightItemEntered(QTreeWidgetItem*, int)));
+    //connect(SDriveEngine::inst()->getFilePanel(ELeft)->getFileView(), SIGNAL(itemClicked(QTreeWidgetItem*, int)), SDriveEngine::inst()->getContentUI(), SLOT(slotLeftItemClicked(QTreeWidgetItem*, int)));
+    //connect(SDriveEngine::inst()->getFilePanel(ERight)->getFileView(), SIGNAL(itemClicked(QTreeWidgetItem*, int)), SDriveEngine::inst()->getContentUI(), SLOT(slotRightItemClicked(QTreeWidgetItem*, int)));
     connect(SDriveEngine::inst()->getContentMngr()->self(), SIGNAL(signalAccessTokenRequired()), this, SLOT(slotAccessTokenRequired()));
     connect(SDriveEngine::inst()->getContentMngr(true)->self(), SIGNAL(signalAccessTokenRequired()), this, SLOT(slotAccessTokenRequired()));
     connect(SDriveEngine::inst()->getContentMngr(), SIGNAL(signalFirstPanelIsLoaded()), SDriveEngine::inst(), SLOT(slotFirstPanelIsLoaded()));
@@ -69,9 +71,11 @@ void MainWindow::setConnections(void)
 
 void MainWindow::slotAuthDialog(void)
 {
-    AuthDialog authDialog(SUi::inst()->centralWidget);    
-    connect(&authDialog, SIGNAL(signalTokens(const QString&, const QString&)), this, SLOT(slotTokens(const QString&, const QString&)));
-    authDialog.exec();
+//    AuthDialog authDialog(SUi::inst()->centralWidget);
+//    connect(&authDialog, SIGNAL(signalTokens(const QString&, const QString&)), this, SLOT(slotTokens(const QString&, const QString&)));
+//    authDialog.exec();
+    children.fetch();
+    //SDriveEngine::inst()->getContentMngr()->get("https://docs.google.com/feeds/default/private/full");
 }
 
 void MainWindow::slotTokens(const QString &accessToken, const QString &refreshToken)
@@ -82,6 +86,7 @@ void MainWindow::slotTokens(const QString &accessToken, const QString &refreshTo
 void MainWindow::slotAccountInfoReadyToUse(void)
 {
     DEBUG;
+    SDriveEngine::inst()->updatePanel(ELeft, true);
 }
 
 void MainWindow::slotAccessTokenRequired(void)

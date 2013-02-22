@@ -12,6 +12,7 @@ NetworkManager::NetworkManager(QObject *parent) :
 
 void NetworkManager::init(void)
 {
+    replyStr.clear();
     networkManager.reset(new QNetworkAccessManager(this));
 }
 
@@ -26,6 +27,7 @@ NetworkManager::~NetworkManager()
 
 void NetworkManager::slotReplyReadyRead()
 {
+    DEBUG;
     replyStr.append(reply->readAll());
 }
 
@@ -58,6 +60,7 @@ void NetworkManager::slotError(QNetworkReply::NetworkError error)
 
 void NetworkManager::slotSslErrors(const QList<QSslError> &errors)
 {
+    DEBUG;
     foreach(const QSslError &e, errors) DEBUG << "error:" << e.error();
 }
 
@@ -90,7 +93,7 @@ void NetworkManager::setProgressBarSettings(const QString &fileName, const QStri
     progressBarDialog.setText(progressBarDialogInfoText + fi.fileName());
     progressBarDialog.show();
 
-    connect(&progressBarDialog, SIGNAL(signalProgressCanceled()), this, SLOT(slotProgressCanceled()));  
+    connect(&progressBarDialog, SIGNAL(signalProgressCanceled()), this, SLOT(slotProgressCanceled()));
 }
 
 void NetworkManager::slotProgressCanceled()
@@ -117,7 +120,6 @@ void NetworkManager::getRequest(const QString &url)
     init();
 
     request.setUrl(QUrl(url));
-
     reply = networkManager->get(request);
 
     connect(networkManager.data(), SIGNAL(finished(QNetworkReply*)),this, SLOT(slotReplyFinished(QNetworkReply*)));
