@@ -33,8 +33,6 @@ private slots:
     void slotRightCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
     void slotLeftItemEntered(QTreeWidgetItem *item, int column);
     void slotRightItemEntered(QTreeWidgetItem *item, int column);
-    //    void slotLeftItemClicked(QTreeWidgetItem *item, int column);
-    //    void slotRightItemClicked(QTreeWidgetItem *item, int column);
     void slotUpdateFileList(void);
 
 private:

@@ -3,3 +3,7 @@
 AccountsManager::AccountsManager()
 {
 }
+
+AccountsManager::~AccountsManager()
+{
+}

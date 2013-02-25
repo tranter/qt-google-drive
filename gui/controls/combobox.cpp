@@ -25,6 +25,7 @@ void ComboBox::init(void)
 {
     setMaximumWidth(290);
     setCursor(Qt::PointingHandCursor);
+
     setFrame(false);
 
     setStyleSheet(QString("%1%2%3%4%5%6%7%8%9")

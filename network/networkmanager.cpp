@@ -32,7 +32,7 @@ void NetworkManager::slotReplyReadyRead()
 
 void NetworkManager::slotError(QNetworkReply::NetworkError error)
 {
-    DEBUG << "error code:" << error;
+    DEBUG << error;
 
     state = EReady;
 
@@ -45,12 +45,12 @@ void NetworkManager::slotError(QNetworkReply::NetworkError error)
     if(error == QNetworkReply::UnknownNetworkError)
     {
         static bool msgOnScreen = false;
-        QString msgStr("If this error occur, please make sure that you have openssl installed (also you can copy libeay32.dll and ssleay32.dll files from Qt SDK MSVC*/bin folder into folder where your program .exe file is located (tested on non-static compilation only))");
+        QString msgStr(tr("If this error occur, please make sure that you have openssl installed (also you can copy libeay32.dll and ssleay32.dll files from Qt SDK MSVC*/bin folder into folder where your program .exe file is located (tested on non-static compilation only))"));
 
         if(!msgOnScreen)
         {
             msgOnScreen = true;
-            CommonTools::errorMsg("QNetworkReply::UnknownNetworkError", msgStr);
+            CommonTools::errorMsg(tr("QNetworkReply::UnknownNetworkError"), msgStr);
             msgOnScreen = false;
         }
     }
@@ -58,7 +58,7 @@ void NetworkManager::slotError(QNetworkReply::NetworkError error)
 
 void NetworkManager::slotSslErrors(const QList<QSslError> &errors)
 {
-    foreach(const QSslError &e, errors) DEBUG << "error:" << e.error();
+    foreach(const QSslError &e, errors) DEBUG << e.error();
 }
 
 NetworkManager::EStates NetworkManager::getState(void) const
@@ -167,7 +167,6 @@ void NetworkManager::deleteRequest(QUrl url)
     connect(networkManager.data(), SIGNAL(finished(QNetworkReply*)), this, SLOT(slotReplyFinished(QNetworkReply*)));
     connectErrorHandlers();
 }
-
 
 const NetworkManager* NetworkManager::self(void) const
 {

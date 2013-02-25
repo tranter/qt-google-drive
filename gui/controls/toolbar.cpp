@@ -8,10 +8,7 @@ ToolBar::ToolBar(QWidget *parent, const QString &styleSheet, int height) :
 { 
     setStyleSheet("QToolBar {background-color: qlineargradient(spread:pad, x1:1, y1:0.432, x2:1, y2:0, stop:0 rgba(72, 72, 72, 255), stop:1 rgba(154, 154, 154, 255));}");
     setFixedHeight(height);
-
-    const int offset = 0;
-
-    layout()->setContentsMargins(offset, offset, offset, offset);
+    layout()->setContentsMargins(0, 0, 0, 0);
 }
 
 void ToolBar::paintEvent(QPaintEvent *event)

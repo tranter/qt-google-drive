@@ -81,7 +81,6 @@ void MainWindow::slotTokens(const QString &accessToken, const QString &refreshTo
 
 void MainWindow::slotAccountInfoReadyToUse(void)
 {
-    DEBUG;
     SDriveEngine::inst()->updatePanel(ELeft, true);
 }
 

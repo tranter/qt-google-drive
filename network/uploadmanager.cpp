@@ -10,13 +10,8 @@ UploadFileManager::UploadFileManager(QObject *parent) :
 void UploadFileManager::slotUploadFinished()
 {
     progressBarDialog.hide();
-
     state = EReady;
-
-    if (!operationCanceled)
-    {
-        emit signalUpdateFileList();
-    }
+    if(!operationCanceled) emit signalUpdateFileList();
 }
 
 void UploadFileManager::setUploadSettings(void)
@@ -93,31 +88,31 @@ void UploadFileManager::setProgressBarSettings(const QString &fileName, const QS
     setUploadSettings();
 }
 
-QString UploadFileManager::getContentTypeByExtension(const QString &ext)
+QString UploadFileManager::getContentTypeByExtension(const QString &extension)
 {
     QString contentType;
 
-    if(ext == "doc" || ext == "docx") contentType = "application/msword";
-    if(ext == "xls") contentType = "application/vnd.ms-excel";
-    if(ext == "ppt" || ext == "pptx") contentType = "application/vnd.ms-powerpoint";
-    if(ext == "pdf") contentType = "application/pdf";
-    if(ext == "exe") contentType = "application/x-msdos-program";
-    if(ext == "rar") contentType = "application/rar";
-    if(ext == "png") contentType = "image/png";
-    if(ext == "png") contentType = "application/rtf";
-    if(ext == "tar") contentType = "application/x-tar";
-    if(ext == "zip") contentType = "application/zip";
-    if(ext == "") contentType = "";
-    if(ext == "jpeg" || ext == "jpg" || ext == "jpe") contentType = "image/jpeg";
-    if(ext == "gif") contentType = "image/gif";
-    if(ext == "wav") contentType = "application/x-wav";
-    if(ext == "tiff" || ext == "tif") contentType = "image/tiff";
-    if(ext == "txt" || ext == "cpp" || ext == "h" || ext == "c") contentType = "text/plain";
-    if(ext == "mpeg" || ext == "mpg" || ext == "mpe" ) contentType = "video/mpeg";
-    if(ext == "qt" || ext == "mov") contentType = "video/quicktime";
-    if(ext == "qvi") contentType = "video/x-msvideo";
-    if(ext == "video/x-sgi-movie") contentType = "movie";
-    if(ext == "exe") contentType = "application/x-msdos-program";
+    if(extension == "doc" || extension == "docx") contentType = "application/msword";
+    if(extension == "xls") contentType = "application/vnd.ms-excel";
+    if(extension == "ppt" || extension == "pptx") contentType = "application/vnd.ms-powerpoint";
+    if(extension == "pdf") contentType = "application/pdf";
+    if(extension == "exe") contentType = "application/x-msdos-program";
+    if(extension == "rar") contentType = "application/rar";
+    if(extension == "png") contentType = "image/png";
+    if(extension == "png") contentType = "application/rtf";
+    if(extension == "tar") contentType = "application/x-tar";
+    if(extension == "zip") contentType = "application/zip";
+    if(extension == "") contentType = "";
+    if(extension == "jpeg" || extension == "jpg" || extension == "jpe") contentType = "image/jpeg";
+    if(extension == "gif") contentType = "image/gif";
+    if(extension == "wav") contentType = "application/x-wav";
+    if(extension == "tiff" || extension == "tif") contentType = "image/tiff";
+    if(extension == "txt" || extension == "cpp" || extension == "h" || extension == "c") contentType = "text/plain";
+    if(extension == "mpeg" || extension == "mpg" || extension == "mpe" ) contentType = "video/mpeg";
+    if(extension == "qt" || extension == "mov") contentType = "video/quicktime";
+    if(extension == "qvi") contentType = "video/x-msvideo";
+    if(extension == "video/x-sgi-movie") contentType = "movie";
+    if(extension == "exe") contentType = "application/x-msdos-program";
 
     return contentType;
 }

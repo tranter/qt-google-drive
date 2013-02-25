@@ -5,6 +5,7 @@ class AccountsManager
 {
 public:
     AccountsManager();
+    ~AccountsManager();
 };
 
 #endif // ACCOUNTSMANAGER_H

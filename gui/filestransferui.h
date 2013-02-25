@@ -3,8 +3,6 @@
 
 #include "core/driveengine.h"
 
-//class FilesManager;
-
 class FilesTransferUI : public QObject
 {
     Q_OBJECT
@@ -18,7 +16,6 @@ public:
 private slots:
     void slotDownload(void);
     void slotUpload(void);
-
 };
 
 #endif // FILIESTRANSFER_H

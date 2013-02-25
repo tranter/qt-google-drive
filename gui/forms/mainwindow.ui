@@ -340,7 +340,7 @@ color: rgb(255, 255, 255);</string>
      <normaloff>:/ico/login</normaloff>:/ico/login</iconset>
    </property>
    <property name="text">
-    <string>Login</string>
+    <string>Add New Account</string>
    </property>
   </action>
   <action name="actionQuit">

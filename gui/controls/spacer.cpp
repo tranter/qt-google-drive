@@ -1,6 +1,6 @@
 #include "spacer.h"
 
-Spacer::Spacer(QWidget *parent, const QString &styleSheet, bool frame) :
+Spacer::Spacer(QWidget *parent, const QString &styleSheet) :
     QFrame(parent)
 {
     setVisible(true);
@@ -8,7 +8,7 @@ Spacer::Spacer(QWidget *parent, const QString &styleSheet, bool frame) :
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 }
 
-Spacer::Spacer(QWidget *parent, int width, int height, const QString &styleSheet, bool frame) :
+Spacer::Spacer(QWidget *parent, int width, int height, const QString &styleSheet) :
     QFrame(parent)
 {
     setVisible(true);

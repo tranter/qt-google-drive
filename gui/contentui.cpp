@@ -55,19 +55,6 @@ void ContentUI::slotRightItemEntered(QTreeWidgetItem *item, int column)
     markItemWithMouseTracking(item);
 }
 
-
-//void ContentUI::slotLeftItemClicked(QTreeWidgetItem *item, int column)
-//{
-//    //mouseTracking = false;
-//    //DEBUG << mouseTracking;
-//}
-
-//void ContentUI::slotRightItemClicked(QTreeWidgetItem * item, int column)
-//{
-//    //mouseTracking = false;
-//    //DEBUG << mouseTracking;
-//}
-
 int ContentUI::itemIndex(QTreeWidgetItem *item)
 {
     int index = -1;

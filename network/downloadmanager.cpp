@@ -16,11 +16,8 @@ void DownloadFileManager::startDownload(QUrl url, QString& fileName, const QStri
     fileType = type;
 
     CommonTools::setHeader(SettingsManager().accessToken(), request);
-
     setProgressBarSettings(fileName, tr("Downloading file: "));
-
     request.setUrl(url);
-
     file.open(QIODevice::WriteOnly);
 
     reply = networkManager->get(request);
@@ -28,7 +25,6 @@ void DownloadFileManager::startDownload(QUrl url, QString& fileName, const QStri
     connect(reply, SIGNAL(finished()), this, SLOT(slotDownloadFinished()));
     connect(reply, SIGNAL(readyRead()), this, SLOT(slotDownloadReadyRead()));
     connect(reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(slotDownloadProgress(qint64,qint64)));
-
     connectErrorHandlers();
 }
 
