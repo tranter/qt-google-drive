@@ -66,8 +66,6 @@ QString JSONParser::getToken(const QString &object, const QString &key, const QS
     if(endPos != -1)  continuePos = endPos;
     else continuePos = beginPos + token.length();
 
-    //DEBUG << "TOKEN" << token;
-
     return token;
 }
 
@@ -78,10 +76,8 @@ int JSONParser::getTokenEnd(const QString &object, int beginPos)
 
     while((beginDividerPos < endDividerPos) && beginDividerPos != -1)
     {
-        //DEBUG << "1 beginDividerPos" << beginDividerPos << " endDividerPos" << endDividerPos;
         beginDividerPos = object.indexOf(QString("["), endDividerPos);
         endDividerPos = object.indexOf(QString("]"), endDividerPos + 1);
-        //DEBUG << "2 beginDividerPos" << beginDividerPos << " endDividerPos" << endDividerPos;
     }
 
     return endDividerPos + 1;

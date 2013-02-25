@@ -18,8 +18,6 @@ void AccountInfo::slotReplyFinished(QNetworkReply*)
 {
     parseReply();
 
-    //replyStr.clear();
-
     if(query == EUserInfoQuery)
     {
         queryStr = aboutInfoQuery;
@@ -44,9 +42,9 @@ void AccountInfo::setInfo(void)
 
 void AccountInfo::parseReply(void)
 {
-    DEBUG << "<===============================================================================================================";
-    DEBUG << "replyStr" << replyStr;
-    DEBUG << "===============================================================================================================>";
+//    DEBUG << "<===============================================================================================================";
+//    DEBUG << "replyStr" << replyStr;
+//    DEBUG << "===============================================================================================================>";
 
     JSONParser jParser;
 

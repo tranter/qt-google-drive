@@ -5,7 +5,6 @@
 #include "share/singleton.h"
 #include "network/queries.h"
 #include "network/auth.h"
-#include "network/operations/children.h"
 
 namespace Ui
 {
@@ -38,7 +37,6 @@ private slots:
 
 private:
     Auth *auth;
-    Children children;
 };
 
 #endif // MAINWINDOW_H

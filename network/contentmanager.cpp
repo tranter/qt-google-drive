@@ -33,12 +33,11 @@ void ContentManager::slotReplyFinished(QNetworkReply* reply)
 {
     //CommonTools::logToFile(QString("ParserReply ") + ".txt", replyStr.toAscii());
 
-    DEBUG << "<===============================================================================================================";
-    DEBUG << "replyStr" << replyStr;
-    DEBUG << "===============================================================================================================>";
+//    DEBUG << "<===============================================================================================================";
+//    DEBUG << "replyStr" << replyStr;
+//    DEBUG << "===============================================================================================================>";
 
     parseReply(replyStr);
-    //replyStr.clear();
 
     if(!parser->getXMLHandler()->resDownloadingNow() && reply->error() != QNetworkReply::AuthenticationRequiredError)
     {
@@ -126,10 +125,7 @@ void ContentManager::setItems(Items::Data::ESortOrder itemSortOrder, Qt::SortOrd
 {
     normalizedItems = parser->getXMLHandler()->getItemInfo()->getItems();
 
-    if(!normalizedItems.isEmpty())
-    {
-        parentData = normalizedItems.takeFirst();
-    }
+    if(!normalizedItems.isEmpty()) parentData = normalizedItems.takeFirst();
 
     parser->getXMLHandler()->getItemInfo()->sort(normalizedItems, itemSortOrder, sortOrder);
 }

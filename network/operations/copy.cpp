@@ -8,8 +8,6 @@ Copy::Copy(QObject *parent) :
 
 void Copy::file(const Items::Data &source, const QString &destFolderUrl)
 {
-    DEBUG << source.name;
-
     sourceData = source;
     postData = queries.getCopyFileData(source.name, destFolderUrl);
 

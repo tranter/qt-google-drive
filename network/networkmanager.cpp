@@ -27,7 +27,6 @@ NetworkManager::~NetworkManager()
 
 void NetworkManager::slotReplyReadyRead()
 {
-    DEBUG;
     replyStr.append(reply->readAll());
 }
 
@@ -39,7 +38,6 @@ void NetworkManager::slotError(QNetworkReply::NetworkError error)
 
     if(error == QNetworkReply::AuthenticationRequiredError)
     {
-        DEBUG << "AuthenticationRequiredError URL" << request.url();
         reply->abort();
         emit signalAccessTokenRequired();
     }
@@ -60,7 +58,6 @@ void NetworkManager::slotError(QNetworkReply::NetworkError error)
 
 void NetworkManager::slotSslErrors(const QList<QSslError> &errors)
 {
-    DEBUG;
     foreach(const QSslError &e, errors) DEBUG << "error:" << e.error();
 }
 
@@ -107,8 +104,6 @@ void NetworkManager::slotPostFinished(QNetworkReply* reply)
     if (reply->error())
     {
         progressBarDialog.hide();
-        DEBUG << "Reply with the error";
-
         return;
     }
 

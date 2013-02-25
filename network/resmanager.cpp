@@ -9,7 +9,6 @@ ResManager::ResManager(QObject *parent):
 void ResManager::cash(const QString &url)
 {
   QString fileNameToSave(QFileInfo(url).fileName());
-
   startDownload(QUrl(url), fileNameToSave, "image/png");
 }
 

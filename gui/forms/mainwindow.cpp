@@ -33,11 +33,11 @@ void MainWindow::init(void)
     QTextCodec::setCodecForCStrings(QTextCodec::codecForLocale());
     QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
 
-    //    if(!CheckUI().checkReg())
-    //    {
-    //        CommonTools::msg(tr("The application is under development. Currently disabled to use.\nNo commercial use allowed."));
-    //        return;
-    //    }
+    if(!CheckUI().checkReg())
+    {
+        CommonTools::msg(tr("The application is under development. Currently disabled to use.\nNo commercial use allowed."));
+        return;
+    }
 }
 
 void MainWindow::setConnections(void)
@@ -61,8 +61,6 @@ void MainWindow::setConnections(void)
     connect(SDriveEngine::inst()->getFilePanel(ERight)->getFileView(), SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), SDriveEngine::inst()->getContentUI(), SLOT(slotRightCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)));
     connect(SDriveEngine::inst()->getFilePanel(ELeft)->getFileView(), SIGNAL(itemEntered(QTreeWidgetItem*, int)), SDriveEngine::inst()->getContentUI(), SLOT(slotLeftItemEntered(QTreeWidgetItem*, int)));
     connect(SDriveEngine::inst()->getFilePanel(ERight)->getFileView(), SIGNAL(itemEntered(QTreeWidgetItem*, int)), SDriveEngine::inst()->getContentUI(), SLOT(slotRightItemEntered(QTreeWidgetItem*, int)));
-    //connect(SDriveEngine::inst()->getFilePanel(ELeft)->getFileView(), SIGNAL(itemClicked(QTreeWidgetItem*, int)), SDriveEngine::inst()->getContentUI(), SLOT(slotLeftItemClicked(QTreeWidgetItem*, int)));
-    //connect(SDriveEngine::inst()->getFilePanel(ERight)->getFileView(), SIGNAL(itemClicked(QTreeWidgetItem*, int)), SDriveEngine::inst()->getContentUI(), SLOT(slotRightItemClicked(QTreeWidgetItem*, int)));
     connect(SDriveEngine::inst()->getContentMngr()->self(), SIGNAL(signalAccessTokenRequired()), this, SLOT(slotAccessTokenRequired()));
     connect(SDriveEngine::inst()->getContentMngr(true)->self(), SIGNAL(signalAccessTokenRequired()), this, SLOT(slotAccessTokenRequired()));
     connect(SDriveEngine::inst()->getContentMngr(), SIGNAL(signalFirstPanelIsLoaded()), SDriveEngine::inst(), SLOT(slotFirstPanelIsLoaded()));
@@ -71,11 +69,9 @@ void MainWindow::setConnections(void)
 
 void MainWindow::slotAuthDialog(void)
 {
-//    AuthDialog authDialog(SUi::inst()->centralWidget);
-//    connect(&authDialog, SIGNAL(signalTokens(const QString&, const QString&)), this, SLOT(slotTokens(const QString&, const QString&)));
-//    authDialog.exec();
-    children.fetch();
-    //SDriveEngine::inst()->getContentMngr()->get("https://docs.google.com/feeds/default/private/full");
+    AuthDialog authDialog(SUi::inst()->centralWidget);
+    connect(&authDialog, SIGNAL(signalTokens(const QString&, const QString&)), this, SLOT(slotTokens(const QString&, const QString&)));
+    authDialog.exec();
 }
 
 void MainWindow::slotTokens(const QString &accessToken, const QString &refreshToken)
