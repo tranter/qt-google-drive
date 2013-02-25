@@ -58,8 +58,6 @@ QUrl Queries::constructDeleteFileUrl(const QString &sourceName)
 
 QString Queries::construcChildrenUrl(const QString &Id)
 {
-    //return QString(urlStartPart + QString("files?q=\"") + Id + QString("\" in parents"));
-    //return QString(urlStartPart + QString("files"));
     return QString(urlStartPart + QString("files/") + Id + QString("/children"));
 }
 

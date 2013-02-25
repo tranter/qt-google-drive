@@ -1,8 +1,7 @@
 #include "spacer.h"
 
 Spacer::Spacer(QWidget *parent, const QString &styleSheet, bool frame) :
-    QFrame(parent),
-    isFrame(frame)
+    QFrame(parent)
 {
     setVisible(true);
     setStyleSheet(styleSheet);
@@ -10,8 +9,7 @@ Spacer::Spacer(QWidget *parent, const QString &styleSheet, bool frame) :
 }
 
 Spacer::Spacer(QWidget *parent, int width, int height, const QString &styleSheet, bool frame) :
-    QFrame(parent),
-    isFrame(frame)
+    QFrame(parent)
 {
     setVisible(true);
     setStyleSheet(styleSheet);
@@ -22,8 +20,6 @@ Spacer::Spacer(QWidget *parent, int width, int height, const QString &styleSheet
 
 void Spacer::paintEvent(QPaintEvent *event)
 {
-    if(!isFrame) return;
-
     Q_UNUSED(event)
 
 #ifndef Q_OS_MAC

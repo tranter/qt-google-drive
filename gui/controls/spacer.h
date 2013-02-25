@@ -16,7 +16,6 @@ protected:
 
 private:
     PainterHelper *painterHelper;
-    bool isFrame;
 };
 
 #endif // SPACER_H
