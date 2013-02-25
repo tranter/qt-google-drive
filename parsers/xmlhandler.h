@@ -29,7 +29,7 @@ public:
     bool startElement(const QString &namespaceURI, const QString &localName, const QString &qName, const QXmlAttributes &attribs);
     bool endElement(const QString &namespaceURI, const QString &localName, const QString &qName);
     bool characters(const QString &str);
-    bool fatalError(const QXmlParseException &exception);
+    bool fatalError(const QXmlParseException &e);
 
     Items* getItemInfo(void) const;
     bool resDownloadingNow(void) const;
@@ -48,7 +48,7 @@ private:
     void handleUpdatedTag(const QString &str);
     void setDefaults(void);
     void setTag(const QString& qName, bool state);
-    QString getItemType(const QString &selfURL);
+    QString getItemType(const QString &selfUrl);
     void saveResData(const QXmlAttributes &attribs);
 
 private:

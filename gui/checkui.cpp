@@ -26,22 +26,22 @@ bool CheckUI::slotCheckWorkDir(bool showDlg)
         return true;
     }
 
-    bool dirTextNotEmpty = false;
+    bool dirTextIsNotEmpty = false;
 
     if(showDlg)
     {
-        SettingsDialog dlg(SDriveEngine::inst()->getParent());
+        SettingsDialog settingsDialog(SDriveEngine::inst()->getParent());
 
-        dlg.setDirectoryPath(settingsManager.workDir());
+        settingsDialog.setDirectoryPath(settingsManager.workDir());
 
-        switch(dlg.exec())
+        switch(settingsDialog.exec())
         {
         case QDialog::Accepted:
         {
-            if(!dlg.directoryPath().isEmpty() )
+            if(!settingsDialog.directoryPath().isEmpty() )
             {
-                settingsManager.setWorkDir(dlg.directoryPath());
-                dirTextNotEmpty = true;
+                settingsManager.setWorkDir(settingsDialog.directoryPath());
+                dirTextIsNotEmpty = true;
             }
 
         }
@@ -49,5 +49,5 @@ bool CheckUI::slotCheckWorkDir(bool showDlg)
         }
     }
 
-    return dirTextNotEmpty;
+    return dirTextIsNotEmpty;
 }

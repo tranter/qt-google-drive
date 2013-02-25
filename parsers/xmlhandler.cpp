@@ -86,9 +86,9 @@ Items* XMLHandler::getItemInfo(void) const
     return itemInfo.data();
 }
 
-bool XMLHandler::fatalError(const QXmlParseException &exception)
+bool XMLHandler::fatalError(const QXmlParseException &e)
 {
-    DEBUG << "fatalError:" << exception.message();
+    DEBUG << "fatalError:" << e.message();
     return true;
 }
 
@@ -118,10 +118,10 @@ bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs
     return true;
 }
 
-QString XMLHandler::getItemType(const QString &selfURL)
+QString XMLHandler::getItemType(const QString &selfUrl)
 {
     QString typeStr(FILE_TYPE_STR);
-    QString  str(selfURL);
+    QString  str(selfUrl);
     QStringList strList = str.split("/");
 
     str = strList[strList.count() - 1];
