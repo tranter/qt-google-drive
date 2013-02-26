@@ -100,6 +100,10 @@ width: 16px;</string>
           <property name="text">
            <string>Copy</string>
           </property>
+          <property name="icon">
+           <iconset resource="../../resource.qrc">
+            <normaloff>:/ico/res/copy.png</normaloff>:/ico/res/copy.png</iconset>
+          </property>
          </widget>
         </item>
         <item>
@@ -127,6 +131,10 @@ width: 16px;</string>
           </property>
           <property name="text">
            <string>Move</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../../resource.qrc">
+            <normaloff>:/ico/res/move.png</normaloff>:/ico/res/move.png</iconset>
           </property>
          </widget>
         </item>
@@ -156,6 +164,10 @@ width: 16px;</string>
           <property name="text">
            <string>New Folder</string>
           </property>
+          <property name="icon">
+           <iconset resource="../../resource.qrc">
+            <normaloff>:/ico/new-folder</normaloff>:/ico/new-folder</iconset>
+          </property>
          </widget>
         </item>
         <item>
@@ -184,6 +196,10 @@ width: 16px;</string>
           <property name="text">
            <string>Delete</string>
           </property>
+          <property name="icon">
+           <iconset resource="../../resource.qrc">
+            <normaloff>:/ico/res/delete.png</normaloff>:/ico/res/delete.png</iconset>
+          </property>
          </widget>
         </item>
         <item>
@@ -211,6 +227,10 @@ width: 16px;</string>
           </property>
           <property name="text">
            <string>Rename</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../../resource.qrc">
+            <normaloff>:/ico/res/rename.png</normaloff>:/ico/res/rename.png</iconset>
           </property>
          </widget>
         </item>
@@ -270,8 +290,27 @@ width: 16px;</string>
     </property>
     <addaction name="actionSettings"/>
    </widget>
+   <widget class="QMenu" name="menuActions">
+    <property name="title">
+     <string>Actions</string>
+    </property>
+    <addaction name="actionDownload"/>
+    <addaction name="actionUpload"/>
+    <addaction name="actionUpdate"/>
+    <addaction name="actionSearch"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuOptions"/>
+   <addaction name="menuActions"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar">
+   <property name="styleSheet">
+    <string notr="true">background-color: qlineargradient(spread:pad, x1:1, y1:0.432, x2:1, y2:0, stop:0 rgba(72, 72, 72, 255), stop:1 rgba(154, 154, 154, 255));
+color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="sizeGripEnabled">
+    <bool>true</bool>
+   </property>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <property name="styleSheet">
@@ -291,18 +330,15 @@ width: 16px;</string>
    <addaction name="actionDownload"/>
    <addaction name="actionUpload"/>
    <addaction name="separator"/>
-   <addaction name="separator"/>
    <addaction name="actionSettings"/>
    <addaction name="separator"/>
-  </widget>
-  <widget class="QStatusBar" name="statusBar">
-   <property name="styleSheet">
-    <string notr="true">background-color: qlineargradient(spread:pad, x1:1, y1:0.432, x2:1, y2:0, stop:0 rgba(72, 72, 72, 255), stop:1 rgba(154, 154, 154, 255));
-color: rgb(255, 255, 255);</string>
-   </property>
-   <property name="sizeGripEnabled">
-    <bool>true</bool>
-   </property>
+   <addaction name="actionSearch"/>
+   <addaction name="actionSend"/>
+   <addaction name="actionUpdate"/>
+   <addaction name="separator"/>
+   <addaction name="actionRecycleBin"/>
+   <addaction name="separator"/>
+   <addaction name="actionQuit"/>
   </widget>
   <action name="actionSettings">
    <property name="icon">
@@ -350,6 +386,51 @@ color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
     <string>Quit</string>
+   </property>
+  </action>
+  <action name="actionUpdate">
+   <property name="icon">
+    <iconset resource="../../resource.qrc">
+     <normaloff>:/ico/update</normaloff>:/ico/update</iconset>
+   </property>
+   <property name="text">
+    <string>Update</string>
+   </property>
+  </action>
+  <action name="actionRecycleBin">
+   <property name="icon">
+    <iconset resource="../../resource.qrc">
+     <normaloff>:/ico/trash</normaloff>:/ico/trash</iconset>
+   </property>
+   <property name="text">
+    <string>Recycle Bin</string>
+   </property>
+  </action>
+  <action name="actionSearch">
+   <property name="icon">
+    <iconset resource="../../resource.qrc">
+     <normaloff>:/ico/search</normaloff>:/ico/search</iconset>
+   </property>
+   <property name="text">
+    <string>Search</string>
+   </property>
+  </action>
+  <action name="actionSend">
+   <property name="icon">
+    <iconset resource="../../resource.qrc">
+     <normaloff>:/ico/send</normaloff>:/ico/send</iconset>
+   </property>
+   <property name="text">
+    <string>Send</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="icon">
+    <iconset resource="../../resource.qrc">
+     <normaloff>:/ico/information</normaloff>:/ico/information</iconset>
+   </property>
+   <property name="text">
+    <string>About</string>
    </property>
   </action>
  </widget>

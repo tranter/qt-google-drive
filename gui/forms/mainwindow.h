@@ -34,6 +34,8 @@ private slots:
     void slotAuthDialog(void);
     void slotAuthResponse(const QString &accessToken);
     void slotTokens(const QString &accessToken, const QString &refreshToken);
+    void slotStub();
+    void slotAbout();
 
 private:
     Auth *auth;

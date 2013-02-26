@@ -22,8 +22,8 @@ void Spacer::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event)
 
-#ifndef Q_OS_MAC
-    PainterHelper painterHelper(this);
-    painterHelper.drawFrame(rect(), QColor(61, 61, 61));
-#endif
+//#ifndef Q_OS_MAC
+//    PainterHelper painterHelper(this);
+//    painterHelper.drawFrame(rect(), QColor(61, 61, 61));
+//#endif
 }

@@ -33,11 +33,11 @@ void MainWindow::init(void)
     QTextCodec::setCodecForCStrings(QTextCodec::codecForLocale());
     QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
 
-    if(!CheckUI().checkReg())
-    {
-        CommonTools::msg(tr("The application is under development. Currently disabled to use.\nNo commercial use allowed."));
-        return;
-    }
+//    if(!CheckUI().checkReg())
+//    {
+//        CommonTools::msg(tr("The application is under development. Currently disabled to use.\nNo commercial use allowed."));
+//        return;
+//    }
 }
 
 void MainWindow::setConnections(void)
@@ -65,6 +65,11 @@ void MainWindow::setConnections(void)
     connect(SDriveEngine::inst()->getContentMngr(true)->self(), SIGNAL(signalAccessTokenRequired()), this, SLOT(slotAccessTokenRequired()));
     connect(SDriveEngine::inst()->getContentMngr(), SIGNAL(signalFirstPanelIsLoaded()), SDriveEngine::inst(), SLOT(slotFirstPanelIsLoaded()));
     connect(SOperationsManager::inst(), SIGNAL(signalAccountInfoReadyToUse()), this, SLOT(slotAccountInfoReadyToUse()));
+    connect(SUi::inst()->actionUpdate, SIGNAL(triggered()), this, SLOT(slotStub()));
+    connect(SUi::inst()->actionRecycleBin, SIGNAL(triggered()), this, SLOT(slotStub()));
+    connect(SUi::inst()->actionSend, SIGNAL(triggered()), this, SLOT(slotStub()));
+    connect(SUi::inst()->actionSearch, SIGNAL(triggered()), this, SLOT(slotStub()));
+    connect(SUi::inst()->actionAbout, SIGNAL(triggered()), this, SLOT(slotAbout()));
 }
 
 void MainWindow::slotAuthDialog(void)
@@ -77,6 +82,16 @@ void MainWindow::slotAuthDialog(void)
 void MainWindow::slotTokens(const QString &accessToken, const QString &refreshToken)
 {
     SOperationsManager::inst()->setAccountInfo(accessToken, refreshToken);
+}
+
+void MainWindow::slotStub()
+{
+    CommonTools::msg("Under re-construction with new API version. Will be soon.");
+}
+
+void MainWindow::slotAbout()
+{
+  CommonTools::msg("About");
 }
 
 void MainWindow::slotAccountInfoReadyToUse(void)

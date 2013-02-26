@@ -1,7 +1,7 @@
 #include "driveengine.h"
 #include "share/debug.h"
 #include "settings/settingsmanager.h"
-//#include "gui/controls/spacer.h"
+#include "gui/controls/spacer.h"
 #include <QMessageBox>
 #include <QHBoxLayout>
 #include <QSplitter>
@@ -19,7 +19,8 @@ DriveEngine::~DriveEngine()
 
 void DriveEngine::init(void)
 {    
-    //SUi::inst()->mainToolBar->addWidget(new Spacer);
+    SUi::inst()->mainToolBar->addWidget(new Spacer(SUi::inst()->centralWidget));
+    SUi::inst()->mainToolBar->addAction(SUi::inst()->actionAbout);
     SUi::inst()->shareButton->setVisible(false);
 
     QHBoxLayout *hBoxLayout = new QHBoxLayout(SUi::inst()->panelsWidget);
