@@ -334,6 +334,7 @@ color: rgb(255, 255, 255);</string>
    <addaction name="separator"/>
    <addaction name="actionSearch"/>
    <addaction name="actionSend"/>
+   <addaction name="separator"/>
    <addaction name="actionUpdate"/>
    <addaction name="separator"/>
    <addaction name="actionRecycleBin"/>
