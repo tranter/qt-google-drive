@@ -33,11 +33,13 @@ void MainWindow::init(void)
     QTextCodec::setCodecForCStrings(QTextCodec::codecForLocale());
     QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
 
-//    if(!CheckUI().checkReg())
-//    {
-//        CommonTools::msg(tr("The application is under development. Currently disabled to use.\nNo commercial use allowed."));
-//        return;
-//    }
+    if(!SettingsManager().isAnyAccount()) slotAuthDialog();
+
+    //    if(!CheckUI().checkReg())
+    //    {
+    //        CommonTools::msg(tr("The application is under development. Currently disabled to use.\nNo commercial use allowed."));
+    //        return;
+    //    }
 }
 
 void MainWindow::setConnections(void)
@@ -91,7 +93,7 @@ void MainWindow::slotStub()
 
 void MainWindow::slotAbout()
 {
-  CommonTools::msg("About");
+    CommonTools::msg("Google Drive Web File Manager\n\nIntegrated Computer Solutions, Inc.");
 }
 
 void MainWindow::slotAccountInfoReadyToUse(void)

@@ -102,7 +102,7 @@ width: 16px;</string>
           </property>
           <property name="icon">
            <iconset resource="../../resource.qrc">
-            <normaloff>:/ico/res/copy.png</normaloff>:/ico/res/copy.png</iconset>
+            <normaloff>:/ico/copy</normaloff>:/ico/copy</iconset>
           </property>
          </widget>
         </item>
@@ -134,7 +134,7 @@ width: 16px;</string>
           </property>
           <property name="icon">
            <iconset resource="../../resource.qrc">
-            <normaloff>:/ico/res/move.png</normaloff>:/ico/res/move.png</iconset>
+            <normaloff>:/ico/move</normaloff>:/ico/move</iconset>
           </property>
          </widget>
         </item>
@@ -198,7 +198,7 @@ width: 16px;</string>
           </property>
           <property name="icon">
            <iconset resource="../../resource.qrc">
-            <normaloff>:/ico/res/delete.png</normaloff>:/ico/res/delete.png</iconset>
+            <normaloff>:/ico/trash</normaloff>:/ico/trash</iconset>
           </property>
          </widget>
         </item>
@@ -230,7 +230,7 @@ width: 16px;</string>
           </property>
           <property name="icon">
            <iconset resource="../../resource.qrc">
-            <normaloff>:/ico/res/rename.png</normaloff>:/ico/res/rename.png</iconset>
+            <normaloff>:/ico/rename</normaloff>:/ico/rename</iconset>
           </property>
          </widget>
         </item>

@@ -7,17 +7,20 @@
     <x>0</x>
     <y>0</y>
     <width>441</width>
-    <height>104</height>
+    <height>117</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Settings</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
      <x>9</x>
-     <y>39</y>
+     <y>40</y>
      <width>71</width>
      <height>16</height>
     </rect>
@@ -29,9 +32,9 @@
   <widget class="QLineEdit" name="directoryLineEdit">
    <property name="geometry">
     <rect>
-     <x>101</x>
+     <x>71</x>
      <y>40</y>
-     <width>251</width>
+     <width>281</width>
      <height>20</height>
     </rect>
    </property>
@@ -61,8 +64,8 @@
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>280</x>
-     <y>70</y>
+     <x>270</x>
+     <y>80</y>
      <width>156</width>
      <height>23</height>
     </rect>
@@ -79,7 +82,7 @@
     <rect>
      <x>9</x>
      <y>9</y>
-     <width>237</width>
+     <width>271</width>
      <height>16</height>
     </rect>
    </property>
@@ -87,11 +90,32 @@
     <locale language="English" country="UnitedStates"/>
    </property>
    <property name="text">
-    <string>Please set working directory for downloading files:</string>
+    <string>Please specify working directory for downloading files:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>70</y>
+     <width>141</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="../../resource.qrc">:/ico/logotext</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../resource.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

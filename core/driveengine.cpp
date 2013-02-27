@@ -7,6 +7,7 @@
 #include <QSplitter>
 #include <QDir>
 #include <QPushButton>
+#include <QPicture>
 
 DriveEngine::DriveEngine(QWidget *p) :
     parent(p)
@@ -18,7 +19,7 @@ DriveEngine::~DriveEngine()
 }
 
 void DriveEngine::init(void)
-{    
+{
     SUi::inst()->mainToolBar->addWidget(new Spacer(SUi::inst()->centralWidget));
     SUi::inst()->mainToolBar->addAction(SUi::inst()->actionAbout);
     SUi::inst()->shareButton->setVisible(false);
@@ -51,6 +52,7 @@ void DriveEngine::init(void)
     connect(filesViews[ERight], SIGNAL(signalAccountChanged(int, const QString&)), SLOT(slotAccountChanged(int, const QString&)));
 
     if(SettingsManager().isAnyAccount()) updatePanel(ELeft, true);
+    if(!SettingsManager().isWorkDirSet()) checkUI->slotCheckWorkDir(true);
 }
 
 FilePanel* DriveEngine::getFilePanel(int panel) const
