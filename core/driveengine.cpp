@@ -62,7 +62,7 @@ FilePanel* DriveEngine::getFilePanel(int panel) const
 
 ContentManager* DriveEngine::getContentMngr(bool opposite) const
 {
-    ContentManager* cm;
+    ContentManager* cm = NULL;
     EPanels currentPanel = static_cast<EPanels> (SettingsManager().currentPanel());
 
     if(currentPanel == ELeft)
