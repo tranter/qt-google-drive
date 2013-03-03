@@ -28,6 +28,7 @@ NetworkManager::~NetworkManager()
 void NetworkManager::slotReplyReadyRead()
 {
     replyStr.append(reply->readAll());
+    DEBUG << "!!!!!!!!!!!!!!!!!!!!!" << replyStr;
 }
 
 void NetworkManager::slotError(QNetworkReply::NetworkError error)

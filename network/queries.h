@@ -19,9 +19,10 @@ public:
     QByteArray getRenameFileData(const QString &newName);
     QUrl constructRenameFileUrl(const QString &sourceName);
     QByteArray getCreateFolderData(const QString &name, const QString &folderUrl);
-    QUrl constructCreateFolderUrl(void);
+    QUrl constructCreateFolderUrl();
     QUrl constructDeleteFileUrl(const QString &sourceName);
     QString construcChildrenUrl(const QString &Id);
+    QString fullContent();
 
 private:
    QString urlStartPart;

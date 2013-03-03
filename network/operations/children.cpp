@@ -2,6 +2,7 @@
 #include "settings/settingsmanager.h"
 #include "parsers/jsonparser.h"
 #include "share/debug.h"
+#include "share/commontools.h"
 
 Children::Children(QObject *parent) :
     NetworkManager(parent)
@@ -11,14 +12,20 @@ Children::Children(QObject *parent) :
 void Children::fetch(const Items::Data &source)
 {
     queries.setRawHeader(SettingsManager().accessToken(), request);
-    getRequest(queries.construcChildrenUrl(QString("0B_pGaTf6anqmMV93Q2FBS1RaT0U")));
+    DEBUG << "SettingsManager().accessToken()" << SettingsManager().accessToken();
+
+    //getRequest(queries.construcChildrenUrl(QString("root")));
+    getRequest(queries.fullContent());
 }
 
 void Children::slotReplyFinished(QNetworkReply* reply)
 {           
-//    DEBUG << "==========================================================================================================================\n";
-//    DEBUG << replyStr;
-//    DEBUG << "==========================================================================================================================\n";
+    DEBUG << "==========================================================================================================================\n";
+    DEBUG << replyStr;
+    DEBUG << "==========================================================================================================================\n";
+
+    QString fileName ("output");
+    CommonTools::logToFile(fileName, replyStr.toAscii());
 
     //    JSONParser jParser;
     //    QStringList pathValues;

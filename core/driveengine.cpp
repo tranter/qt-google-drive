@@ -18,7 +18,7 @@ DriveEngine::~DriveEngine()
 {
 }
 
-void DriveEngine::init(void)
+void DriveEngine::init()
 {
     SUi::inst()->mainToolBar->addWidget(new Spacer(SUi::inst()->centralWidget));
     SUi::inst()->mainToolBar->addAction(SUi::inst()->actionAbout);
@@ -102,7 +102,14 @@ void DriveEngine::updatePanel(int panelNum, bool initLoad)
     getFilePanel(panelNum)->fillComboBox(settingsManager.accountsWithLetters(), settingsManager.currentAccount(panelNum));
 }
 
-void DriveEngine::slotFirstPanelIsLoaded(void)
+bool DriveEngine::isPanelContentIdentical()
+{
+    bool is = false;
+
+    return is;
+}
+
+void DriveEngine::slotFirstPanelIsLoaded()
 {
     updatePanel(ERight, false);
 }
@@ -118,22 +125,22 @@ void DriveEngine::slotAccountChanged(int panelNum, const QString &accountName)
     }
 }
 
-CheckUI* DriveEngine::getCheckUI(void) const
+CheckUI* DriveEngine::getCheckUI() const
 {
     return checkUI.data();
 }
 
-ContentUI* DriveEngine::getContentUI(void) const
+ContentUI* DriveEngine::getContentUI() const
 {
     return contentUI.data();
 }
 
-FilesTransferUI* DriveEngine::getfilesTransferUI(void) const
+FilesTransferUI* DriveEngine::getfilesTransferUI() const
 {
     return filesTransferUI.data();
 }
 
-QWidget* DriveEngine::getParent(void) const
+QWidget* DriveEngine::getParent() const
 {
     return parent;
 }

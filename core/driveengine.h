@@ -27,17 +27,18 @@ public:
     friend class ContentUI;
 
 public:   
-    CheckUI *getCheckUI(void) const;
+    CheckUI *getCheckUI() const;
     ContentManager *getContentMngr(bool opposite = false) const;
-    FilesTransferUI *getfilesTransferUI(void) const;
-    ContentUI *getContentUI(void) const;
-    QWidget *getParent(void) const;
-    void init(void);
+    FilesTransferUI *getfilesTransferUI() const;
+    ContentUI *getContentUI() const;
+    QWidget *getParent() const;
+    void init();
     FilePanel *getFilePanel(int panel) const;
     void updatePanel(int panelId, bool initLoad);
+    bool isPanelContentIdentical();
 
 private slots:
-    void slotFirstPanelIsLoaded(void);
+    void slotFirstPanelIsLoaded();
     void slotAccountChanged(int panelNum, const QString& accountName);   
 
 private:

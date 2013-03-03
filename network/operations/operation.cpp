@@ -8,6 +8,10 @@ Operation::Operation()
 
 void Operation::updatePanelContent(bool opposite)
 {
-    ContentManager* cm(SDriveEngine::inst()->getContentMngr(opposite));
+    ContentManager* cm = SDriveEngine::inst()->getContentMngr(opposite);
     cm->get(cm->getParentFolderUrl());
+
+    //if()
+    //cm = SDriveEngine::inst()->getContentMngr(!opposite);
+    //cm->get(cm->getParentFolderUrl());
 }

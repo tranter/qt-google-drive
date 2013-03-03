@@ -1,6 +1,7 @@
 #include "queries.h"
 #include "share/commontools.h"
 #include "settings/settingsmanager.h"
+#include "share/debug.h"
 #include <QString>
 
 Queries::Queries() :
@@ -46,7 +47,7 @@ QByteArray Queries::getCreateFolderData( const QString &name, const QString &fol
     return QString("{\"title\": \"%1\",\"parents\": [{\"id\": \"%2\"}],\"mimeType\": \"application/vnd.google-apps.folder\"}").arg(name).arg(CommonTools::getIDFromURL(folderUrl)).toAscii();
 }
 
-QUrl Queries::constructCreateFolderUrl(void)
+QUrl Queries::constructCreateFolderUrl()
 {
     return QUrl(urlStartPart + QString("files"));
 }
@@ -58,6 +59,14 @@ QUrl Queries::constructDeleteFileUrl(const QString &sourceName)
 
 QString Queries::construcChildrenUrl(const QString &Id)
 {
-    return QString(urlStartPart + QString("files/") + Id + QString("/children"));
+    //return QString(urlStartPart + QString("files?q=\"") + Id + QString("\" in parents"));
+    return QString(urlStartPart + QString("files"));
+    //return QString(urlStartPart + QString("files/") + Id + QString("/children"));
 }
+
+QString Queries::fullContent()
+{
+    return QString(urlStartPart + QString("files"));
+}
+
 
