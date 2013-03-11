@@ -102,15 +102,27 @@ void DriveEngine::updatePanel(int panelNum, bool initLoad)
     getFilePanel(panelNum)->fillComboBox(settingsManager.accountsWithLetters(), settingsManager.currentAccount(panelNum));
 }
 
-bool DriveEngine::isPanelContentIdentical()
+bool DriveEngine::isPanelsContentIdentical()
 {
+    SettingsManager settingsManager;
     bool is = false;
+
+    if(settingsManager.currentAccount(0) == settingsManager.currentAccount(1))
+    {
+      if(settingsManager.currentFolderURL(0) == settingsManager.currentFolderURL(1))
+      {
+         is = true;
+      }
+    }
+
+    DEBUG << is;
 
     return is;
 }
 
 void DriveEngine::slotFirstPanelIsLoaded()
 {
+    DEBUG;
     updatePanel(ERight, false);
 }
 

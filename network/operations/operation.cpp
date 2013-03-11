@@ -11,7 +11,12 @@ void Operation::updatePanelContent(bool opposite)
     ContentManager* cm = SDriveEngine::inst()->getContentMngr(opposite);
     cm->get(cm->getParentFolderUrl());
 
-    //if()
-    //cm = SDriveEngine::inst()->getContentMngr(!opposite);
-    //cm->get(cm->getParentFolderUrl());
+    DEBUG << "!!!!!!!!!!";
+
+    if(SDriveEngine::inst()->isPanelsContentIdentical())
+    {
+      DEBUG << "???????????????";
+      cm = SDriveEngine::inst()->getContentMngr(!opposite);
+      cm->get(cm->getParentFolderUrl());
+    }
 }

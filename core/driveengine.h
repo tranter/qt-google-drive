@@ -35,7 +35,7 @@ public:
     void init();
     FilePanel *getFilePanel(int panel) const;
     void updatePanel(int panelId, bool initLoad);
-    bool isPanelContentIdentical();
+    bool isPanelsContentIdentical();
 
 private slots:
     void slotFirstPanelIsLoaded();
