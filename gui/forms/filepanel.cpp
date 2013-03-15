@@ -5,7 +5,9 @@
 #include "gui/controls/spacer.h"
 #include "settings/settingsmanager.h"
 #include "core/driveengine.h"
+#include <QDir>
 #include  <QApplication>
+//#include  <QFontMetrics>
 
 FilePanel::FilePanel(int pn, QWidget *parent) :
     QWidget(parent),
@@ -55,7 +57,7 @@ void FilePanel::slotAccountsComboBoxActivated(const QString &text)
     if(settingsManager.currentAccount(panelNum) != accountName)
     {
         settingsManager.setCurrentAccount(panelNum, accountName);
-        SDriveEngine::inst()->updatePanel(panelNum, false);
+        update();
     }
 }
 
@@ -72,16 +74,6 @@ QTreeWidget *FilePanel::getFileView(void) const
 QLabel *FilePanel::getPathLabel(void) const
 {
     return ui->pathLabel;
-}
-
-ToolBar *FilePanel::getAccountsToolBar(void) const
-{
-    return accountsToolBar;
-}
-
-ComboBox *FilePanel::getAccountsComboBox(void) const
-{
-    return accountsComboBox;
 }
 
 void FilePanel::fillComboBox(QMap<QString, QString> accountsMap, const QString &currentAccount)
@@ -109,8 +101,26 @@ void FilePanel::fillComboBox(QMap<QString, QString> accountsMap, const QString &
     accountsComboBox->setMinimumWidth(80);
 }
 
-int FilePanel::getpanelNum(void) const
+void FilePanel::update()
 {
-    return panelNum;
+    SettingsManager settingsManager;
+    QString disc;
+    QString accountName(settingsManager.currentAccount(panelNum));
+    //QFontMetrics accountsComboBoxFontMetrics(accountsComboBox->font());
+
+    settingsManager.setCurrentPanel(panelNum);
+
+    disc = settingsManager.accountDisc(accountName);
+    disc += QString(":");
+    disc += QDir::toNativeSeparators("/");
+
+    ui->pathLabel->setText(disc + settingsManager.currentFolderPath(panelNum));
+    accountsComboBox->setToolTip("Email: " + accountName + "\nName: " + settingsManager.name(accountName));
+
+    SDriveEngine::inst()->getContentMngr()->setPathesURLs(settingsManager.pathesURLs(panelNum));
+    SDriveEngine::inst()->getContentMngr()->setPanel(ui->fileView, panelNum);
+    SDriveEngine::inst()->getContentMngr()->get(settingsManager.currentFolderURL(panelNum));
+
+    fillComboBox(settingsManager.accountsWithLetters(), accountName);
 }
 

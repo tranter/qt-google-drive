@@ -48,7 +48,7 @@ private:
     QScopedPointer<FilesTransferUI> filesTransferUI;
     QScopedPointer<ContentUI> contentUI;
     QScopedPointer<UploadFileManager> uploadFileMngr;
-    FilePanel *filesViews[EPanelsCount];
+    FilePanel *filePanels[EPanelsCount];
 };
 
 typedef TSingleton<DriveEngine> SDriveEngine;

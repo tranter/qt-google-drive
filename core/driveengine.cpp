@@ -27,16 +27,16 @@ void DriveEngine::init()
     QHBoxLayout *hBoxLayout = new QHBoxLayout(SUi::inst()->panelsWidget);
     QSplitter *hSplitter = new QSplitter(Qt::Horizontal, SUi::inst()->panelsWidget);
 
-    filesViews[ELeft] = new FilePanel(ELeft);
-    filesViews[ERight] = new FilePanel(ERight);
+    filePanels[ELeft] = new FilePanel(ELeft);
+    filePanels[ERight] = new FilePanel(ERight);
 
     hBoxLayout->setContentsMargins(0, 0, 0, 0);
     hBoxLayout->addWidget(hSplitter);
 
     hSplitter->setHandleWidth(1);
 
-    hSplitter->addWidget(filesViews[ELeft]);
-    hSplitter->addWidget(filesViews[ERight]);
+    hSplitter->addWidget(filePanels[ELeft]);
+    hSplitter->addWidget(filePanels[ERight]);
 
     for(int i = 0; i < EPanelsCount; ++i)
     {
@@ -54,7 +54,7 @@ void DriveEngine::init()
 
 FilePanel* DriveEngine::getFilePanel(int panel) const
 {
-    return filesViews[panel];
+    return filePanels[panel];
 }
 
 ContentManager* DriveEngine::getContentMngr(bool opposite) const
@@ -78,25 +78,9 @@ ContentManager* DriveEngine::getContentMngr(bool opposite) const
 }
 
 void DriveEngine::updatePanel(int panelNum, bool initLoad)
-{
-    SettingsManager settingsManager;
-    EPanels panelId = static_cast <EPanels> (panelNum);
-    QString disc;
-
-    settingsManager.setInitialLoading(initLoad);
-    settingsManager.setCurrentPanel(panelNum);
-
-    disc = settingsManager.accountDisc(settingsManager.currentAccount(panelNum));
-    disc += QString(":");
-    disc += QDir::toNativeSeparators("/");
-
-    contentUI->getPanelLabel(panelId)->setText(disc + settingsManager.currentFolderPath(panelNum));
-    getContentMngr()->setPathesURLs(settingsManager.pathesURLs(panelNum));
-
-    contentMngr[panelNum]->setPanel(filesViews[panelNum]->getFileView(), filesViews[panelNum]->getpanelNum());
-    contentMngr[panelNum]->get(settingsManager.currentFolderURL(panelNum));
-
-    getFilePanel(panelNum)->fillComboBox(settingsManager.accountsWithLetters(), settingsManager.currentAccount(panelNum));
+{  
+    SettingsManager().setInitialLoading(initLoad);
+    filePanels[panelNum]->update();
 }
 
 bool DriveEngine::isPanelsContentIdentical()

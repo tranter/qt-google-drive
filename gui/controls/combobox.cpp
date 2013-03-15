@@ -12,6 +12,7 @@ ComboBox::ComboBox(int w, int h, QWidget *parent):
 void ComboBox::resizeEvent(QResizeEvent * e)
 {
     setGeometry(0, 1, width, height);
+    setFixedWidth(width);
     QComboBox:: resizeEvent(e);
 }
 
@@ -23,9 +24,7 @@ void ComboBox::hidePopup(void)
 
 void ComboBox::init(void)
 {
-    setMaximumWidth(290);
     setCursor(Qt::PointingHandCursor);
-
     setFrame(false);
 
     setStyleSheet(QString("%1%2%3%4%5%6%7%8%9")
