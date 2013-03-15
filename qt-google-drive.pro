@@ -11,8 +11,8 @@ CONFIG(release, debug|release):DEFINES += QT_NO_DEBUG_OUTPUT
 TARGET = gdfm
 TEMPLATE = app
 
-SOURCES += core/main.cpp \
-    gui/controls/toolbutton.cpp
+SOURCES += core/main.cpp
+SOURCES += gui/controls/toolbutton.cpp
 SOURCES += network/operations/children.cpp
 SOURCES += network/operations/operation.cpp
 SOURCES += network/operations/download.cpp
@@ -55,8 +55,8 @@ SOURCES += gui/controls/combobox.cpp
 SOURCES += gui/controls/spacer.cpp
 SOURCES += gui/tools/painterhelper.cpp
 
-HEADERS += gui/forms/mainwindow.h \
-    gui/controls/toolbutton.h
+HEADERS += gui/forms/mainwindow.h
+HEADERS += gui/controls/toolbutton.h
 HEADERS += network/operations/children.h
 HEADERS += network/operations/operation.h
 HEADERS += network/operations/download.h
