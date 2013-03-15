@@ -6,6 +6,7 @@
 #include <QLabel>
 #include "gui/controls/toolbar.h"
 #include "gui/controls/combobox.h"
+#include "gui/controls/toolbutton.h"
 
 namespace Ui {
 class FilePanel;
@@ -19,11 +20,9 @@ public:
     explicit FilePanel(int pn, QWidget *parent = 0);
     ~FilePanel();
 
-signals:
-    void signalAccountChanged(int panelNum, const QString& accountName);
-
 private slots:
-    void slotActivated(const QString& text);
+    void slotAccountsComboBoxActivated(const QString &text);
+    void slotComputerDrivesButtonClicked();
 
 public:
     QTreeWidget *getFileView(void) const;
@@ -40,6 +39,7 @@ private:
     Ui::FilePanel *ui;
     ToolBar *accountsToolBar;
     ComboBox *accountsComboBox;
+    QToolButton *computerDrivesButton;
     int panelNum;
 };
 

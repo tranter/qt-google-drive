@@ -28,7 +28,6 @@ NetworkManager::~NetworkManager()
 void NetworkManager::slotReplyReadyRead()
 {
     replyStr.append(reply->readAll());
-    DEBUG << "!!!!!!!!!!!!!!!!!!!!!" << replyStr;
 }
 
 void NetworkManager::slotError(QNetworkReply::NetworkError error)
@@ -112,7 +111,7 @@ void NetworkManager::slotPostFinished(QNetworkReply* reply)
 }
 
 void NetworkManager::getRequest(const QString &url)
-{
+{ 
     init();
 
     request.setUrl(QUrl(url));

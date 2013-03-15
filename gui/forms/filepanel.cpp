@@ -2,6 +2,9 @@
 #include "ui_filepanel.h"
 #include "share/defs.h"
 #include "share/debug.h"
+#include "gui/controls/spacer.h"
+#include "settings/settingsmanager.h"
+#include "core/driveengine.h"
 #include  <QApplication>
 
 FilePanel::FilePanel(int pn, QWidget *parent) :
@@ -26,9 +29,14 @@ void FilePanel::init(void)
     ui->verticalLayout->insertWidget(0, accountsToolBar);
 
     accountsComboBox = new ComboBox;
-    accountsToolBar->addWidget(accountsComboBox);
+    computerDrivesButton = new ToolButton;
 
-    connect(accountsComboBox, SIGNAL(activated(const QString&)), SLOT(slotActivated(const QString&)));
+    accountsToolBar->addWidget(accountsComboBox);
+    accountsToolBar->addWidget(new Spacer(this));
+    accountsToolBar->addWidget(computerDrivesButton);
+
+    connect(accountsComboBox, SIGNAL(activated(const QString&)), SLOT(slotAccountsComboBoxActivated(const QString&)));
+    connect(computerDrivesButton, SIGNAL(clicked()), SLOT(slotComputerDrivesButtonClicked()));
 }
 
 FilePanel::~FilePanel()
@@ -36,12 +44,24 @@ FilePanel::~FilePanel()
     delete ui;
 }
 
-void FilePanel::slotActivated(const QString &text)
+void FilePanel::slotAccountsComboBoxActivated(const QString &text)
 {
     int beginPos = text.indexOf(ACCOUNT_SEPARATOR_BEGIN) + ACCOUNT_SEPARATOR_BEGIN.length();
     int length = text.lastIndexOf(ACCOUNT_SEPARATOR_END) - beginPos;
 
-    emit signalAccountChanged(panelNum, text.mid(beginPos, length));
+    QString accountName(text.mid(beginPos, length));
+    SettingsManager settingsManager;
+
+    if(settingsManager.currentAccount(panelNum) != accountName)
+    {
+        settingsManager.setCurrentAccount(panelNum, accountName);
+        SDriveEngine::inst()->updatePanel(panelNum, false);
+    }
+}
+
+void FilePanel::slotComputerDrivesButtonClicked()
+{
+     DEBUG << "panelNum" << panelNum << " state" << computerDrivesButton->isChecked();
 }
 
 QTreeWidget *FilePanel::getFileView(void) const
@@ -78,7 +98,7 @@ void FilePanel::fillComboBox(QMap<QString, QString> accountsMap, const QString &
         discLetter = discLetter.leftJustified(6, ' ');
 
         accountsComboBox->addItem(discLetter + ACCOUNT_SEPARATOR_BEGIN + accountsMap[keys[i]] + ACCOUNT_SEPARATOR_END);
-        accountsComboBox->setItemIcon(i, QIcon(QApplication::style()->standardIcon(QStyle::QStyle::SP_DriveFDIcon)));
+        accountsComboBox->setItemIcon(i, QIcon(QApplication::style()->standardIcon(QStyle::SP_DriveFDIcon)));
 
         if(currentAccount == accountsMap[keys[i]] && accountsComboBox->currentIndex() != i)
         {

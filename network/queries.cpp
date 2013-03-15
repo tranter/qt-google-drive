@@ -60,13 +60,19 @@ QUrl Queries::constructDeleteFileUrl(const QString &sourceName)
 QString Queries::construcChildrenUrl(const QString &Id)
 {
     //return QString(urlStartPart + QString("files?q=\"") + Id + QString("\" in parents"));
-    return QString(urlStartPart + QString("files"));
-    //return QString(urlStartPart + QString("files/") + Id + QString("/children"));
+    //return QString(urlStartPart + QString("files"));
+   return QString(urlStartPart + QString("files/") + Id);
 }
 
 QString Queries::fullContent()
 {
     return QString(urlStartPart + QString("files"));
+}
+
+QString Queries::trashContent()
+{
+    //return QString(urlStartPart + QString("files?q=mimeType != 'application/vnd.google-apps.folder' and trashed = true"));
+   return QString(urlStartPart + QString("files?q=trashed = true"));
 }
 
 

@@ -48,9 +48,6 @@ void DriveEngine::init()
     filesTransferUI.reset(new FilesTransferUI);
     contentUI.reset(new ContentUI);
 
-    connect(filesViews[ELeft], SIGNAL(signalAccountChanged(int, const QString&)), SLOT(slotAccountChanged(int, const QString&)));
-    connect(filesViews[ERight], SIGNAL(signalAccountChanged(int, const QString&)), SLOT(slotAccountChanged(int, const QString&)));
-
     if(SettingsManager().isAnyAccount()) updatePanel(ELeft, true);
     if(!SettingsManager().isWorkDirSet()) checkUI->slotCheckWorkDir(true);
 }
@@ -122,19 +119,7 @@ bool DriveEngine::isPanelsContentIdentical()
 
 void DriveEngine::slotFirstPanelIsLoaded()
 {
-    DEBUG;
     updatePanel(ERight, false);
-}
-
-void DriveEngine::slotAccountChanged(int panelNum, const QString &accountName)
-{
-    SettingsManager settingsManager;
-
-    if(settingsManager.currentAccount(panelNum) != accountName)
-    {
-        settingsManager.setCurrentAccount(panelNum, accountName);
-        updatePanel(panelNum, false);
-    }
 }
 
 CheckUI* DriveEngine::getCheckUI() const

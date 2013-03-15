@@ -14,8 +14,10 @@ void Children::fetch(const Items::Data &source)
     queries.setRawHeader(SettingsManager().accessToken(), request);
     DEBUG << "SettingsManager().accessToken()" << SettingsManager().accessToken();
 
-    //getRequest(queries.construcChildrenUrl(QString("root")));
-    getRequest(queries.fullContent());
+    getRequest(queries.construcChildrenUrl(QString("0B_pGaTf6anqmb00xbTdTVWtMQzQ")));
+    DEBUG << "------------------->" << queries.construcChildrenUrl(QString("0B_pGaTf6anqmb00xbTdTVWtMQzA"));
+    //getRequest(queries.fullContent());
+    //getRequest(queries.trashContent());
 }
 
 void Children::slotReplyFinished(QNetworkReply* reply)
@@ -24,7 +26,7 @@ void Children::slotReplyFinished(QNetworkReply* reply)
     DEBUG << replyStr;
     DEBUG << "==========================================================================================================================\n";
 
-    QString fileName ("output");
+    QString fileName ("output.txt");
     CommonTools::logToFile(fileName, replyStr.toAscii());
 
     //    JSONParser jParser;

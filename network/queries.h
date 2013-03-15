@@ -23,6 +23,7 @@ public:
     QUrl constructDeleteFileUrl(const QString &sourceName);
     QString construcChildrenUrl(const QString &Id);
     QString fullContent();
+    QString trashContent();
 
 private:
    QString urlStartPart;

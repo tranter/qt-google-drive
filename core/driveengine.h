@@ -39,7 +39,6 @@ public:
 
 private slots:
     void slotFirstPanelIsLoaded();
-    void slotAccountChanged(int panelNum, const QString& accountName);   
 
 private:
     QWidget *parent;
