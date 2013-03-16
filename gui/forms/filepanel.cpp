@@ -6,8 +6,8 @@
 #include "settings/settingsmanager.h"
 #include "core/driveengine.h"
 #include <QDir>
-#include  <QApplication>
-//#include  <QFontMetrics>
+#include <QApplication>
+#include <QFont>
 
 FilePanel::FilePanel(int pn, QWidget *parent) :
     QWidget(parent),
@@ -20,6 +20,8 @@ FilePanel::FilePanel(int pn, QWidget *parent) :
 void FilePanel::init(void)
 {
     ui->setupUi(this);
+
+    ui->pathLabel->setFixedHeight(18);
 
     ui->fileView->header()->setClickable(true);
 
@@ -37,6 +39,36 @@ void FilePanel::init(void)
     accountsToolBar->addWidget(new Spacer(this));
     accountsToolBar->addWidget(computerDrivesButton);
 
+    QStringList columnNames;
+    columnNames << tr("Name")
+                <<  tr("Size")
+                #ifdef Q_OS_MAC
+                 << tr("Kind")
+                #else
+                 << tr("Type")
+                #endif
+                 << "Date Modified";
+
+    fileSystemModel.reset(new FileSystemModel(columnNames));
+    computerDrivesView.reset(new QTreeView);
+    ui->verticalLayout->addWidget(computerDrivesView.data());
+
+    QFont font(ui->fileView->font());
+    font.setBold(true);
+
+    computerDrivesView->hide();
+
+    computerDrivesView->setModel(fileSystemModel.data());
+    computerDrivesView->setFont(font);
+    computerDrivesView->setColumnWidth(0, 220);
+    computerDrivesView->setSortingEnabled(true);
+    computerDrivesView->sortByColumn(0, Qt::AscendingOrder);
+    computerDrivesView->setRootIsDecorated(false);
+    computerDrivesView->setCursor(Qt::PointingHandCursor);
+    //computerDrivesView->setIconSize(QSize(32,32));
+
+    connect(computerDrivesView.data(), SIGNAL(clicked(const QModelIndex&)), this, SLOT(slotComputerDrivesViewClicked(const QModelIndex&)));
+    connect(computerDrivesView.data(), SIGNAL(doubleClicked(const QModelIndex&)), this, SLOT(slotComputerDrivesViewDoubleClicked(const QModelIndex&)));
     connect(accountsComboBox, SIGNAL(activated(const QString&)), SLOT(slotAccountsComboBoxActivated(const QString&)));
     connect(computerDrivesButton, SIGNAL(clicked()), SLOT(slotComputerDrivesButtonClicked()));
 }
@@ -63,7 +95,50 @@ void FilePanel::slotAccountsComboBoxActivated(const QString &text)
 
 void FilePanel::slotComputerDrivesButtonClicked()
 {
-     DEBUG << "panelNum" << panelNum << " state" << computerDrivesButton->isChecked();
+    DEBUG << "panelNum" << panelNum << " state" << computerDrivesButton->isChecked();
+
+    if(computerDrivesButton->isChecked())
+    {
+        ui->fileView->hide();
+        computerDrivesView->show();
+    }
+    else
+    {
+        ui->fileView->show();
+        computerDrivesView->hide();
+    }
+}
+
+void FilePanel::slotComputerDrivesViewClicked(const QModelIndex &index)
+{
+    DEBUG << fileSystemModel->filePath(index);
+    insertBackToParentRow();
+}
+
+void FilePanel::slotComputerDrivesViewDoubleClicked(const QModelIndex &index)
+{
+    if(fileSystemModel->isDir(index))
+        computerDrivesView->setRootIndex(fileSystemModel->index(fileSystemModel->filePath(index)));
+}
+
+void FilePanel::insertBackToParentRow()
+{
+    QModelIndex index = computerDrivesView->selectionModel()->currentIndex();
+    QAbstractItemModel *model = computerDrivesView->model();
+
+    if(!model->insertRow(index.row() + 1, index.parent()))
+    {
+        DEBUG << "!model->insertRow";
+        DEBUG << "index.row()" << index.row();
+        DEBUG << "index.parent()" << index.parent().parent();
+        return;
+    }
+
+    for (int column = 0; column < model->columnCount(index.parent()); ++column)
+    {
+        QModelIndex child = model->index(index.row() + 1, column, index.parent());
+        model->setData(child, QVariant("[No data]"), Qt::EditRole);
+    }
 }
 
 QTreeWidget *FilePanel::getFileView(void) const
@@ -94,9 +169,9 @@ void FilePanel::fillComboBox(QMap<QString, QString> accountsMap, const QString &
 
         if(currentAccount == accountsMap[keys[i]] && accountsComboBox->currentIndex() != i)
         {
-          accountsComboBox->setCurrentIndex(i);
+            accountsComboBox->setCurrentIndex(i);
         }
-    }  
+    }
 
     accountsComboBox->setMinimumWidth(80);
 }
@@ -106,7 +181,6 @@ void FilePanel::update()
     SettingsManager settingsManager;
     QString disc;
     QString accountName(settingsManager.currentAccount(panelNum));
-    //QFontMetrics accountsComboBoxFontMetrics(accountsComboBox->font());
 
     settingsManager.setCurrentPanel(panelNum);
 

@@ -13,6 +13,7 @@ TEMPLATE = app
 
 SOURCES += core/main.cpp
 SOURCES += gui/controls/toolbutton.cpp
+SOURCES += tools/filesystemmodel.cpp
 SOURCES += network/operations/children.cpp
 SOURCES += network/operations/operation.cpp
 SOURCES += network/operations/download.cpp
@@ -57,6 +58,7 @@ SOURCES += gui/tools/painterhelper.cpp
 
 HEADERS += gui/forms/mainwindow.h
 HEADERS += gui/controls/toolbutton.h
+HEADERS += tools/filesystemmodel.h
 HEADERS += network/operations/children.h
 HEADERS += network/operations/operation.h
 HEADERS += network/operations/download.h

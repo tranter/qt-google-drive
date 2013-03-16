@@ -163,6 +163,13 @@ color: rgb(255, 255, 255);</string>
       <property name="text">
        <string>Owner</string>
       </property>
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+        <kerning>true</kerning>
+       </font>
+      </property>
      </column>
      <column>
       <property name="text">

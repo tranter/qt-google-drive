@@ -27,20 +27,18 @@ void ContentManager::get(const QString &url)
 
     CommonTools::setHeader(SettingsManager().accessToken(), request);
 
-    DEBUG << "getIDFromURL" << CommonTools::getIDFromURL(url);
-
     getRequest(url);
 }
 
 void ContentManager::slotReplyFinished(QNetworkReply* reply)
 {
-    CommonTools::logToFile(QString("ParserReply ") + ".txt", replyStr.toAscii());
+//    CommonTools::logToFile(QString("ParserReply ") + ".txt", replyStr.toAscii());
 
-    DEBUG << "<===============================================================================================================";
-    DEBUG << "replyStr" << replyStr;
-    DEBUG << "===============================================================================================================>";
+//    DEBUG << "<===============================================================================================================";
+//    DEBUG << "replyStr" << replyStr;
+//    DEBUG << "===============================================================================================================>";
 
-    DEBUG << "parseReply" <<  parseReply(replyStr);
+    parseReply(replyStr);
 
     if(!parser->getXMLHandler()->resDownloadingNow() && reply->error() != QNetworkReply::AuthenticationRequiredError)
     {

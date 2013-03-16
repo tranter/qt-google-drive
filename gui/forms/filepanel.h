@@ -7,6 +7,7 @@
 #include "gui/controls/toolbar.h"
 #include "gui/controls/combobox.h"
 #include "gui/controls/toolbutton.h"
+#include "tools/filesystemmodel.h"
 
 namespace Ui {
 class FilePanel;
@@ -23,12 +24,15 @@ public:
 private slots:
     void slotAccountsComboBoxActivated(const QString &text);
     void slotComputerDrivesButtonClicked();
+    void slotComputerDrivesViewClicked(const QModelIndex& index);
+    void slotComputerDrivesViewDoubleClicked(const QModelIndex& index);
 
 public:
     QTreeWidget *getFileView(void) const;
     QLabel *getPathLabel(void) const;
     void fillComboBox(QMap<QString, QString> accountsMap, const QString &currentAccount);
     void update();
+    void insertBackToParentRow();
 
 private:
     void init(void);
@@ -38,6 +42,8 @@ private:
     ToolBar *accountsToolBar;
     ComboBox *accountsComboBox;
     QToolButton *computerDrivesButton;
+    QScopedPointer<FileSystemModel> fileSystemModel;
+    QScopedPointer<QTreeView> computerDrivesView;
     int panelNum;
 };
 
