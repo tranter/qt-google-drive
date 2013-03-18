@@ -139,6 +139,26 @@ void FilePanel::insertBackToParentRow()
         QModelIndex child = model->index(index.row() + 1, column, index.parent());
         model->setData(child, QVariant("[No data]"), Qt::EditRole);
     }
+
+ //   QDir dir("\\");
+//    //dir.setFilter(QDir::Files | QDir::Hidden | QDir::NoSymLinks);
+//    //dir.setSorting(QDir::Size | QDir::Reversed);
+
+//    QFileInfoList list = dir.entryInfoList();
+//     //QFileInfoList list = dir.drives();
+
+//    QFileIconProvider fileIconProvider;
+
+//    for (int i = 0; i < list.size(); ++i)
+//    {
+//        QFileInfo fileInfo = list.at(i);
+
+//        QTreeWidgetItem *item = new QTreeWidgetItem(ui->treeWidget);
+
+//        item->setText(0, fileInfo.fileName());
+//        item->setIcon(0, fileIconProvider.icon(fileInfo));
+//        item->setText(1, QString::number(fileInfo.size()));
+//    }
 }
 
 QTreeWidget *FilePanel::getFileView(void) const
