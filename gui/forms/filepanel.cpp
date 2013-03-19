@@ -5,6 +5,7 @@
 #include "gui/controls/spacer.h"
 #include "settings/settingsmanager.h"
 #include "core/driveengine.h"
+//#include "gui/tools/fileiconprovider.h"
 #include <QDir>
 #include <QApplication>
 #include <QFont>
@@ -17,14 +18,20 @@ FilePanel::FilePanel(int pn, QWidget *parent) :
     init();
 }
 
+FilePanel::~FilePanel()
+{
+    delete ui;
+}
+
 void FilePanel::init(void)
 {
     ui->setupUi(this);
 
+    webContentMngr.reset(new WebContentManager);
+
     ui->pathLabel->setFixedHeight(18);
 
     ui->fileView->header()->setClickable(true);
-
     ui->fileView->header()->resizeSection(0, 250);
     ui->fileView->header()->resizeSection(1, 60);
     ui->fileView->header()->resizeSection(2, 150);
@@ -39,43 +46,48 @@ void FilePanel::init(void)
     accountsToolBar->addWidget(new Spacer(this));
     accountsToolBar->addWidget(computerDrivesButton);
 
-    QStringList columnNames;
-    columnNames << tr("Name")
-                <<  tr("Size")
-                #ifdef Q_OS_MAC
-                 << tr("Kind")
-                #else
-                 << tr("Type")
-                #endif
-                 << "Date Modified";
 
-    fileSystemModel.reset(new FileSystemModel(columnNames));
-    computerDrivesView.reset(new QTreeView);
-    ui->verticalLayout->addWidget(computerDrivesView.data());
+//        QStringList columnNames;
+//        columnNames << tr("Name")
+//                    <<  tr("Size")
+//                    #ifdef Q_OS_MAC
+//                     << tr("Kind")
+//                    #else
+//                     << tr("Type")
+//                    #endif
+//                     << "Date Modified";
 
-    QFont font(ui->fileView->font());
-    font.setBold(true);
+//        fileSystemModel.reset(new FileSystemModel(columnNames));
+//        computerDrivesView.reset(new QTreeView);
+//        ui->verticalLayout->addWidget(computerDrivesView.data());
 
-    computerDrivesView->hide();
+//        QFont font(ui->fileView->font());
+//        font.setBold(true);
 
-    computerDrivesView->setModel(fileSystemModel.data());
-    computerDrivesView->setFont(font);
-    computerDrivesView->setColumnWidth(0, 220);
-    computerDrivesView->setSortingEnabled(true);
-    computerDrivesView->sortByColumn(0, Qt::AscendingOrder);
-    computerDrivesView->setRootIsDecorated(false);
-    computerDrivesView->setCursor(Qt::PointingHandCursor);
-    //computerDrivesView->setIconSize(QSize(32,32));
+//        computerDrivesView->hide();
 
-    connect(computerDrivesView.data(), SIGNAL(clicked(const QModelIndex&)), this, SLOT(slotComputerDrivesViewClicked(const QModelIndex&)));
-    connect(computerDrivesView.data(), SIGNAL(doubleClicked(const QModelIndex&)), this, SLOT(slotComputerDrivesViewDoubleClicked(const QModelIndex&)));
+//        computerDrivesView->setModel(fileSystemModel.data());
+//        computerDrivesView->setFont(font);
+//        computerDrivesView->setColumnWidth(0, 220);
+//        computerDrivesView->setSortingEnabled(true);
+//        computerDrivesView->sortByColumn(0, Qt::AscendingOrder);
+//        computerDrivesView->setRootIsDecorated(false);
+//        computerDrivesView->setCursor(Qt::PointingHandCursor);
+//        computerDrivesView->setIconSize(QSize(32,32));
+//        connect(computerDrivesView.data(), SIGNAL(clicked(const QModelIndex&)), this, SLOT(slotComputerDrivesViewClicked(const QModelIndex&)));
+//        connect(computerDrivesView.data(), SIGNAL(doubleClicked(const QModelIndex&)), this, SLOT(slotComputerDrivesViewDoubleClicked(const QModelIndex&)));
+
     connect(accountsComboBox, SIGNAL(activated(const QString&)), SLOT(slotAccountsComboBoxActivated(const QString&)));
     connect(computerDrivesButton, SIGNAL(clicked()), SLOT(slotComputerDrivesButtonClicked()));
+    connect(ui->fileView, SIGNAL(itemPressed(QTreeWidgetItem*, int)), SLOT(slotItemPressed(QTreeWidgetItem*, int)));
+    connect(ui->fileView, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), SLOT(slotPanelItemDoubleClicked(QTreeWidgetItem*, int)));
+    connect(ui->fileView, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), SLOT(slotCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)));
+    connect(ui->fileView, SIGNAL(itemEntered(QTreeWidgetItem*, int)), SLOT(slotItemEntered(QTreeWidgetItem*, int)));
 }
 
-FilePanel::~FilePanel()
+WebContentManager* FilePanel::getWebContentMngr() const
 {
-    delete ui;
+  return webContentMngr.data();
 }
 
 void FilePanel::slotAccountsComboBoxActivated(const QString &text)
@@ -99,67 +111,26 @@ void FilePanel::slotComputerDrivesButtonClicked()
 
     if(computerDrivesButton->isChecked())
     {
-        ui->fileView->hide();
-        computerDrivesView->show();
+        //ui->fileView->hide();
+        //computerDrivesView->show();
     }
     else
     {
-        ui->fileView->show();
-        computerDrivesView->hide();
+        //ui->fileView->show();
+        //computerDrivesView->hide();
     }
 }
 
-void FilePanel::slotComputerDrivesViewClicked(const QModelIndex &index)
-{
-    DEBUG << fileSystemModel->filePath(index);
-    insertBackToParentRow();
-}
+//void FilePanel::slotComputerDrivesViewClicked(const QModelIndex &index)
+//{
+//    DEBUG << fileSystemModel->filePath(index);
+//}
 
-void FilePanel::slotComputerDrivesViewDoubleClicked(const QModelIndex &index)
-{
-    if(fileSystemModel->isDir(index))
-        computerDrivesView->setRootIndex(fileSystemModel->index(fileSystemModel->filePath(index)));
-}
-
-void FilePanel::insertBackToParentRow()
-{
-    QModelIndex index = computerDrivesView->selectionModel()->currentIndex();
-    QAbstractItemModel *model = computerDrivesView->model();
-
-    if(!model->insertRow(index.row() + 1, index.parent()))
-    {
-        DEBUG << "!model->insertRow";
-        DEBUG << "index.row()" << index.row();
-        DEBUG << "index.parent()" << index.parent().parent();
-        return;
-    }
-
-    for (int column = 0; column < model->columnCount(index.parent()); ++column)
-    {
-        QModelIndex child = model->index(index.row() + 1, column, index.parent());
-        model->setData(child, QVariant("[No data]"), Qt::EditRole);
-    }
-
- //   QDir dir("\\");
-//    //dir.setFilter(QDir::Files | QDir::Hidden | QDir::NoSymLinks);
-//    //dir.setSorting(QDir::Size | QDir::Reversed);
-
-//    QFileInfoList list = dir.entryInfoList();
-//     //QFileInfoList list = dir.drives();
-
-//    QFileIconProvider fileIconProvider;
-
-//    for (int i = 0; i < list.size(); ++i)
-//    {
-//        QFileInfo fileInfo = list.at(i);
-
-//        QTreeWidgetItem *item = new QTreeWidgetItem(ui->treeWidget);
-
-//        item->setText(0, fileInfo.fileName());
-//        item->setIcon(0, fileIconProvider.icon(fileInfo));
-//        item->setText(1, QString::number(fileInfo.size()));
-//    }
-}
+//void FilePanel::slotComputerDrivesViewDoubleClicked(const QModelIndex &index)
+//{
+//    if(fileSystemModel->isDir(index))
+//        computerDrivesView->setRootIndex(fileSystemModel->index(fileSystemModel->filePath(index)));
+//}
 
 QTreeWidget *FilePanel::getFileView(void) const
 {
@@ -211,10 +182,246 @@ void FilePanel::update()
     ui->pathLabel->setText(disc + settingsManager.currentFolderPath(panelNum));
     accountsComboBox->setToolTip("Email: " + accountName + "\nName: " + settingsManager.name(accountName));
 
-    SDriveEngine::inst()->getContentMngr()->setPathesURLs(settingsManager.pathesURLs(panelNum));
-    SDriveEngine::inst()->getContentMngr()->setPanel(ui->fileView, panelNum);
-    SDriveEngine::inst()->getContentMngr()->get(settingsManager.currentFolderURL(panelNum));
+    webContentMngr->setPathesURLs(settingsManager.pathesURLs(panelNum));
+    webContentMngr->setPanel(ui->fileView, panelNum);
+    webContentMngr->get(settingsManager.currentFolderURL(panelNum));
 
     fillComboBox(settingsManager.accountsWithLetters(), accountName);
 }
+
+void FilePanel::slotItemPressed(QTreeWidgetItem *item, int column)
+{
+    Q_UNUSED(column);
+    itemPressed(item);
+}
+
+void FilePanel::slotPanelItemDoubleClicked(QTreeWidgetItem *item, int column)
+{
+    Q_UNUSED(column);
+    itemDoubleClicked(item);
+}
+
+void FilePanel::slotCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
+{
+    currentItemChanged(current, previous);
+}
+
+void FilePanel::slotItemEntered(QTreeWidgetItem *item, int column)
+{
+    Q_UNUSED(column);
+    markItemWithMouseTracking(item);
+}
+
+int FilePanel::itemIndex(QTreeWidgetItem *item)
+{
+    int index = -1;
+
+    for(int i = 0; i < item->treeWidget()->topLevelItemCount(); ++i)
+    {
+        if(item == item->treeWidget()->topLevelItem(i))
+        {
+            index = i;
+            break;
+        }
+    }
+
+    return index;
+}
+
+void FilePanel::markItem(QTreeWidgetItem *item, bool noSwitch)
+{
+    if(hasItemParentSign(item)) return;
+
+    QBrush brush;
+
+    if(noSwitch) brush.setColor(Qt::red);
+    else brush.setColor(Qt::black);
+
+    if(item->foreground(0).color() == Qt::black) brush.setColor(Qt::red);
+
+    for(int i = 0; i < item->treeWidget()->columnCount(); ++i)
+    {
+        item->setForeground(i, brush);
+    }
+}
+
+void FilePanel::markItems(QTreeWidgetItem *current, QTreeWidgetItem *previous)
+{
+    int currentIndex = itemIndex(current);
+    int previousIndex = itemIndex(previous);
+    int beginIndex, endIndex;
+
+    if(currentIndex < previousIndex)
+    {
+        beginIndex = currentIndex;
+        endIndex = previousIndex;
+    }
+    else
+    {
+        beginIndex = previousIndex;
+        endIndex = currentIndex;
+    }
+
+    for(int i = beginIndex; i <= endIndex; ++i)
+    {
+        markItem(current->treeWidget()->topLevelItem(i), true);
+    }
+}
+
+void FilePanel::itemPressed(QTreeWidgetItem *item)
+{
+    SettingsManager().setCurrentPanel(panelNum);
+    mouseTracking = false;
+    markItemWithMousePress(item);
+}
+
+void FilePanel::itemDoubleClicked(QTreeWidgetItem *item)
+{
+    SettingsManager().setCurrentPanel(panelNum);
+    showFilesOnPanel(item);
+}
+
+void FilePanel::currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
+{
+    SettingsManager().setCurrentPanel(panelNum);
+
+    if(previous)
+    {
+        if(QApplication::mouseButtons() == Qt::LeftButton && QApplication::keyboardModifiers() == Qt::ShiftModifier) markItems(current, previous);
+    }
+}
+
+void FilePanel::markItemWithMouseTracking(QTreeWidgetItem *item)
+{
+    if(mouseTracking)
+    {
+        if(QApplication::mouseButtons() == Qt::RightButton) markItem(item);
+    }
+
+    mouseTracking = true;
+}
+
+void FilePanel::markItemWithMousePress(QTreeWidgetItem *item)
+{
+    if(QApplication::mouseButtons() == Qt::RightButton) markItem(item);
+    if(QApplication::mouseButtons() == Qt::LeftButton && QApplication::keyboardModifiers() == Qt::ControlModifier) markItem(item, true);
+}
+
+QList<int> FilePanel::getMarkedItemIds(QTreeWidget *treeWidget) const
+{
+    QList<int> markedItemIds;
+    int itemsCount = treeWidget->topLevelItemCount();
+    int shiftItemsValue = 0;
+
+    if(itemsCount > 0)
+    {
+        if(hasItemParentSign(treeWidget->topLevelItem(0))) shiftItemsValue = 1;
+    }
+
+    for(int i = 0; i < itemsCount; ++i)
+    {
+        if(treeWidget->topLevelItem(i)->foreground(0).color() == Qt::red) markedItemIds << (i - shiftItemsValue);
+    }
+
+    DEBUG << markedItemIds;
+
+    return markedItemIds;
+}
+
+bool FilePanel::hasItemParentSign(QTreeWidgetItem *item) const
+{
+    return item->data(0, Qt::DisplayRole).toString() == PARENT_FOLDER_SIGN;
+}
+
+void FilePanel::showFilesOnPanel(QTreeWidgetItem *item)
+{
+    const QString itemName(item->data(0, Qt::DisplayRole).toString());
+
+    if(hasItemParentSign(item))
+    {
+        performShowFiles(webContentMngr->back(), itemName, EBackward);
+    }
+    else
+    {
+        if(isFolder())
+        {
+            QString query(GET_FILES_IN_FOLDER);
+
+            query += CommonTools::getIDFromURL(webContentMngr->getCurrentItem().self);
+            query += (CONTENTS + MAX_RESULTS);
+
+            performShowFiles(query, itemName, EForward);
+        }
+    }
+}
+
+bool FilePanel::isFolder(void)
+{
+    return (webContentMngr->getCurrentItem().type == FOLDER_TYPE_STR);
+}
+
+void FilePanel::setCurrentPanelState(const QString &url)
+{
+    SettingsManager settingsManager;
+
+    settingsManager.setCurrentFolderURL(panelNum, url);
+
+    QString fullPath(ui->pathLabel->text());
+    int beginPos = fullPath.indexOf(QDir::toNativeSeparators("/")) + 1;
+    int length = fullPath.length() - beginPos;
+
+    settingsManager.setCurrentFolderPath(panelNum, fullPath.mid(beginPos, length));
+    settingsManager.setPathesURLs(panelNum, webContentMngr->getPathesURLs());
+}
+
+void FilePanel::performShowFiles(const QString &query, const QString &name, EPath path)
+{
+    setPanelDisplayingPath(name, path);
+    webContentMngr->get(query);
+    setCurrentPanelState(query);
+}
+
+void FilePanel::slotUpdateFileList(void)
+{
+    webContentMngr->get(webContentMngr->getParentFolder());
+}
+
+void FilePanel::setPanelDisplayingPath(const QString &name, EPath path)
+{
+    QString pathDividerSign(QDir::toNativeSeparators("/"));
+    int labelTextlength = ui->pathLabel->text().length();
+    int discStrLength = getDiscLength();
+
+    switch(path)
+    {
+    case EForward:
+    {
+        QString divider((labelTextlength == discStrLength) ? "" : pathDividerSign);
+        ui->pathLabel->setText(ui->pathLabel->text() += (divider + name));
+    }
+        break;
+    case EBackward:
+    {
+        int pos = ui->pathLabel->text().lastIndexOf(pathDividerSign);
+        int removeCount = labelTextlength - (pos + 1) + 1;
+
+        if(pos == (discStrLength - 1)) ++pos;
+
+        ui->pathLabel->setText(ui->pathLabel->text().remove(pos, removeCount));
+    }
+        break;
+    }
+}
+
+int FilePanel::getDiscLength() const
+{
+    SettingsManager settingsManager;
+    QString disc(settingsManager.accountDisc(settingsManager.currentAccount(panelNum)));
+
+    disc += QString(":");
+    disc += QDir::toNativeSeparators("/");
+
+    return disc.length();
+}
+
 

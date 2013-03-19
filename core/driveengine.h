@@ -4,17 +4,14 @@
 #include <QTreeWidgetItem>
 #include "network/downloadmanager.h"
 #include "network/uploadmanager.h"
-#include "network/contentmanager.h"
 #include "gui/forms/mainwindow.h"
 #include "ui_mainwindow.h"
 #include "gui/filestransferui.h"
-#include "gui/contentui.h"
 #include "gui/checkui.h"
 #include "share/enums.h"
 #include "gui/forms/filepanel.h"
 
 class FilesTransferUI;
-class ContentUI;
 
 class DriveEngine : public QObject
 {
@@ -24,13 +21,11 @@ public:
     ~DriveEngine();
 
     friend class FilesTransferUI;
-    friend class ContentUI;
 
 public:   
     CheckUI *getCheckUI() const;
-    ContentManager *getContentMngr(bool opposite = false) const;
+    WebContentManager *getWebContentMngr(bool opposite = false) const;
     FilesTransferUI *getfilesTransferUI() const;
-    ContentUI *getContentUI() const;
     QWidget *getParent() const;
     void init();
     FilePanel *getFilePanel(int panel) const;
@@ -44,9 +39,7 @@ private:
     QWidget *parent;
     QScopedPointer<CheckUI> checkUI;
     QScopedPointer<DownloadFileManager> downloadMngr;
-    QScopedPointer<ContentManager> contentMngr[EPanelsCount];
     QScopedPointer<FilesTransferUI> filesTransferUI;
-    QScopedPointer<ContentUI> contentUI;
     QScopedPointer<UploadFileManager> uploadFileMngr;
     FilePanel *filePanels[EPanelsCount];
 };

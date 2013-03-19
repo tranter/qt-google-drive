@@ -13,11 +13,7 @@ class NetworkManager : public QObject
 {
     Q_OBJECT
 public:
-    enum EStates
-    {
-        EReady,
-        EBusy
-    };
+    enum EStates { EReady, EBusy };
 
     explicit NetworkManager(QObject *parent = 0);
     virtual ~NetworkManager();

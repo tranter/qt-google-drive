@@ -7,7 +7,7 @@
 #define ROOT_TAG QString("https://docs.google.com/feeds/default/private/full/folder%3Aroot")
 #define PARENT_TAG QString("http://schemas.google.com/docs/2007#parent")
 #define UPLOAD_TAG QString("http://schemas.google.com/g/2005#resumable-create-media")
-#define ICON_TAG QString("http://schemas.google.com/docs/2007#icon")
+//#define ICON_TAG QString("http://schemas.google.com/docs/2007#icon")
 
 #define CONTENTS QString("/contents")
 #define MAX_RESULTS QString("?max-results=10000")

@@ -1,61 +1,42 @@
 #ifndef CONTENTMANAGER_H
 #define CONTENTMANAGER_H
 
-#include <QXmlSimpleReader>
-#include "parsers/xmlparser.h"
-#include "network/networkmanager.h"
-#include "network/operations/operationsmanager.h"
+#include <QTreeWidget>
+#include <QTreeWidgetItem>
 
-class ContentManager : public NetworkManager
+class ContentManager
 {
-    Q_OBJECT
 public:
-    explicit ContentManager(QObject *parent = 0);
+    ContentManager();
+    explicit ContentManager(QTreeWidget *p, int pn);
+
     virtual ~ContentManager();
 
 public:
-    void get(const QString &url);
-    XMLParser* getParser(void) const;
-    void clear(void);
-    QString getParentFolderUrl(void) const;
-    Items::Data getParentFolderInfo(void) const;
-    QTreeWidget* getPanel(void) const;
-    QString back(void);
-    void setPanel(QTreeWidget *p, int pn);
-    Items::Data getCurrentItem(void);
-    QStringList getPathesURLs(void) const;
-    void setPathesURLs(const QStringList &pathesURLsStrList);
-    void getItemsDataByIndexes(QList<int> &indexes, QList<Items::Data> &folders, QList<Items::Data> &files);
-    int getIndexByItemData(QTreeWidget *treeWidget, Items::Data &itemData) const;
+    virtual QString getParentFolder(void) const = 0;
+    virtual QString back(void) = 0;
 
-private:
-    void show(void);
-    bool parseReply(const QString &str);
-    void setItems(Items::Data::ESortOrder itemSortOrder, Qt::SortOrder sortOrder);
-    void addItem(const Items::Data &itemData);
-    QString getDate(const QString &date);
-    QString getSize(const QString &size);
-    void updateItemsState(void);
+protected:
+     virtual void updateItemsState(void) = 0;
 
-signals:
-    void signalFirstPanelIsLoaded();
+public:
+    virtual void clear(void);
+    virtual QTreeWidget* getPanel(void) const;
+    virtual void setPanel(QTreeWidget *p, int pn);
 
-private slots:
-        void slotSectionClicked(int logicalIndex);
-        virtual void slotReplyFinished(QNetworkReply* reply);
-        void slotResDownloaded(void);
+protected:
+    virtual void show(void);
+    virtual QString getDate(const QString &date);
+    virtual QString getSize(const QString &size);
 
-private:
-    QScopedPointer<XMLParser> parser;
+protected:
+    void sectionClicked();
+
+protected:
     QList<QTreeWidgetItem*> treeWidgetItems;
     QTreeWidget *panel;
-    QStringList pathesURLs;
-    Items::Data parentData;
-    QList<Items::Data> normalizedItems;
     bool isRoot;
     int panelNum;
 };
-
-
 
 #endif // CONTENTMANAGER_H

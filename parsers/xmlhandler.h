@@ -5,22 +5,14 @@
 #include <QXmlAttributes>
 #include "gui/items.h"
 #include "share/defs.h"
-#include "network/resmanager.h"
+//#include "network/resmanager.h"
 
 class XMLHandler : public QObject
 {
     Q_OBJECT
 public:
 
-    enum ETags
-    {
-        ETitle,
-        ESize,
-        EUpdated,
-        EAuthor,
-        EEntry,
-        ETagsCount
-    };
+    enum ETags { ETitle, ESize, EUpdated, EAuthor, EEntry, ETagsCount };
 
     XMLHandler();
     ~XMLHandler();
@@ -34,8 +26,8 @@ public:
     Items* getItemInfo(void) const;
     bool resDownloadingNow(void) const;
 
-public slots:
-    void slotResDownloaded();
+//public slots:
+//    void slotResDownloaded();
 
 signals:
     void signalAllResDownloaded(void);
@@ -49,12 +41,12 @@ private:
     void setDefaults(void);
     void setTag(const QString& qName, bool state);
     QString getItemType(const QString &selfUrl);
-    void saveResData(const QXmlAttributes &attribs);
+    //void saveResData(const QXmlAttributes &attribs);
 
 private:
     QScopedPointer<Items> itemInfo;
     Items::Data itemData;
-    QList<ResManager*> resManagers;
+    //QList<ResManager*> resManagers;
     int resDownloadedCount;
     bool isResDownloding;
     bool tags[ETagsCount];

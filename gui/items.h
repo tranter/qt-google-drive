@@ -14,13 +14,7 @@ public:
 
     struct Data
     {
-        enum ESortOrder
-        {
-            ETypeName = 0,
-            EOwner = 1,
-            EDateTime = 2,
-            ESize = 3
-        };
+        enum ESortOrder { ETypeName, EOwner, EDateTime, ESize };
 
         Data() : sortOrder(ETypeName) {}
 
@@ -32,7 +26,7 @@ public:
         QString name;
         QString self;
         QString parent;
-        QString iconPath;
+        //QString iconPath;
         QString downloadLink;
         QString uploadLink;
 

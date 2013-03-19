@@ -38,15 +38,8 @@ void DriveEngine::init()
     hSplitter->addWidget(filePanels[ELeft]);
     hSplitter->addWidget(filePanels[ERight]);
 
-    for(int i = 0; i < EPanelsCount; ++i)
-    {
-        contentMngr[i].reset(new ContentManager);
-        contentMngr[i]->init();
-    }
-
     checkUI.reset(new CheckUI);
     filesTransferUI.reset(new FilesTransferUI);
-    contentUI.reset(new ContentUI);
 
     if(SettingsManager().isAnyAccount()) updatePanel(ELeft, true);
     if(!SettingsManager().isWorkDirSet()) checkUI->slotCheckWorkDir(true);
@@ -57,21 +50,21 @@ FilePanel* DriveEngine::getFilePanel(int panel) const
     return filePanels[panel];
 }
 
-ContentManager* DriveEngine::getContentMngr(bool opposite) const
-{
-    ContentManager* cm = NULL;
+WebContentManager* DriveEngine::getWebContentMngr(bool opposite) const
+{            
+    WebContentManager* cm = NULL;
     EPanels currentPanel = static_cast<EPanels> (SettingsManager().currentPanel());
 
     if(currentPanel == ELeft)
     {
-        if(opposite) cm = contentMngr[ERight].data();
-        else cm = contentMngr[ELeft].data();
+        if(opposite) cm = filePanels[ERight]->getWebContentMngr();
+        else cm = filePanels[ELeft]->getWebContentMngr();
     }
 
     if(currentPanel == ERight)
     {
-        if(opposite) cm = contentMngr[ELeft].data();
-        else cm = contentMngr[ERight].data();
+        if(opposite) cm = filePanels[ELeft]->getWebContentMngr();
+        else cm = filePanels[ERight]->getWebContentMngr();
     }
 
     return cm;
@@ -90,13 +83,11 @@ bool DriveEngine::isPanelsContentIdentical()
 
     if(settingsManager.currentAccount(0) == settingsManager.currentAccount(1))
     {
-      if(settingsManager.currentFolderURL(0) == settingsManager.currentFolderURL(1))
-      {
-         is = true;
-      }
+        if(settingsManager.currentFolderURL(0) == settingsManager.currentFolderURL(1))
+        {
+            is = true;
+        }
     }
-
-    DEBUG << is;
 
     return is;
 }
@@ -109,11 +100,6 @@ void DriveEngine::slotFirstPanelIsLoaded()
 CheckUI* DriveEngine::getCheckUI() const
 {
     return checkUI.data();
-}
-
-ContentUI* DriveEngine::getContentUI() const
-{
-    return contentUI.data();
 }
 
 FilesTransferUI* DriveEngine::getfilesTransferUI() const

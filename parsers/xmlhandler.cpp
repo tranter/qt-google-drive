@@ -104,7 +104,7 @@ bool XMLHandler::handleReply(const QString &qName, const QXmlAttributes &attribs
 
     if(HIERARCHY_ATTRIBUTE_TAG(attribs.value) == PARENT_TAG) itemData.parent = HIERARCHY_VALUE_TAG(attribs.value);
     if(HIERARCHY_ATTRIBUTE_TAG(attribs.value) == UPLOAD_TAG) itemData.uploadLink = HIERARCHY_VALUE_TAG(attribs.value);
-    if(HIERARCHY_ATTRIBUTE_TAG(attribs.value) == ICON_TAG) saveResData(attribs);
+    //if(HIERARCHY_ATTRIBUTE_TAG(attribs.value) == ICON_TAG) saveResData(attribs);
 
     if(HIERARCHY_ATTRIBUTE_TAG(attribs.value) == SELF_TAG)
     {
@@ -126,10 +126,7 @@ QString XMLHandler::getItemType(const QString &selfUrl)
 
     str = strList[strList.count() - 1];
 
-    if(str.indexOf(FOLDER_TYPE_STR) != -1)
-    {
-        typeStr = FOLDER_TYPE_STR;
-    }
+    if(str.indexOf(FOLDER_TYPE_STR) != -1) typeStr = FOLDER_TYPE_STR;
 
     return typeStr;
 }
@@ -143,36 +140,36 @@ void XMLHandler::setTag(const QString &qName, bool state)
     if(qName == UPDATED_FILE_TAG) tags[EUpdated] = state;
 }
 
-void XMLHandler::slotResDownloaded()
-{
-    if(++resDownloadedCount == resManagers.count())
-    {
-        for(int i = 0; i < resManagers.count();++i)
-        {
-            delete resManagers[i];
-        }
+//void XMLHandler::slotResDownloaded()
+//{
+//    if(++resDownloadedCount == resManagers.count())
+//    {
+//        for(int i = 0; i < resManagers.count();++i)
+//        {
+//            delete resManagers[i];
+//        }
 
-        resManagers.clear();
-        resDownloadedCount = 0;
+//        resManagers.clear();
+//        resDownloadedCount = 0;
 
-        emit signalAllResDownloaded();
-    }
-}
+//        emit signalAllResDownloaded();
+//    }
+//}
 
-void XMLHandler::saveResData(const QXmlAttributes &attribs)
-{
-    if(!CommonTools::fileFromURLExists(HIERARCHY_VALUE_TAG(attribs.value)))
-    {
-        isResDownloding = true;
+//void XMLHandler::saveResData(const QXmlAttributes &attribs)
+//{
+//    if(!CommonTools::fileFromURLExists(HIERARCHY_VALUE_TAG(attribs.value)))
+//    {
+//        isResDownloding = true;
 
-        resManagers.push_back(new ResManager);
-        resManagers.last()->cash(HIERARCHY_VALUE_TAG(attribs.value));
+//        resManagers.push_back(new ResManager);
+//        resManagers.last()->cash(HIERARCHY_VALUE_TAG(attribs.value));
 
-        connect(resManagers.last(), SIGNAL(signalResDownloaded()), this, SLOT(slotResDownloaded()));
-    }
+//        connect(resManagers.last(), SIGNAL(signalResDownloaded()), this, SLOT(slotResDownloaded()));
+//    }
 
-    itemData.iconPath = CommonTools::getFileNameFromURL(HIERARCHY_VALUE_TAG(attribs.value));
-}
+//    itemData.iconPath = CommonTools::getFileNameFromURL(HIERARCHY_VALUE_TAG(attribs.value));
+//}
 
 void XMLHandler::setDefaults(void)
 {
