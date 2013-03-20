@@ -26,7 +26,6 @@ public:
         QString name;
         QString self;
         QString parent;
-        //QString iconPath;
         QString downloadLink;
         QString uploadLink;
 

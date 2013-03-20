@@ -1,28 +1,20 @@
+#include <QHeaderView>
+#include <QXmlSimpleReader>
 #include "webcontentmanager.h"
 #include "share/commontools.h"
 #include "settings/settingsmanager.h"
 #include "core/driveengine.h"
 #include "gui/tools/fileiconprovider.h"
 #include "share/debug.h"
-#include <QLocale>
-#include <QDateTime>
-#include <QPair>
-#include <QApplication>
-
-WebContentManager::WebContentManager(QObject *parent):
-    NetworkManager(parent)
-{
-    parser.reset(new XMLParser);
-}
 
 WebContentManager::WebContentManager(QTreeWidget *p, int pn, QObject *parent) :
     ContentManager(p, pn)
 {
+     parser.reset(new XMLParser);
 }
 
 WebContentManager::~WebContentManager()
 {
-    if(panel && !panel->topLevelItemCount() > 0) panel->clear();
     pathesURLs.clear();
 }
 
@@ -68,12 +60,7 @@ bool WebContentManager::parseReply(const QString &str)
     return reader.parse(&source);
 }
 
-XMLParser* WebContentManager::getParser(void) const
-{
-    return parser.data();
-}
-
-void WebContentManager::show(void)
+void WebContentManager::show()
 {
     ContentManager::show();
 
@@ -141,17 +128,17 @@ void WebContentManager::cashIcons()
     }
 }
 
-QString WebContentManager::getParentFolder(void) const
+QString WebContentManager::getParentFolder() const
 {
     return pathesURLs.last();
 }
 
-Items::Data WebContentManager::getParentFolderInfo(void) const
+Items::Data WebContentManager::getParentFolderInfo() const
 {
-    return  parentData;
+    return parentData;
 }
 
-QString WebContentManager::back(void)
+QString WebContentManager::back()
 {
     QString prevLink;
 
@@ -165,7 +152,7 @@ QString WebContentManager::back(void)
     return prevLink;
 }
 
-QStringList WebContentManager::getPathesURLs(void) const
+QStringList WebContentManager::getPathesURLs() const
 {
     return pathesURLs;
 }
@@ -175,7 +162,7 @@ void WebContentManager::setPathesURLs(const QStringList &pathesURLsStrList)
     pathesURLs = pathesURLsStrList;
 }
 
-Items::Data WebContentManager::getCurrentItem(void)
+Items::Data WebContentManager::getCurrentItem()
 {
     int index;
 
@@ -225,7 +212,7 @@ void WebContentManager::slotSectionClicked(int logicalIndex)
     sectionClicked();
 }
 
-void WebContentManager::updateItemsState(void)
+void WebContentManager::updateItemsState()
 {
     Items::Data::ESortOrder itemSortOrder;
     Qt::SortOrder sortOrder;

@@ -5,11 +5,6 @@
 #include <QDateTime>
 #include <QHeaderView>
 
-ContentManager::ContentManager():
-    panel(NULL)
-{
-}
-
 ContentManager::ContentManager(QTreeWidget *p, int pn):
     panel(p),
     panelNum(pn)
@@ -60,13 +55,6 @@ void ContentManager::sectionClicked()
 {
     SettingsManager().savePanelHeaderState(panelNum, panel->header()->saveState());
     show();
-}
-
-void ContentManager::setPanel(QTreeWidget *p, int pn)
-{
-    panel = p;
-    panelNum = pn;
-    //panel->setIconSize(QSize(32, 32));
 }
 
 QTreeWidget* ContentManager::getPanel(void) const

@@ -27,7 +27,7 @@ void FilePanel::init(void)
 {
     ui->setupUi(this);
 
-    webContentMngr.reset(new WebContentManager);
+    webContentMngr.reset(new WebContentManager(ui->fileView, panelNum));
 
     ui->pathLabel->setFixedHeight(18);
 
@@ -183,7 +183,7 @@ void FilePanel::update()
     accountsComboBox->setToolTip("Email: " + accountName + "\nName: " + settingsManager.name(accountName));
 
     webContentMngr->setPathesURLs(settingsManager.pathesURLs(panelNum));
-    webContentMngr->setPanel(ui->fileView, panelNum);
+    //webContentMngr->setPanel(ui->fileView, panelNum);
     webContentMngr->get(settingsManager.currentFolderURL(panelNum));
 
     fillComboBox(settingsManager.accountsWithLetters(), accountName);

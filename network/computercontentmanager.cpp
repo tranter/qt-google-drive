@@ -1,42 +1,29 @@
 #include "computercontentmanager.h"
 
 
-ComputerContentManager::ComputerContentManager(QObject *parent)
+ComputerContentManager::ComputerContentManager(QTreeWidget *p, int pn, QObject *parent):
+    ContentManager(p, pn)
 {
 }
 
 ComputerContentManager::~ComputerContentManager()
 {
-//    if(panel && !panel->topLevelItemCount() > 0) panel->clear();
-//    pathesURLs.clear();
 }
 
-void ComputerContentManager::show(void)
+QString ComputerContentManager::getParentFolder() const
 {
 }
 
-void ComputerContentManager::updateItemsState(void)
+QString ComputerContentManager::back()
 {
-//    Items::Data::ESortOrder itemSortOrder;
-//    Qt::SortOrder sortOrder;
+}
 
-//    QByteArray values(SettingsManager().restorePanelHeaderState(panelNum));
+void ComputerContentManager::show()
+{
+}
 
-//    if(values.isEmpty())
-//    {
-//        itemSortOrder = Items::Data::ETypeName;
-//        sortOrder = Qt::AscendingOrder;
+void ComputerContentManager::updateItemsState()
+{
 
-//        panel->header()->setSortIndicator(0, sortOrder);
-//    }
-//    else
-//    {
-//        panel->header()->restoreState(values);
-
-//        itemSortOrder = static_cast<Items::Data::ESortOrder> (panel->header()->sortIndicatorSection());
-//        sortOrder =  static_cast<Qt::SortOrder> (panel->header()->sortIndicatorOrder());
-//    }
-
-//    setItems(itemSortOrder, sortOrder);
 }
 

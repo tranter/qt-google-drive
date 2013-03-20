@@ -7,9 +7,7 @@
 class ContentManager
 {
 public:
-    ContentManager();
     explicit ContentManager(QTreeWidget *p, int pn);
-
     virtual ~ContentManager();
 
 public:
@@ -22,7 +20,6 @@ protected:
 public:
     virtual void clear(void);
     virtual QTreeWidget* getPanel(void) const;
-    virtual void setPanel(QTreeWidget *p, int pn);
 
 protected:
     virtual void show(void);

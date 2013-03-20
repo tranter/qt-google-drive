@@ -1,19 +1,15 @@
 #ifndef WEBCONTENTMANAGER_H
 #define WEBCONTENTMANAGER_H
 
-#include <QXmlSimpleReader>
 #include "contentmanager.h"
 #include "parsers/xmlparser.h"
 #include "network/networkmanager.h"
-#include "network/operations/operationsmanager.h"
 
 class WebContentManager : public NetworkManager, public ContentManager
 {
     Q_OBJECT
 public:
-    explicit WebContentManager(QObject *parent = 0);
     explicit WebContentManager(QTreeWidget *p, int pn, QObject *parent = 0);
-
     virtual ~WebContentManager();
 
 signals:
@@ -24,19 +20,18 @@ private slots:
         virtual void slotSectionClicked(int logicalIndex);
 
 public:
-    QString getParentFolder(void) const;
-    QString back(void);
+    QString getParentFolder() const;
+    QString back();
 
 protected:
-    void updateItemsState(void);
-    void show(void);
+    void updateItemsState();
+    void show();
 
 public:
     void get(const QString &url);
-    XMLParser* getParser(void) const; 
-    Items::Data getParentFolderInfo(void) const; 
-    Items::Data getCurrentItem(void);
-    QStringList getPathesURLs(void) const;
+    Items::Data getParentFolderInfo() const;
+    Items::Data getCurrentItem();
+    QStringList getPathesURLs() const;
     void setPathesURLs(const QStringList &pathesURLsStrList);
     void getItemsDataByIndexes(QList<int> &indexes, QList<Items::Data> &folders, QList<Items::Data> &files);
     int getIndexByItemData(QTreeWidget *treeWidget, Items::Data &itemData) const;
