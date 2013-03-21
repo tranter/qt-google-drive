@@ -3,6 +3,7 @@
 #include "contentmanager.h"
 #include "settings/settingsmanager.h"
 #include "gui/forms/filepanel.h"
+#include "share/debug.h"
 
 ContentManager::ContentManager(FilePanel *fp):
     panel(fp->getFileView()),
@@ -36,9 +37,7 @@ void ContentManager::show(void)
     clear();
     panel->clear();
 
-    isRoot = isRootFolder();
-
-    if(!isRoot)
+    if(!isRoot())
     {
         treeWidgetItems.push_back(new QTreeWidgetItem(panel));
         treeWidgetItems.last()->setText(0, PARENT_FOLDER_SIGN);
@@ -65,7 +64,7 @@ void ContentManager::sectionClicked()
     show();
 }
 
-QTreeWidget* ContentManager::getPanel(void) const
+QTreeWidget* ContentManager::getPanel() const
 {
     return panel;
 }
@@ -73,4 +72,19 @@ QTreeWidget* ContentManager::getPanel(void) const
 bool ContentManager::hasItemParentSign(QTreeWidgetItem *item) const
 {
     return item->data(0, Qt::DisplayRole).toString() == PARENT_FOLDER_SIGN;
+}
+
+void ContentManager::addPath(const QString &path)
+{
+    if(!pathes.contains(path)) pathes.push_back(path);
+}
+
+QString ContentManager::back()
+{
+    QString backLink;
+
+    if(!pathes.isEmpty()) pathes.pop_back();
+    if(!pathes.isEmpty()) backLink = pathes.last();
+
+    return backLink;
 }

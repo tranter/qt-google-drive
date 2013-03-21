@@ -19,14 +19,13 @@ public:
     QString getParentFolder() const;
     void update();
     void accountsComboBoxItemActivated(const QString &text);
-    QString back();
     void showFilesOnPanel(QTreeWidgetItem *item);
 
 protected:
      void updateItemsState();
      void fillComboBox(QMap<QString, QString> accountsMap, const QString &currentAccount);
      void addItem(QFileInfo &fileInfo);
-     bool isRootFolder();
+     bool isRoot();
 
 protected:
     void show();

@@ -10,12 +10,13 @@
 WebContentManager::WebContentManager(FilePanel *fp, QObject *parent) :
     ContentManager(fp)
 {
-     parser.reset(new XMLParser);
+    parser.reset(new XMLParser);
+    pathes = SettingsManager().pathesURLs(panelNum);
 }
 
 WebContentManager::~WebContentManager()
 {
-    pathesURLs.clear();
+    pathes.clear();
 }
 
 void WebContentManager::get(const QString &resourcePointer)
@@ -29,11 +30,11 @@ void WebContentManager::get(const QString &resourcePointer)
 
 void WebContentManager::slotReplyFinished(QNetworkReply* reply)
 {
-    //    CommonTools::logToFile(QString("ParserReply ") + ".txt", replyStr.toAscii());
+    //CommonTools::logToFile(QString("ParserReply ") + ".txt", replyStr.toAscii());
 
-    //    DEBUG << "<===============================================================================================================";
-    //    DEBUG << "replyStr" << replyStr;
-    //    DEBUG << "===============================================================================================================>";
+    //DEBUG << "<===============================================================================================================";
+    //DEBUG << "replyStr" << replyStr;
+    //DEBUG << "===============================================================================================================>";
 
     parseReply(replyStr);
 
@@ -62,21 +63,12 @@ bool WebContentManager::parseReply(const QString &str)
 
 void WebContentManager::show()
 {
+    DEBUG;
     cashIcons();
 
     ContentManager::show();
-
-//    if(getRequest().url() != GET_FULL_ROOT_CONTENT)
-//    {
-//        isRoot = false;
-
-//        treeWidgetItems.push_back(new QTreeWidgetItem(panel));
-//        treeWidgetItems.last()->setText(0, PARENT_FOLDER_SIGN);
-//    }
-//    else
-//    {
-//        isRoot = true;
-//    }
+    addPath(getLastRequest().url().toString());
+    SettingsManager().setPathesURLs(panelNum, pathes);
 
     for(int i = 0; i < normalizedItems.count(); ++i)
     {
@@ -84,10 +76,6 @@ void WebContentManager::show()
     }
 
     if(SettingsManager().initialLoading()) emit signalFirstPanelIsLoaded();
-
-    QString url(getRequest().url().toString());
-
-    if(!pathesURLs.contains(url)) pathesURLs.push_back(url);
 
     connect(panel->header(),SIGNAL(sectionClicked(int)), this, SLOT(slotSectionClicked(int)));
 }
@@ -132,7 +120,7 @@ void WebContentManager::cashIcons()
 
 QString WebContentManager::getParentFolder() const
 {
-    return pathesURLs.last();
+    return pathes.last();
 }
 
 Items::Data WebContentManager::getParentFolderInfo() const
@@ -140,35 +128,11 @@ Items::Data WebContentManager::getParentFolderInfo() const
     return parentData;
 }
 
-QString WebContentManager::back()
-{
-    QString prevLink;
-
-    if(!pathesURLs.isEmpty())
-    {
-        pathesURLs.pop_back();
-        prevLink = pathesURLs.last();
-        pathesURLs.pop_back();
-    }
-
-    return prevLink;
-}
-
-QStringList WebContentManager::getPathesURLs() const
-{
-    return pathesURLs;
-}
-
-void WebContentManager::setPathesURLs(const QStringList &pathesURLsStrList)
-{
-    pathesURLs = pathesURLsStrList;
-}
-
 Items::Data WebContentManager::getCurrentItem()
 {
     int index;
 
-    if(isRoot) index = panel->currentIndex().row();
+    if(isRoot()) index = panel->currentIndex().row();
     else index = panel->currentIndex().row() - 1;
 
     if(index < 0) index = 0;
@@ -253,7 +217,6 @@ void WebContentManager::update()
     pathLabel->setText(disc + settingsManager.currentFolderPath(panelNum));
     drivesComboBox->setToolTip(tr("Email: ") + accountName + tr("\nName: ") + settingsManager.name(accountName));
 
-    setPathesURLs(settingsManager.pathesURLs(panelNum));
     get(settingsManager.currentFolderURL(panelNum));
 
     fillComboBox(settingsManager.accountsWithLetters(), accountName);
@@ -284,9 +247,9 @@ void WebContentManager::fillComboBox(QMap<QString, QString> accountsMap, const Q
     drivesComboBox->setMinimumWidth(80);
 }
 
-bool WebContentManager::isRootFolder()
+bool WebContentManager::isRoot()
 {
-    return getRequest().url() == GET_FULL_ROOT_CONTENT;
+    return getLastRequest().url() == GET_FULL_ROOT_CONTENT;
 }
 
 void WebContentManager::accountsComboBoxItemActivated(const QString &text)
@@ -316,8 +279,9 @@ void WebContentManager::showFilesOnPanel(QTreeWidgetItem *item)
     }
     else
     {
-        if(isFolder())
+        if(isDir())
         {
+            DEBUG << "isDir";
             QString query(GET_FILES_IN_FOLDER);
 
             query += CommonTools::getIDFromURL(getCurrentItem().self);
@@ -339,7 +303,7 @@ void WebContentManager::setCurrentPanelState(const QString &url)
     int length = fullPath.length() - beginPos;
 
     settingsManager.setCurrentFolderPath(panelNum, fullPath.mid(beginPos, length));
-    settingsManager.setPathesURLs(panelNum, getPathesURLs());
+    //settingsManager.setPathesURLs(panelNum, pathes);
 }
 
 void WebContentManager::performShowFiles(const QString &query, const QString &name, EPath path)
@@ -376,7 +340,7 @@ void WebContentManager::setPanelDisplayingPath(const QString &name, EPath path)
     }
 }
 
-bool WebContentManager::isFolder(void)
+bool WebContentManager::isDir()
 {
     return (getCurrentItem().type == FOLDER_TYPE_STR);
 }

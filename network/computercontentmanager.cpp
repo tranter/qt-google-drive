@@ -6,6 +6,7 @@
 ComputerContentManager::ComputerContentManager(FilePanel *fp, QObject *parent):
     ContentManager(fp)
 {
+     pathes = SettingsManager().computerPathes(panelNum);
 }
 
 ComputerContentManager::~ComputerContentManager()
@@ -15,6 +16,9 @@ ComputerContentManager::~ComputerContentManager()
 void ComputerContentManager::get(const QString &resourcePointer)
 {
     SettingsManager().setCurrentFolderComputerPath(panelNum, resourcePointer);
+
+    addPath(resourcePointer);
+    SettingsManager().setComputerPathes(panelNum, pathes);
 
     dir.setPath(resourcePointer);
     dir.setFilter(QDir::AllEntries | QDir::Hidden | QDir::System | QDir::NoSymLinks | QDir::NoDotAndDotDot);
@@ -33,16 +37,12 @@ void ComputerContentManager::addItem(QFileInfo &fileInfo)
     item->setText(3, getSize(fileInfo.size()));
 }
 
-bool ComputerContentManager::isRootFolder()
+bool ComputerContentManager::isRoot()
 {
     return dir.isRoot();
 }
 
 QString ComputerContentManager::getParentFolder() const
-{
-}
-
-QString ComputerContentManager::back()
 {
 }
 
@@ -58,10 +58,27 @@ void ComputerContentManager::accountsComboBoxItemActivated(const QString &text)
 
 void ComputerContentManager::showFilesOnPanel(QTreeWidgetItem *item)
 {    
-  QFileInfoList list = dir.entryInfoList();
+    if(hasItemParentSign(item))
+    {
+        get(back());
+        show();
+    }
+    else
+    {
+        QFileInfoList list = dir.entryInfoList();
+        QFileInfo fileInfo;
 
-  get(list.at(item->treeWidget()->currentIndex().row()).absoluteFilePath());
-  show();
+        int index = item->treeWidget()->currentIndex().row();
+        if(!isRoot()) --index;
+
+        fileInfo = list.at(index);
+
+        if(fileInfo.isDir())
+        {
+            get(fileInfo.absoluteFilePath());
+            show();
+        }
+    }
 }
 
 void ComputerContentManager::show()
@@ -69,10 +86,9 @@ void ComputerContentManager::show()
     ContentManager::show();
 
     QFileInfoList list = dir.entryInfoList();
-    //QFileInfoList list = dir.drives();
 
     for (int i = 0; i < list.size(); ++i)
-    {    
+    {
         QFileInfo fileInfo = list.at(i);
         addItem(fileInfo);
     }
@@ -80,7 +96,7 @@ void ComputerContentManager::show()
 
 void ComputerContentManager::updateItemsState()
 {
- DEBUG;
+    DEBUG;
 }
 
 void ComputerContentManager::fillComboBox(QMap<QString, QString> accountsMap, const QString &currentAccount)

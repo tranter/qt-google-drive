@@ -111,10 +111,11 @@ void NetworkManager::slotPostFinished(QNetworkReply* reply)
 }
 
 void NetworkManager::getRequest(const QString &url)
-{ 
+{
+    request.setUrl(QUrl(url));
+
     init();
 
-    request.setUrl(QUrl(url));
     reply = networkManager->get(request);
 
     connect(networkManager.data(), SIGNAL(finished(QNetworkReply*)),this, SLOT(slotReplyFinished(QNetworkReply*)));
@@ -125,9 +126,10 @@ void NetworkManager::getRequest(const QString &url)
 
 void NetworkManager::postRequest(QUrl url)
 {
+    request.setUrl(url);
+
     init();
 
-    request.setUrl(url);
     reply = networkManager->post(request, postData);
 
     connect(networkManager.data(), SIGNAL(finished(QNetworkReply*)), this, SLOT(slotPostFinished(QNetworkReply*)));
@@ -148,9 +150,10 @@ void NetworkManager::putRequest(const QString &url, const QByteArray &data)
 
 void NetworkManager::putRequest(QUrl url)
 {
+    request.setUrl(url);
+
     init();
 
-    request.setUrl(url);
     reply = networkManager->put(request, postData);
 
     connect(reply, SIGNAL(finished()), this, SLOT(slotPutFinished()));
@@ -159,9 +162,10 @@ void NetworkManager::putRequest(QUrl url)
 
 void NetworkManager::deleteRequest(QUrl url)
 {
+    request.setUrl(url);
+
     init();
 
-    request.setUrl(url);
     reply = networkManager->deleteResource(request);
 
     connect(networkManager.data(), SIGNAL(finished(QNetworkReply*)), this, SLOT(slotReplyFinished(QNetworkReply*)));
@@ -173,7 +177,7 @@ const NetworkManager* NetworkManager::self(void) const
     return this;
 }
 
-QNetworkRequest NetworkManager::getRequest(void) const
+QNetworkRequest NetworkManager::getLastRequest(void) const
 {
     return request;
 }

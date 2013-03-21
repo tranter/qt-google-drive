@@ -33,7 +33,7 @@ protected slots:
 public:
     void init(void);
     QNetworkAccessManager *getNetworkManager(void) const;
-    QNetworkRequest getRequest(void) const;
+    QNetworkRequest getLastRequest(void) const;
     void getRequest(const QString &url);
     void postRequest(QUrl url);
     void putRequest(QUrl url);

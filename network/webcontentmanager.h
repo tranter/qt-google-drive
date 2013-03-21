@@ -31,17 +31,14 @@ public:
     void showFilesOnPanel(QTreeWidgetItem *item);
 
 protected:
-    QString back();
     void updateItemsState();
     void show();
     void fillComboBox(QMap<QString, QString> accountsMap, const QString &currentAccount);
-    bool isRootFolder();
+    bool isRoot();
 
 public:   
     Items::Data getParentFolderInfo() const;
     Items::Data getCurrentItem();
-    QStringList getPathesURLs() const;
-    void setPathesURLs(const QStringList &pathesURLsStrList);
     void getItemsDataByIndexes(QList<int> &indexes, QList<Items::Data> &folders, QList<Items::Data> &files);
     int getIndexByItemData(QTreeWidget *treeWidget, Items::Data &itemData) const;
     void cashIcons();
@@ -53,12 +50,11 @@ private:
     void addItem(const Items::Data &itemData);
     void performShowFiles(const QString &query, const QString &name, EPath path);
     void setPanelDisplayingPath(const QString &name, EPath path);
-    bool isFolder();
+    bool isDir();
     int getDiscLength() const;
 
 private:
     QScopedPointer<XMLParser> parser;
-    QStringList pathesURLs;
     Items::Data parentData;
     QList<Items::Data> normalizedItems;
 };

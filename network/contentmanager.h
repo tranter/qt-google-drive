@@ -17,29 +17,30 @@ public:
 
 public:
     virtual void get(const QString &resourcePointer) = 0;
-    virtual QString getParentFolder(void) const = 0;
+    virtual QString getParentFolder() const = 0;
     virtual void update() = 0;
     virtual void accountsComboBoxItemActivated(const QString &text) = 0;
     virtual void showFilesOnPanel(QTreeWidgetItem *item) = 0;
 
 protected:
-    virtual void updateItemsState(void) = 0;
-    virtual void fillComboBox(QMap<QString, QString> accountsMap, const QString &currentAccount) = 0;
-    virtual QString back(void) = 0;
-    virtual bool isRootFolder() = 0;
+    virtual void updateItemsState() = 0;
+    virtual void fillComboBox(QMap<QString, QString> accountsMap, const QString &currentAccount) = 0; 
+    virtual bool isRoot() = 0;
 
 public:
     virtual void clear(void);
-    virtual QTreeWidget* getPanel(void) const;
+    virtual QTreeWidget* getPanel() const;
     virtual bool hasItemParentSign(QTreeWidgetItem *item) const;
 
 protected:
     virtual void show(void);
     virtual QString getDate(QDateTime &fileDateTime);
     virtual QString getSize(qint64);
+    virtual QString back();
 
 protected:
     void sectionClicked();
+    void addPath(const QString &path);
 
 protected:
     QList<QTreeWidgetItem*> treeWidgetItems;
@@ -47,7 +48,7 @@ protected:
     int panelNum;
     QLabel *pathLabel;
     ComboBox *drivesComboBox;
-    bool isRoot;
+    QStringList pathes;
 };
 
 #endif // CONTENTMANAGER_H
