@@ -1,10 +1,8 @@
+#include <QLocale>
+#include <QHeaderView>
 #include "contentmanager.h"
 #include "settings/settingsmanager.h"
 #include "gui/forms/filepanel.h"
-//#include "share/debug.h"
-#include <QLocale>
-#include <QDateTime>
-#include <QHeaderView>
 
 ContentManager::ContentManager(FilePanel *fp):
     panel(fp->getFileView()),
@@ -41,16 +39,15 @@ void ContentManager::show(void)
     updateItemsState();
 }
 
-QString ContentManager::getDate(const QString &date)
+QString ContentManager::getDate(QDateTime &fileDateTime)
 {
-    QDateTime fileDateTime = QDateTime::fromString(date, Qt::ISODate);
     return fileDateTime.toLocalTime().toString("ddd, MMM d yyyy, h:mm");
 }
 
-QString ContentManager::getSize(const QString &size)
+QString ContentManager::getSize(qint64 size)
 {
     QString formattedSize;
-    if(size.toLongLong() > 0) formattedSize = QLocale().toString(size.toLongLong());
+    if(size > 0) formattedSize = QLocale().toString(size);
     return formattedSize;
 }
 

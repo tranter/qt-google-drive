@@ -31,7 +31,7 @@ void FilePanel::init(void)
 
     setupUiWidgets();
 
-    createAccountsToolBarWithWidgets();
+    createAndSetAccountsToolBarWithWidgets();
 
     contentMngrs[EWeb].reset(new WebContentManager(this));
     contentMngrs[EComputer].reset(new ComputerContentManager(this));
@@ -49,7 +49,7 @@ void FilePanel::setConnections()
     connect(ui->fileView, SIGNAL(itemEntered(QTreeWidgetItem*, int)), SLOT(slotItemEntered(QTreeWidgetItem*, int)));
 }
 
-void FilePanel::createAccountsToolBarWithWidgets()
+void FilePanel::createAndSetAccountsToolBarWithWidgets()
 {
     accountsToolBar = new ToolBar;
     ui->verticalLayout->insertWidget(0, accountsToolBar);
@@ -79,7 +79,6 @@ void FilePanel::setupUiWidgets()
     ui->fileView->header()->resizeSection(0, 250);
     ui->fileView->header()->resizeSection(1, 60);
     ui->fileView->header()->resizeSection(2, 150);
-
 }
 
 ContentManager* FilePanel::getContentMngr() const

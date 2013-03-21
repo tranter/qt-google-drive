@@ -52,6 +52,9 @@ private:
     void markItemWithMouseTracking(QTreeWidgetItem *item);
     void markItemWithMousePress(QTreeWidgetItem *item);
     void markItems(QTreeWidgetItem *current, QTreeWidgetItem *previous);
+    void setConnections();
+    void createAndSetAccountsToolBarWithWidgets();
+    void setupUiWidgets();
 
 private:
     Ui::FilePanel *ui;

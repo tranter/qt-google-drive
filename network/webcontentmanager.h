@@ -24,19 +24,19 @@ private slots:
     void slotSectionClicked(int logicalIndex);
 
 public:
+    void get(const QString &resourcePointer);
     QString getParentFolder() const;
-    QString back();
     void update();
     void accountsComboBoxItemActivated(const QString &text);
     void showFilesOnPanel(QTreeWidgetItem *item);
 
 protected:
+    QString back();
     void updateItemsState();
     void show();
     void fillAcountsComboBox(QMap<QString, QString> accountsMap, const QString &currentAccount);
 
-public:
-    void get(const QString &resourcePointer);
+public:   
     Items::Data getParentFolderInfo() const;
     Items::Data getCurrentItem();
     QStringList getPathesURLs() const;

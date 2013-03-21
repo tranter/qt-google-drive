@@ -4,6 +4,7 @@
 #include <QTreeWidget>
 #include <QTreeWidgetItem>
 #include <QLabel>
+#include <QDateTime>
 #include "gui/controls/combobox.h"
 
 class FilePanel;
@@ -17,14 +18,14 @@ public:
 public:
     virtual void get(const QString &resourcePointer) = 0;
     virtual QString getParentFolder(void) const = 0;
-    virtual QString back(void) = 0;
     virtual void update() = 0;
     virtual void accountsComboBoxItemActivated(const QString &text) = 0;
     virtual void showFilesOnPanel(QTreeWidgetItem *item) = 0;
 
 protected:
-     virtual void updateItemsState(void) = 0;
-     virtual void fillAcountsComboBox(QMap<QString, QString> accountsMap, const QString &currentAccount) = 0;
+    virtual void updateItemsState(void) = 0;
+    virtual void fillAcountsComboBox(QMap<QString, QString> accountsMap, const QString &currentAccount) = 0;
+    virtual QString back(void) = 0;
 
 public:
     virtual void clear(void);
@@ -33,8 +34,8 @@ public:
 
 protected:
     virtual void show(void);
-    virtual QString getDate(const QString &date);
-    virtual QString getSize(const QString &size);
+    virtual QString getDate(QDateTime &fileDateTime);
+    virtual QString getSize(qint64);
 
 protected:
     void sectionClicked();

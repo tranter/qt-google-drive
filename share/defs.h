@@ -45,6 +45,7 @@
 #define CURRENT_PANEL_KEY QString("currentPanel")
 #define CURRENT_FOLDER_URL_KEY QString("currentFolderUrl")
 #define CURRENT_FOLDER_PATH_KEY QString("currentFolderPath")
+#define CURRENT_FOLDER_COMPUTER_PATH_KEY QString("currentFolderComputerPath")
 #define PATHES_URLS_KEY QString("pathesUrls")
 #define CURRENT_ACCOUNT_KEY QString("currentAccount")
 #define ACCOUNT_LETTER_KEY QString("letter")

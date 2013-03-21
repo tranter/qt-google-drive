@@ -105,6 +105,8 @@ void WebContentManager::addItem(const Items::Data &itemData)
 {
     FileIconProvider fileIconProvider;
     QIcon icon;
+    QDateTime fileDateTime = QDateTime::fromString(itemData.dateTime, Qt::ISODate);
+    qint64 size = itemData.fileSize.toLongLong();
 
     if(itemData.type == FOLDER_TYPE_STR) icon = fileIconProvider.icon(QFileIconProvider::Folder);
     else icon = fileIconProvider.getIconByExt(itemData.name);
@@ -114,8 +116,8 @@ void WebContentManager::addItem(const Items::Data &itemData)
     treeWidgetItems.last()->setText(0, itemData.name);
     treeWidgetItems.last()->setIcon(0, icon);
     treeWidgetItems.last()->setText(1, itemData.owner);
-    treeWidgetItems.last()->setText(2, getDate(itemData.dateTime));
-    treeWidgetItems.last()->setText(3, getSize(itemData.fileSize));
+    treeWidgetItems.last()->setText(2, getDate(fileDateTime));
+    treeWidgetItems.last()->setText(3, getSize(size));
 }
 
 void WebContentManager::cashIcons()
