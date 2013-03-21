@@ -50,21 +50,21 @@ FilePanel* DriveEngine::getFilePanel(int panel) const
     return filePanels[panel];
 }
 
-WebContentManager* DriveEngine::getWebContentMngr(bool opposite) const
+ContentManager* DriveEngine::getContentMngr(bool opposite) const
 {            
-    WebContentManager* cm = NULL;
+    ContentManager* cm = NULL;
     EPanels currentPanel = static_cast<EPanels> (SettingsManager().currentPanel());
 
     if(currentPanel == ELeft)
     {
-        if(opposite) cm = filePanels[ERight]->getWebContentMngr();
-        else cm = filePanels[ELeft]->getWebContentMngr();
+        if(opposite) cm = filePanels[ERight]->getContentMngr();
+        else cm = filePanels[ELeft]->getContentMngr();
     }
 
     if(currentPanel == ERight)
     {
-        if(opposite) cm = filePanels[ELeft]->getWebContentMngr();
-        else cm = filePanels[ERight]->getWebContentMngr();
+        if(opposite) cm = filePanels[ELeft]->getContentMngr();
+        else cm = filePanels[ERight]->getContentMngr();
     }
 
     return cm;

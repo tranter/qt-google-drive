@@ -24,7 +24,7 @@ public:
 
 public:   
     CheckUI *getCheckUI() const;
-    WebContentManager *getWebContentMngr(bool opposite = false) const;
+    ContentManager *getContentMngr(bool opposite = false) const;
     FilesTransferUI *getfilesTransferUI() const;
     QWidget *getParent() const;
     void init();

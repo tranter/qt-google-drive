@@ -7,13 +7,13 @@ Operation::Operation()
 }
 
 void Operation::updatePanelContent(bool opposite)
-{
-    WebContentManager* cm = SDriveEngine::inst()->getWebContentMngr(opposite);
+{//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    ContentManager* cm = SDriveEngine::inst()->getContentMngr(opposite);
     cm->get(cm->getParentFolder());
 
     if(SDriveEngine::inst()->isPanelsContentIdentical())
     {
-      cm = SDriveEngine::inst()->getWebContentMngr(!opposite);
+      cm = SDriveEngine::inst()->getContentMngr(!opposite);
       cm->get(cm->getParentFolder());
     }
 }

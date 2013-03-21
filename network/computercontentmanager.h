@@ -8,20 +8,23 @@ class ComputerContentManager : public QObject, public ContentManager
 {
    Q_OBJECT
 public:
-    explicit ComputerContentManager(QTreeWidget *p, int pn, QObject *parent = 0);
-    virtual ~ComputerContentManager();
+    explicit ComputerContentManager(FilePanel *fp, QObject *parent = 0);
+    ~ComputerContentManager();
 
 public:
-    virtual QString getParentFolder() const;
-    virtual QString back();
+    void get(const QString &resourcePointer);
+    QString getParentFolder() const;
+    QString back();
+    void update();
+    void accountsComboBoxItemActivated(const QString &text);
+    void showFilesOnPanel(QTreeWidgetItem *item);
 
 protected:
-     virtual void updateItemsState();
+     void updateItemsState();
+     void fillAcountsComboBox(QMap<QString, QString> accountsMap, const QString &currentAccount);
 
 protected:
     void show();
 };
-
-
 
 #endif // COMPUTERCONTENTMANAGER_H

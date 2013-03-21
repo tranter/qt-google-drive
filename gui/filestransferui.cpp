@@ -15,8 +15,7 @@ void FilesTransferUI::download(void)
     {
         if(SDriveEngine::inst()->downloadMngr->getState() == NetworkManager::EBusy) return;
     }
-
-    Items::Data item = SDriveEngine::inst()->getWebContentMngr()->getCurrentItem();
+    Items::Data item = dynamic_cast<WebContentManager*> (SDriveEngine::inst()->getContentMngr())->getCurrentItem();
 
     QString downloadLink(item.downloadLink);
 
@@ -44,7 +43,7 @@ void FilesTransferUI::upload(void)
 
     if(!fileName.isEmpty())
     {
-        QString uploadLink(SDriveEngine::inst()->getWebContentMngr()->getParentFolderInfo().uploadLink + QString("/?convert=false"));
+        QString uploadLink(dynamic_cast<WebContentManager*> (SDriveEngine::inst()->getContentMngr())->getParentFolderInfo().uploadLink + QString("/?convert=false"));
         FilePanel *filePanel = SDriveEngine::inst()->getFilePanel(SettingsManager().currentPanel());
 
         SDriveEngine::inst()->uploadFileMngr.reset(new UploadFileManager(SDriveEngine::inst()->parent));

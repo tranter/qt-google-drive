@@ -1,13 +1,16 @@
 #include "contentmanager.h"
 #include "settings/settingsmanager.h"
+#include "gui/forms/filepanel.h"
 //#include "share/debug.h"
 #include <QLocale>
 #include <QDateTime>
 #include <QHeaderView>
 
-ContentManager::ContentManager(QTreeWidget *p, int pn):
-    panel(p),
-    panelNum(pn)
+ContentManager::ContentManager(FilePanel *fp):
+    panel(fp->getFileView()),
+    panelNum(fp->panelNum),
+    pathLabel(fp->getPathLabel()),
+    accountsComboBox(fp->accountsComboBox)
 {
 }
 
@@ -62,4 +65,7 @@ QTreeWidget* ContentManager::getPanel(void) const
     return panel;
 }
 
-
+bool ContentManager::hasItemParentSign(QTreeWidgetItem *item) const
+{
+    return item->data(0, Qt::DisplayRole).toString() == PARENT_FOLDER_SIGN;
+}

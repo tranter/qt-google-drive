@@ -40,11 +40,11 @@ bool OperationsManager::operationPossible(void)
 {
     bool is = false;
 
-    int index = SDriveEngine::inst()->getWebContentMngr()->getPanel()->currentIndex().row();
+    int index = SDriveEngine::inst()->getContentMngr()->getPanel()->currentIndex().row();
 
     if(index >= 0)
     {
-        QString itemText(SDriveEngine::inst()->getWebContentMngr()->getPanel()->currentItem()->text(0));
+        QString itemText(SDriveEngine::inst()->getContentMngr()->getPanel()->currentItem()->text(0));
         if(itemText != PARENT_FOLDER_SIGN) is = true;
     }
 
@@ -79,10 +79,7 @@ void OperationsManager::slotCopy(void)
     FilePanel *filePanel = SDriveEngine::inst()->getFilePanel(SettingsManager().currentPanel());
     QTreeWidget *treeWidget(filePanel->getFileView());
     QList<int> markedItemIds(filePanel->getMarkedItemIds(treeWidget));
-    QString destFolderUrl(SDriveEngine::inst()->getWebContentMngr(true)->getParentFolder());
-//    QTreeWidget *treeWidget(SDriveEngine::inst()->getFilePanel(SettingsManager().currentPanel())->getFileView());
-//    QList<int> markedItemIds(SDriveEngine::inst()->getContentUI()->getMarkedItemIds(treeWidget));
-//    QString destFolderUrl(SDriveEngine::inst()->getWebContentMngr(true)->getParentFolder());
+    QString destFolderUrl(SDriveEngine::inst()->getContentMngr(true)->getParentFolder());
 
     if(markedItemIds.isEmpty())
     {
@@ -92,13 +89,13 @@ void OperationsManager::slotCopy(void)
             return;
         }
 
-        Items::Data source(SDriveEngine::inst()->getWebContentMngr()->getCurrentItem());
+        Items::Data source(dynamic_cast<WebContentManager*> (SDriveEngine::inst()->getContentMngr())->getCurrentItem());
         copy.file(source, destFolderUrl);
     }
     else
     {
         QList<Items::Data> foldersData, filesData;
-        SDriveEngine::inst()->getWebContentMngr()->getItemsDataByIndexes(markedItemIds, foldersData, filesData);
+        dynamic_cast<WebContentManager*> (SDriveEngine::inst()->getContentMngr())->getItemsDataByIndexes(markedItemIds, foldersData, filesData);
 
         disconnect(&copy, SIGNAL(fileCopied(Items::Data&)), this, SLOT(slotItemOperationCompleted(Items::Data&)));
         connect(&copy, SIGNAL(fileCopied(Items::Data&)), this, SLOT(slotItemOperationCompleted(Items::Data&)));
@@ -115,15 +112,15 @@ void OperationsManager::slotMove(void)
         return;
     }
 
-    Items::Data source(SDriveEngine::inst()->getWebContentMngr()->getCurrentItem());
-    QString destFolderUrl(SDriveEngine::inst()->getWebContentMngr(true)->getParentFolder());
+    Items::Data source(dynamic_cast<WebContentManager*> (SDriveEngine::inst()->getContentMngr())->getCurrentItem());
+    QString destFolderUrl(SDriveEngine::inst()->getContentMngr(true)->getParentFolder());
 
     move.item(source, destFolderUrl);
 }
 
 void OperationsManager::slotDelete(void)
 {
-    del.item(SDriveEngine::inst()->getWebContentMngr()->getCurrentItem());
+    del.item(dynamic_cast<WebContentManager*> (SDriveEngine::inst()->getContentMngr())->getCurrentItem());
 }
 
 void OperationsManager::slotRename(void)
@@ -134,20 +131,20 @@ void OperationsManager::slotRename(void)
         return;
     }
 
-    QTreeWidgetItem *item(SDriveEngine::inst()->getWebContentMngr()->getPanel()->currentItem());
+    QTreeWidgetItem *item(SDriveEngine::inst()->getContentMngr()->getPanel()->currentItem());
 
     editingItemText = item->text(0);
 
     item->setFlags(item->flags() | Qt::ItemIsEditable);
-    SDriveEngine::inst()->getWebContentMngr()->getPanel()->editItem(item, 0);
+    SDriveEngine::inst()->getContentMngr()->getPanel()->editItem(item, 0);
 
-    connect(SDriveEngine::inst()->getWebContentMngr()->getPanel()->itemDelegate(), SIGNAL(closeEditor(QWidget*,QAbstractItemDelegate::EndEditHint)), this, SLOT(slotItemEditDone()));
+    connect(SDriveEngine::inst()->getContentMngr()->getPanel()->itemDelegate(), SIGNAL(closeEditor(QWidget*,QAbstractItemDelegate::EndEditHint)), this, SLOT(slotItemEditDone()));
 }
 
 void OperationsManager::slotItemEditDone(void)
 {
-    QTreeWidgetItem *item(SDriveEngine::inst()->getWebContentMngr()->getPanel()->currentItem());
-    Items::Data source(SDriveEngine::inst()->getWebContentMngr()->getCurrentItem());
+    QTreeWidgetItem *item(SDriveEngine::inst()->getContentMngr()->getPanel()->currentItem());
+    Items::Data source(dynamic_cast<WebContentManager*> (SDriveEngine::inst()->getContentMngr())->getCurrentItem());
 
     QString itemTextAfterEditing(item->text(0));
 
@@ -160,7 +157,7 @@ void OperationsManager::slotItemEditDone(void)
 
 void OperationsManager::slotShare(void)
 {
-    share.file(SDriveEngine::inst()->getWebContentMngr()->getCurrentItem());
+    share.file(dynamic_cast<WebContentManager*> (SDriveEngine::inst()->getContentMngr())->getCurrentItem());
 }
 
 void OperationsManager::slotAcceptCreateFolder(const QString &name)
@@ -171,7 +168,7 @@ void OperationsManager::slotAcceptCreateFolder(const QString &name)
         return;
     }
 
-    QString parentFolderUrl(SDriveEngine::inst()->getWebContentMngr()->getParentFolder());
+    QString parentFolderUrl(SDriveEngine::inst()->getContentMngr()->getParentFolder());
 
     create.folder(name, parentFolderUrl);
 
@@ -181,7 +178,8 @@ void OperationsManager::slotAcceptCreateFolder(const QString &name)
 void OperationsManager::slotItemOperationCompleted(Items::Data &itemData)
 {
     QTreeWidget *treeWidget(SDriveEngine::inst()->getFilePanel(SettingsManager().currentPanel())->getFileView());
-    int index = SDriveEngine::inst()->getWebContentMngr()->getIndexByItemData(treeWidget, itemData);
+
+    int index = dynamic_cast<WebContentManager*> (SDriveEngine::inst()->getContentMngr())->getIndexByItemData(treeWidget, itemData);
     FilePanel *filePanel = SDriveEngine::inst()->getFilePanel(SettingsManager().currentPanel());
 
     if(index > -1) filePanel->markItem(treeWidget->topLevelItem(index));
