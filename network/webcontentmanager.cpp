@@ -62,21 +62,21 @@ bool WebContentManager::parseReply(const QString &str)
 
 void WebContentManager::show()
 {
-    ContentManager::show();
-
     cashIcons();
 
-    if(getRequest().url() != GET_FULL_ROOT_CONTENT)
-    {
-        isRoot = false;
+    ContentManager::show();
 
-        treeWidgetItems.push_back(new QTreeWidgetItem(panel));
-        treeWidgetItems.last()->setText(0, PARENT_FOLDER_SIGN);
-    }
-    else
-    {
-        isRoot = true;
-    }
+//    if(getRequest().url() != GET_FULL_ROOT_CONTENT)
+//    {
+//        isRoot = false;
+
+//        treeWidgetItems.push_back(new QTreeWidgetItem(panel));
+//        treeWidgetItems.last()->setText(0, PARENT_FOLDER_SIGN);
+//    }
+//    else
+//    {
+//        isRoot = true;
+//    }
 
     for(int i = 0; i < normalizedItems.count(); ++i)
     {
@@ -251,19 +251,19 @@ void WebContentManager::update()
     disc += QDir::toNativeSeparators("/");
 
     pathLabel->setText(disc + settingsManager.currentFolderPath(panelNum));
-    accountsComboBox->setToolTip("Email: " + accountName + "\nName: " + settingsManager.name(accountName));
+    drivesComboBox->setToolTip(tr("Email: ") + accountName + tr("\nName: ") + settingsManager.name(accountName));
 
     setPathesURLs(settingsManager.pathesURLs(panelNum));
     get(settingsManager.currentFolderURL(panelNum));
 
-    fillAcountsComboBox(settingsManager.accountsWithLetters(), accountName);
+    fillComboBox(settingsManager.accountsWithLetters(), accountName);
 }
 
-void WebContentManager::fillAcountsComboBox(QMap<QString, QString> accountsMap, const QString &currentAccount)
+void WebContentManager::fillComboBox(QMap<QString, QString> accountsMap, const QString &currentAccount)
 {
     QStringList keys(accountsMap.keys());
 
-    accountsComboBox->clear();
+    drivesComboBox->clear();
 
     for(int i = 0; i < keys.count(); ++i)
     {
@@ -272,16 +272,21 @@ void WebContentManager::fillAcountsComboBox(QMap<QString, QString> accountsMap, 
         discLetter = discLetter.rightJustified(2,' ');
         discLetter = discLetter.leftJustified(6, ' ');
 
-        accountsComboBox->addItem(discLetter + ACCOUNT_SEPARATOR_BEGIN + accountsMap[keys[i]] + ACCOUNT_SEPARATOR_END);
-        accountsComboBox->setItemIcon(i, QIcon(QApplication::style()->standardIcon(QStyle::SP_DriveFDIcon)));
+        drivesComboBox->addItem(discLetter + ACCOUNT_SEPARATOR_BEGIN + accountsMap[keys[i]] + ACCOUNT_SEPARATOR_END);
+        drivesComboBox->setItemIcon(i, QIcon(QApplication::style()->standardIcon(QStyle::SP_DriveFDIcon)));
 
-        if(currentAccount == accountsMap[keys[i]] && accountsComboBox->currentIndex() != i)
+        if(currentAccount == accountsMap[keys[i]] && drivesComboBox->currentIndex() != i)
         {
-            accountsComboBox->setCurrentIndex(i);
+            drivesComboBox->setCurrentIndex(i);
         }
     }
 
-    accountsComboBox->setMinimumWidth(80);
+    drivesComboBox->setMinimumWidth(80);
+}
+
+bool WebContentManager::isRootFolder()
+{
+    return getRequest().url() == GET_FULL_ROOT_CONTENT;
 }
 
 void WebContentManager::accountsComboBoxItemActivated(const QString &text)

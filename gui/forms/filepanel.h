@@ -63,7 +63,7 @@ private:
     QScopedPointer<ContentManager> contentMngrs[EPanelStateCount];
     QScopedPointer<ComputerContentManager> computerContentManager;
     ToolBar *accountsToolBar;
-    ComboBox *accountsComboBox;
+    ComboBox *drivesComboBox;
     QToolButton *computerDrivesButton;
     int panelNum;
     bool mouseTracking;

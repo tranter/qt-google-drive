@@ -24,8 +24,9 @@ public:
 
 protected:
      void updateItemsState();
-     void fillAcountsComboBox(QMap<QString, QString> accountsMap, const QString &currentAccount);
+     void fillComboBox(QMap<QString, QString> accountsMap, const QString &currentAccount);
      void addItem(QFileInfo &fileInfo);
+     bool isRootFolder();
 
 protected:
     void show();

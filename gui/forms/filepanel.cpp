@@ -41,7 +41,7 @@ void FilePanel::init(void)
 
 void FilePanel::setConnections()
 {
-    connect(accountsComboBox, SIGNAL(activated(const QString&)), SLOT(slotAccountsComboBoxActivated(const QString&)));
+    connect(drivesComboBox, SIGNAL(activated(const QString&)), SLOT(slotAccountsComboBoxActivated(const QString&)));
     connect(computerDrivesButton, SIGNAL(clicked()), SLOT(slotComputerDrivesButtonClicked()));
     connect(ui->fileView, SIGNAL(itemPressed(QTreeWidgetItem*, int)), SLOT(slotItemPressed(QTreeWidgetItem*, int)));
     connect(ui->fileView, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), SLOT(slotPanelItemDoubleClicked(QTreeWidgetItem*, int)));
@@ -54,10 +54,10 @@ void FilePanel::createAndSetAccountsToolBarWithWidgets()
     accountsToolBar = new ToolBar;
     ui->verticalLayout->insertWidget(0, accountsToolBar);
 
-    accountsComboBox = new ComboBox;
+    drivesComboBox = new ComboBox;
     computerDrivesButton = new ToolButton;
 
-    accountsToolBar->addWidget(accountsComboBox);
+    accountsToolBar->addWidget(drivesComboBox);
     accountsToolBar->addWidget(new Spacer(this));
     accountsToolBar->addWidget(computerDrivesButton);
 

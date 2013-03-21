@@ -34,7 +34,8 @@ protected:
     QString back();
     void updateItemsState();
     void show();
-    void fillAcountsComboBox(QMap<QString, QString> accountsMap, const QString &currentAccount);
+    void fillComboBox(QMap<QString, QString> accountsMap, const QString &currentAccount);
+    bool isRootFolder();
 
 public:   
     Items::Data getParentFolderInfo() const;

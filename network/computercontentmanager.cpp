@@ -33,6 +33,11 @@ void ComputerContentManager::addItem(QFileInfo &fileInfo)
     item->setText(3, getSize(fileInfo.size()));
 }
 
+bool ComputerContentManager::isRootFolder()
+{
+    return dir.isRoot();
+}
+
 QString ComputerContentManager::getParentFolder() const
 {
 }
@@ -75,10 +80,11 @@ void ComputerContentManager::show()
 
 void ComputerContentManager::updateItemsState()
 {
-
+ DEBUG;
 }
 
-void ComputerContentManager::fillAcountsComboBox(QMap<QString, QString> accountsMap, const QString &currentAccount)
+void ComputerContentManager::fillComboBox(QMap<QString, QString> accountsMap, const QString &currentAccount)
 {
+    DEBUG;
 }
 

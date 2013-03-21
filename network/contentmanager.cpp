@@ -8,7 +8,7 @@ ContentManager::ContentManager(FilePanel *fp):
     panel(fp->getFileView()),
     panelNum(fp->panelNum),
     pathLabel(fp->getPathLabel()),
-    accountsComboBox(fp->accountsComboBox)
+    drivesComboBox(fp->drivesComboBox)
 {
 }
 
@@ -35,6 +35,14 @@ void ContentManager::show(void)
 
     clear();
     panel->clear();
+
+    isRoot = isRootFolder();
+
+    if(!isRoot)
+    {
+        treeWidgetItems.push_back(new QTreeWidgetItem(panel));
+        treeWidgetItems.last()->setText(0, PARENT_FOLDER_SIGN);
+    }
 
     updateItemsState();
 }

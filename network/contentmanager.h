@@ -24,8 +24,9 @@ public:
 
 protected:
     virtual void updateItemsState(void) = 0;
-    virtual void fillAcountsComboBox(QMap<QString, QString> accountsMap, const QString &currentAccount) = 0;
+    virtual void fillComboBox(QMap<QString, QString> accountsMap, const QString &currentAccount) = 0;
     virtual QString back(void) = 0;
+    virtual bool isRootFolder() = 0;
 
 public:
     virtual void clear(void);
@@ -45,7 +46,7 @@ protected:
     QTreeWidget *panel;
     int panelNum;
     QLabel *pathLabel;
-    ComboBox *accountsComboBox;
+    ComboBox *drivesComboBox;
     bool isRoot;
 };
 
