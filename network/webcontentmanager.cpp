@@ -165,13 +165,6 @@ int WebContentManager::getIndexByItemData(QTreeWidget *treeWidget, Items::Data &
     return index + shiftItemsValue;
 }
 
-//void WebContentManager::slotSectionClicked(int logicalIndex)
-//{
-//    Q_UNUSED(logicalIndex);
-//    headerSectionClicked();
-//}
-
-
 void WebContentManager::updateItemsState(QByteArray &values)
 {
     Items::Data::ESortOrder itemSortOrder;

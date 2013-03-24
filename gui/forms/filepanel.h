@@ -26,6 +26,9 @@ public:
     explicit FilePanel(int pn, QWidget *parent = 0);
     ~FilePanel();
 
+public slots:
+    void slotUpdate();
+
 private slots:
     void slotAccountsComboBoxActivated(const QString &text);
     void slotComputerDrivesButtonClicked();

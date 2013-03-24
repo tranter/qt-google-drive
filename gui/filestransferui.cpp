@@ -47,7 +47,7 @@ void FilesTransferUI::upload(void)
         FilePanel *filePanel = SDriveEngine::inst()->getFilePanel(SettingsManager().currentPanel());
 
         SDriveEngine::inst()->uploadFileMngr.reset(new UploadFileManager(SDriveEngine::inst()->parent));
-        connect(SDriveEngine::inst()->uploadFileMngr.data(), SIGNAL(signalUpdateFileList()), filePanel, SLOT(slotUpdateFileList()));
+        connect(SDriveEngine::inst()->uploadFileMngr.data(), SIGNAL(signalUpdateFileList()), filePanel, SLOT(slotUpdate()));
         SDriveEngine::inst()->uploadFileMngr->startUpload(uploadLink, fileName);
     }
 }

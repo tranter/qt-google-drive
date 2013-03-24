@@ -111,6 +111,11 @@ QLabel *FilePanel::getPathLabel(void) const
     return ui->pathLabel;
 }
 
+void FilePanel::slotUpdate()
+{
+    update();
+}
+
 void FilePanel::update()
 {
     contentMngrs[panelState]->update();
