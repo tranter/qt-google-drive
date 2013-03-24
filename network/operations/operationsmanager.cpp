@@ -79,7 +79,9 @@ void OperationsManager::slotCopy(void)
     FilePanel *filePanel = SDriveEngine::inst()->getFilePanel(SettingsManager().currentPanel());
     QTreeWidget *treeWidget(filePanel->getFileView());
     QList<int> markedItemIds(filePanel->getMarkedItemIds(treeWidget));
-    QString destFolderUrl(SDriveEngine::inst()->getContentMngr(true)->getParentFolder());
+    SettingsManager settingsManager;
+    QString destFolderUrl(settingsManager.currentFolderUrl(settingsManager.currentPanel()));
+    //QString destFolderUrl(SDriveEngine::inst()->getContentMngr(true)->parentFolder());
 
     if(markedItemIds.isEmpty())
     {
@@ -113,7 +115,9 @@ void OperationsManager::slotMove(void)
     }
 
     Items::Data source(dynamic_cast<WebContentManager*> (SDriveEngine::inst()->getContentMngr())->getCurrentItem());
-    QString destFolderUrl(SDriveEngine::inst()->getContentMngr(true)->getParentFolder());
+    SettingsManager settingsManager;
+    QString destFolderUrl(settingsManager.currentFolderUrl(settingsManager.currentPanel()));
+    //QString destFolderUrl(SDriveEngine::inst()->getContentMngr(true)->parentFolder());
 
     move.item(source, destFolderUrl);
 }
@@ -168,9 +172,9 @@ void OperationsManager::slotAcceptCreateFolder(const QString &name)
         return;
     }
 
-    QString parentFolderUrl(SDriveEngine::inst()->getContentMngr()->getParentFolder());
+    SettingsManager settingsManager;
 
-    create.folder(name, parentFolderUrl);
+    create.folder(name, settingsManager.currentFolderUrl(settingsManager.currentPanel()));
 
     delete createFolderDialog;
 }

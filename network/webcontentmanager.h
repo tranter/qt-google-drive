@@ -21,19 +21,17 @@ signals:
 
 private slots:
     void slotReplyFinished(QNetworkReply* reply);
-    void slotSectionClicked(int logicalIndex);
 
 public:
     void get(const QString &resourcePointer);
-    QString getParentFolder() const;
     void update();
     void accountsComboBoxItemActivated(const QString &text);
     void showFilesOnPanel(QTreeWidgetItem *item);
+    virtual QString parentFolder();
 
 protected:
-    void updateItemsState();
+    void updateItemsState(QByteArray &values);
     void show();
-    void fillComboBox(QMap<QString, QString> accountsMap, const QString &currentAccount);
     bool isRoot();
 
 public:   

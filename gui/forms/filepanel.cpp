@@ -47,6 +47,7 @@ void FilePanel::setConnections()
     connect(ui->fileView, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), SLOT(slotPanelItemDoubleClicked(QTreeWidgetItem*, int)));
     connect(ui->fileView, SIGNAL(currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)), SLOT(slotCurrentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)));
     connect(ui->fileView, SIGNAL(itemEntered(QTreeWidgetItem*, int)), SLOT(slotItemEntered(QTreeWidgetItem*, int)));
+    connect(ui->fileView->header(),SIGNAL(sectionClicked(int)), SLOT(slotHeaderSectionClicked(int)));
 }
 
 void FilePanel::createAndSetAccountsToolBarWithWidgets()
@@ -119,6 +120,7 @@ void FilePanel::slotItemPressed(QTreeWidgetItem *item, int column)
 {
     Q_UNUSED(column);
     itemPressed(item);
+    //DEBUG << item;
 }
 
 void FilePanel::slotPanelItemDoubleClicked(QTreeWidgetItem *item, int column)
@@ -130,12 +132,20 @@ void FilePanel::slotPanelItemDoubleClicked(QTreeWidgetItem *item, int column)
 void FilePanel::slotCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
 {
     currentItemChanged(current, previous);
+    //    DEBUG << current;
+    //    DEBUG << previous;
 }
 
 void FilePanel::slotItemEntered(QTreeWidgetItem *item, int column)
 {
     Q_UNUSED(column);
     markItemWithMouseTracking(item);
+    //DEBUG << item;
+}
+
+void FilePanel::slotHeaderSectionClicked(int logicalIndex)
+{
+    contentMngrs[panelState]->headerSectionClicked(logicalIndex);
 }
 
 int FilePanel::itemIndex(QTreeWidgetItem *item)
@@ -203,6 +213,7 @@ void FilePanel::itemPressed(QTreeWidgetItem *item)
 
 void FilePanel::itemDoubleClicked(QTreeWidgetItem *item)
 {
+    DEBUG;
     SettingsManager().setCurrentPanel(panelNum);
     showFilesOnPanel(item);
 }

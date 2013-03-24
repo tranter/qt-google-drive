@@ -20,11 +20,12 @@ WebContentManager::~WebContentManager()
 }
 
 void WebContentManager::get(const QString &resourcePointer)
-{
+{    
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
-    CommonTools::setHeader(SettingsManager().accessToken(), request);
+    setCurrentPanelState(resourcePointer);
 
+    CommonTools::setHeader(SettingsManager().accessToken(), request);
     getRequest(resourcePointer);
 }
 
@@ -63,10 +64,10 @@ bool WebContentManager::parseReply(const QString &str)
 
 void WebContentManager::show()
 {
-    DEBUG;
     cashIcons();
 
     ContentManager::show();
+
     addPath(getLastRequest().url().toString());
     SettingsManager().setPathesURLs(panelNum, pathes);
 
@@ -76,8 +77,6 @@ void WebContentManager::show()
     }
 
     if(SettingsManager().initialLoading()) emit signalFirstPanelIsLoaded();
-
-    connect(panel->header(),SIGNAL(sectionClicked(int)), this, SLOT(slotSectionClicked(int)));
 }
 
 void WebContentManager::setItems(Items::Data::ESortOrder itemSortOrder, Qt::SortOrder sortOrder)
@@ -116,11 +115,6 @@ void WebContentManager::cashIcons()
     {
         fileIconProvider.setExtProviderFile(normalizedItems[i].name);
     }
-}
-
-QString WebContentManager::getParentFolder() const
-{
-    return pathes.last();
 }
 
 Items::Data WebContentManager::getParentFolderInfo() const
@@ -171,18 +165,17 @@ int WebContentManager::getIndexByItemData(QTreeWidget *treeWidget, Items::Data &
     return index + shiftItemsValue;
 }
 
-void WebContentManager::slotSectionClicked(int logicalIndex)
-{
-    Q_UNUSED(logicalIndex);
-    sectionClicked();
-}
+//void WebContentManager::slotSectionClicked(int logicalIndex)
+//{
+//    Q_UNUSED(logicalIndex);
+//    headerSectionClicked();
+//}
 
-void WebContentManager::updateItemsState()
+
+void WebContentManager::updateItemsState(QByteArray &values)
 {
     Items::Data::ESortOrder itemSortOrder;
     Qt::SortOrder sortOrder;
-
-    QByteArray values(SettingsManager().restorePanelHeaderState(panelNum));
 
     if(values.isEmpty())
     {
@@ -206,45 +199,33 @@ void WebContentManager::update()
 {
     SettingsManager settingsManager;
     QString disc;
-    QString accountName(settingsManager.currentAccount(panelNum));
+    QString currentAccountName(settingsManager.currentAccount(panelNum));
 
     settingsManager.setCurrentPanel(panelNum);
 
-    disc = settingsManager.accountDisc(accountName);
+    disc = settingsManager.accountDrive(currentAccountName);
     disc += QString(":");
     disc += QDir::toNativeSeparators("/");
 
     pathLabel->setText(disc + settingsManager.currentFolderPath(panelNum));
-    drivesComboBox->setToolTip(tr("Email: ") + accountName + tr("\nName: ") + settingsManager.name(accountName));
+    drivesComboBox->setToolTip(tr("Email: ") + currentAccountName + tr("\nName: ") + settingsManager.name(currentAccountName));
 
-    get(settingsManager.currentFolderURL(panelNum));
+    get(settingsManager.currentFolderUrl(panelNum));
 
-    fillComboBox(settingsManager.accountsWithLetters(), accountName);
-}
+    ComboBoxItem drivesMap;
+    QIcon icon(QApplication::style()->standardIcon(QStyle::SP_DriveFDIcon));
+    QStringList accounts(settingsManager.accounts());
 
-void WebContentManager::fillComboBox(QMap<QString, QString> accountsMap, const QString &currentAccount)
-{
-    QStringList keys(accountsMap.keys());
-
-    drivesComboBox->clear();
-
-    for(int i = 0; i < keys.count(); ++i)
+    foreach(QString account, accounts)
     {
-        QString discLetter(keys[i]);
+        QString driveLetter (settingsManager.accountDrive(account));
+        QMap<QString, QIcon> drivesAdditionalInfo;
 
-        discLetter = discLetter.rightJustified(2,' ');
-        discLetter = discLetter.leftJustified(6, ' ');
-
-        drivesComboBox->addItem(discLetter + ACCOUNT_SEPARATOR_BEGIN + accountsMap[keys[i]] + ACCOUNT_SEPARATOR_END);
-        drivesComboBox->setItemIcon(i, QIcon(QApplication::style()->standardIcon(QStyle::SP_DriveFDIcon)));
-
-        if(currentAccount == accountsMap[keys[i]] && drivesComboBox->currentIndex() != i)
-        {
-            drivesComboBox->setCurrentIndex(i);
-        }
+        drivesAdditionalInfo[account] = icon;
+        drivesMap[driveLetter] = drivesAdditionalInfo;
     }
 
-    drivesComboBox->setMinimumWidth(80);
+    fillComboBox(drivesMap, currentAccountName);
 }
 
 bool WebContentManager::isRoot()
@@ -254,8 +235,6 @@ bool WebContentManager::isRoot()
 
 void WebContentManager::accountsComboBoxItemActivated(const QString &text)
 {
-    DEBUG;
-
     int beginPos = text.indexOf(ACCOUNT_SEPARATOR_BEGIN) + ACCOUNT_SEPARATOR_BEGIN.length();
     int length = text.lastIndexOf(ACCOUNT_SEPARATOR_END) - beginPos;
 
@@ -275,13 +254,12 @@ void WebContentManager::showFilesOnPanel(QTreeWidgetItem *item)
 
     if(hasItemParentSign(item))
     {
-        performShowFiles(back(), itemName, EBackward);
+        performShowFiles(parentFolder(), itemName, EBackward);
     }
     else
     {
         if(isDir())
         {
-            DEBUG << "isDir";
             QString query(GET_FILES_IN_FOLDER);
 
             query += CommonTools::getIDFromURL(getCurrentItem().self);
@@ -294,6 +272,7 @@ void WebContentManager::showFilesOnPanel(QTreeWidgetItem *item)
 
 void WebContentManager::setCurrentPanelState(const QString &url)
 {
+    DEBUG;
     SettingsManager settingsManager;
 
     settingsManager.setCurrentFolderURL(panelNum, url);
@@ -303,14 +282,13 @@ void WebContentManager::setCurrentPanelState(const QString &url)
     int length = fullPath.length() - beginPos;
 
     settingsManager.setCurrentFolderPath(panelNum, fullPath.mid(beginPos, length));
-    //settingsManager.setPathesURLs(panelNum, pathes);
+    settingsManager.setPathesURLs(panelNum, pathes);
 }
 
 void WebContentManager::performShowFiles(const QString &query, const QString &name, EPath path)
 {
     setPanelDisplayingPath(name, path);
     get(query);
-    setCurrentPanelState(query);
 }
 
 void WebContentManager::setPanelDisplayingPath(const QString &name, EPath path)
@@ -348,12 +326,22 @@ bool WebContentManager::isDir()
 int WebContentManager::getDiscLength() const
 {
     SettingsManager settingsManager;
-    QString disc(settingsManager.accountDisc(settingsManager.currentAccount(panelNum)));
+    QString drive (settingsManager.accountDrive(settingsManager.currentAccount(panelNum)));
 
-    disc += QString(":");
-    disc += QDir::toNativeSeparators("/");
+    drive += QString(":");
+    drive += QDir::toNativeSeparators("/");
 
-    return disc.length();
+    return drive.length();
+}
+
+QString WebContentManager::parentFolder()
+{
+    QString parentFolderUrl (GET_FULL_ROOT_CONTENT);
+
+    if(!pathes.isEmpty()) pathes.pop_back();
+    if(!pathes.isEmpty()) parentFolderUrl = pathes.last();
+
+    return parentFolderUrl;
 }
 
 

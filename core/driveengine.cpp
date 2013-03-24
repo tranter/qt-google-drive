@@ -83,7 +83,7 @@ bool DriveEngine::isPanelsContentIdentical()
 
     if(settingsManager.currentAccount(0) == settingsManager.currentAccount(1))
     {
-        if(settingsManager.currentFolderURL(0) == settingsManager.currentFolderURL(1))
+        if(settingsManager.currentFolderUrl(0) == settingsManager.currentFolderUrl(1))
         {
             is = true;
         }

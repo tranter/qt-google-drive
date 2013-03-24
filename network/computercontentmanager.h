@@ -9,30 +9,35 @@
 
 class ComputerContentManager : public QObject, public ContentManager
 {
-   Q_OBJECT
+    Q_OBJECT
 public:
     explicit ComputerContentManager(FilePanel *fp, QObject *parent = 0);
     ~ComputerContentManager();
 
 public:
     void get(const QString &resourcePointer);
-    QString getParentFolder() const;
     void update();
     void accountsComboBoxItemActivated(const QString &text);
     void showFilesOnPanel(QTreeWidgetItem *item);
+    virtual QString parentFolder();
+
 
 protected:
-     void updateItemsState();
-     void fillComboBox(QMap<QString, QString> accountsMap, const QString &currentAccount);
-     void addItem(QFileInfo &fileInfo);
-     bool isRoot();
+    void updateItemsState(QByteArray &values);
+    void addItem(QFileInfo &fileInfo);
+    bool isRoot();
 
 protected:
     void show();
 
 private:
-     QFileIconProvider fileIconProvider;
-     QDir dir;
+    QString makeRootPath(const QString &driveLetter);
+    QString makeRootDrive(const QString &drive);
+    void setSorting(int sortSection, Qt::SortOrder sortOrder);
+
+private:
+    QFileIconProvider fileIconProvider;
+    QDir dir;
 };
 
 #endif // COMPUTERCONTENTMANAGER_H

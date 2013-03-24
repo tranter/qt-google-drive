@@ -1,13 +1,11 @@
 #ifndef DEF_H
 #define DEF_H
 
-//https://docs.google.com/feeds/default/private/full/-/folder
 #define GET_FULL_ROOT_CONTENT QString("https://docs.google.com/feeds/default/private/full/folder%3Aroot/contents")
 #define GET_FILES_IN_FOLDER QString("https://docs.google.com/feeds/default/private/full/")
 #define ROOT_TAG QString("https://docs.google.com/feeds/default/private/full/folder%3Aroot")
 #define PARENT_TAG QString("http://schemas.google.com/docs/2007#parent")
 #define UPLOAD_TAG QString("http://schemas.google.com/g/2005#resumable-create-media")
-//#define ICON_TAG QString("http://schemas.google.com/docs/2007#icon")
 
 #define CONTENTS QString("/contents")
 #define MAX_RESULTS QString("?max-results=10000")
@@ -36,6 +34,7 @@
 #define ACCOUNT_SEPARATOR_END QString(" ]")
 
 #define ACCOUNTS_GROUP QString("Accounts")
+#define COMPUTER_GROUP QString("Computer")
 #define COMMON_GROUP QString("Common")
 #define PANEL_GROUP QString("Panel")
 #define ACCESS_TOKEN_KEY QString("access_token")
@@ -45,11 +44,13 @@
 #define CURRENT_PANEL_KEY QString("currentPanel")
 #define CURRENT_FOLDER_URL_KEY QString("currentFolderUrl")
 #define CURRENT_FOLDER_PATH_KEY QString("currentFolderPath")
+#define CURRENT_PARENT_FOLDER_URL_KEY QString("currentParentFolderUrl")
 #define CURRENT_FOLDER_COMPUTER_PATH_KEY QString("currentFolderComputerPath")
 #define PATHES_URLS_KEY QString("webUrlsPathes")
 #define PATHES_COMPUTER_KEY QString("computerPathes")
 #define CURRENT_ACCOUNT_KEY QString("currentAccount")
-#define ACCOUNT_LETTER_KEY QString("letter")
+#define ACCOUNT_DRIVE_LETTER_KEY QString("accountDriveLetter")
+#define COMPUTER_DRIVE_LETTER_KEY QString("computerDriveLetter")
 #define NAME_KEY QString("name")
 #define DOMAIN_SHARING_POLICY_KEY QString("domainSharingPolicy")
 #define PERMISSION_ID_KEY QString("permissionId")

@@ -1,5 +1,6 @@
 #include <QLocale>
 #include <QHeaderView>
+#include <QApplication>
 #include "contentmanager.h"
 #include "settings/settingsmanager.h"
 #include "gui/forms/filepanel.h"
@@ -43,7 +44,9 @@ void ContentManager::show(void)
         treeWidgetItems.last()->setText(0, PARENT_FOLDER_SIGN);
     }
 
-    updateItemsState();
+    QByteArray values(SettingsManager().restorePanelHeaderState(panelNum));
+
+    updateItemsState(values);
 }
 
 QString ContentManager::getDate(QDateTime &fileDateTime)
@@ -58,8 +61,9 @@ QString ContentManager::getSize(qint64 size)
     return formattedSize;
 }
 
-void ContentManager::sectionClicked()
+void ContentManager::headerSectionClicked(int logicalIndex)
 {
+    Q_UNUSED(logicalIndex);
     SettingsManager().savePanelHeaderState(panelNum, panel->header()->saveState());
     show();
 }
@@ -87,4 +91,42 @@ QString ContentManager::back()
     if(!pathes.isEmpty()) backLink = pathes.last();
 
     return backLink;
+}
+
+void ContentManager::fillComboBox(ComboBoxItem drivesMap, const QString &currentDrive)
+{
+    QStringList keys(drivesMap.keys());
+
+    //DEBUG << "!!!!!!!!!!!!!!!!!!!!!!!currentIndex!!!!!!!!!!!!!!!!!!" << drivesComboBox->currentIndex();
+
+    drivesComboBox->clear();
+
+    for(int i = 0; i < keys.count(); ++i)
+    {
+        QString driveLetter(keys[i]);
+
+        driveLetter = driveLetter.rightJustified(2,' ');
+        driveLetter = driveLetter.leftJustified(6, ' ');
+
+        QString itemFullStr(driveLetter);
+        QMap<QString, QIcon> drivesAdditionalInfo(drivesMap[keys[i]]);
+        QStringList  drivesAdditionalInfoKeys(drivesAdditionalInfo.keys());
+        QString description(drivesAdditionalInfoKeys[0]);
+
+        if(!description.isEmpty()) itemFullStr += ACCOUNT_SEPARATOR_BEGIN + description + ACCOUNT_SEPARATOR_END;
+
+        drivesComboBox->addItem(itemFullStr);
+        drivesComboBox->setItemIcon(i, drivesAdditionalInfo[description]);
+
+        //DEBUG << "currentIndex" << drivesComboBox->currentIndex() << " currentDrive" << currentDrive << " description" << description << " i" << i;
+
+        if(currentDrive == description && drivesComboBox->currentIndex() != i)
+        {
+            //DEBUG << "OK";
+            drivesComboBox->setCurrentIndex(i);
+            //DEBUG << "?????????????????????currentIndex??????????????????????????????" << drivesComboBox->currentIndex();
+        }
+    }
+
+    drivesComboBox->setMinimumWidth(80);
 }

@@ -33,6 +33,7 @@ private slots:
     void slotPanelItemDoubleClicked(QTreeWidgetItem *item, int column);
     void slotCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
     void slotItemEntered(QTreeWidgetItem *item, int column);
+    void slotHeaderSectionClicked(int logicalIndex);
 
 public:
     QTreeWidget *getFileView(void) const;

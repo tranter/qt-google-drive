@@ -5,7 +5,10 @@
 #include <QTreeWidgetItem>
 #include <QLabel>
 #include <QDateTime>
+#include <QDateTime>
 #include "gui/controls/combobox.h"
+
+typedef QMap< QString, QMap<QString, QIcon> > ComboBoxItem;
 
 class FilePanel;
 
@@ -17,29 +20,29 @@ public:
 
 public:
     virtual void get(const QString &resourcePointer) = 0;
-    virtual QString getParentFolder() const = 0;
     virtual void update() = 0;
     virtual void accountsComboBoxItemActivated(const QString &text) = 0;
     virtual void showFilesOnPanel(QTreeWidgetItem *item) = 0;
+    virtual QString parentFolder() = 0;
 
 protected:
-    virtual void updateItemsState() = 0;
-    virtual void fillComboBox(QMap<QString, QString> accountsMap, const QString &currentAccount) = 0; 
-    virtual bool isRoot() = 0;
+    virtual void updateItemsState(QByteArray &values) = 0;
+    virtual bool isRoot() = 0;   
 
 public:
     virtual void clear(void);
     virtual QTreeWidget* getPanel() const;
     virtual bool hasItemParentSign(QTreeWidgetItem *item) const;
+    virtual void headerSectionClicked(int logicalIndex);
 
 protected:
     virtual void show(void);
     virtual QString getDate(QDateTime &fileDateTime);
     virtual QString getSize(qint64);
     virtual QString back();
+    virtual void fillComboBox(ComboBoxItem drivesMap, const QString &currentDrive);
 
-protected:
-    void sectionClicked();
+protected:  
     void addPath(const QString &path);
 
 protected:
