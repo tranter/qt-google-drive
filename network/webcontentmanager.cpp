@@ -12,6 +12,7 @@ WebContentManager::WebContentManager(FilePanel *fp, QObject *parent) :
 {
     parser.reset(new XMLParser);
     pathes = SettingsManager().pathesURLs(panelNum);
+    //DEBUG << pathes;
 }
 
 WebContentManager::~WebContentManager()
@@ -21,6 +22,8 @@ WebContentManager::~WebContentManager()
 
 void WebContentManager::get(const QString &resourcePointer)
 {    
+    //DEBUG << resourcePointer;
+
     QApplication::setOverrideCursor(Qt::WaitCursor);
 
     setCurrentPanelState(resourcePointer);
@@ -64,6 +67,8 @@ bool WebContentManager::parseReply(const QString &str)
 
 void WebContentManager::show()
 {
+    //DEBUG;
+
     cashIcons();
 
     ContentManager::show();
@@ -143,6 +148,14 @@ void WebContentManager::getItemsDataByIndexes(QList<int> &indexes, QList<Items::
     }
 }
 
+void WebContentManager::getItemsDataByIndexes(QList<int> &indexes, QList<Items::Data> &files)
+{
+    for(int i = 0; i < indexes.count(); ++i)
+    {
+       files.push_back(normalizedItems[indexes[i]]);
+    }
+}
+
 int WebContentManager::getIndexByItemData(QTreeWidget *treeWidget, Items::Data &itemData) const
 {
     int index = -1;
@@ -190,6 +203,7 @@ void WebContentManager::updateItemsState(QByteArray &values)
 
 void WebContentManager::update()
 {
+    //DEBUG;
     SettingsManager settingsManager;
     QString disc;
     QString currentAccountName(settingsManager.currentAccount(panelNum));
@@ -243,6 +257,8 @@ void WebContentManager::accountsComboBoxItemActivated(const QString &text)
 
 void WebContentManager::showFilesOnPanel(QTreeWidgetItem *item)
 {
+    //DEBUG;
+
     const QString itemName(item->data(0, Qt::DisplayRole).toString());
 
     if(hasItemParentSign(item))
@@ -264,8 +280,7 @@ void WebContentManager::showFilesOnPanel(QTreeWidgetItem *item)
 }
 
 void WebContentManager::setCurrentPanelState(const QString &url)
-{
-    DEBUG;
+{   
     SettingsManager settingsManager;
 
     settingsManager.setCurrentFolderURL(panelNum, url);
@@ -276,6 +291,8 @@ void WebContentManager::setCurrentPanelState(const QString &url)
 
     settingsManager.setCurrentFolderPath(panelNum, fullPath.mid(beginPos, length));
     settingsManager.setPathesURLs(panelNum, pathes);
+
+    //DEBUG << "panelNum" << panelNum << " pathes" << pathes;
 }
 
 void WebContentManager::performShowFiles(const QString &query, const QString &name, EPath path)
@@ -329,7 +346,7 @@ int WebContentManager::getDiscLength() const
 
 QString WebContentManager::parentFolder()
 {
-    QString parentFolderUrl (GET_FULL_ROOT_CONTENT);
+    QString parentFolderUrl = GET_FULL_ROOT_CONTENT;
 
     if(!pathes.isEmpty()) pathes.pop_back();
     if(!pathes.isEmpty()) parentFolderUrl = pathes.last();

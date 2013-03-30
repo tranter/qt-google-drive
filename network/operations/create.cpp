@@ -2,7 +2,8 @@
 #include "settings/settingsmanager.h"
 
 Create::Create(QObject *parent) :
-    NetworkManager(parent)
+    NetworkManager(parent),
+    Operation(ECreate)
 {
 }
 

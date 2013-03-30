@@ -5,7 +5,8 @@
 #include "share/commontools.h"
 
 Children::Children(QObject *parent) :
-    NetworkManager(parent)
+    NetworkManager(parent),
+    Operation(EChildren)
 {
 }
 

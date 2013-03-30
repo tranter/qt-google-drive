@@ -3,7 +3,6 @@
 
 #include "network/networkmanager.h"
 #include "operation.h"
-#include "gui/items.h"
 
 class Copy : public NetworkManager, public Operation
 {
@@ -12,21 +11,16 @@ public:
     explicit Copy(QObject *parent = 0);
 
 signals:
-    void fileCopied(Items::Data &sourceData);
+    void fileCopied(Items::Data &sourceData, bool isLastFile = false);
 
 protected slots:
     void slotPostFinished(QNetworkReply *reply);
-
-private slots:
-    void slotFileCopied(void);
 
 public:
     void file(const Items::Data &sourceData, const QString &destFolderUrlData);
     void files(const QList<Items::Data> &sourcesData, const QString &destFolderUrlData);
 
 private:
-    Items::Data sourceData;
-    QList<Items::Data> sourcesData;
     QString destFolderUrlData;
 };
 

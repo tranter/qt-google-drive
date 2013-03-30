@@ -2,7 +2,8 @@
 #include "settings/settingsmanager.h"
 
 Copy::Copy(QObject *parent) :
-    NetworkManager(parent)
+    NetworkManager(parent),
+    Operation(ECopy)
 {
 }
 
@@ -20,21 +21,21 @@ void Copy::files(const QList<Items::Data> &sources, const QString &destFolderUrl
     sourcesData = sources;
     destFolderUrlData = destFolderUrl;
 
-    connect(this, SIGNAL(fileCopied(Items::Data&)), this, SLOT(slotFileCopied(void)));
-
     if(!sources.isEmpty()) file(sourcesData.takeFirst(), destFolderUrl);
 }
 
 void Copy::slotPostFinished(QNetworkReply *reply)
 {
-    NetworkManager::slotPostFinished(reply);
-    if(sourcesData.isEmpty()) updatePanelContent(true);
+ //   NetworkManager::slotPostFinished(reply);
 
-    emit fileCopied(sourceData);
-}
-
-void Copy::slotFileCopied(void)
-{
-    if(!sourcesData.isEmpty()) file(sourcesData.takeFirst(), destFolderUrlData);
-    else disconnect(this, SIGNAL(fileCopied(Items::Data&)), this, SLOT(slotFileCopied(void)));
+    if(sourcesData.isEmpty())
+    {
+        emit fileCopied(sourceData, true);
+        updatePanelContent(true);
+    }
+    else
+    {
+        emit fileCopied(sourceData);
+        file(sourcesData.takeFirst(), destFolderUrlData);
+    }
 }

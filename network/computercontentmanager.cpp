@@ -123,8 +123,6 @@ void ComputerContentManager::showFilesOnPanel(QTreeWidgetItem *item)
         }
     }
 
-
-
     SettingsManager().setComputerPathes(panelNum, pathes);
 }
 

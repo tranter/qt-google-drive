@@ -111,9 +111,13 @@ QLabel *FilePanel::getPathLabel(void) const
     return ui->pathLabel;
 }
 
+
+
 void FilePanel::slotUpdate()
 {
     update();
+//    #include <QDesktopServices>
+//    QDesktopServices::DataLocation
 }
 
 void FilePanel::update()
@@ -184,6 +188,8 @@ void FilePanel::markItem(QTreeWidgetItem *item, bool noSwitch)
     {
         item->setForeground(i, brush);
     }
+
+   //DEBUG << item->data(0, Qt::DisplayRole).toString();
 }
 
 void FilePanel::markItems(QTreeWidgetItem *current, QTreeWidgetItem *previous)
@@ -218,7 +224,6 @@ void FilePanel::itemPressed(QTreeWidgetItem *item)
 
 void FilePanel::itemDoubleClicked(QTreeWidgetItem *item)
 {
-    DEBUG;
     SettingsManager().setCurrentPanel(panelNum);
     showFilesOnPanel(item);
 }

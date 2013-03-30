@@ -20,8 +20,6 @@ public:
     void accountsComboBoxItemActivated(const QString &text);
     void showFilesOnPanel(QTreeWidgetItem *item);
     virtual QString parentFolder();
-
-
 protected:
     void updateItemsState(QByteArray &values);
     void addItem(QFileInfo &fileInfo);

@@ -2,7 +2,8 @@
 #include "settings/settingsmanager.h"
 
 Rename::Rename(QObject *parent) :
-    NetworkManager(parent)
+    NetworkManager(parent),
+    Operation(ERename)
 {
 }
 

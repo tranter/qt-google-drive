@@ -38,6 +38,7 @@ public:
     Items::Data getParentFolderInfo() const;
     Items::Data getCurrentItem();
     void getItemsDataByIndexes(QList<int> &indexes, QList<Items::Data> &folders, QList<Items::Data> &files);
+    void getItemsDataByIndexes(QList<int> &indexes, QList<Items::Data> &files);
     int getIndexByItemData(QTreeWidget *treeWidget, Items::Data &itemData) const;
     void cashIcons();
     void setCurrentPanelState(const QString &url);

@@ -8,4 +8,14 @@ enum EPanels
     EPanelsCount
 };
 
+enum EOperations
+{
+    ECopy,
+    EMove,
+    EDelete,
+    ECreate,
+    ERename,
+    EChildren
+};
+
 #endif // ENUMS_H

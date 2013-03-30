@@ -5,17 +5,19 @@
 #include "network/operations/copy.h"
 #include "network/operations/delete.h"
 
-class Move : public QObject
+class Move : public QObject, public Operation
 {
     Q_OBJECT
 public:
     Move(QObject* parent = 0);
 
 public:
-    void item(const Items::Data &source, const QString &destFolderUrl);
+    void file(const Items::Data &source, const QString &destFolderUrl);
+    void files(const QList<Items::Data> &sources, const QString &destFolderUrl);
+    const Copy *getCopyPart() const;
 
 private slots:
-    void slotFileCopied(Items::Data &source);
+    void slotFileCopied(Items::Data &source, bool isLastFile);
 
 private:
     Copy copy;

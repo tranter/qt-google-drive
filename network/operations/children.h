@@ -16,7 +16,6 @@ protected slots:
 
 public:
      void fetch(const Items::Data &source = Items::Data());
-
 };
 
 #endif // CHILDREN_H

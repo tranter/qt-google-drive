@@ -5,6 +5,7 @@
 #include "gui/items.h"
 #include "settings/accountinfo.h"
 #include "share/singleton.h"
+#include "share/enums.h"
 #include "share/defs.h"
 #include "network/queries.h"
 #include "gui/forms/createfolderdialog.h"
@@ -44,6 +45,9 @@ public slots:
 private slots:
     void slotAccountInfoReceived(AccountInfo::Data &postData);
     void slotItemOperationCompleted(Items::Data &itemData);
+
+private slots:
+    void performOperation(Operation *operation);
 
 private:
     Items::Data fileUrlToDeleteForMoveOperation;
