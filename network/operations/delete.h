@@ -15,7 +15,7 @@ signals:
     void itemDeleted(Items::Data &sourceData);
 
 public:
-    void item(const Items::Data &source, bool update = true);
+    void item(const Items::Data &source, bool update);
     void items(const QList<Items::Data> &sources);
 
 protected slots:

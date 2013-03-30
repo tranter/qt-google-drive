@@ -100,7 +100,7 @@ void OperationsManager::slotDelete(void)
             return;
         }
 
-        del.item(source);
+        del.item(source, true);
     }
     else
     {
