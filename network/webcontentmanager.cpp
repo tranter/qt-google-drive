@@ -257,7 +257,7 @@ void WebContentManager::accountsComboBoxItemActivated(const QString &text)
 
 void WebContentManager::showFilesOnPanel(QTreeWidgetItem *item)
 {
-    //DEBUG;
+    DEBUG;
 
     const QString itemName(item->data(0, Qt::DisplayRole).toString());
 

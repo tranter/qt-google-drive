@@ -86,32 +86,33 @@ void OperationsManager::slotMove(void)
 
 void OperationsManager::slotDelete(void)
 {
-    FilePanel *filePanel = SDriveEngine::inst()->getFilePanel(SettingsManager().currentPanel());
-    QTreeWidget *treeWidget = filePanel->getFileView();
-    QList<int> markedItemIds = filePanel->getMarkedItemIds(treeWidget);
-    WebContentManager* webContentManager = dynamic_cast<WebContentManager*> (SDriveEngine::inst()->getContentMngr());
-    Items::Data source = webContentManager->getCurrentItem();
+     performOperation(&del);
+//    FilePanel *filePanel = SDriveEngine::inst()->getFilePanel(SettingsManager().currentPanel());
+//    QTreeWidget *treeWidget = filePanel->getFileView();
+//    QList<int> markedItemIds = filePanel->getMarkedItemIds(treeWidget);
+//    WebContentManager* webContentManager = dynamic_cast<WebContentManager*> (SDriveEngine::inst()->getContentMngr());
+//    Items::Data source = webContentManager->getCurrentItem();
 
-    if(markedItemIds.isEmpty())
-    {
-        if(!operationPossible())
-        {
-            CommonTools::msg(tr("No files selected"));
-            return;
-        }
+//    if(markedItemIds.isEmpty())
+//    {
+//        if(!operationPossible())
+//        {
+//            CommonTools::msg(tr("No files selected"));
+//            return;
+//        }
 
-        del.item(source, true);
-    }
-    else
-    {
-        QList<Items::Data> filesData;
-        webContentManager->getItemsDataByIndexes(markedItemIds, filesData);
+//        del.item(source, true);
+//    }
+//    else
+//    {
+//        QList<Items::Data> filesData;
+//        webContentManager->getItemsDataByIndexes(markedItemIds, filesData);
 
-        disconnect(&del, SIGNAL(itemDeleted(Items::Data&)), this, SLOT(slotItemOperationCompleted(Items::Data&)));
-        connect(&del, SIGNAL(itemDeleted(Items::Data&)), this, SLOT(slotItemOperationCompleted(Items::Data&)));
+//        disconnect(&del, SIGNAL(itemDeleted(Items::Data&)), this, SLOT(slotItemOperationCompleted(Items::Data&)));
+//        connect(&del, SIGNAL(itemDeleted(Items::Data&)), this, SLOT(slotItemOperationCompleted(Items::Data&)));
 
-        del.items(filesData);
-    }
+//        del.items(filesData);
+//    }
 }
 
 void OperationsManager::slotRename(void)
@@ -172,10 +173,9 @@ void OperationsManager::slotAcceptCreateFolder(const QString &name)
 void OperationsManager::slotItemOperationCompleted(Items::Data &itemData)
 {
     QTreeWidget *treeWidget = SDriveEngine::inst()->getFilePanel(SettingsManager().currentPanel())->getFileView();
-
     WebContentManager* webContentManager = dynamic_cast<WebContentManager*> (SDriveEngine::inst()->getContentMngr());
-    int index = webContentManager->getIndexByItemData(treeWidget, itemData);
     FilePanel *filePanel = SDriveEngine::inst()->getFilePanel(SettingsManager().currentPanel());
+    int index = webContentManager->getIndexByItemData(treeWidget, itemData);
 
     if(index > -1) filePanel->markItem(treeWidget->topLevelItem(index));
 }
@@ -186,7 +186,7 @@ void OperationsManager::performOperation(Operation *operation)
     QTreeWidget *treeWidget = filePanel->getFileView();
     QList<int> markedItemIds = filePanel->getMarkedItemIds(treeWidget);
     SettingsManager settingsManager;
-    QString destFolderUrl(settingsManager.currentFolderUrl(settingsManager.oppositePanel()));
+    QString destFolderUrl = settingsManager.currentFolderUrl(settingsManager.oppositePanel());
     WebContentManager* webContentManager = dynamic_cast<WebContentManager*> (SDriveEngine::inst()->getContentMngr());
     Items::Data source = webContentManager->getCurrentItem();
 
@@ -194,29 +194,44 @@ void OperationsManager::performOperation(Operation *operation)
     {
         if(!operationPossible())
         {
-            CommonTools::msg(tr("No Files selected"));
+            CommonTools::msg(tr("No files selected"));
             return;
         }
 
-        operation->file(source, destFolderUrl);
+        if(operation->getOperationId() == ECopy || operation->getOperationId() == EMove) operation->file(source, destFolderUrl);
+        if(operation->getOperationId() == EDelete) operation->item(source, true);
     }
     else
     {
-        QList<Items::Data> foldersData, filesData;
-        webContentManager->getItemsDataByIndexes(markedItemIds, foldersData, filesData);
-
         if(operation->getOperationId() == ECopy)
         {
             disconnect(&copy, SIGNAL(fileCopied(Items::Data&)), this, SLOT(slotItemOperationCompleted(Items::Data&)));
             connect(&copy, SIGNAL(fileCopied(Items::Data&)), this, SLOT(slotItemOperationCompleted(Items::Data&)));
         }
+
         if(operation->getOperationId() == EMove)
         {
             disconnect(move.getCopyPart(), SIGNAL(fileCopied(Items::Data&)), this, SLOT(slotItemOperationCompleted(Items::Data&)));
             connect(move.getCopyPart(), SIGNAL(fileCopied(Items::Data&)), this, SLOT(slotItemOperationCompleted(Items::Data&)));
         }
 
-        operation->files(filesData, destFolderUrl);
+        QList<Items::Data> foldersData, filesData;
+
+        if(operation->getOperationId() == ECopy || operation->getOperationId() == EMove)
+        {
+            webContentManager->getItemsDataByIndexes(markedItemIds, foldersData, filesData);
+            operation->files(filesData, destFolderUrl);
+        }
+
+        if(operation->getOperationId() == EDelete)
+        {
+            webContentManager->getItemsDataByIndexes(markedItemIds, filesData);
+
+            disconnect(&del, SIGNAL(itemDeleted(Items::Data&)), this, SLOT(slotItemOperationCompleted(Items::Data&)));
+            connect(&del, SIGNAL(itemDeleted(Items::Data&)), this, SLOT(slotItemOperationCompleted(Items::Data&)));
+
+            operation->items(filesData);
+        }
     }
 }
 

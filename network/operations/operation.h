@@ -13,6 +13,8 @@ public:
 public:   
     virtual void file(const Items::Data &source, const QString &destFolderUrl){}
     virtual void files(const QList<Items::Data> &sources, const QString &destFolderUrl){}
+    virtual void item(const Items::Data &source, bool update){}
+    virtual void items(const QList<Items::Data> &sources){}
 
 public:
     void updatePanelContent(bool opposite);
