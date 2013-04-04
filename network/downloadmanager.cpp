@@ -9,11 +9,11 @@ DownloadFileManager::DownloadFileManager(QObject *parent) :
 {
 }
 
-void DownloadFileManager::startDownload(QUrl url, QString& fileName, const QString& type)
+void DownloadFileManager::startDownload(QUrl url, QString& fileName, const QString& ft)
 {
     init();
 
-    fileType = type;
+    fileType = ft;
 
     CommonTools::setHeader(SettingsManager().accessToken(), request);
     setProgressBarSettings(fileName, tr("Downloading file: "));
@@ -25,6 +25,7 @@ void DownloadFileManager::startDownload(QUrl url, QString& fileName, const QStri
     connect(reply, SIGNAL(finished()), this, SLOT(slotDownloadFinished()));
     connect(reply, SIGNAL(readyRead()), this, SLOT(slotDownloadReadyRead()));
     connect(reply, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(slotDownloadProgress(qint64,qint64)));
+
     connectErrorHandlers();
 }
 
@@ -42,9 +43,12 @@ void DownloadFileManager::slotDownloadFinished()
 
     file.flush();
     file.close();
+
+    emit downloaded();
 }
 
 void DownloadFileManager::slotDownloadReadyRead()
 {
+    //DEBUG;
     file.write(reply->readAll());
 }

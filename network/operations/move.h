@@ -12,8 +12,8 @@ public:
     Move(QObject* parent = 0);
 
 public:
-    void file(const Items::Data &source, const QString &destFolderUrl);
-    void files(const QList<Items::Data> &sources, const QString &destFolderUrl);
+    void file(const Items::Data &source, const QString &destination);
+    void files(const QList<Items::Data> &sources, const QString &destination);
     const Copy *getCopyPart() const;
 
 private slots:

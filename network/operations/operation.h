@@ -11,8 +11,8 @@ public:
     Operation(EOperations oId);
 
 public:   
-    virtual void file(const Items::Data &source, const QString &destFolderUrl){}
-    virtual void files(const QList<Items::Data> &sources, const QString &destFolderUrl){}
+    virtual void file(const Items::Data &source, const QString &destination){}
+    virtual void files(const QList<Items::Data> &sources, const QString &destination){}
     virtual void item(const Items::Data &source, bool update){}
     virtual void items(const QList<Items::Data> &sources){}
 

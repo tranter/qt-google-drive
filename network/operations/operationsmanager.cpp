@@ -3,8 +3,7 @@
 #include "settings/settingsmanager.h"
 #include <QStringList>
 
-OperationsManager::OperationsManager(QObject *parent):
-    NetworkManager(parent)
+OperationsManager::OperationsManager(QObject *parent)
 {
 }
 
@@ -48,6 +47,8 @@ bool OperationsManager::operationPossible(void)
         if(itemText != PARENT_FOLDER_SIGN) is = true;
     }
 
+    DEBUG << is;
+
     return is;
 }
 
@@ -76,17 +77,32 @@ void OperationsManager::slotFinishedCreateFolder(int result)
 
 void OperationsManager::slotCopy(void)
 {
-    performOperation(&copy);
+    SettingsManager settingsManager;
+    int oppositePanel = settingsManager.oppositePanel();
+    int currentPanelState = settingsManager.panelState(settingsManager.currentPanel());
+    int oppositePanelState = settingsManager.panelState(oppositePanel);
+
+    if(currentPanelState == EWeb && oppositePanelState == EWeb) performWebOperation(&copy);
+
+    if(currentPanelState == EWeb && oppositePanelState == EComputer)
+    {
+        WebContentManager* webContentManager = dynamic_cast<WebContentManager*> (SDriveEngine::inst()->getContentMngr());
+        Items::Data source = webContentManager->getCurrentItem();
+
+        download.file(source, settingsManager.currentFolderComputerPath(oppositePanel));
+    }
+
+    if(currentPanelState == EComputer){ DEBUG << "upload here"; }
 }
 
 void OperationsManager::slotMove(void)
 {    
-    performOperation(&move);
+    performWebOperation(&move);
 }
 
 void OperationsManager::slotDelete(void)
 {
-     performOperation(&del);
+    performWebOperation(&del);
 }
 
 void OperationsManager::slotRename(void)
@@ -154,8 +170,14 @@ void OperationsManager::slotItemOperationCompleted(Items::Data &itemData)
     if(index > -1) filePanel->markItem(treeWidget->topLevelItem(index));
 }
 
-void OperationsManager::performOperation(Operation *operation)
+void OperationsManager::performWebOperation(Operation *operation)
 {
+    if(!operationPossible())
+    {
+        CommonTools::msg(tr("No files selected"));
+        return;
+    }
+
     FilePanel *filePanel = SDriveEngine::inst()->getFilePanel(SettingsManager().currentPanel());
     QTreeWidget *treeWidget = filePanel->getFileView();
     QList<int> markedItemIds = filePanel->getMarkedItemIds(treeWidget);
@@ -166,12 +188,6 @@ void OperationsManager::performOperation(Operation *operation)
 
     if(markedItemIds.isEmpty())
     {
-        if(!operationPossible())
-        {
-            CommonTools::msg(tr("No files selected"));
-            return;
-        }
-
         if(operation->getOperationId() == ECopy || operation->getOperationId() == EMove) operation->file(source, destFolderUrl);
         if(operation->getOperationId() == EDelete) operation->item(source, true);
     }

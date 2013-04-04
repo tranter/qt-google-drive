@@ -17,11 +17,11 @@ protected slots:
     void slotPostFinished(QNetworkReply *reply);
 
 public:
-    void file(const Items::Data &sourceData, const QString &destFolderUrlData);
-    void files(const QList<Items::Data> &sourcesData, const QString &destFolderUrlData);
+    void file(const Items::Data &source, const QString &destination);
+    void files(const QList<Items::Data> &sources, const QString &destination);
 
 private:
-    QString destFolderUrlData;
+    QString destFolder;
 };
 
 #endif // COPY_H

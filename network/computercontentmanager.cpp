@@ -44,6 +44,8 @@ bool ComputerContentManager::isRoot()
 
 void ComputerContentManager::update()
 {
+    DEBUG;
+
     SettingsManager settingsManager;
 
     get(settingsManager.currentFolderComputerPath(panelNum));
@@ -97,7 +99,9 @@ QString ComputerContentManager::makeRootDrive(const QString &drive)
 }
 
 void ComputerContentManager::showFilesOnPanel(QTreeWidgetItem *item)
-{           
+{
+    DEBUG;
+
     if(hasItemParentSign(item))
     {
         get(parentFolder());

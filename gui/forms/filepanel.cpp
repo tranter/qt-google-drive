@@ -108,17 +108,17 @@ void FilePanel::slotComputerDrivesButtonClicked()
     computerDrivesButtonClicked();
 }
 
-QTreeWidget *FilePanel::getFileView(void) const
+QTreeWidget *FilePanel::getFileView() const
 {
     return ui->fileView;
 }
 
-QLabel *FilePanel::getPathLabel(void) const
+QLabel *FilePanel::getPathLabel() const
 {
     return ui->pathLabel;
 }
 
-QToolButton *FilePanel::getComputerDrivesButton(void) const
+QToolButton *FilePanel::getComputerDrivesButton() const
 {
     return computerDrivesButton;
 }
@@ -126,8 +126,8 @@ QToolButton *FilePanel::getComputerDrivesButton(void) const
 void FilePanel::slotUpdate()
 {
     update();
-//    #include <QDesktopServices>
-//    QDesktopServices::DataLocation
+    //    #include <QDesktopServices>
+    //    QDesktopServices::DataLocation
 }
 
 void FilePanel::update()
@@ -199,7 +199,7 @@ void FilePanel::markItem(QTreeWidgetItem *item, bool noSwitch)
         item->setForeground(i, brush);
     }
 
-   //DEBUG << item->data(0, Qt::DisplayRole).toString();
+    //DEBUG << item->data(0, Qt::DisplayRole).toString();
 }
 
 void FilePanel::markItems(QTreeWidgetItem *current, QTreeWidgetItem *previous)

@@ -10,8 +10,11 @@ class DownloadFileManager : public NetworkManager
 public:
     explicit DownloadFileManager(QObject *parent = 0);
 
+signals:
+    void downloaded();
+
 public:
-    void startDownload(QUrl url, QString &fileName, const QString &type = "text/html");
+    void startDownload(QUrl url, QString &fileName, const QString &ft = "text/html");
 
 protected slots:
     virtual void slotDownloadProgress(qint64 bytesReceived, qint64 bytesTotal);

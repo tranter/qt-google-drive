@@ -7,21 +7,21 @@ Copy::Copy(QObject *parent) :
 {
 }
 
-void Copy::file(const Items::Data &source, const QString &destFolderUrl)
+void Copy::file(const Items::Data &source, const QString &destination)
 {
     sourceData = source;
-    postData = queries.getCopyFileData(source.name, destFolderUrl);
+    postData = queries.getCopyFileData(source.name, destination);
 
     queries.setRawHeader(SettingsManager().accessToken(), request);
     postRequest(queries.constructCopyFileUrl(source.self));
 }
 
-void Copy::files(const QList<Items::Data> &sources, const QString &destFolderUrl)
+void Copy::files(const QList<Items::Data> &sources, const QString &destination)
 {
     sourcesData = sources;
-    destFolderUrlData = destFolderUrl;
+    destFolder = destination;
 
-    if(!sources.isEmpty()) file(sourcesData.takeFirst(), destFolderUrl);
+    if(!sources.isEmpty()) file(sourcesData.takeFirst(), destination);
 }
 
 void Copy::slotPostFinished(QNetworkReply *reply)
@@ -36,6 +36,6 @@ void Copy::slotPostFinished(QNetworkReply *reply)
     else
     {
         emit fileCopied(sourceData);
-        file(sourcesData.takeFirst(), destFolderUrlData);
+        file(sourcesData.takeFirst(), destFolder);
     }
 }

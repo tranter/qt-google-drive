@@ -16,8 +16,9 @@
 #include "network/operations/rename.h"
 #include "network/operations/share.h"
 #include "network/operations/children.h"
+#include "network/operations/download.h"
 
-class OperationsManager : public NetworkManager
+class OperationsManager : public QObject
 {
     Q_OBJECT
 public:
@@ -47,7 +48,7 @@ private slots:
     void slotItemOperationCompleted(Items::Data &itemData);
 
 private slots:
-    void performOperation(Operation *operation);
+    void performWebOperation(Operation *operation);
 
 private:
     Items::Data fileUrlToDeleteForMoveOperation;
@@ -62,6 +63,7 @@ private:
     Rename rename;
     Share share;
     Children children;
+    Download download;
 };
 
 typedef TSingleton<OperationsManager> SOperationsManager;

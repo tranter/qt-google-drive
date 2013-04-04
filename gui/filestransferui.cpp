@@ -15,16 +15,15 @@ void FilesTransferUI::download(void)
     {
         if(SDriveEngine::inst()->downloadMngr->getState() == NetworkManager::EBusy) return;
     }
-    Items::Data item = dynamic_cast<WebContentManager*> (SDriveEngine::inst()->getContentMngr())->getCurrentItem();
 
-    QString downloadLink(item.downloadLink);
+    Items::Data item = dynamic_cast<WebContentManager*> (SDriveEngine::inst()->getContentMngr())->getCurrentItem();
 
     if(SDriveEngine::inst()->checkUI->slotCheckWorkDir(false))
     {
-        QString fileName(SettingsManager().workDir() + QDir::toNativeSeparators("/") + item.name);
+        QString fileName = SettingsManager().workDir() + QDir::toNativeSeparators("/") + item.name;
 
         SDriveEngine::inst()->downloadMngr.reset(new DownloadFileManager(SDriveEngine::inst()->parent));
-        SDriveEngine::inst()->downloadMngr->startDownload(QUrl(downloadLink), fileName, item.fileType);
+        SDriveEngine::inst()->downloadMngr->startDownload(QUrl(item.downloadLink), fileName, item.fileType);
     }
     else
     {
@@ -39,7 +38,7 @@ void FilesTransferUI::upload(void)
         if(SDriveEngine::inst()->uploadFileMngr->getState() == NetworkManager::EBusy) return;
     }
 
-    QString  fileName = QFileDialog::getOpenFileName(SDriveEngine::inst()->parent, tr("Uploading file"), QDir::homePath(), tr("All files(*)"));
+    QString fileName = QFileDialog::getOpenFileName(SDriveEngine::inst()->parent, tr("Uploading file"), QDir::homePath(), tr("All files(*)"));
 
     if(!fileName.isEmpty())
     {

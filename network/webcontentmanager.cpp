@@ -67,11 +67,9 @@ bool WebContentManager::parseReply(const QString &str)
 
 void WebContentManager::show()
 {
-    //DEBUG;
+    ContentManager::show();
 
     cashIcons();
-
-    ContentManager::show();
 
     addPath(getLastRequest().url().toString());
     SettingsManager().setPathesURLs(panelNum, pathes);
@@ -115,6 +113,8 @@ void WebContentManager::addItem(const Items::Data &itemData)
 void WebContentManager::cashIcons()
 {
     FileIconProvider fileIconProvider;
+
+    DEBUG << "normalizedItems.count()" << normalizedItems.count();
 
     for(int i = 0; i < normalizedItems.count(); ++i)
     {
@@ -203,7 +203,6 @@ void WebContentManager::updateItemsState(QByteArray &values)
 
 void WebContentManager::update()
 {
-    //DEBUG;
     SettingsManager settingsManager;
     QString disc;
     QString currentAccountName(settingsManager.currentAccount(panelNum));
@@ -247,6 +246,8 @@ void WebContentManager::accountsComboBoxItemActivated(const QString &text)
 
     QString accountName(text.mid(beginPos, length));
     SettingsManager settingsManager;
+
+    DEBUG << "accountName" << accountName << " settingsManager.currentAccount(panelNum)" << settingsManager.currentAccount(panelNum);
 
     if(settingsManager.currentAccount(panelNum) != accountName)
     {

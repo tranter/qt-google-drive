@@ -10,6 +10,7 @@
 #include "gui/tools/filesystemmodel.h"
 #include "network/webcontentmanager.h"
 #include "network/computercontentmanager.h"
+#include "share/enums.h"
 
 namespace Ui {
 class FilePanel;
@@ -20,8 +21,6 @@ class FilePanel : public QWidget
     Q_OBJECT
 public:
     friend class ContentManager;
-
-    enum EPanelState { EWeb, EComputer, EPanelStateCount };
 
     explicit FilePanel(int pn, QWidget *parent = 0);
     ~FilePanel();
@@ -42,8 +41,8 @@ private slots:
     void slotHeaderSectionClicked(int logicalIndex);
 
 public:
-    QTreeWidget *getFileView(void) const;
-    QLabel *getPathLabel(void) const;
+    QTreeWidget *getFileView() const;
+    QLabel *getPathLabel() const;
     ContentManager *getContentMngr() const;
     QToolButton *getComputerDrivesButton() const;
     void update();

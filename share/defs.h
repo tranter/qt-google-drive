@@ -42,6 +42,7 @@
 #define WORK_DIR_KEY QString("workingDirectory")
 #define INIT_LOAD_KEY QString("initialLoad")
 #define CURRENT_PANEL_KEY QString("currentPanel")
+//#define CURRENT_COMPUTER_PANEL_KEY QString("currentComputerPanel")
 #define CURRENT_FOLDER_URL_KEY QString("currentFolderUrl")
 #define CURRENT_FOLDER_PATH_KEY QString("currentFolderPath")
 #define CURRENT_PARENT_FOLDER_URL_KEY QString("currentParentFolderUrl")

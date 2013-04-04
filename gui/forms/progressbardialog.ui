@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>Google Drive</string>
   </property>
+  <property name="modal">
+   <bool>true</bool>
+  </property>
   <widget class="QLabel" name="infoLbel">
    <property name="geometry">
     <rect>

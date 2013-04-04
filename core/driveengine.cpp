@@ -119,9 +119,9 @@ void DriveEngine::slotComputerPanelActivated(int panelNum)
     if(panelNum == ELeft) panelNumToSwitch = ERight;
     if(panelNum == ERight) panelNumToSwitch = ELeft;
 
-     if(filePanels[panelNumToSwitch]->getComputerDrivesButton()->isChecked())
-     {
-         filePanels[panelNumToSwitch]->getComputerDrivesButton()->setChecked(false);
-         filePanels[panelNumToSwitch]->computerDrivesButtonClicked();
-     }
+    if(filePanels[panelNumToSwitch]->getComputerDrivesButton()->isChecked())
+    {
+        filePanels[panelNumToSwitch]->getComputerDrivesButton()->setChecked(false);
+        filePanels[panelNumToSwitch]->computerDrivesButtonClicked();
+    }
 }
