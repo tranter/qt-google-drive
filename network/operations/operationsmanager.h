@@ -48,7 +48,7 @@ private slots:
     void slotItemOperationCompleted(Items::Data &itemData);
 
 private slots:
-    void performWebOperation(Operation *operation);
+    void performOperation(Operation *operation);
 
 private:
     Items::Data fileUrlToDeleteForMoveOperation;

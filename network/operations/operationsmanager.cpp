@@ -47,8 +47,6 @@ bool OperationsManager::operationPossible(void)
         if(itemText != PARENT_FOLDER_SIGN) is = true;
     }
 
-    DEBUG << is;
-
     return is;
 }
 
@@ -78,31 +76,22 @@ void OperationsManager::slotFinishedCreateFolder(int result)
 void OperationsManager::slotCopy(void)
 {
     SettingsManager settingsManager;
-    int oppositePanel = settingsManager.oppositePanel();
     int currentPanelState = settingsManager.panelState(settingsManager.currentPanel());
-    int oppositePanelState = settingsManager.panelState(oppositePanel);
+    int oppositePanelState = settingsManager.panelState(settingsManager.oppositePanel());
 
-    if(currentPanelState == EWeb && oppositePanelState == EWeb) performWebOperation(&copy);
-
-    if(currentPanelState == EWeb && oppositePanelState == EComputer)
-    {
-        WebContentManager* webContentManager = dynamic_cast<WebContentManager*> (SDriveEngine::inst()->getContentMngr());
-        Items::Data source = webContentManager->getCurrentItem();
-
-        download.file(source, settingsManager.currentFolderComputerPath(oppositePanel));
-    }
-
+    if(currentPanelState == EWeb && oppositePanelState == EWeb) performOperation(&copy);
+    if(currentPanelState == EWeb && oppositePanelState == EComputer) performOperation(&download);
     if(currentPanelState == EComputer){ DEBUG << "upload here"; }
 }
 
 void OperationsManager::slotMove(void)
-{    
-    performWebOperation(&move);
+{
+    performOperation(&move);
 }
 
 void OperationsManager::slotDelete(void)
 {
-    performWebOperation(&del);
+    performOperation(&del);
 }
 
 void OperationsManager::slotRename(void)
@@ -170,7 +159,7 @@ void OperationsManager::slotItemOperationCompleted(Items::Data &itemData)
     if(index > -1) filePanel->markItem(treeWidget->topLevelItem(index));
 }
 
-void OperationsManager::performWebOperation(Operation *operation)
+void OperationsManager::performOperation(Operation *operation)
 {
     if(!operationPossible())
     {
@@ -190,6 +179,7 @@ void OperationsManager::performWebOperation(Operation *operation)
     {
         if(operation->getOperationId() == ECopy || operation->getOperationId() == EMove) operation->file(source, destFolderUrl);
         if(operation->getOperationId() == EDelete) operation->item(source, true);
+        if(operation->getOperationId() == EDownload) operation->file(source, settingsManager.currentFolderComputerPath(settingsManager.oppositePanel()));
     }
     else
     {
@@ -221,6 +211,11 @@ void OperationsManager::performWebOperation(Operation *operation)
             connect(&del, SIGNAL(itemDeleted(Items::Data&)), this, SLOT(slotItemOperationCompleted(Items::Data&)));
 
             operation->items(filesData);
+        }
+
+        if(operation->getOperationId() == EDownload)
+        {
+            DEBUG << "many files to download here";
         }
     }
 }
