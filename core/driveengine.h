@@ -22,6 +22,10 @@ public:
 
     friend class FilesTransferUI;
 
+public slots:
+    void slotFirstPanelIsLoaded();
+    void slotComputerPanelActivated(int panelNum);
+
 public:   
     CheckUI *getCheckUI() const;
     ContentManager *getContentMngr(bool opposite = false) const;
@@ -31,9 +35,6 @@ public:
     FilePanel *getFilePanel(int panel) const;
     void updatePanel(int panelId, bool initLoad);
     bool isPanelsContentIdentical();
-
-private slots:
-    void slotFirstPanelIsLoaded();
 
 private:
     QWidget *parent;

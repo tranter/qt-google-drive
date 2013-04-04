@@ -26,6 +26,9 @@ public:
     explicit FilePanel(int pn, QWidget *parent = 0);
     ~FilePanel();
 
+signals:
+    void computerPanelActivated(int panelNum);
+
 public slots:
     void slotUpdate();
 
@@ -42,9 +45,11 @@ public:
     QTreeWidget *getFileView(void) const;
     QLabel *getPathLabel(void) const;
     ContentManager *getContentMngr() const;
+    QToolButton *getComputerDrivesButton() const;
     void update();
     QList<int> getMarkedItemIds(QTreeWidget *treeWidget) const;
     void markItem(QTreeWidgetItem *item, bool noSwitch = false);
+    void computerDrivesButtonClicked();
 
 private:
     void init(void);

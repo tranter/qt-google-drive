@@ -87,32 +87,6 @@ void OperationsManager::slotMove(void)
 void OperationsManager::slotDelete(void)
 {
      performOperation(&del);
-//    FilePanel *filePanel = SDriveEngine::inst()->getFilePanel(SettingsManager().currentPanel());
-//    QTreeWidget *treeWidget = filePanel->getFileView();
-//    QList<int> markedItemIds = filePanel->getMarkedItemIds(treeWidget);
-//    WebContentManager* webContentManager = dynamic_cast<WebContentManager*> (SDriveEngine::inst()->getContentMngr());
-//    Items::Data source = webContentManager->getCurrentItem();
-
-//    if(markedItemIds.isEmpty())
-//    {
-//        if(!operationPossible())
-//        {
-//            CommonTools::msg(tr("No files selected"));
-//            return;
-//        }
-
-//        del.item(source, true);
-//    }
-//    else
-//    {
-//        QList<Items::Data> filesData;
-//        webContentManager->getItemsDataByIndexes(markedItemIds, filesData);
-
-//        disconnect(&del, SIGNAL(itemDeleted(Items::Data&)), this, SLOT(slotItemOperationCompleted(Items::Data&)));
-//        connect(&del, SIGNAL(itemDeleted(Items::Data&)), this, SLOT(slotItemOperationCompleted(Items::Data&)));
-
-//        del.items(filesData);
-//    }
 }
 
 void OperationsManager::slotRename(void)

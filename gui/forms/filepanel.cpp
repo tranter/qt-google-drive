@@ -92,13 +92,20 @@ void FilePanel::slotAccountsComboBoxActivated(const QString &text)
     contentMngrs[panelState]->accountsComboBoxItemActivated(text);
 }
 
-void FilePanel::slotComputerDrivesButtonClicked()
+void FilePanel::computerDrivesButtonClicked()
 {
     if(computerDrivesButton->isChecked()) panelState = EComputer;
     else panelState = EWeb;
 
+    if(panelState == EComputer) emit computerPanelActivated(panelNum);
+
     SettingsManager().setPanelState(panelNum, panelState);
     update();
+}
+
+void FilePanel::slotComputerDrivesButtonClicked()
+{
+    computerDrivesButtonClicked();
 }
 
 QTreeWidget *FilePanel::getFileView(void) const
@@ -111,7 +118,10 @@ QLabel *FilePanel::getPathLabel(void) const
     return ui->pathLabel;
 }
 
-
+QToolButton *FilePanel::getComputerDrivesButton(void) const
+{
+    return computerDrivesButton;
+}
 
 void FilePanel::slotUpdate()
 {

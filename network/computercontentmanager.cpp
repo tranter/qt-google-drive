@@ -28,7 +28,7 @@ void ComputerContentManager::get(const QString &resourcePointer)
 void ComputerContentManager::addItem(QFileInfo &fileInfo)
 {
     QTreeWidgetItem *item = new QTreeWidgetItem(panel);
-    QDateTime fileDateTime(fileInfo.lastModified());
+    QDateTime fileDateTime = fileInfo.lastModified();
 
     item->setText(0, fileInfo.fileName());
     item->setIcon(0, fileIconProvider.icon(fileInfo));
@@ -50,8 +50,8 @@ void ComputerContentManager::update()
     show();
 
     ComboBoxItem drivesMap;
-    QString currentDrive (settingsManager.currentComputerDrive(panelNum));
-    QFileInfoList list (QDir().drives());
+    QString currentDrive = settingsManager.currentComputerDrive(panelNum);
+    QFileInfoList list = QDir().drives();
 
     for (int i = 0; i < list.size(); ++i)
     {
@@ -68,7 +68,7 @@ void ComputerContentManager::update()
 
 void ComputerContentManager::accountsComboBoxItemActivated(const QString &text)
 {
-    QString driveLetter(text.trimmed());
+    QString driveLetter = text.trimmed();
     driveLetter = driveLetter[0];
 
     SettingsManager settingsManager;
@@ -88,7 +88,7 @@ QString ComputerContentManager::makeRootPath(const QString &driveLetter)
 
 QString ComputerContentManager::makeRootDrive(const QString &drive)
 {
-    QString driveLetter(drive);
+    QString driveLetter = drive;
 
     driveLetter.truncate(driveLetter.length() - 2);
     driveLetter = driveLetter.toLower();
@@ -105,8 +105,8 @@ void ComputerContentManager::showFilesOnPanel(QTreeWidgetItem *item)
     }
     else
     {
-        QFileInfoList list (dir.entryInfoList());
         QFileInfo fileInfo;
+        QFileInfoList list = dir.entryInfoList();
 
         int index = item->treeWidget()->currentIndex().row();
         if(!isRoot()) --index;
@@ -115,7 +115,7 @@ void ComputerContentManager::showFilesOnPanel(QTreeWidgetItem *item)
 
         if(fileInfo.isDir())
         {
-            QString absoluteFilePath(fileInfo.absoluteFilePath());
+            QString absoluteFilePath = fileInfo.absoluteFilePath();
 
             addPath(absoluteFilePath);
             get(absoluteFilePath);
@@ -130,7 +130,7 @@ void ComputerContentManager::show()
 {
     ContentManager::show();
 
-    QFileInfoList list (dir.entryInfoList());
+    QFileInfoList list = dir.entryInfoList();
 
     for (int i = 0; i < list.size(); ++i)
     {
@@ -176,11 +176,11 @@ QString ComputerContentManager::parentFolder()
 {
     SettingsManager settingsManager;
 
-    QString currentFolderComputerPath (settingsManager.currentFolderComputerPath(panelNum));
-    QDir dir (currentFolderComputerPath);
+    QString currentFolderComputerPath = settingsManager.currentFolderComputerPath(panelNum);
+    QDir dir = currentFolderComputerPath;
     QString parentFolderPath;
 
-    QFileInfoList list (dir.entryInfoList());
+    QFileInfoList list = dir.entryInfoList();
 
     if(!list.isEmpty()) parentFolderPath = list.at(0).absolutePath();
     if(parentFolderPath.isEmpty()) parentFolderPath = makeRootPath(settingsManager.currentComputerDrive(panelNum));
