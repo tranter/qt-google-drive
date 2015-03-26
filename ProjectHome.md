@@ -1,0 +1,3 @@
+Qt C++ client created by Integrated Computer Solutions (ICS) that uses the Google Drive API. Drive apps allow users to create, open, save and share files in Google Drive. Once you register your application in the Google API Console, you can use this API as part of your Google account.
+
+ICS is the largest independent supplier of professional services, training, and add-on products for the Qt® cross-platform framework. Learn more from www.ics.com.
