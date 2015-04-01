@@ -49,7 +49,7 @@ QVariant TreeModel::data(const QModelIndex &index, int role) const
     {
         QString infoStr(columnData.toString());
         infoStr.remove(0,1);
-        return  infoStr.toAscii();
+        return  infoStr.toLatin1();
     }
 
     return columnData;

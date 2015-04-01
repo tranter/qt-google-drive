@@ -211,7 +211,16 @@ bool DriveEngine::parseReply(const QString& str, int type)
         parser->setType(type);
     }
 
-    source.setData(str.toAscii());
+#if QT_VERSION >= 0x050000
+    // Qt5 code
+    source.setData(str.toUtf8());
+#else
+    // Qt4 code
+    source.setData(str.toLatin1());
+#endif
+
+
+
 
     reader->setContentHandler(parser);
     reader->setErrorHandler(parser);
