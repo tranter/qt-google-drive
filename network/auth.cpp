@@ -3,6 +3,11 @@
 #include "share/debug.h"
 #include "share/registration.h"
 
+#if QT_VERSION >= 0x050000
+#include <QUrlQuery>
+#endif
+
+
 Auth::Auth(QObject *parent) :
     NetworkManager(parent)
 {
@@ -25,14 +30,33 @@ QUrl Auth::getOAuth2CodeUrl(const QString &scope, const QString &redirectUri, co
     query.append(qMakePair(QString("approval_prompt"), approvalPrompt ? QString("force") : QString("auto")));
     query.append(qMakePair(QString("state"), state));
 
+
+#if QT_VERSION >= 0x050000
+    // Qt5 code
+    QUrlQuery urlQuery;
+    urlQuery.setQueryItems(query);
+    url.setQuery(urlQuery);
+#else
+    // Qt4 code
     url.setQueryItems(query);
+#endif
+
+
+
 
     return url;
 }
 
 QString Auth::getOAuth2Code(const QUrl &url)
 {
+#if QT_VERSION >= 0x050000
+    // Qt5 code
+    QUrlQuery urlQuery(url);
+    return urlQuery.queryItemValue("code");
+#else
+    // Qt4 code
     return QString(url.queryItemValue("code"));
+#endif
 }
 
 void Auth::getTokens(const QString &code, const QString &clientId, const QString &clientSecret, const QString &redirectUri)
@@ -40,13 +64,13 @@ void Auth::getTokens(const QString &code, const QString &clientId, const QString
     currentRequest = EAllTokens;
 
     postData = "code=";
-    postData += code.toAscii();
+    postData += code.toLatin1();
     postData += "&client_id=";
-    postData += clientId.toAscii();
+    postData += clientId.toLatin1();
     postData += "&client_secret=";
-    postData += clientSecret.toAscii();
+    postData += clientSecret.toLatin1();
     postData += "&redirect_uri=";
-    postData += redirectUri.toAscii();
+    postData += redirectUri.toLatin1();
     postData += "&grant_type=authorization_code";
 
     performRequest();
@@ -57,11 +81,11 @@ void Auth::getAccessToken(const QString &clientId, const QString &clientSecret, 
     currentRequest = EAccessToken;
 
     postData = "client_id=";
-    postData += clientId.toAscii();
+    postData += clientId.toLatin1();
     postData += "&client_secret=";
-    postData += clientSecret.toAscii();
+    postData += clientSecret.toLatin1();
     postData += "&refresh_token=";
-    postData += refreshToken.toAscii();
+    postData += refreshToken.toLatin1();
     postData += "&grant_type=refresh_token";
 
     performRequest();

@@ -39,11 +39,11 @@ void MainWindow::init(void)
     SDriveEngine::inst()->getFilePanel(ELeft)->getFileView()->installEventFilter(this);
     SDriveEngine::inst()->getFilePanel(ERight)->getFileView()->installEventFilter(this);
 
-    QTextCodec::setCodecForCStrings(QTextCodec::codecForLocale());
-    QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
+    //QTextCodec::setCodecForCStrings(QTextCodec::codecForLocale());
+    //QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
 
-    SDriveEngine::inst()->getFilePanel(ELeft)->getFileView()->header()->setClickable(true);
-    SDriveEngine::inst()->getFilePanel(ERight)->getFileView()->header()->setClickable(true);
+    //SDriveEngine::inst()->getFilePanel(ELeft)->getFileView()->header()->setClickable(true);
+    //SDriveEngine::inst()->getFilePanel(ERight)->getFileView()->header()->setClickable(true);
 
     SDriveEngine::inst()->getFilePanel(ELeft)->getFileView()->header()->resizeSection(0, 250);
     SDriveEngine::inst()->getFilePanel(ERight)->getFileView()->header()->resizeSection(0, 250);

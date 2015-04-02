@@ -25,7 +25,7 @@ void ContentManager::get(const QString &url)
 
 void ContentManager::slotReplyFinished(QNetworkReply* reply)
 {
-    CommonTools::logToFile(QString("ParserReply ") + ".txt", replyStr.toAscii());
+    CommonTools::logToFile(QString("ParserReply ") + ".txt", replyStr.toLatin1());
 
 //    DEBUG << "<===============================================================================================================";
 //    DEBUG << "replyStr" << replyStr;
@@ -54,7 +54,7 @@ bool ContentManager::parseReply(const QString &str)
 
     connect(parser->getXMLHandler(), SIGNAL(signalAllResDownloaded()),this, SLOT(slotResDownloaded()));
 
-    source.setData(str.toAscii());
+    source.setData(str.toUtf8());
 
     reader.setContentHandler(parser.data());
     reader.setErrorHandler(parser.data());
