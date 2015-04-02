@@ -6,13 +6,16 @@
 
 DriveEngine::DriveEngine(QObject *parentObj) :
     QObject(parentObj),
+    oAuth2(NULL),
     networkAccessManager(NULL),
     parent(static_cast<QWidget*>(parentObj)),
     model(NULL),
     parser(NULL),
     reader(NULL),
-    oAuth2(NULL),
     downloadManager(NULL)
+
+
+
 {
 }
 
@@ -45,6 +48,7 @@ void DriveEngine::init(void)
 
 void DriveEngine::slotReplyFinished(QNetworkReply* reply)
 {
+    Q_UNUSED(reply)
 //    qDebug() << "--------------> replyStr[EFolders]" << replyStr[EFolders];
 //    qDebug() << "--------------> replyStr[EFiles]" << replyStr[EFiles];
 
@@ -168,18 +172,19 @@ void DriveEngine::settings(EReplies eReply)
     switch(eReply)
     {
     case EFolders:
-    {
         connect(reply[EFolders], SIGNAL(readyRead()), this, SLOT(slotFoldersReadyRead()));
         connect(reply[EFolders], SIGNAL(error(QNetworkReply::NetworkError)),this, SLOT(slotFoldersError(QNetworkReply::NetworkError)));
         connect(reply[EFolders], SIGNAL(sslErrors(const QList<QSslError>&)),this, SLOT(slotFoldersSslErrors(const QList<QSslError>&)));
-    }
         break;
+
     case EFiles:
-    {
         connect(reply[EFiles], SIGNAL(readyRead()), this, SLOT(slotFilesReadyRead()));
         connect(reply[EFiles], SIGNAL(error(QNetworkReply::NetworkError)),this, SLOT(slotFilesError(QNetworkReply::NetworkError)));
         connect(reply[EFiles], SIGNAL(sslErrors(const QList<QSslError>&)),this, SLOT(slotFilesSslErrors(const QList<QSslError>&)));
-    }
+        break;
+
+    default:
+        qDebug() << "DriveEngine::settings, reply not it switch, probably ECount" << eReply;
         break;
     }
 }
@@ -242,7 +247,7 @@ void DriveEngine::slotDownload(void)
     {
         if(slotCheckWorkDir(false))
         {
-            QString filePath = settings.value(WORK_DIR).toString() + "\/" +parser->getXMLHandler()->getTreeItemInfo()->getItems()[getCurrentModelItemIndex()].name.toString();
+            QString filePath = settings.value(WORK_DIR).toString() + "/" +parser->getXMLHandler()->getTreeItemInfo()->getItems()[getCurrentModelItemIndex()].name.toString();
 
             if(downloadManager) delete downloadManager;
             downloadManager = new DownloadFileManager;

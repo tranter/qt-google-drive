@@ -16,11 +16,16 @@ XMLHandler::~XMLHandler()
 
 bool XMLHandler::startElement(const QString &namespaceURI, const QString &localName, const QString &qName, const QXmlAttributes &attribs)
 {
-    return handleReply(qName, attribs, queryType);;
+    Q_UNUSED(namespaceURI)
+    Q_UNUSED(localName)
+    return handleReply(qName, attribs, queryType);
 }
 
 bool XMLHandler::endElement(const QString &namespaceURI, const QString &localName, const QString &qName)
 {
+    Q_UNUSED(namespaceURI)
+    Q_UNUSED(localName)
+    Q_UNUSED(qName)
     return true;
 }
 

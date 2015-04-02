@@ -2,8 +2,8 @@
 #include <QDebug>
 
 DownloadFileManager::DownloadFileManager(QObject *parent) :
-    networkManager(new QNetworkAccessManager),
-    QObject(parent)
+    QObject(parent),
+    networkManager(new QNetworkAccessManager)
 {
 }
 

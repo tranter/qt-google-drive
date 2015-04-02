@@ -40,9 +40,9 @@ public:
     static Ui::MainWindow* ui;
 
 private:
-    UiInstance(){};
-    UiInstance(UiInstance& root){};
-    UiInstance& operator=(UiInstance&){};
+    UiInstance(){}
+    UiInstance(UiInstance& root){ Q_UNUSED(root); }
+    //UiInstance& operator=(UiInstance&){};
 };
 
 #endif // MAINWINDOW_H

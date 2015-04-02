@@ -20,6 +20,8 @@ int TreeModel::init(QList<QVariant> rootData)
 {
     rootItem = new TreeItem(rootData);
     setupModelData(rootItem);
+    //Strange, but there was no return statement.
+    return 0;
 }
 
 int TreeModel::columnCount(const QModelIndex &parent) const
