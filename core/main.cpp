@@ -1,4 +1,4 @@
-#include <QtGui/QApplication>
+#include <QApplication>
 #include "gui/forms/mainwindow.h"
 #include <QDesktopWidget>
 

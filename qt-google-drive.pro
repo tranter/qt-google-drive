@@ -5,6 +5,8 @@
 #-------------------------------------------------
 
 QT += core gui webkit network xml
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets webkitwidgets
+
 
 CONFIG(release, debug|release):DEFINES += QT_NO_DEBUG_OUTPUT
 
