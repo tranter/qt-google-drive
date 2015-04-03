@@ -28,15 +28,19 @@ public:
 
     AccountInfo(const QString &uiq, const QString &aiq, const QString &at, const QString &rt = QString());
 
+    Data getData(void) const;
+
 signals:
    void signalAccountInfo(AccountInfo::Data&);
+   void signalToCallSetInfo();
 
 protected:
     void slotReplyFinished(QNetworkReply*);
 
-public:
+public slots:
     void setInfo(void);
-    Data getData(void) const;
+
+
 
 private:
     void parseReply(void);

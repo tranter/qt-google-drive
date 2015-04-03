@@ -54,7 +54,15 @@ bool ContentManager::parseReply(const QString &str)
 
     connect(parser->getXMLHandler(), SIGNAL(signalAllResDownloaded()),this, SLOT(slotResDownloaded()));
 
+
+#if QT_VERSION >= 0x050000
+    // Qt5 code
     source.setData(str.toUtf8());
+#else
+    // Qt4 code
+    source.setData(str.toLatin1());
+#endif
+
 
     reader.setContentHandler(parser.data());
     reader.setErrorHandler(parser.data());

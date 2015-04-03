@@ -11,6 +11,9 @@ AccountInfo::AccountInfo(const QString &uiq, const QString &aiq, const QString &
 {
     accountData.accessToken = at;
     accountData.refreshToken = rt;
+
+    //We need to use this signal to postpone the next call for getting "about" info.
+    connect(this, SIGNAL(signalToCallSetInfo()), this, SLOT(setInfo()), Qt::QueuedConnection);
 }
 
 void AccountInfo::slotReplyFinished(QNetworkReply*)
@@ -24,7 +27,10 @@ void AccountInfo::slotReplyFinished(QNetworkReply*)
         queryStr = aboutInfoQuery;
         query = EAboutInfoQuery;
 
-        setInfo();
+        //setInfo();
+
+        //We need to use this signal to postpone the next call for getting "about" info.
+        emit signalToCallSetInfo();
     }
     else if(query == EAboutInfoQuery)
     {
