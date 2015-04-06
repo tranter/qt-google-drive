@@ -19,9 +19,6 @@ public slots:
     void slotMoveWebFile(void);
     void slotRenameWebFile(void);
     void slotShareWebFile(void);
-    void slotAcceptCreateFolder(const QString &name);
-    void slotRejectCreateFolder(void);
-    void slotFinishedCreateFolder(int result);
     void slotTriggeredDel(void);
     void slotItemEditDone(void);
 
@@ -31,7 +28,6 @@ private:
     bool operationPossible(void);
 
 private:
-    CreateFolderDialog* createFolderDialog;
     QString editingItemText;
 };
 

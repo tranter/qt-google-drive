@@ -15,15 +15,19 @@ public:
     explicit CreateFolderDialog(QWidget *parent = 0);
     ~CreateFolderDialog();
 
-public slots:
-    void slotAccept();
-    void slotReject();
-    void slotFinished(int result);
+    void accept();
+    QString folderName() const;
 
-signals:
-    void signalAccept(const QString& name);
-    void signalReject(void);
-    void signalFinished(int result);
+//public slots:
+//    void slotAccept();
+//    void slotReject();
+//    void slotFinished(int result);
+
+//signals:
+//    void signalAccept(const QString& name);
+//    void signalReject(void);
+//    void signalFinished(int result);
+
 
 private:
     Ui::CreateFolderDialog *ui;

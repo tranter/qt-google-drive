@@ -2,8 +2,7 @@
 #include "share/debug.h"
 
 OperationsUI::OperationsUI(QObject *parent) :
-    QObject(parent),
-    createFolderDialog(NULL)
+    QObject(parent)
 {
 }
 
@@ -62,13 +61,11 @@ bool OperationsUI::operationPossible(void)
 
 void OperationsUI::slotNewFolder(void)
 {
-    createFolderDialog = new CreateFolderDialog(SDriveEngine::inst()->parent);
+    CreateFolderDialog dlg(SDriveEngine::inst()->parent);
 
-    connect(createFolderDialog, SIGNAL(signalAccept(const QString&)), this, SLOT(slotAcceptCreateFolder(const QString&)));
-    connect(createFolderDialog, SIGNAL(signalReject()), this, SLOT(slotRejectCreateFolder()));
-    connect(createFolderDialog, SIGNAL(signalFinished(int)), this, SLOT(slotFinishedCreateFolder(int)));
+    if(dlg.exec() == QDialog::Accepted)
+        createFolder(dlg.folderName());
 
-    createFolderDialog->exec();
 }
 
 void OperationsUI::slotCopyWebFile(void)
@@ -133,21 +130,6 @@ void OperationsUI::slotShareWebFile(void)
     SDriveEngine::inst()->getFilesMngr()->shareWebFile(source);
 }
 
-void OperationsUI::slotAcceptCreateFolder(const QString &name)
-{
-    createFolder(name);
-}
-
-void OperationsUI::slotRejectCreateFolder(void)
-{
-    delete createFolderDialog;
-}
-
-void OperationsUI::slotFinishedCreateFolder(int result)
-{
-    Q_UNUSED(result);
-    delete createFolderDialog;
-}
 
 void OperationsUI::createFolder(const QString &name)
 {   
