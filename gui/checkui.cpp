@@ -17,7 +17,14 @@ bool CheckUI::checkReg(void)
 {
     bool regState = true;
 
-    if(CLIENT_ID == QString("YOUR_CLIENT_ID_HERE") || REDIRECT_URI == QString("YOUR_REDIRECT_URI_HERE") || CLIENT_SECRET == QString("YOUR_CLIENT_SECRET"))
+    SettingsManager settingsManager;
+    QString id, secret, uri;
+    id =  settingsManager.getValueFromGroup(COMMON_GROUP, CLIENT_ID_KEY, "").toString();
+    secret =  settingsManager.getValueFromGroup(COMMON_GROUP, CLIENT_SECRET_KEY, "").toString();
+    uri =  settingsManager.getValueFromGroup(COMMON_GROUP, REDIRECT_URI_KEY, "").toString();
+
+
+    if(id == "" || secret == "" || uri == "")
     {
         regState = false;
     }
@@ -43,18 +50,25 @@ bool CheckUI::slotCheckWorkDir(bool showDlg)
 
         dlg.setDirectoryPath(settingsManager.workDir());
 
-        switch(dlg.exec())
-        {
-        case QDialog::Accepted:
+        QString id, secret, uri;
+        id =  settingsManager.getValueFromGroup(COMMON_GROUP, CLIENT_ID_KEY, "").toString();
+        secret =  settingsManager.getValueFromGroup(COMMON_GROUP, CLIENT_SECRET_KEY, "").toString();
+        uri =  settingsManager.getValueFromGroup(COMMON_GROUP, REDIRECT_URI_KEY, "").toString();
+
+        dlg.setAppInformation(id, secret, uri);
+
+
+        if(dlg.exec() == QDialog::Accepted)
         {
             if(!dlg.directoryPath().isEmpty() )
             {
                 settingsManager.setWorkDir(dlg.directoryPath());
                 dirTextNotEmpty = true;
             }
-
-        }
-            break;
+            dlg.getAppInformation(id, secret, uri);
+            settingsManager.setValueInGroup(COMMON_GROUP, CLIENT_ID_KEY, id);
+            settingsManager.setValueInGroup(COMMON_GROUP, CLIENT_SECRET_KEY, secret);
+            settingsManager.setValueInGroup(COMMON_GROUP, REDIRECT_URI_KEY, uri);
         }
     }
 

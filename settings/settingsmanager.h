@@ -32,11 +32,13 @@ public:
     QString currentAccount(int panelNum);
     bool isAnyAccount(void);
 
+    //Move to public
+    QVariant getValueFromGroup(const QString &group, const QString &key, const QVariant &defaultVal = QVariant());
+    void setValueInGroup(const QString &group, const QString &key, const QVariant &val);
+
 private:
     void setValueInPanelGroup(int panelNum, const QString &key, const QVariant &val);
     QVariant getValueFromPanelGroup(int panelNum, const QString &key, const QVariant &defaultVal = QVariant());
-    void setValueInGroup(const QString &group, const QString &key, const QVariant &val);
-    QVariant getValueFromGroup(const QString &group, const QString &key, const QVariant &defaultVal = QVariant());
     bool exists(const QString &group, const QString &key);
 };
 

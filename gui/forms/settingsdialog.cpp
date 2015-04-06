@@ -37,3 +37,17 @@ void SettingsDialog::setDirectoryPath(const QString &dir)
 {
     ui->directoryLineEdit->setText(QDir::toNativeSeparators(dir));
 }
+
+void SettingsDialog::setAppInformation(const QString& id, const QString& secret, const QString& uri)
+{
+    ui->clientIdLineEdit->setText(id);
+    ui->clientSecretLineEdit->setText(secret);
+    ui->redirectUriLineEdit->setText(uri);
+}
+
+void SettingsDialog::getAppInformation(QString& id, QString& secret, QString& uri)
+{
+    id = ui->clientIdLineEdit->text();
+    secret = ui->clientSecretLineEdit->text();
+    uri = ui->redirectUriLineEdit->text();
+}

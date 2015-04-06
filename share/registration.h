@@ -8,11 +8,12 @@
 
 #define END_POINT "https://accounts.google.com/o/oauth2/auth"
 
-#define CLIENT_ID "YOUR_CLIENT_ID"
+//Application registration info is in Settings now!!!
+//#define CLIENT_ID "YOUR_CLIENT_ID"
 
-#define CLIENT_SECRET "YOUR_CLIENT_SECRET"
+//#define CLIENT_SECRET "YOUR_CLIENT_SECRET"
 
-#define REDIRECT_URI "YOUR_REDIRECT_URI"
+//#define REDIRECT_URI "YOUR_REDIRECT_URI"
 
 
 #endif // APPREGDATA_H

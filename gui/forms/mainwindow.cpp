@@ -28,7 +28,7 @@ void MainWindow::init(void)
     if(!CheckUI().checkReg())
     {
         CommonTools::msg(tr("You need to register the application in <a href=\"https://code.google.com/apis/console/\">API Console - Google Code</a>"));
-        return;
+        //return;
     }
 
     SDriveEngine::inst(this)->init();
@@ -97,7 +97,15 @@ void MainWindow::slotAccessTokenRequired(void)
 {
     DEBUG << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
     auth = new Auth;
-    auth->getAccessToken(CLIENT_ID, CLIENT_SECRET, SettingsManager().refreshToken());
+
+    SettingsManager settingsManager;
+
+    QString id, secret, uri;
+    id =  settingsManager.getValueFromGroup(COMMON_GROUP, CLIENT_ID_KEY, "").toString();
+    secret =  settingsManager.getValueFromGroup(COMMON_GROUP, CLIENT_SECRET_KEY, "").toString();
+    uri =  settingsManager.getValueFromGroup(COMMON_GROUP, REDIRECT_URI_KEY, "").toString();
+
+    auth->getAccessToken(id, secret, SettingsManager().refreshToken());
     connect(auth, SIGNAL(signalAuthResponse(const QString&)), this, SLOT(slotAuthResponse(const QString&)));
 }
 

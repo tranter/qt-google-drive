@@ -61,4 +61,9 @@
 
 #define PARENT_FOLDER_SIGN QString("[..]")
 
+#define CLIENT_ID_KEY QString("CLIENT_ID")
+#define CLIENT_SECRET_KEY QString("CLIENT_SECRET")
+#define REDIRECT_URI_KEY QString("REDIRECT_URI")
+
+
 #endif // DEF_H

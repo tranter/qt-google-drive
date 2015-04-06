@@ -18,6 +18,9 @@ public:
     QString directoryPath() const;
     void setDirectoryPath(const QString& dir);
 
+    void setAppInformation(const QString& id, const QString& secret, const QString& uri);
+    void getAppInformation(QString& id, QString& secret, QString& uri);
+
 private slots:
     void browseDir();
 
