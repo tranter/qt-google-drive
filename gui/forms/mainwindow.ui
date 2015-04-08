@@ -254,7 +254,7 @@ width: 16px;</string>
      <x>0</x>
      <y>0</y>
      <width>1138</width>
-     <height>21</height>
+     <height>34</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -276,8 +276,13 @@ width: 16px;</string>
     </property>
     <addaction name="actionDownload"/>
     <addaction name="actionUpload"/>
+    <addaction name="separator"/>
+    <addaction name="actionCopy"/>
+    <addaction name="actionMove"/>
     <addaction name="actionNewFolder"/>
     <addaction name="actionDelete"/>
+    <addaction name="actionRename"/>
+    <addaction name="actionShare"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuActions"/>
@@ -370,6 +375,9 @@ color: rgb(255, 255, 255);</string>
    <property name="text">
     <string>Delete</string>
    </property>
+   <property name="shortcut">
+    <string>F8</string>
+   </property>
   </action>
   <action name="actionNewFolder">
    <property name="icon">
@@ -379,11 +387,49 @@ color: rgb(255, 255, 255);</string>
    <property name="text">
     <string>Create folder</string>
    </property>
+   <property name="shortcut">
+    <string>F7</string>
+   </property>
    <property name="visible">
     <bool>true</bool>
    </property>
    <property name="iconVisibleInMenu">
     <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionCopy">
+   <property name="text">
+    <string>Copy</string>
+   </property>
+   <property name="toolTip">
+    <string>Copy</string>
+   </property>
+   <property name="shortcut">
+    <string>F5</string>
+   </property>
+  </action>
+  <action name="actionMove">
+   <property name="text">
+    <string>Move</string>
+   </property>
+   <property name="shortcut">
+    <string>F6</string>
+   </property>
+  </action>
+  <action name="actionRename">
+   <property name="text">
+    <string>Rename</string>
+   </property>
+   <property name="shortcut">
+    <string>F9</string>
+   </property>
+  </action>
+  <action name="actionShare">
+   <property name="text">
+    <string>Share</string>
+   </property>
+   <property name="shortcut">
+    <string>F10</string>
    </property>
   </action>
  </widget>
